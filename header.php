@@ -7,5 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
     <meta name="description" content="<?php bloginfo('description'); ?>">
+    <script src="<?php echo get_template_directory_uri() ?>/view/build/bundle.js"></script>
 </head>
 <body>
