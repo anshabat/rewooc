@@ -1,2 +1,5 @@
-var a = 'Search';
-module.exports = a;
+export const search = {
+    type: 'autocomplete',
+    location: 'header',
+    action: (msg) => {return msg + 'lala'}
+}

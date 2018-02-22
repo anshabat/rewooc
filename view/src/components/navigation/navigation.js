@@ -1,2 +1,4 @@
-var a = 'Navigation';
-module.exports = a;
+export const nav = {
+  name: 'main',
+  location: 'top'
+};
