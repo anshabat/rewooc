@@ -1,4 +1,5 @@
-export const nav = {
-  name: 'main',
-  location: 'top'
-};
+export class Nav {
+    constructor() {
+        console.log('lala');
+    }
+}
