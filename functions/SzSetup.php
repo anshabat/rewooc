@@ -68,7 +68,7 @@ class SzSetup
         register_nav_menu('header_nav', 'Header');
         register_nav_menu('footer_nav', 'Footer');
         register_nav_menu('mobile_nav', 'Mobile');
-        register_nav_menu('catalog_nav', 'Catalog');
+        register_nav_menu('main_nav', 'Main');
 
         /* Add support for HTML5 */
         add_theme_support('html5');

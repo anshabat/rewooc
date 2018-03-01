@@ -1,5 +1,6 @@
+/* global szNavigation */
 export class Nav {
     constructor() {
-        console.log('lala');
+        console.log(szNavigation);
     }
 }
