@@ -1,18 +1,17 @@
-const path = require('path');
+/* Entry point adn output directory are defined by gulp */
 const config = {
-    entry: './src/app.js',
     output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js',
-        publicPath: 'build/'
+        filename: 'bundle.js'
     },
     module: {
-        loaders: [{
+        rules: [{
             test: /\.js?$/,
             exclude: /node_modules/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['env']
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['env']
+                }
             }
         }]
     }

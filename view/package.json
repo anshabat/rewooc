@@ -3,7 +3,9 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
-    "webpack": "^3.11.0"
+    "gulp": "^3.9.1",
+    "webpack": "^3.11.0",
+    "webpack-stream": "^4.0.2"
   },
   "scripts": {
     "build": "webpack",
