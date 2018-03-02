@@ -1,4 +1,4 @@
-/* Entry point adn output directory are defined by gulp */
+/* Entry point and output directory are defined by Gulp */
 const config = {
     output: {
         filename: 'bundle.js'
