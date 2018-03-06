@@ -6,3 +6,8 @@ gulp.task('js', () => {
         .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('build/'))
 });
+
+
+gulp.task('watch', () => {
+    gulp.watch('src/**/*.js', ['js']);
+});
