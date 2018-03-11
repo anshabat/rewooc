@@ -12,7 +12,8 @@ class Saleszone
     public static function includeView($templatePath, $data = [], $varName = false)
     {
         wc_get_template('../view/src/' . $templatePath, [
-            'data' => $data
+            'data' => $data,
+	        'selector' => $varName
         ]);
 
         if($varName) {
