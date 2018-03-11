@@ -1,14 +1,5 @@
-/*
-import {Nav} from './components/navigation/navigation';
-new Nav();*/
-
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
+import Nav from './components/navigation/navigation';
 
-function HelloWorld(){
-    return (
-        <h1>Hello World</h1>
-    );
-}
-
-ReactDOM.render(<HelloWorld />, document.querySelector('#app'));
+ReactDOM.render(<Nav items={window.salesZone.mainNavigation}/>, document.querySelector('[data-sz="nav"]'));
