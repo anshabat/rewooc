@@ -15,6 +15,9 @@ if (!defined('ABSPATH')) {
     <?php wp_head(); ?>
 </head>
 <body <?php body_class('page'); ?>>
+
+<div id="app"></div>
+
 <div class="page__header">
     <?php get_template_part('layouts/header/header'); ?>
 </div>
