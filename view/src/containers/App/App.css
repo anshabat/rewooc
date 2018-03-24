@@ -1,0 +1,13 @@
+.pc-app {
+
+}
+
+.pc-app__header {
+    background-color: #ccc;
+}
+
+.pc-app__main-banner {
+    background-color: lightgreen;
+    padding: 10px 0;
+    text-align: center;
+}

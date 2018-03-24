@@ -3,14 +3,14 @@ import Nav from '../Nav/Nav';
 
 const Header = (props) => {
     return (
-        <div className="c-header">
-            <div className="c-header__headline">
+        <div className="pc-header">
+            <div className="pc-header__headline">
                 Headline
             </div>
-            <div className="c-header__body">
+            <div className="pc-header__body">
                 Head body
             </div>
-            <div className="c-header__navigation">
+            <div className="pc-header__navigation">
                 <Nav items={props.mainNav} />
             </div>
         </div>

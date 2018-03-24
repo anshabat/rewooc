@@ -11,7 +11,7 @@
 </head>
 <body <?php body_class('page'); ?>>
 
-<div id="app"></div>
+<div id="premmerce"></div>
 
 <?php wp_footer(); ?>
 </body>
