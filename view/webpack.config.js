@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = () => {
     return ({
+        devtool: 'cheap-module-source-map',
         entry: './src/index.js',
         output: {
             path: path.resolve(__dirname, 'build'),
