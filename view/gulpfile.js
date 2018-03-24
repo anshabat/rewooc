@@ -4,7 +4,7 @@ const config = require('./webpack.config.js');
 config.watch = true;
 
 gulp.task('js', () => {
-    gulp.src('src/app.js')
+    gulp.src('src/index.js')
         .pipe(webpack(config))
         .pipe(gulp.dest('build/'))
 });
