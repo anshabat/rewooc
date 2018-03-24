@@ -1,13 +1,12 @@
 .pc-app {
-    display: flex;
-}
 
-.pc-app__header {
+  &__header {
     background-color: #ccc;
-}
+  }
 
-.pc-app__main-banner {
+  &__main-banner {
     background-color: lightgreen;
     padding: 10px 0;
     text-align: center;
+  }
 }
