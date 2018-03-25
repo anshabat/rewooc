@@ -13,7 +13,7 @@
     "webpack": "^3.11.0"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "webpack -p",
     "watch": "webpack --watch"
   },
   "dependencies": {
