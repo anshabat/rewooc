@@ -1,5 +1,6 @@
 /* Entry point and output directory are defined by Gulp */
 const path = require('path');
+const ETP = require('extract-text-webpack-plugin');
 
 module.exports = () => {
     return ({
@@ -19,9 +20,12 @@ module.exports = () => {
                 },
                 {
                     test: /\.css?$/,
-                    use: ['style-loader', 'css-loader', 'postcss-loader']
+                    use: ETP.extract(['css-loader', 'postcss-loader'])
                 }
             ]
-        }
+        },
+        plugins: [
+            new ETP('styles.css'),
+        ]
     });
 };

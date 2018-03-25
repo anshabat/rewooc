@@ -50,6 +50,7 @@ class SzSetup
     public function enqueueScripts()
     {
         wp_enqueue_script('bundle', get_template_directory_uri() . '/view/build/bundle.js', [], false, true);
+        wp_enqueue_style('styles', get_template_directory_uri() . '/view/build/styles.css');
     }
 
     /**
