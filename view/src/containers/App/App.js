@@ -8,22 +8,21 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.mainNavigation = props.appData.mainNavigation;
-        this.showBanner = this.props.appData.themeMods.show_banner;
+        this.siteLayout = props.appData.themeMods.saleszone2_site_layout;
+        console.log(props.appData.themeMods);
     }
 
     render() {
         return (
-            <div className="pc-app">
+            <div className={[`pc-app`, `pc-app--${this.siteLayout}`].join(' ')}>
                 <div className="pc-app__header">
                     <Header
                         mainNav={this.mainNavigation}
                     />
                 </div>
-                {this.showBanner ? (
-                    <div className="pc-app__main-banner">
-                        <HeroBanner/>
-                    </div>
-                ) : null}
+                <div className="pc-app__main-banner">
+                    <HeroBanner/>
+                </div>
             </div>
         )
     }
