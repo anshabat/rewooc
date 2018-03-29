@@ -8,6 +8,13 @@
     <title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
     <meta name="description" content="<?php bloginfo('description'); ?>">
     <?php wp_head(); ?>
+    <style>
+        :root {
+            --main-color: #5280B2;
+            --color-gray: #ccc;
+            --font-color: <?= get_theme_mod('saleszone2_font_color') ?>
+        }
+    </style>
 </head>
 <body <?php body_class('page'); ?>>
 
