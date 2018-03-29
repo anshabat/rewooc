@@ -1,0 +1,17 @@
+.pc-header {
+  border-top: 2px solid var(--main-color);
+
+  &__headline {
+    padding: 15px 0;
+  }
+
+  &__body {
+    padding: 15px 0;
+    border-top: 1px solid #ccc;
+  }
+
+  &__nav {
+    padding: 15px 0;
+    border-top: 1px solid #ccc;
+  }
+}
