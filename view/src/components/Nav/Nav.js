@@ -1,12 +1,28 @@
+import './Nav.css';
 import React from 'react';
 
 const Nav = (props) => {
-    return (
-        <ul>
-            {props.items.map((item) => {
-                return <li key={item.ID}>{item.title}</li>
-            })}
-        </ul>
-    )
+    console.log('Default', props.items);
+
+    const renderNav = (parentId, level) => {
+        const items = props.items.filter(item => Number(item.menu_item_parent) === parentId);
+        if (!items.length) {
+            return;
+        }
+        return (
+            <ul className="pc-nav pc-nav--horizontal">
+                {items.map(item => {
+                    return (
+                        <li className="pc-nav__item" key={item.ID}>
+                            <a href="#">{item.title}</a> - {level}
+                            {renderNav(item.ID, level + 1)}
+                        </li>
+                    )
+                })}
+            </ul>
+        )
+    };
+
+    return renderNav(0, 1);
 };
 export default Nav;

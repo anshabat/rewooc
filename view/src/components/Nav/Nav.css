@@ -1,0 +1,16 @@
+/*
+.pc-nav {
+  display: flex;
+  justify-content: flex-start;
+
+  &--horizontal {
+    & > * {
+      padding: 0 15px;
+    }
+  }
+}*/
+
+ul {
+  padding-left: 10px;
+  list-style: square;
+}
