@@ -1,4 +1,5 @@
 import './Nav.css';
+import '../../vendor/css/shared/link.css';
 import React from 'react';
 
 const Nav = (props) => {
@@ -14,7 +15,7 @@ const Nav = (props) => {
                 {items.map(item => {
                     return (
                         <li className="pc-nav__item" key={item.ID}>
-                            <a href="#">{item.title}</a> - {level}
+                            <a href="#" className="ps-link">{item.title}</a> - {level}
                             {renderNav(item.ID, level + 1)}
                         </li>
                     )

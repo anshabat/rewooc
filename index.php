@@ -12,7 +12,8 @@
         :root {
             --main-color: #5280B2;
             --color-gray: #ccc;
-            --font-color: <?= get_theme_mod('saleszone2_font_color') ?>
+            --font-color: <?= get_theme_mod('saleszone2_font_color') ?>;
+            --container-width: 1200px;
         }
     </style>
 </head>

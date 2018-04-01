@@ -1,0 +1,8 @@
+.ps-link {
+  color: lightblue;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
