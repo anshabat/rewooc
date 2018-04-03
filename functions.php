@@ -13,7 +13,7 @@ require_once(get_template_directory() . "/server/Navigation.php");
  */
 add_action('wp_enqueue_scripts', function () {
     $headerNav = new Navigation('header_nav');
-    $headerNavItems = $headerNav->getNav(['ID', 'title', 'menu_item_parent']);
+    $headerNavItems = $headerNav->getNav(['ID', 'title', 'menu_item_parent', 'url']);
 
     wp_localize_script(get_template(), 'salesZone', [
         'mainNavigation' => $headerNavItems,

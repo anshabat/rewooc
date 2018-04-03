@@ -1,29 +1,30 @@
 import './Nav.css';
 import '../../vendor/css/shared/link.css';
-import React from 'react';
+import React, {Component} from 'react';
 
-const Nav = (props) => {
-    console.log('Default', props.items);
+class Nav extends Component {
+    constructor(props) {
+        super(props);
+        this.items = props.items.filter(item => Number(item.menu_item_parent) === this.props.parentId);
+    }
 
-    const renderNav = (parentId = 0, level = 1) => {
-        const items = props.items.filter(item => Number(item.menu_item_parent) === parentId);
-        if (!items.length) {
-            return;
-        }
-        return (
-            <ul className="pc-nav pc-nav--horizontal">
-                {items.map(item => {
-                    return (
-                        <li className="pc-nav__item" key={item.ID}>
-                            <a href="#" className="ps-link">{item.title}</a> - {level}
-                            {renderNav(item.ID, level + 1)}
-                        </li>
-                    )
-                })}
+    render() {
+        return (this.items.length) ? (
+            <ul className={`pc-nav pc-nav--horizontal pc-nav--level-${this.props.level}`}>
+                {this.items.map(item => (
+                    <li className="pc-nav__item" key={item.ID}>
+                        <a href={item.url} className="ps-link">{item.title}</a>
+                        <Nav items={this.props.items} parentId={item.ID} level={this.props.level + 1}/>
+                    </li>
+                ))}
             </ul>
-        )
-    };
+        ) : null;
+    }
+}
 
-    return renderNav();
+Nav.defaultProps = {
+    parentId: 0,
+    level: 1
 };
+
 export default Nav;
