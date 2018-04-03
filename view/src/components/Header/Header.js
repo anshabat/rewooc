@@ -7,18 +7,17 @@ import Nav from '../Nav/Nav';
 const Header = (props) => {
     return (
         <div className="pc-header">
-            <div className="pc-header__headline">
+            <div className="pc-header__top-row">
                 <div className="ps-container">
-                    Headline
-                    <button className="ps-btn">Shop now</button>
+                    <Nav items={props.mainNav}/>
                 </div>
             </div>
-            <div className="pc-header__body">
+            <div className="pc-header__main-row">
                 <div className="ps-container">
                     Head body
                 </div>
             </div>
-            <div className="pc-header__nav">
+            <div className="pc-header__bottom-row">
                 <div className="ps-container">
                     <Nav items={props.mainNav}/>
                 </div>

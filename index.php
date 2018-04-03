@@ -14,6 +14,8 @@
             --color-gray: #ccc;
             --font-color: <?= get_theme_mod('saleszone2_font_color') ?>;
             --container-width: 1200px;
+            --link-clolor: #5280b2;
+            --headline-bg: #F6F6F6;
         }
     </style>
 </head>

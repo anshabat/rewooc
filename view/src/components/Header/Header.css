@@ -1,16 +1,17 @@
 .pc-header {
   border-top: 2px solid var(--main-color);
 
-  &__headline {
-    padding: 15px 0;
+  &__top-row {
+    padding: 10px 0;
+    background-color: var(--headline-bg);
   }
 
-  &__body {
+  &__main-row {
     padding: 15px 0;
     border-top: 1px solid #ccc;
   }
 
-  &__nav {
+  &__bottom-row {
     padding: 15px 0;
     border-top: 1px solid #ccc;
   }

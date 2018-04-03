@@ -5,15 +5,18 @@ if (!defined('ABSPATH')) {
 
 require_once(get_template_directory() . "/server/Setup.php");
 require_once(get_template_directory() . "/server/Customizer.php");
+require_once(get_template_directory() . "/server/Navigation.php");
 
 
 /**
  * Load header navigation
  */
 add_action('wp_enqueue_scripts', function () {
-    $header_nav = wp_get_nav_menu_items(get_nav_menu_locations()['header_nav']);
+    $headerNav = new Navigation('header_nav');
+    $headerNavItems = $headerNav->getNav(['ID', 'title', 'menu_item_parent']);
+
     wp_localize_script(get_template(), 'salesZone', [
-        'mainNavigation' => $header_nav,
+        'mainNavigation' => $headerNavItems,
         'themeMods' => get_theme_mods()
     ]);
 });

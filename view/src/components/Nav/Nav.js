@@ -5,7 +5,7 @@ import React from 'react';
 const Nav = (props) => {
     console.log('Default', props.items);
 
-    const renderNav = (parentId, level) => {
+    const renderNav = (parentId = 0, level = 1) => {
         const items = props.items.filter(item => Number(item.menu_item_parent) === parentId);
         if (!items.length) {
             return;
@@ -24,6 +24,6 @@ const Nav = (props) => {
         )
     };
 
-    return renderNav(0, 1);
+    return renderNav();
 };
 export default Nav;
