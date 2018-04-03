@@ -1,6 +1,8 @@
 import './Nav.css';
 import '../../vendor/css/shared/link.css';
 import React, {Component} from 'react';
+import TreeNav from './TreeNav/TreeNav';
+import MegaNav from './MegaNav/MegaNav';
 
 class Nav extends Component {
     constructor(props) {
@@ -9,15 +11,19 @@ class Nav extends Component {
     }
 
     render() {
-        return (this.items.length) ? (
-            <ul className={`pc-nav pc-nav--horizontal pc-nav--level-${this.props.level}`}>
-                {this.items.map(item => (
-                    <li className="pc-nav__item" key={item.ID}>
-                        <a href={item.url} className="ps-link">{item.title}</a>
-                        <Nav items={this.props.items} parentId={item.ID} level={this.props.level + 1}/>
-                    </li>
-                ))}
-            </ul>
+        let Tag = TreeNav;
+        switch (this.props.level) {
+            case 1:
+                Tag = TreeNav;
+                break;
+            case 2:
+                Tag = MegaNav;
+                break;
+            default:
+                Tag = MegaNav;
+        }
+        return (this.items.length && Tag !== this.constructor) ? (
+            <Tag items={this.props.items} parentId={this.props.parentId} level={this.props.level}/>
         ) : null;
     }
 }
