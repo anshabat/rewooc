@@ -14,7 +14,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className={[`pc-app`, `pc-app--${this.siteLayout}`].join(' ')}>
+            <div className={`pc-app pc-app--${this.siteLayout}`}>
                 <div className="pc-app__header">
                     <Header
                         mainNav={this.mainNavigation}
