@@ -1,0 +1,18 @@
+.pc-header {
+  border-top: 2px solid var(--main-color);
+
+  &__top-row {
+    padding: 10px 0;
+    background-color: var(--headline-bg);
+  }
+
+  &__main-row {
+    padding: 15px 0;
+    border-top: 1px solid #ccc;
+  }
+
+  &__bottom-row {
+    padding: 15px 0;
+    border-top: 1px solid #ccc;
+  }
+}

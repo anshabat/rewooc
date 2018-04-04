@@ -1,0 +1,32 @@
+/*
+.pc-nav {
+  display: flex;
+  justify-content: flex-start;
+
+  &--horizontal {
+    & > * {
+      padding: 0 15px;
+    }
+  }
+}*/
+
+ul {
+  padding-left: 10px;
+  list-style: square;
+
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.pc-nav > li > a {
+  color: red;
+}
+
+.treeNav > li > a{
+  color: #21759b;
+}
+
+.megaNav > li > a {
+  color: #999999;
+}
