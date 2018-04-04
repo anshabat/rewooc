@@ -8,15 +8,13 @@ class Navigation {
 	}
 
 	public function getNav( $allowedKeys = [] ) {
-		$locations = get_nav_menu_locations();
-		$items     = [];
 
-		if ( ! array_key_exists( $this->position, $locations ) ) {
-			return $items;
+		if ( ! has_nav_menu( $this->position ) ) {
+			return [];
 		}
 
-		$navPosts = wp_get_nav_menu_items( $locations[ $this->position ] );
-		$items    = $this->filterPosts( $navPosts, $allowedKeys );
+		$posts = wp_get_nav_menu_items( get_nav_menu_locations()[ $this->position ] );
+		$items = $this->filterPosts( $posts, $allowedKeys );
 
 		return $items;
 	}
