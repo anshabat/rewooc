@@ -4,26 +4,39 @@ import React, {Component} from 'react';
 import TreeNav from './TreeNav/TreeNav';
 import MegaNav from './MegaNav/MegaNav';
 
+let items = [];
+
 class Nav extends Component {
     constructor(props) {
         super(props);
-        this.items = props.items.filter(item => Number(item.menu_item_parent) === this.props.parentId);
+
+        /* Save origin items in closure for reusing in component recursion */
+        items = props.items || items;
+
+        this.childItems = items.filter(
+            item => Number(item.menu_item_parent) === this.props.parentId
+        );
+        this.childTag = this.getChildTag(this.props.level);
+    }
+
+    getChildTag(level) {
+        switch (level) {
+            case 1:
+                return MegaNav;
+            case 2:
+                return TreeNav;
+            default:
+                return MegaNav;
+        }
     }
 
     render() {
-        let Tag = TreeNav;
-        switch (this.props.level) {
-            case 1:
-                Tag = TreeNav;
-                break;
-            case 2:
-                Tag = MegaNav;
-                break;
-            default:
-                Tag = MegaNav;
-        }
-        return (this.items.length && Tag !== this.constructor) ? (
-            <Tag items={this.props.items} parentId={this.props.parentId} level={this.props.level}/>
+        return (this.childItems.length && this.child !== this.constructor) ? (
+            <this.childTag
+                items={this.childItems}
+                parentId={this.props.parentId}
+                level={this.props.level}
+            />
         ) : null;
     }
 }
