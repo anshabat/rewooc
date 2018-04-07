@@ -9,7 +9,6 @@ class App extends Component {
         super(props);
         this.mainNavigation = props.appData.mainNavigation;
         this.siteLayout = props.appData.themeMods.saleszone2_site_layout;
-        console.log(props.appData.themeMods);
     }
 
     render() {

@@ -1,49 +1,34 @@
 import './Nav.css';
 import '../../vendor/css/shared/link.css';
 import React, {Component} from 'react';
-import TreeNav from './TreeNav/TreeNav';
-import MegaNav from './MegaNav/MegaNav';
 
 let items = [];
+let navs = [];
 
-class Nav extends Component {
-    constructor(props) {
-        super(props);
+const Nav = (props) => {
 
-        /* Save origin items in closure for reusing in component recursion */
-        items = props.items || items;
+    /* Save origins in closure for reusing in component recursion */
+    items = props.items || items;
+    navs = props.navs || navs;
 
-        this.childItems = items.filter(
-            item => Number(item.menu_item_parent) === this.props.parentId
-        );
-        this.childTag = this.getChildTag(this.props.level);
-    }
+    const childItems = items.filter(
+        item => Number(item.menu_item_parent) === props.parentId
+    );
 
-    getChildTag(level) {
-        switch (level) {
-            case 1:
-                return MegaNav;
-            case 2:
-                return TreeNav;
-            default:
-                return MegaNav;
-        }
-    }
+    const ChildNav = navs[props.depth - 1] || navs[navs.length - 1];
 
-    render() {
-        return (this.childItems.length && this.child !== this.constructor) ? (
-            <this.childTag
-                items={this.childItems}
-                parentId={this.props.parentId}
-                level={this.props.level}
-            />
-        ) : null;
-    }
-}
+    return (childItems.length) ? (
+        <ChildNav
+            items={childItems}
+            parentId={props.parentId}
+            depth={props.depth}
+        />
+    ) : null;
+};
 
 Nav.defaultProps = {
     parentId: 0,
-    level: 1
+    depth: 1
 };
 
 export default Nav;
