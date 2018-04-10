@@ -16,6 +16,7 @@
             --container-width: 1200px;
             --link-clolor: #5280b2;
             --headline-bg: #F6F6F6;
+            --headline-link-color: #4f4f4f;
         }
     </style>
 </head>

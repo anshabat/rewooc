@@ -1,0 +1,29 @@
+.pc-list-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 1rem;
+  margin: 0 -1em;
+
+  &__item {
+    position: relative;
+    padding-left: 1em;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: var(--headline-link-color);
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  &__drop {
+    position: absolute;
+
+    &.js-hidden {
+      display: none;
+    }
+  }
+}
