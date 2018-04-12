@@ -1,15 +1,28 @@
 .pc-tree-nav {
   background-color: #fff;
+  padding: 5px 0;
+  border: 1px solid #e1e1e1;
+  text-align: left;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
 
   &__item {
-
+    position: relative;
   }
 
   &__link {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: var(--headline-link-color);
 
+    &:hover {
+      color: #000;
+    }
   }
 
   &__drop {
-
+    position: absolute;
+    left: 100%;
+    top: 0;
   }
 }

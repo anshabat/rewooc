@@ -10,13 +10,15 @@
     <?php wp_head(); ?>
     <style>
         :root {
+            --font-family-primary: Helvetica, Arial, sans-serif;
+            --font-size: 14px;
             --main-color: #5280B2;
             --color-gray: #ccc;
             --font-color: <?= get_theme_mod('saleszone2_font_color') ?>;
             --container-width: 1200px;
             --link-clolor: #5280b2;
             --headline-bg: #F6F6F6;
-            --headline-link-color: #4f4f4f;
+            --headline-link-color: #707070;
         }
     </style>
 </head>

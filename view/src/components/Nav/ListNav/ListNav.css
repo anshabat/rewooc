@@ -1,13 +1,15 @@
 .pc-list-nav {
+  --indent: 0.8em;
+
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  font-size: 1rem;
-  margin: 0 -1em;
+  font-size: 0.9rem;
+  margin: 0 calc(var(--indent) * -1);
 
   &__item {
     position: relative;
-    padding-left: 1em;
+    margin: 0 var(--indent);
   }
 
   &__link {
@@ -21,6 +23,9 @@
 
   &__drop {
     position: absolute;
+    z-index: 1000;
+    top: 100%;
+    left: 0;
 
     &.js-hidden {
       display: none;
