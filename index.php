@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
     <meta name="description" content="<?php bloginfo('description'); ?>">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <?php wp_head(); ?>
     <style>
         :root {
@@ -18,7 +19,8 @@
             --container-width: 1200px;
             --link-clolor: #5280b2;
             --headline-bg: #F6F6F6;
-            --headline-link-color: #707070;
+            --headline-link-color: #676767;
+            --black-color: rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>

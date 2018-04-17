@@ -21,12 +21,12 @@ class Nav extends Component {
         }
     }
 
-    hasChild(item) {
+    hasChildItems(item) {
         return allItems.some(i => Number(i.menu_item_parent) === item.ID)
     }
 
     showItem(item) {
-        if (!this.hasChild(item)) {
+        if (!this.hasChildItems(item)) {
             return;
         }
         this.setState((prevState) => {
@@ -36,7 +36,7 @@ class Nav extends Component {
     }
 
     hideItem(item) {
-        if (!this.hasChild(item)) {
+        if (!this.hasChildItems(item)) {
             return;
         }
         this.setState((prevState) => {
@@ -55,6 +55,7 @@ class Nav extends Component {
                 showItem={this.showItem.bind(this)}
                 hideItem={this.hideItem.bind(this)}
                 openedItems={this.state.openedItems}
+                hasChildItems={this.hasChildItems.bind(this)}
             />
         ) : null;
     }

@@ -1,17 +1,24 @@
-.pc-tree-nav {
+.pc-dropdown {
+  padding: 15px 0;
   background-color: #fff;
-  padding: 5px 0;
   border: 1px solid #e1e1e1;
   text-align: left;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
 
+  width: 200px;
+
   &__item {
     position: relative;
+
+    &:hover {
+      background-color: #f2f6f9;
+    }
   }
 
   &__link {
-    display: block;
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    padding: 7px 24px;
     text-decoration: none;
     color: var(--headline-link-color);
 
@@ -20,9 +27,20 @@
     }
   }
 
+  &__arrow {
+    margin-left: auto;
+  }
+
   &__drop {
     position: absolute;
-    left: 100%;
-    top: 0;
+    top: -1px;
+
+    &--ltr {
+      left: 100%;
+    }
+
+    &--rtl {
+      right: 100%;
+    }
   }
 }

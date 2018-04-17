@@ -13,22 +13,36 @@
   }
 
   &__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
     color: var(--headline-link-color);
 
     &:hover {
-      color: #000;
+      color: var(--black-color);
     }
+  }
+
+  &__arrow {
+    padding-left: 5px;
   }
 
   &__drop {
     position: absolute;
     z-index: 1000;
     top: 100%;
-    left: 0;
 
     &.js-hidden {
       display: none;
+    }
+
+    &--ltr {
+      left: 0;
+    }
+
+    &--rtl {
+      right: 0;
     }
   }
 }
