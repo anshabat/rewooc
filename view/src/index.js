@@ -1,4 +1,4 @@
-import './vendor/css/core/reboot.css';
+import './assets/css/core/reboot.css';
 import React from 'react';
 import ReactDOM from "react-dom";
 import App from './components/App/App';

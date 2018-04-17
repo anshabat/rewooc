@@ -1,5 +1,5 @@
-import '../../vendor/css/shared/container.css';
-import '../../vendor/css/shared/btn.css';
+import '../../assets/css/shared/container.css';
+import '../../assets/css/shared/btn.css';
 import './Header.css';
 import React from 'react';
 import Nav from '../Nav/Nav';

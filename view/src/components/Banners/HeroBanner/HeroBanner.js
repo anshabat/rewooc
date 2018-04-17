@@ -1,4 +1,4 @@
-import '../../../vendor/css/shared/btn.css';
+import '../../../assets/css/shared/btn.css';
 import './HeroBanner.css';
 import React from 'react';
 
