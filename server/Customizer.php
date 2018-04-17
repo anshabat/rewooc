@@ -46,14 +46,16 @@ class Customizer
 
     public function getMods() {
         $options = get_theme_mods();
-        $options['custom_logo'] = $this->getLogoUrl();
+        $options['custom_logo'] = $this->getLogo();
         return $options;
     }
 
-    public function getLogoUrl()
+    public function getLogo()
     {
-        $logoId = get_theme_mod('custom_logo');
-        $imageSrc = wp_get_attachment_image_src($logoId, 'full');
-        return $imageSrc[0];
+        $imageId = get_theme_mod('custom_logo');
+        $imageData = wp_get_attachment_image_src($imageId, 'full');
+        $imageAlt = get_post_meta( $imageId, '_wp_attachment_image_alt', true );
+        array_push($imageData, $imageAlt);
+        return $imageData;
     }
 }

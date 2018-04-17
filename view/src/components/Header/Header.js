@@ -17,7 +17,7 @@ const Header = (props) => {
             </div>
             <div className="pc-header__main-row">
                 <div className="ps-container">
-                    <Logo src={props.logo}/>
+                    <Logo image={props.logo}/>
                 </div>
             </div>
             <div className="pc-header__bottom-row">
