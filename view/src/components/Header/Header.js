@@ -5,6 +5,7 @@ import React from 'react';
 import Nav from '../Nav/Nav';
 import Dropdown from '../Nav/Dropdown/Dropdown';
 import ListNav from '../Nav/ListNav/ListNav';
+import Logo from '../Logo/Logo';
 
 const Header = (props) => {
     return (
@@ -16,7 +17,7 @@ const Header = (props) => {
             </div>
             <div className="pc-header__main-row">
                 <div className="ps-container">
-                    Head body
+                    <Logo src={props.logo}/>
                 </div>
             </div>
             <div className="pc-header__bottom-row">

@@ -43,6 +43,17 @@ class Customizer
             ),
         ]);
     }
-}
 
-new Customizer();
+    public function getMods() {
+        $options = get_theme_mods();
+        $options['custom_logo'] = $this->getLogoUrl();
+        return $options;
+    }
+
+    public function getLogoUrl()
+    {
+        $logoId = get_theme_mod('custom_logo');
+        $imageSrc = wp_get_attachment_image_src($logoId, 'full');
+        return $imageSrc[0];
+    }
+}

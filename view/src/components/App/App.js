@@ -9,6 +9,7 @@ class App extends Component {
         super(props);
         this.mainNavigation = props.appData.mainNavigation;
         this.siteLayout = props.appData.themeMods.saleszone2_site_layout;
+        this.logo = props.appData.themeMods.custom_logo;
     }
 
     render() {
@@ -17,6 +18,7 @@ class App extends Component {
                 <div className="pc-app__header">
                     <Header
                         mainNav={this.mainNavigation}
+                        logo={this.logo}
                     />
                 </div>
                 <div className="pc-app__main-banner">

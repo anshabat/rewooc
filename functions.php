@@ -15,8 +15,11 @@ add_action('wp_enqueue_scripts', function () {
     $headerNav = new Navigation('header_nav');
     $headerNavItems = $headerNav->getNav(['ID', 'title', 'menu_item_parent', 'url']);
 
+    $themeCustomizer = new Customizer();
+    $themeMods = $themeCustomizer->getMods();
+
     wp_localize_script(get_template(), 'salesZone', [
         'mainNavigation' => $headerNavItems,
-        'themeMods' => get_theme_mods()
+        'themeMods' => $themeMods
     ]);
 });
