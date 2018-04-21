@@ -1,12 +1,12 @@
 import './App.css';
 import React from 'react';
 import Header from '../../components/Header/Header';
-import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
 import Logo from '../Logo/Logo';
 import Dropdown from '../Nav/Dropdown/Dropdown';
 import ListNav from '../Nav/ListNav/ListNav';
 import Nav from '../Nav/Nav';
-import SearchField from '../SearchField/SearchField';
+import SearchForm from '../SearchForm/SearchForm';
+import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
 
 const App = (props) => (
     <div className={`pc-app pc-app--${props.appData.themeMods.saleszone2_site_layout}`}>
@@ -14,7 +14,7 @@ const App = (props) => (
             <Header
                 headlineLeft={<Nav items={props.appData.mainNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
-                mainCenter={<SearchField/>}
+                mainCenter={<SearchForm/>}
             />
         </div>
         <div className="pc-app__main-banner">

@@ -1,0 +1,27 @@
+.pc-search-form {
+  --border-radius: 1.5rem;
+
+  &__field {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--form-field-border-color);
+    padding: 0.2rem 0.2rem 0.2rem 0.6rem;
+    border-radius: var(--border-radius);
+    background-color: #fff;
+  }
+
+  &__control {
+    display: block;
+    flex-grow: 1;
+    line-height: 1;
+    color: var(--color-gray);
+    background-color: #fff;
+    border: 0;
+    padding: 0 0.5rem;
+  }
+
+  &__button {
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+  }
+}

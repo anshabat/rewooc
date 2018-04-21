@@ -14,13 +14,16 @@
             --font-family-primary: Helvetica, Arial, sans-serif;
             --font-size: 14px;
             --main-color: #5280B2;
-            --color-gray: #ccc;
+            --secondary-color: #D31647;
+            --color-gray: #7f8c8d;
             --font-color: <?= get_theme_mod('saleszone2_font_color') ?>;
             --container-width: 1200px;
             --link-clolor: #5280b2;
-            --headline-bg: #F6F6F6;
+            --headline-bg: #F8F8F8;
+            --header-main-bg: #FAFAFA;
             --headline-link-color: #676767;
             --black-color: rgba(0, 0, 0, 0.8);
+            --form-field-border-color: #D2D2D2;
         }
     </style>
 </head>

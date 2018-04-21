@@ -1,5 +1,5 @@
-import './Nav.css';
 import '../../assets/css/shared/link.css';
+import './Nav.css';
 import React, {Component} from 'react';
 
 let allItems = [];
