@@ -14,7 +14,7 @@ const App = (props) => (
             <Header
                 headlineLeft={<Nav items={props.appData.mainNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
-                mainCenter={<SearchForm/>}
+                mainCenter={<SearchForm delay="2000" minChars="3" />}
             />
         </div>
         <div className="pc-app__main-banner">
