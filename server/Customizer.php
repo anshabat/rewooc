@@ -2,10 +2,17 @@
 
 class Customizer
 {
-    public function __construct()
+	private static $instance;
+
+	private function __construct()
     {
         add_action("customize_register", [$this, "addCustomSettings"]);
     }
+
+	public static function getInstance(){
+		self::$instance = empty(self::$instance) ? new self() : self::$instance;
+		return self::$instance;
+	}
 
 
     public function addCustomSettings(\WP_Customize_Manager $wp_customize)
@@ -61,3 +68,4 @@ class Customizer
         return $imageData;
     }
 }
+Customizer::getInstance();
