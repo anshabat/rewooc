@@ -35,7 +35,7 @@ class SearchForm extends Component {
         event.persist();
         this.postpone(this.props.delay)
             .then(() => {
-                if (event.target.value >= 3) {
+                if (event.target.value.length >= 3) {
                     this.getItems(event)
                 } else {
 
