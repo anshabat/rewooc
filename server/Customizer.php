@@ -54,8 +54,10 @@ class Customizer
     {
         $imageId = get_theme_mod('custom_logo');
         $imageData = wp_get_attachment_image_src($imageId, 'full');
-        $imageAlt = get_post_meta( $imageId, '_wp_attachment_image_alt', true );
-        array_push($imageData, $imageAlt);
+	    if ( $imageData ) {
+		    $imageAlt = get_post_meta( $imageId, '_wp_attachment_image_alt', true );
+		    array_push( $imageData, $imageAlt );
+	    }
         return $imageData;
     }
 }
