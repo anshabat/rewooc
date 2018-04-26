@@ -5,6 +5,7 @@ if (!defined('ABSPATH')) {
 
 require_once(get_template_directory() . "/server/Setup.php");
 require_once(get_template_directory() . "/server/Customizer.php");
+require_once(get_template_directory() . "/server/Options.php");
 require_once(get_template_directory() . "/server/Navigation.php");
 
 
