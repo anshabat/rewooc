@@ -7,6 +7,7 @@ import ListNav from '../Nav/ListNav/ListNav';
 import Nav from '../Nav/Nav';
 import SearchForm from '../SearchForm/SearchForm';
 import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
+import Phone from "../Phone/Phone";
 
 const App = (props) => (
     <div className={`pc-app pc-app--${props.appData.themeMods.saleszone2_site_layout}`}>
@@ -15,6 +16,7 @@ const App = (props) => (
                 headlineLeft={<Nav items={props.appData.mainNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
                 mainCenter={<SearchForm delay="2000" minChars="3" />}
+                mainRight={<Phone phoneNumber={props.appData.themeMods.saleszone2_site_phone} />}
             />
         </div>
         <div className="pc-app__main-banner">
