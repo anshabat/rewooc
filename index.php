@@ -29,7 +29,7 @@
 </head>
 <body <?php body_class('page'); ?>>
 
-<div id="premmerce"></div>
+<div id="rewooc"></div>
 
 <?php wp_footer(); ?>
 </body>

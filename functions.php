@@ -18,7 +18,7 @@ add_action('wp_enqueue_scripts', function () {
     $themeCustomizer = new Customizer();
     $themeMods = $themeCustomizer->getMods();
 
-    wp_localize_script(get_template(), 'salesZone', [
+    wp_localize_script(get_template(), 'rewooc', [
         'mainNavigation' => $headerNavItems,
         'themeMods' => $themeMods
     ]);
