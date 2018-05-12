@@ -25,6 +25,7 @@
 
     &.pc-button {
       border-radius: var(--search-form-border-radius);
+
       &::before {
         border-radius: var(--search-form-border-radius);
       }

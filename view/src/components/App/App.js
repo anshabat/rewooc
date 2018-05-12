@@ -5,7 +5,7 @@ import Logo from '../Logo/Logo';
 import Dropdown from '../Nav/Dropdown/Dropdown';
 import ListNav from '../Nav/ListNav/ListNav';
 import Nav from '../Nav/Nav';
-import SearchForm from '../SearchForm/SearchForm';
+import Autocomplete from '../Autocomplete/Autocomplete';
 import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
 
 const App = (props) => (
@@ -14,7 +14,7 @@ const App = (props) => (
             <Header
                 headlineLeft={<Nav items={props.appData.mainNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
-                mainCenter={<SearchForm delay="2000" minChars="3" />}
+                mainCenter={<Autocomplete delay="2000" minChars="3" />}
             />
         </div>
         <div className="pc-app__main-banner">

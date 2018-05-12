@@ -1,8 +1,8 @@
-import './SearchForm.css';
+import './Autocomplete.css';
 import React, {Component} from 'react';
 import Button from '../UI/Button/Button';
 
-class SearchForm extends Component {
+class Autocomplete extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -10,35 +10,28 @@ class SearchForm extends Component {
         };
         this.timerId = null;
         this.getItems = this.getItems.bind(this);
-        this.fieldInputHandler = this.fieldInputHandler.bind(this);
-        this.limit = this.limit.bind(this);
+        this.onFieldInput = this.onFieldInput.bind(this);
     }
 
     getItems(event) {
         console.log(event.target.value);
     }
 
-    postpone(delay) {
+    delay(ms) {
         return new Promise((resolve) => {
             clearTimeout(this.timerId);
             this.timerId = setTimeout(() => {
                 resolve();
-            }, delay);
+            }, ms);
         });
     }
 
-    limit(value, minValue) {
-        return (value.length >= minValue)
-    }
-
-    fieldInputHandler(event) {
+    onFieldInput(event) {
         event.persist();
-        this.postpone(this.props.delay)
+        this.delay(Number(this.props.delay))
             .then(() => {
-                if (event.target.value >= 3) {
+                if (event.target.value.length >= this.props.minChars) {
                     this.getItems(event)
-                } else {
-
                 }
             })
     }
@@ -51,7 +44,7 @@ class SearchForm extends Component {
                         className="pc-search-form__control"
                         type="text"
                         placeholder="Enter post title here..."
-                        onInput={this.fieldInputHandler}
+                        onInput={this.onFieldInput}
                     />
                     <Button
                         className="pc-search-form__button"
@@ -67,4 +60,9 @@ class SearchForm extends Component {
     };
 }
 
-export default SearchForm;
+Autocomplete.defaultProps = {
+    delay: 2000,
+    minChars: 3
+};
+
+export default Autocomplete;
