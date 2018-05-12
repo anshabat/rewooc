@@ -7,13 +7,15 @@ import ListNav from '../Nav/ListNav/ListNav';
 import Nav from '../Nav/Nav';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
+import Phone from "../Phone/Phone";
 
 const App = (props) => (
-    <div className={`pc-app pc-app--${props.appData.themeMods.saleszone2_site_layout}`}>
+    <div className={`pc-app pc-app--${props.appData.themeMods.rewooc_site_layout}`}>
         <div className="pc-app__header">
             <Header
                 headlineLeft={<Nav items={props.appData.mainNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
+                mainRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone} />}
                 mainCenter={<Autocomplete delay="2000" minChars="3" />}
             />
         </div>

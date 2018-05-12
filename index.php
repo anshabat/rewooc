@@ -16,7 +16,7 @@
             --main-color: #5280B2;
             --secondary-color: #D31647;
             --color-gray: #7f8c8d;
-            --font-color: <?= get_theme_mod('saleszone2_font_color') ?>;
+            --font-color: <?= get_theme_mod('rewooc_font_color') ?>;
             --container-width: 1200px;
             --link-clolor: #5280b2;
             --headline-bg: #F8F8F8;

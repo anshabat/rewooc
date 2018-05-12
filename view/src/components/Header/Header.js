@@ -20,7 +20,7 @@ const Header = (props) => {
                             {props.mainCenter}
                         </div>
                         <div className="pc-header__main-right">
-                            +38098
+                            {props.mainRight}
                         </div>
                     </div>
                 </div>
