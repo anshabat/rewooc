@@ -1,0 +1,9 @@
+.rw-autocomplete-results {
+
+  &__item {
+    padding: 15px;
+    &:hover {
+      background-color: #eee;
+    }
+  }
+}

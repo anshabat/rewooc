@@ -1,35 +1,14 @@
-.pc-search-form {
-  --search-form-border-radius: 1.5rem;
+.rw-autocomplete {
+  position: relative;
 
-  &__field {
-    display: flex;
-    align-items: stretch;
+  &__results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
     border: 1px solid var(--form-field-border-color);
-    padding: 0.2rem 0.2rem 0.2rem 0.6rem;
-    border-radius: var(--search-form-border-radius);
-    background-color: #fff;
-  }
-
-  &__control {
-    display: block;
-    flex-grow: 1;
-    line-height: 1;
-    color: var(--color-gray);
-    background-color: #fff;
-    border: 0;
-    padding: 0 0.5rem;
-  }
-
-  &__button {
-    flex-shrink: 0;
-
-    &.pc-button {
-      border-radius: var(--search-form-border-radius);
-
-      &::before {
-        border-radius: var(--search-form-border-radius);
-      }
-    }
+    border-radius: 5px;
   }
 
 }
