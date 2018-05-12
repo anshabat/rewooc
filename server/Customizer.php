@@ -53,6 +53,9 @@ class Customizer
     public function getLogo()
     {
         $imageId = get_theme_mod('custom_logo');
+        if(!$imageId) {
+            return false;
+        }
         $imageData = wp_get_attachment_image_src($imageId, 'full');
         $imageAlt = get_post_meta( $imageId, '_wp_attachment_image_alt', true );
         array_push($imageData, $imageAlt);
