@@ -16,7 +16,7 @@ const App = (props) => (
                 headlineLeft={<Nav items={props.appData.mainNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
                 mainRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone} />}
-                mainCenter={<Autocomplete delay="2000" minChars="3" />}
+                mainCenter={<Autocomplete delay="500" minChars="3" />}
             />
         </div>
         <div className="pc-app__main-banner">

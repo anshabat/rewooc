@@ -10,6 +10,7 @@ const AutocompleteField = (props) => {
                 type="text"
                 placeholder="Enter post title here..."
                 onInput={props.onFieldInput}
+                onKeyDown={props.onKeyDown}
             />
             <Button
                 className="rw-autocomplete-field__button"
