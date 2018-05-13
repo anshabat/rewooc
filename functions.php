@@ -3,10 +3,11 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-require_once(get_template_directory() . "/server/Setup.php");
-require_once(get_template_directory() . "/server/Customizer.php");
-require_once(get_template_directory() . "/server/Options.php");
-require_once(get_template_directory() . "/server/Navigation.php");
+require_once(dirname(__FILE__) . "/server/Setup.php");
+require_once(dirname(__FILE__) . "/server/Customizer.php");
+require_once(dirname(__FILE__) . "/server/Options.php");
+require_once(dirname(__FILE__) . "/server/Navigation.php");
+require_once(dirname(__FILE__) . "/server/Products.php");
 
 
 /**
