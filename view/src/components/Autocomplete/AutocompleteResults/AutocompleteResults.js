@@ -17,7 +17,7 @@ const AutocompleteResults = (props) => {
                                     props.getActiveItemRef(elem);
                                 }
                             }}
-                        >{post.title.rendered}</a>
+                        >{post.title} ({post.price})</a>
                     </li>
                 )
             })}

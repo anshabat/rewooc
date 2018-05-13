@@ -9,8 +9,7 @@ class Autocomplete extends Component {
         super(props);
         this.state = {
             posts: [],
-            cursor: -1,
-            showResults: false
+            cursor: -1
         };
         this.timerId = null;
         this.getItems = this.getItems.bind(this);
@@ -23,13 +22,16 @@ class Autocomplete extends Component {
         this.activeItemRef = null;
     }
 
-    getItems() {
-        axios.get('/wp-json/wp/v2/posts').then(response => {
-            console.log(response.data);
-            this.setState({
-                posts: response.data,
-                showResults: true
-            });
+    getItems(e) {
+        axios.get('/', {
+            params: {
+                'wc-ajax': 'rw_search_products',
+                'search': e.target.value,
+                'limit': 6
+            }
+        }).then(response => {
+            console.log(response);
+            this.setState({posts: response.data});
         })
     }
 
@@ -82,7 +84,7 @@ class Autocomplete extends Component {
     closeResults(e) {
         if (!this.containerRef.contains(e.target) || e.keyCode === 27) {
             this.setState({
-                showResults: false,
+                posts: [],
                 cursor: -1
             });
         }
@@ -104,7 +106,7 @@ class Autocomplete extends Component {
                 <div className="rw-autocomplete__field">
                     <AutocompleteField onFieldInput={this.searchItems} onKeyDown={this.onKeyDown}/>
                 </div>
-                {this.state.showResults ? (
+                {this.state.posts.length ? (
                     <div className="rw-autocomplete__results">
                         <AutocompleteResults
                             posts={this.state.posts}
