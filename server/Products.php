@@ -1,37 +1,58 @@
 <?php
 
-class Products
-{
-    public function __construct() {
-        add_action('wc_ajax_rw_search_products', [$this, 'search']);
-    }
+class Products {
+	private static $instance;
 
-    public function search()
-    {
-        $search = wc_clean(stripslashes($_GET['search']));
+	public static function getInstance() {
+		self::$instance = empty( self::$instance ) ? new self() : self::$instance;
 
-        if (empty($search)) {
-            wp_die();
-        }
+		return self::$instance;
+	}
 
-        $data_store = WC_Data_Store::load('product');
-        $ids = $data_store->search_products($search, '', true);
+	private function __construct() {
+		add_action( 'wc_ajax_rw_search_products', [ $this, 'search' ] );
+	}
 
-        if (!empty($_GET['limit'])) {
-            $ids = array_slice($ids, 0, absint($_GET['limit']));
-        }
+	public function search() {
+		$search = wc_clean( stripslashes( $_GET['search'] ) );
 
-        $product_objects = array_filter(array_map('wc_get_product', $ids), 'wc_products_array_filter_editable');
-        $products = [];
-        foreach ($product_objects as $product_object) {
-            array_push($products, [
-                'id' => $product_object->get_id(),
-                'title' => rawurldecode($product_object->get_name()),
-                'link' => $product_object->get_permalink(),
-                'price' => $product_object->get_price()
-            ]);
-        }
-        wp_send_json($products);
-    }
+		if ( empty( $search ) ) {
+			wp_die();
+		}
+
+		$dataStore = WC_Data_Store::load( 'product' );
+		$ids       = $dataStore->search_products( $search, '', true );
+
+		if ( ! empty( $_GET['limit'] ) ) {
+			$ids = array_slice( $ids, 0, absint( $_GET['limit'] ) );
+		}
+
+		$productObjects = array_filter( array_map( 'wc_get_product', $ids ), 'wc_products_array_filter_editable' );
+		$products       = $this->convertProductObjectToArray( $productObjects );
+		wp_send_json( $products );
+	}
+
+	public function getProducts( $args = [] ) {
+		$productObjects = wc_get_products( $args );
+		$products       = $this->convertProductObjectToArray( $productObjects );
+
+		return $products;
+	}
+
+	private function convertProductObjectToArray( $productObjects ) {
+		//TODO Приймати аргументом масив ключів які слід отримати, якщо пусто, то повертати всі
+		$products = [];
+		foreach ( $productObjects as $productObject ) {
+			array_push( $products, [
+				'id'    => $productObject->get_id(),
+				'title' => rawurldecode( $productObject->get_name() ),
+				'link'  => $productObject->get_permalink(),
+				'price' => $productObject->get_price()
+			] );
+		}
+
+		return $products;
+	}
 }
-new Products();
+
+Products::getInstance();
