@@ -92,10 +92,6 @@ class Autocomplete extends Component {
         }
     }
 
-    componentDidMount() {
-        document.addEventListener('click', this.closeResults, true);
-    }
-
     getActiveItemRef(elem) {
         this.activeItemRef = elem;
     }
@@ -114,6 +110,7 @@ class Autocomplete extends Component {
                             posts={this.state.posts}
                             getActiveItemRef={this.getActiveItemRef}
                             cursor={this.state.cursor}
+                            close={this.closeResults}
                         />
                     </div>
                 ) : null}
