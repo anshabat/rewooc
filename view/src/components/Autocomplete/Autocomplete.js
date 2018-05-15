@@ -11,15 +11,17 @@ class Autocomplete extends Component {
             posts: [],
             cursor: -1
         };
+
         this.timerId = null;
+        this.containerRef = null;
+        this.activeItemRef = null;
+
         this.getItems = this.getItems.bind(this);
         this.searchItems = this.searchItems.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.iterateResults = this.iterateResults.bind(this);
         this.closeResults = this.closeResults.bind(this);
         this.getActiveItemRef = this.getActiveItemRef.bind(this);
-        this.containerRef = null;
-        this.activeItemRef = null;
     }
 
     getItems(e) {
@@ -27,7 +29,7 @@ class Autocomplete extends Component {
             params: {
                 'wc-ajax': 'rw_search_products',
                 'search': e.target.value,
-                'limit': 6
+                'limit': this.props.limit
             }
         }).then(response => {
             console.log(response);
@@ -122,7 +124,8 @@ class Autocomplete extends Component {
 
 Autocomplete.defaultProps = {
     delay: 500,
-    minChars: 3
+    minChars: 3,
+    limit: 10
 };
 
 export default Autocomplete;

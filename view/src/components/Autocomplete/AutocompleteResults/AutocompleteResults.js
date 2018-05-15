@@ -11,7 +11,7 @@ const AutocompleteResults = (props) => {
                     <li className={`rw-autocomplete-results__item ${active}`} key={post.id}>
                         <a
                             className="rw-autocomplete-results__link"
-                            href={'#' + index}
+                            href={post.link}
                             ref={elem => {
                                 if(active && elem) {
                                     props.getActiveItemRef(elem);
