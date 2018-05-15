@@ -22,6 +22,7 @@ class Autocomplete extends Component {
         this.iterateResults = this.iterateResults.bind(this);
         this.closeResults = this.closeResults.bind(this);
         this.getActiveItemRef = this.getActiveItemRef.bind(this);
+        this.onLinkHover = this.onLinkHover.bind(this);
     }
 
     getItems(e) {
@@ -96,6 +97,10 @@ class Autocomplete extends Component {
         this.activeItemRef = elem;
     }
 
+    onLinkHover(e, index) {
+        this.setState({cursor: index});
+    }
+
     render() {
         return (
             <div className="rw-autocomplete" ref={el => {
@@ -111,6 +116,7 @@ class Autocomplete extends Component {
                             getActiveItemRef={this.getActiveItemRef}
                             cursor={this.state.cursor}
                             close={this.closeResults}
+                            onLinkHover={this.onLinkHover}
                         />
                     </div>
                 ) : null}

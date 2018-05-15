@@ -8,6 +8,8 @@
   &__link {
     display: block;
     padding: 15px;
+    color: var(--black-color);
+    text-decoration: none;
 
     &:hover {
       background-color: var(--active-link-color);

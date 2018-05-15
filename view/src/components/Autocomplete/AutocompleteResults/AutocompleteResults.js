@@ -26,6 +26,7 @@ class AutocompleteResults extends Component {
                                         this.props.getActiveItemRef(elem);
                                     }
                                 }}
+                                onMouseOver={(e) => this.props.onLinkHover(e, index)}
                             >{post.title} ({post.price})</a>
                         </li>
                     )
