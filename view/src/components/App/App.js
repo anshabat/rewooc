@@ -8,6 +8,8 @@ import Nav from '../Nav/Nav';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
 import Phone from "../Phone/Phone";
+import Card from '../UI/Card/Card';
+import FeaturedProducts from '../Widgets/FeaturedProducts/FeaturedProducts';
 
 const App = (props) => (
     <div className={`pc-app pc-app--${props.appData.themeMods.rewooc_site_layout}`}>
@@ -15,12 +17,19 @@ const App = (props) => (
             <Header
                 headlineLeft={<Nav items={props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
-                mainRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone} />}
-                mainCenter={<Autocomplete delay="500" minChars="3" limit="6" />}
+                mainRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone}/>}
+                mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
             />
         </div>
-        <div className="pc-app__main-banner">
+        {/*<div className="pc-app__main-banner">
             <HeroBanner/>
+        </div>*/}
+        <div className="pc-app__featured">
+            <div className="ps-container">
+                <Card title="Featured Products">
+                    <FeaturedProducts products={props.appData.featuredProducts}/>
+                </Card>
+            </div>
         </div>
     </div>
 );

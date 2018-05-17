@@ -1,0 +1,9 @@
+.rw-featured-products {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -30px -15px 0;
+
+  &__item {
+    padding: 30px 15px 0;
+  }
+}

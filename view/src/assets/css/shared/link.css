@@ -1,8 +1,11 @@
 .ps-link {
-  color: var(--link-clolor);
-  text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
+  &--primary {
+    color: var(--link-clolor);
+
+    &:hover {
+      text-decoration: none;
+    }
   }
+
 }

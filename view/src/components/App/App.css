@@ -20,4 +20,8 @@ html {
     padding: 10px 0;
     text-align: center;
   }
+
+  &__featured {
+    padding: 3rem 0;
+  }
 }
