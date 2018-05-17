@@ -43,11 +43,14 @@ class Products {
 		//TODO Приймати аргументом масив ключів які слід отримати, якщо пусто, то повертати всі
 		$products = [];
 		foreach ( $productObjects as $productObject ) {
+			$media = new Media( $productObject->get_image_id(), 'shop_catalog' );
+
 			array_push( $products, [
 				'id'    => $productObject->get_id(),
 				'title' => rawurldecode( $productObject->get_name() ),
 				'link'  => $productObject->get_permalink(),
-				'price' => $productObject->get_price()
+				'price' => $productObject->get_price(),
+				'image' => $media->getImage()
 			] );
 		}
 

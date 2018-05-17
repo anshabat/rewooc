@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once( dirname( __FILE__ ) . "/server/Setup.php" );
+require_once( dirname( __FILE__ ) . "/server/Media.php" );
 require_once( dirname( __FILE__ ) . "/server/Customizer.php" );
 require_once( dirname( __FILE__ ) . "/server/Options.php" );
 require_once( dirname( __FILE__ ) . "/server/Navigation.php" );
