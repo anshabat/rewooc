@@ -14,7 +14,7 @@ require_once( dirname( __FILE__ ) . "/server/Api.php" );
 add_action( 'init', function () {
 	$headerNav      = new Navigation( 'header_nav' );
 	$headerNavItems = $headerNav->getNav( [ 'ID', 'title', 'menu_item_parent', 'url' ] );
-	Api::addScriptData( 'headerNavItems', $headerNavItems );
+	Api::addScriptData( 'headerNavigation', $headerNavItems );
 
 	$themeCustomizer = Customizer::getInstance();
 	$themeMods       = $themeCustomizer->getMods();

@@ -13,7 +13,7 @@ const App = (props) => (
     <div className={`pc-app pc-app--${props.appData.themeMods.rewooc_site_layout}`}>
         <div className="pc-app__header">
             <Header
-                headlineLeft={<Nav items={props.appData.mainNavigation} navs={[ListNav, Dropdown]}/>}
+                headlineLeft={<Nav items={props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
                 mainLeft={<Logo image={props.appData.themeMods.custom_logo}/>}
                 mainRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone} />}
                 mainCenter={<Autocomplete delay="500" minChars="3" limit="6" />}
