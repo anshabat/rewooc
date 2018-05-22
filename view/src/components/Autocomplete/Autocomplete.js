@@ -33,7 +33,6 @@ class Autocomplete extends Component {
                 'limit': this.props.limit
             }
         }).then(response => {
-            console.log(response);
             this.setState({posts: response.data});
         })
     }
