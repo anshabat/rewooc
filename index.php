@@ -31,6 +31,10 @@
 
 <div id="rewooc"></div>
 
-<?php wp_footer(); ?>
+<?php
+dynamic_sidebar('homepage_main');
+dump(SidebarWidgets::getWidgets());
+Api::fetchScriptData();
+wp_footer(); ?>
 </body>
 </html>

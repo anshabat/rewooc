@@ -2,11 +2,18 @@
 
 class Setup
 {
+    private $widgets = [
+        FeatureProducts::class,
+        LatestPosts::class
+    ];
+
     public function __construct()
     {
         add_action('after_setup_theme', [$this, 'removeRedundantAssets']);
         add_action('after_setup_theme', [$this, 'addDefaultFeatures']);
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
+        add_action('widgets_init', [$this, 'registerWidgets']);
+        add_action('widgets_init', [$this, 'initWidgets']);
     }
 
     /**
@@ -74,5 +81,27 @@ class Setup
         /* Woocommerce */
         add_theme_support('woocommerce');
     }
+
+    /**
+     * Register Custom Rewooc theme widgets
+     */
+    public function registerWidgets()
+    {
+        foreach ($this->widgets as $widget) {
+            register_widget($widget);
+        }
+    }
+
+    /**
+     * Initialize widgets sidebars and custom widgets
+     */
+    public function initWidgets()
+    {
+        register_sidebar([
+            'id' => 'homepage_main',
+            'name' => 'Homepage main'
+        ]);
+    }
 }
+
 new Setup();

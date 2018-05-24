@@ -10,6 +10,9 @@ require_once( dirname( __FILE__ ) . "/server/Options.php" );
 require_once( dirname( __FILE__ ) . "/server/Navigation.php" );
 require_once( dirname( __FILE__ ) . "/server/Products.php" );
 require_once( dirname( __FILE__ ) . "/server/Api.php" );
+require_once( dirname( __FILE__ ) . "/server/SidebarWidgets.php" );
+require_once( dirname( __FILE__ ) . "/server/Widgets/FeatureProducts.php" );
+require_once( dirname( __FILE__ ) . "/server/Widgets/LatestPosts.php" );
 
 
 add_action( 'init', function () {
@@ -20,14 +23,4 @@ add_action( 'init', function () {
 	$themeCustomizer = Customizer::getInstance();
 	$themeMods       = $themeCustomizer->getMods();
 	Api::addScriptData( 'themeMods', $themeMods );
-
-	$featuredProducts = Products::getInstance()->getProducts( [
-		'featured' => true
-	] );
-	Api::addScriptData( 'featuredProducts', $featuredProducts );
-} );
-
-
-add_action( 'wp_enqueue_scripts', function () {
-	Api::fetchScriptData();
 } );
