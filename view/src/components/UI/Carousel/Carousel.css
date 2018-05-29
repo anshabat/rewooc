@@ -5,7 +5,7 @@
   background-color: rgba(255, 0, 0, 0.1);
 
   @media (min-width: 1000px) {
-    --slides: 5;
+    --slides: 4;
   }
 
   &__wrapper {

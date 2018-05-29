@@ -18,11 +18,33 @@ class Carousel extends Component {
                 'nine',
                 'ten'
             ],
+            innerItems: [
+                'fist',
+                'second',
+                'third',
+                'fourth',
+            ],
             offset: 0
         };
     }
 
     moveSlider(operator) {
+
+        if (operator === 1) {
+            if (this.state.innerItems[0] === this.state.items[0]) {
+                return;
+            }
+        } else {
+            if (this.state.innerItems[this.state.innerItems.length - 1] === this.state.items[this.state.items.length - 1]) {
+                return;
+            }
+            let nextItem = this.state.items.findIndex((item) => item === this.state.innerItems[this.state.innerItems.length - 1]);
+            const innerItems = this.state.innerItems.concat(this.state.items[nextItem + 1]);
+            innerItems.shift();
+            console.log(innerItems);
+            this.setState({innerItems: innerItems});
+        }
+
         this.slidesNumber = Number(getComputedStyle(this.carouselRef).getPropertyValue('--slides'));
         this.setState(prev => {
             return {offset: prev.offset + (operator * 100 / this.slidesNumber)}
@@ -30,7 +52,11 @@ class Carousel extends Component {
     }
 
     componentDidUpdate() {
+        console.log('update');
         this.carouselRef.style.setProperty('--offset', this.state.offset);
+    }
+
+    componentDidMount() {
     }
 
     render() {
@@ -44,7 +70,7 @@ class Carousel extends Component {
                 </div>
                 <div className="rw-carousel__wrapper">
                     <div className="rw-carousel__slides">
-                        {this.state.items.map((item, index) => (
+                        {this.state.innerItems.map((item, index) => (
                             <div className="rw-carousel__slide" key={index}>{item}</div>
                         ))}
                     </div>
