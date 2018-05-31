@@ -7,22 +7,22 @@ class Carousel extends Component {
 
         this.state = {
             items: [
-                'fist',
-                'second',
-                'third',
-                'fourth',
-                'fifth',
-                'six',
-                'seven',
-                'eight',
-                'nine',
-                'ten'
+                '#1',
+                '#2',
+                '#3',
+                '#4',
+                '#5',
+                '#6',
+                '#7',
+                '#8',
+                '#9',
+                '#10'
             ],
             innerItems: [
-                'fist',
-                'second',
-                'third',
-                'fourth',
+                '#1',
+                '#2',
+                '#3',
+                '#4',
             ],
             offset: 0
         };
@@ -34,14 +34,28 @@ class Carousel extends Component {
             if (this.state.innerItems[0] === this.state.items[0]) {
                 return;
             }
+            const innerItems = [...this.state.innerItems];
+            let firstInnerItemIndex = this.state.items.findIndex((item) => item === this.state.innerItems[0]);
+
+            //видаляємо останній
+            innerItems.pop();
+            //добавляємо на початок один
+            innerItems.unshift(this.state.items[firstInnerItemIndex - 1]);
+
+            this.setState({innerItems: innerItems});
+
         } else {
             if (this.state.innerItems[this.state.innerItems.length - 1] === this.state.items[this.state.items.length - 1]) {
                 return;
             }
-            let nextItem = this.state.items.findIndex((item) => item === this.state.innerItems[this.state.innerItems.length - 1]);
-            const innerItems = this.state.innerItems.concat(this.state.items[nextItem + 1]);
+            const innerItems = [...this.state.innerItems];
+            let lastInnerItemIndex = this.state.items.findIndex((item) => item === this.state.innerItems[this.state.innerItems.length - 1]);
+
+            //добавляємо один в кінець
+            innerItems.push(this.state.items[lastInnerItemIndex + 1]);
+            //видаляємо перший
             innerItems.shift();
-            console.log(innerItems);
+
             this.setState({innerItems: innerItems});
         }
 
@@ -52,8 +66,7 @@ class Carousel extends Component {
     }
 
     componentDidUpdate() {
-        console.log('update');
-        this.carouselRef.style.setProperty('--offset', this.state.offset);
+        //this.carouselRef.style.setProperty('--offset', this.state.offset);
     }
 
     componentDidMount() {
