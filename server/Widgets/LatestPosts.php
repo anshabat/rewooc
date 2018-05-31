@@ -25,7 +25,10 @@ class LatestPosts extends WP_Widget
         $latestPosts = Products::getInstance()->getProducts( [
             'include' => [140, 154, 158]
         ] );
-        SidebarWidgets::addWidget('homepage_main', $latestPosts);
+
+        if (isset($args['onResult'])) {
+            call_user_func($args['onResult'], $latestPosts);
+        }
     }
 
     /**
