@@ -1,6 +1,7 @@
 import './Carousel.css';
 import React, {Component} from 'react';
 import Slide from './Slide/Slide';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Carousel extends Component {
     constructor(props) {
@@ -70,13 +71,17 @@ class Carousel extends Component {
                             <button className="rw-carousel__arrows" onClick={() => this.moveSlider(-1)}>Down</button>
                         </div>
                         <div className="rw-carousel__wrapper">
-                            <div className="rw-carousel__slides">
-                                {innerItems.map((item, index) => (
-                                    <div className="rw-carousel__slide" key={index}>
+                            <ReactCSSTransitionGroup
+                                component="div"
+                                className="rw-carousel__slides"
+                                transitionName="carousel"
+                            >
+                                {innerItems.map((item) => (
+                                    <div className="rw-carousel__slide" key={item}>
                                         <Slide item={item}/>
                                     </div>
                                 ))}
-                            </div>
+                            </ReactCSSTransitionGroup>
                         </div>
                     </React.Fragment>
                 )}
