@@ -1,5 +1,6 @@
 import './Carousel.css';
 import React, {Component} from 'react';
+import Slide from './Slide/Slide';
 
 class Carousel extends Component {
     constructor(props) {
@@ -18,76 +19,67 @@ class Carousel extends Component {
                 '#9',
                 '#10'
             ],
-            innerItems: [
-                '#1',
-                '#2',
-                '#3',
-                '#4',
-            ],
-            offset: 0
+            offset: 0,
+            activeItemIndex: 0,
+            slidesNumber: null
         };
     }
 
+    getSlidesNumber() {
+        return Number(getComputedStyle(this.carouselRef).getPropertyValue('--slides'));
+    };
+
     moveSlider(operator) {
+        this.setState({slidesNumber: this.getSlidesNumber()});
 
         if (operator === 1) {
-            if (this.state.innerItems[0] === this.state.items[0]) {
+            if ((this.state.activeItemIndex + this.state.slidesNumber) >= this.state.items.length) {
                 return;
             }
-            const innerItems = [...this.state.innerItems];
-            let firstInnerItemIndex = this.state.items.findIndex((item) => item === this.state.innerItems[0]);
-
-            //видаляємо останній
-            innerItems.pop();
-            //добавляємо на початок один
-            innerItems.unshift(this.state.items[firstInnerItemIndex - 1]);
-
-            this.setState({innerItems: innerItems});
-
         } else {
-            if (this.state.innerItems[this.state.innerItems.length - 1] === this.state.items[this.state.items.length - 1]) {
+            if (this.state.activeItemIndex <= 0) {
                 return;
             }
-            const innerItems = [...this.state.innerItems];
-            let lastInnerItemIndex = this.state.items.findIndex((item) => item === this.state.innerItems[this.state.innerItems.length - 1]);
-
-            //добавляємо один в кінець
-            innerItems.push(this.state.items[lastInnerItemIndex + 1]);
-            //видаляємо перший
-            innerItems.shift();
-
-            this.setState({innerItems: innerItems});
         }
 
-        this.slidesNumber = Number(getComputedStyle(this.carouselRef).getPropertyValue('--slides'));
         this.setState(prev => {
-            return {offset: prev.offset + (operator * 100 / this.slidesNumber)}
+            return {activeItemIndex: Math.max(prev.activeItemIndex + operator, 0)};
         });
-    }
 
-    componentDidUpdate() {
-        //this.carouselRef.style.setProperty('--offset', this.state.offset);
+        /*this.setState(prev => {
+            return {offset: prev.offset + (operator * 100 / this.slidesNumber)}
+        });*/
     }
 
     componentDidMount() {
+        this.setState({slidesNumber: this.getSlidesNumber()});
     }
 
     render() {
+        const innerItems = this.state.items.filter((item, index) => {
+            return (index >= this.state.activeItemIndex) && (index < this.state.activeItemIndex + this.state.slidesNumber);
+        });
         return (
             <div className="rw-carousel" ref={element => {
                 this.carouselRef = element
             }}>
-                <div className="rw-carousel__arrows">
-                    <button className="rw-carousel__arrows" onClick={() => this.moveSlider(-1)}>Left</button>
-                    <button className="rw-carousel__arrows" onClick={() => this.moveSlider(1)}>Right</button>
-                </div>
-                <div className="rw-carousel__wrapper">
-                    <div className="rw-carousel__slides">
-                        {this.state.innerItems.map((item, index) => (
-                            <div className="rw-carousel__slide" key={index}>{item}</div>
-                        ))}
-                    </div>
-                </div>
+                {this.state.slidesNumber && (
+                    <React.Fragment>
+                        <div className="rw-carousel__arrows">
+                            <button className="rw-carousel__arrows" onClick={() => this.moveSlider(1)}>UP</button>
+                            <button className="rw-carousel__arrows" onClick={() => this.moveSlider(-1)}>Down</button>
+                        </div>
+                        <div className="rw-carousel__wrapper">
+                            <div className="rw-carousel__slides">
+                                {innerItems.map((item, index) => (
+                                    <div className="rw-carousel__slide" key={index}>
+                                        <Slide item={item}/>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </React.Fragment>
+                )}
             </div>
         );
     }

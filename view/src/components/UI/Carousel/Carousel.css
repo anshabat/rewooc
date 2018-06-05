@@ -8,10 +8,6 @@
     --slides: 4;
   }
 
-  &__wrapper {
-    overflow: hidden;
-  }
-
   &__slides {
     display: flex;
     transition: transform 0.5s;

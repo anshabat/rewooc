@@ -29,7 +29,7 @@ const App = (props) => (
             <div className="ps-container">
                 <Card title="Featured Products">
                     {/*<FeaturedProducts products={props.appData.featuredProducts}/>*/}
-                    <Carousel/>
+                    <Carousel />
                 </Card>
             </div>
         </div>
