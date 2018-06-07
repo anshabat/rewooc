@@ -22,7 +22,7 @@ class Carousel extends Component {
             ],
             offset: 0,
             activeItemIndex: 0,
-            slidesNumber: null
+            slidesNumber: 0,
         };
     }
 
@@ -44,22 +44,23 @@ class Carousel extends Component {
         }
 
         this.setState(prev => {
-            return {activeItemIndex: Math.max(prev.activeItemIndex + operator, 0)};
+            return {
+                activeItemIndex: Math.max(prev.activeItemIndex + operator, 0),
+                offset: prev.offset - (operator * 100 / prev.slidesNumber)
+            };
         });
-
-        /*this.setState(prev => {
-            return {offset: prev.offset + (operator * 100 / this.slidesNumber)}
-        });*/
     }
 
     componentDidMount() {
         this.setState({slidesNumber: this.getSlidesNumber()});
+        console.log('mounted');
+    }
+
+    componentDidUpdate() {
+        this.carouselRef.style.setProperty('--offset', this.state.offset);
     }
 
     render() {
-        const innerItems = this.state.items.filter((item, index) => {
-            return (index >= this.state.activeItemIndex) && (index < this.state.activeItemIndex + this.state.slidesNumber);
-        });
         return (
             <div className="rw-carousel" ref={element => {
                 this.carouselRef = element
@@ -71,17 +72,13 @@ class Carousel extends Component {
                             <button className="rw-carousel__arrows" onClick={() => this.moveSlider(-1)}>Down</button>
                         </div>
                         <div className="rw-carousel__wrapper">
-                            <ReactCSSTransitionGroup
-                                component="div"
-                                className="rw-carousel__slides"
-                                transitionName="carousel"
-                            >
-                                {innerItems.map((item) => (
+                            <div className="rw-carousel__slides">
+                                {this.state.items.map((item) => (
                                     <div className="rw-carousel__slide" key={item}>
                                         <Slide item={item}/>
                                     </div>
                                 ))}
-                            </ReactCSSTransitionGroup>
+                            </div>
                         </div>
                     </React.Fragment>
                 )}

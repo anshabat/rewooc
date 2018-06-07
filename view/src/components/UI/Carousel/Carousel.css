@@ -14,7 +14,8 @@
 
   &__slides {
     display: flex;
-  //transform: translateX(calc(var(--offset) * 1%));
+    transform: translateX(calc(var(--offset) * 1%));
+    transition: transform 1s;
   }
 
   &__slide {
@@ -23,30 +24,7 @@
     width: calc((100 / var(--slides)) * 1%);
     flex-shrink: 0;
     transform: translateX(0);
-    transition: transform 1s;
   }
-
-  .carousel-leave-active {
-    transform: translateX(-292px);
-    & ~ * {
-      transform: translateX(-292px);
-    }
-  }
-
-  /*.carousel-enter.carousel-enter-active {
-    transform: translateX(0);
-    transition: transform 1s;
-  }*/
-
-  /*.carousel-leave {
-    transform: translateX(-292px);
-  }
-
-  .carousel-leave.carousel-leave-active {
-    transform: translateX(0);
-    transition: transform 1s;
-  }*/
-
   &__arrows {
 
   }
