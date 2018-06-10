@@ -2,6 +2,7 @@ import './Carousel.css';
 import React, {Component} from 'react';
 import Slide from './Slide/Slide';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import * as utils from '../../../utilities/utilities';
 
 class Carousel extends Component {
     constructor(props) {
@@ -33,8 +34,6 @@ class Carousel extends Component {
     };
 
     moveSlider(operator) {
-        this.setState({slidesNumber: this.getSlidesNumber()});
-
         if (operator === 1) {
             if ((this.state.activeItemIndex + this.state.slidesNumber) >= this.state.items.length) {
                 return;
@@ -55,7 +54,7 @@ class Carousel extends Component {
 
     componentDidMount() {
         this.setState({slidesNumber: this.getSlidesNumber()});
-        window.addEventListener('resize', this.fitSlides);
+        window.addEventListener('resize', utils.debounce(this.fitSlides));
     }
 
     componentDidUpdate() {
@@ -63,6 +62,7 @@ class Carousel extends Component {
     }
 
     fitSlides() {
+        console.log('fit');
         const slidesNumber = this.getSlidesNumber();
         this.setState(prev => {
             return {
