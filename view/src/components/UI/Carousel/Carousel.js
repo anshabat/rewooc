@@ -1,6 +1,5 @@
 import './Carousel.css';
-import React, {Component} from 'react';
-import Slide from './Slide/Slide';
+import React, {Component, Children} from 'react';
 import * as utils from '../../../utilities/utilities';
 
 class Carousel extends Component {
@@ -8,18 +7,6 @@ class Carousel extends Component {
         super(props);
 
         this.state = {
-            items: [
-                '#1',
-                '#2',
-                '#3',
-                '#4',
-                '#5',
-                '#6',
-                '#7',
-                '#8',
-                '#9',
-                '#10'
-            ],
             offset: 0,
             activeItemIndex: 0,
             slidesNumber: 0,
@@ -34,7 +21,7 @@ class Carousel extends Component {
 
     moveSlider(operator) {
         if (operator === 1) {
-            if ((this.state.activeItemIndex + this.state.slidesNumber) >= this.state.items.length) {
+            if ((this.state.activeItemIndex + this.state.slidesNumber) >= Children.count(this.props.children)) {
                 return;
             }
         } else {
@@ -83,9 +70,9 @@ class Carousel extends Component {
                         </div>
                         <div className="rw-carousel__wrapper">
                             <div className="rw-carousel__slides">
-                                {this.state.items.map((item, index) => (
-                                    <div className="rw-carousel__slide" key={item}>
-                                        <Slide item={item} index={index}/>
+                                {Children.map(this.props.children, Slide => (
+                                    <div className="rw-carousel__slide">
+                                        {Slide}
                                     </div>
                                 ))}
                             </div>

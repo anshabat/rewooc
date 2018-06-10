@@ -8,9 +8,9 @@ import Autocomplete from '../Autocomplete/Autocomplete';
 import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
 import Phone from "../Phone/Phone";
 import Card from '../UI/Card/Card';
-import FeaturedProducts from '../Widgets/FeaturedProducts/FeaturedProducts';
 import Image from '../UI/Image/Image';
 import Carousel from '../UI/Carousel/Carousel';
+import ProductCard from '../Shop/Product/ProductCard/ProductCard';
 
 const App = (props) => (
     <div className={`pc-app pc-app--${props.appData.themeMods.rewooc_site_layout}`}>
@@ -28,8 +28,9 @@ const App = (props) => (
         <div className="pc-app__featured">
             <div className="ps-container">
                 <Card title="Featured Products">
-                    {/*<FeaturedProducts products={props.appData.featuredProducts}/>*/}
-                    <Carousel />
+                    <Carousel>
+                        {props.appData.featuredProducts.map(product => (<ProductCard {...product} key={product.id} />))}
+                    </Carousel>
                 </Card>
             </div>
         </div>
