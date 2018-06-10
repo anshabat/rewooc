@@ -6,4 +6,8 @@
   &__title-link {
 
   }
+
+  img {
+    max-width: 100px;
+  }
 }

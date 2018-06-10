@@ -8,19 +8,18 @@ class ProductCard extends Component {
     }
 
     render() {
-        console.log(this.props.product.image);
         return (
             <article className="rw-product-card">
                 <div className="rw-product-card__row">
-                    <Image image={this.props.product.image}/>
+                    <Image image={this.props.image}/>
                 </div>
                 <h3 className="rw-product-card__row">
-                    <a className="ps-link ps-link--primary" href={this.props.product.link}>
-                        {this.props.product.title}
+                    <a className="ps-link ps-link--primary" href={this.props.link}>
+                        {this.props.title}
                     </a>
                 </h3>
                 <div className="rw-product-card__row">
-                    <strong>{this.props.product.price}</strong>
+                    <strong>{this.props.price}</strong>
                 </div>
             </article>
         )
