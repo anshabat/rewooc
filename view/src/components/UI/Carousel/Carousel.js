@@ -1,5 +1,5 @@
 import './Carousel.css';
-import React, {Component, Children} from 'react';
+import React, {Component, Children, Fragment} from 'react';
 import * as utils from '../../../utilities/utilities';
 
 class Carousel extends Component {
@@ -8,38 +8,38 @@ class Carousel extends Component {
 
         this.state = {
             offset: 0,
-            activeItemIndex: 0,
-            slidesNumber: 0,
+            startIndex: 0,
+            innerSlidesCount: 0,
         };
 
         this.fitSlides = this.fitSlides.bind(this);
     }
 
-    getSlidesNumber() {
+    getInnerSlidesCount() {
         return Number(getComputedStyle(this.carouselRef).getPropertyValue('--slides'));
     };
 
     moveSlider(operator) {
         if (operator === 1) {
-            if ((this.state.activeItemIndex + this.state.slidesNumber) >= Children.count(this.props.children)) {
+            if ((this.state.startIndex + this.state.innerSlidesCount) >= Children.count(this.props.children)) {
                 return;
             }
         } else {
-            if (this.state.activeItemIndex <= 0) {
+            if (this.state.startIndex <= 0) {
                 return;
             }
         }
 
         this.setState(prev => {
             return {
-                activeItemIndex: Math.max(prev.activeItemIndex + operator, 0),
-                offset: prev.offset - (operator * 100 / prev.slidesNumber)
+                startIndex: Math.max(prev.startIndex + operator, 0),
+                offset: prev.offset - (operator * 100 / prev.innerSlidesCount)
             };
         });
     }
 
     componentDidMount() {
-        this.setState({slidesNumber: this.getSlidesNumber()});
+        this.setState({innerSlidesCount: this.getInnerSlidesCount()});
         window.addEventListener('resize', utils.debounce(this.fitSlides));
     }
 
@@ -48,11 +48,11 @@ class Carousel extends Component {
     }
 
     fitSlides() {
-        const slidesNumber = this.getSlidesNumber();
+        const innerSlidesCount = this.getInnerSlidesCount();
         this.setState(prev => {
             return {
-                slidesNumber: slidesNumber,
-                offset: prev.offset - (prev.offset + (prev.activeItemIndex * 100 / slidesNumber))
+                innerSlidesCount: innerSlidesCount,
+                offset: prev.offset - (prev.offset + (prev.startIndex * 100 / innerSlidesCount))
             };
         });
     }
@@ -62,8 +62,8 @@ class Carousel extends Component {
             <div className="rw-carousel" ref={element => {
                 this.carouselRef = element
             }}>
-                {this.state.slidesNumber && (
-                    <React.Fragment>
+                {this.state.innerSlidesCount && (
+                    <Fragment>
                         <div className="rw-carousel__arrows">
                             <button className="rw-carousel__arrows" onClick={() => this.moveSlider(1)}>UP</button>
                             <button className="rw-carousel__arrows" onClick={() => this.moveSlider(-1)}>Down</button>
@@ -77,7 +77,7 @@ class Carousel extends Component {
                                 ))}
                             </div>
                         </div>
-                    </React.Fragment>
+                    </Fragment>
                 )}
             </div>
         );
