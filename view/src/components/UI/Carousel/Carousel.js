@@ -1,7 +1,6 @@
 import './Carousel.css';
 import React, {Component} from 'react';
 import Slide from './Slide/Slide';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import * as utils from '../../../utilities/utilities';
 
 class Carousel extends Component {
