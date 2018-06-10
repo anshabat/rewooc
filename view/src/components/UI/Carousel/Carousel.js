@@ -15,21 +15,20 @@ class Carousel extends Component {
         this.fitSlides = this.fitSlides.bind(this);
     }
 
+    componentDidMount() {
+        this.setState({innerSlidesCount: this.getInnerSlidesCount()});
+        window.addEventListener('resize', utils.debounce(this.fitSlides));
+    }
+
+    componentDidUpdate() {
+        this.$carousel.style.setProperty('--offset', this.state.offset);
+    }
+
     getInnerSlidesCount() {
-        return Number(getComputedStyle(this.carouselRef).getPropertyValue('--slides'));
-    };
+        return Number(getComputedStyle(this.$carousel).getPropertyValue('--slides'));
+    }
 
     moveSlider(operator) {
-        if (operator === 1) {
-            if ((this.state.startIndex + this.state.innerSlidesCount) >= Children.count(this.props.children)) {
-                return;
-            }
-        } else {
-            if (this.state.startIndex <= 0) {
-                return;
-            }
-        }
-
         this.setState(prev => {
             return {
                 startIndex: Math.max(prev.startIndex + operator, 0),
@@ -38,13 +37,18 @@ class Carousel extends Component {
         });
     }
 
-    componentDidMount() {
-        this.setState({innerSlidesCount: this.getInnerSlidesCount()});
-        window.addEventListener('resize', utils.debounce(this.fitSlides));
+    prev() {
+        if (this.state.startIndex <= 0) {
+            return;
+        }
+        this.moveSlider(-1);
     }
 
-    componentDidUpdate() {
-        this.carouselRef.style.setProperty('--offset', this.state.offset);
+    next() {
+        if ((this.state.startIndex + this.state.innerSlidesCount) >= Children.count(this.props.children)) {
+            return;
+        }
+        this.moveSlider(1);
     }
 
     fitSlides() {
@@ -60,14 +64,10 @@ class Carousel extends Component {
     render() {
         return (
             <div className="rw-carousel" ref={element => {
-                this.carouselRef = element
+                this.$carousel = element
             }}>
                 {this.state.innerSlidesCount && (
                     <Fragment>
-                        <div className="rw-carousel__arrows">
-                            <button className="rw-carousel__arrows" onClick={() => this.moveSlider(1)}>UP</button>
-                            <button className="rw-carousel__arrows" onClick={() => this.moveSlider(-1)}>Down</button>
-                        </div>
                         <div className="rw-carousel__wrapper">
                             <div className="rw-carousel__slides">
                                 {Children.map(this.props.children, Slide => (
