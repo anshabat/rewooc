@@ -3,7 +3,7 @@ import React from 'react';
 
 const Slide = (props) => {
     return (
-        <div className="">Slide {props.item}</div>
+        <div className="">Slide #{props.index}</div>
     );
 };
 

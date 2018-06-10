@@ -24,6 +24,8 @@ class Carousel extends Component {
             activeItemIndex: 0,
             slidesNumber: 0,
         };
+
+        this.fitSlides = this.fitSlides.bind(this);
     }
 
     getSlidesNumber() {
@@ -53,11 +55,21 @@ class Carousel extends Component {
 
     componentDidMount() {
         this.setState({slidesNumber: this.getSlidesNumber()});
-        console.log('mounted');
+        window.addEventListener('resize', this.fitSlides);
     }
 
     componentDidUpdate() {
         this.carouselRef.style.setProperty('--offset', this.state.offset);
+    }
+
+    fitSlides() {
+        const slidesNumber = this.getSlidesNumber();
+        this.setState(prev => {
+            return {
+                slidesNumber: slidesNumber,
+                offset: prev.offset - (prev.offset + (prev.activeItemIndex * 100 / slidesNumber))
+            };
+        });
     }
 
     render() {
@@ -73,9 +85,9 @@ class Carousel extends Component {
                         </div>
                         <div className="rw-carousel__wrapper">
                             <div className="rw-carousel__slides">
-                                {this.state.items.map((item) => (
+                                {this.state.items.map((item, index) => (
                                     <div className="rw-carousel__slide" key={item}>
-                                        <Slide item={item}/>
+                                        <Slide item={item} index={index}/>
                                     </div>
                                 ))}
                             </div>
