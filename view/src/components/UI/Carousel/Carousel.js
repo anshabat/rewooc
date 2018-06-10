@@ -61,7 +61,6 @@ class Carousel extends Component {
     }
 
     fitSlides() {
-        console.log('fit');
         const slidesNumber = this.getSlidesNumber();
         this.setState(prev => {
             return {
