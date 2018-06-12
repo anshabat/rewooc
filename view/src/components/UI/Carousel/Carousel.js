@@ -10,6 +10,7 @@ class Carousel extends Component {
             offset: 0,
             startIndex: 0,
             innerSlidesCount: 0,
+            lastLoadedIndex: 0
         };
 
         this.fitSlides = this.fitSlides.bind(this);
@@ -17,12 +18,16 @@ class Carousel extends Component {
     }
 
     componentDidMount() {
-        this.setState({innerSlidesCount: this.getInnerSlidesCount()});
+        const innerSlidesCount = this.getInnerSlidesCount();
+        this.setState({
+            innerSlidesCount: innerSlidesCount,
+            lastLoadedIndex: innerSlidesCount
+        });
         window.addEventListener('resize', this.debouncedFitSlides);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize',this.debouncedFitSlides);
+        window.removeEventListener('resize', this.debouncedFitSlides);
     }
 
     componentDidUpdate() {
@@ -35,9 +40,11 @@ class Carousel extends Component {
 
     moveSlider(operator) {
         this.setState(prev => {
+            const startIndex = Math.max(prev.startIndex + operator, 0);
             return {
-                startIndex: Math.max(prev.startIndex + operator, 0),
-                offset: prev.offset - (operator * 100 / prev.innerSlidesCount)
+                startIndex: startIndex,
+                offset: prev.offset - (operator * 100 / prev.innerSlidesCount),
+                lastLoadedIndex: Math.max(prev.lastLoadedIndex, (startIndex + prev.innerSlidesCount))
             };
         });
     }
@@ -61,13 +68,10 @@ class Carousel extends Component {
         this.setState(prev => {
             return {
                 innerSlidesCount: innerSlidesCount,
-                offset: prev.offset - (prev.offset + (prev.startIndex * 100 / innerSlidesCount))
+                offset: prev.offset - (prev.offset + (prev.startIndex * 100 / innerSlidesCount)),
+                lastLoadedIndex: Math.max(prev.lastLoadedIndex, (prev.startIndex + innerSlidesCount))
             };
         });
-    }
-
-    isVisible(index) {
-        return index >= this.state.startIndex && index < (this.state.startIndex + this.state.innerSlidesCount);
     }
 
     render() {
@@ -82,7 +86,7 @@ class Carousel extends Component {
                                 {Children.map(this.props.children, (Slide, index) => {
                                     return (
                                         <div className="rw-carousel__slide">
-                                            {this.isVisible(index) && Slide}
+                                            {index < (this.state.lastLoadedIndex) ? Slide : null}
                                         </div>
                                     );
                                 })}
