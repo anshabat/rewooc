@@ -13,11 +13,16 @@ class Carousel extends Component {
         };
 
         this.fitSlides = this.fitSlides.bind(this);
+        this.debouncedFitSlides = utils.debounce(this.fitSlides);
     }
 
     componentDidMount() {
         this.setState({innerSlidesCount: this.getInnerSlidesCount()});
-        window.addEventListener('resize', utils.debounce(this.fitSlides));
+        window.addEventListener('resize', this.debouncedFitSlides);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize',this.debouncedFitSlides);
     }
 
     componentDidUpdate() {
