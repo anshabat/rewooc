@@ -61,6 +61,10 @@ class Carousel extends Component {
         });
     }
 
+    isVisible(index) {
+        return index >= this.state.startIndex && index < (this.state.startIndex + this.state.innerSlidesCount);
+    }
+
     render() {
         return (
             <div className="rw-carousel" ref={element => {
@@ -70,11 +74,13 @@ class Carousel extends Component {
                     <Fragment>
                         <div className="rw-carousel__wrapper">
                             <div className="rw-carousel__slides">
-                                {Children.map(this.props.children, Slide => (
-                                    <div className="rw-carousel__slide">
-                                        {Slide}
-                                    </div>
-                                ))}
+                                {Children.map(this.props.children, (Slide, index) => {
+                                    return (
+                                        <div className="rw-carousel__slide">
+                                            {this.isVisible(index) && Slide}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </Fragment>
