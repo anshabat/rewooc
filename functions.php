@@ -25,9 +25,17 @@ add_action( 'init', function () {
 		'featured' => true
 	] );
 	Api::addScriptData( 'featuredProducts', $featuredProducts );
+
 } );
 
 
 add_action( 'wp_enqueue_scripts', function () {
+	//WC()->cart->empty_cart();
+
+	Api::addScriptData( 'cart', [
+		'count' => WC()->cart->get_cart_contents_count(),
+		'totals' => WC()->cart->get_totals(),
+		'subtotal' => WC()->cart->get_subtotal()
+	] );
 	Api::fetchScriptData();
 } );

@@ -7,6 +7,7 @@ const Header = (props) => {
         <div className="pc-header">
             <div className="pc-header__headline">
                 <div className="ps-container">
+                    <div style={{float: 'right'}}>{props.headlineRight}</div>
                     {props.headlineLeft}
                 </div>
             </div>

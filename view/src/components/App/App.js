@@ -11,6 +11,7 @@ import Card from '../UI/Card/Card';
 import Image from '../UI/Image/Image';
 import Carousel from '../UI/Carousel/Carousel';
 import ProductCard from '../Shop/Product/ProductCard/ProductCard';
+import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
 
 class App extends Component {
     render() {
@@ -19,8 +20,9 @@ class App extends Component {
                 <div className="pc-app__header">
                     <Header
                         headlineLeft={<Nav items={this.props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
+                        headlineRight={<Phone phoneNumber={this.props.appData.themeMods.rewooc_site_phone}/>}
                         mainLeft={<Image image={this.props.appData.themeMods.custom_logo}/>}
-                        mainRight={<Phone phoneNumber={this.props.appData.themeMods.rewooc_site_phone}/>}
+                        mainRight={<MiniCart count={this.props.appData.cart.count} subtotal={Number(this.props.appData.cart.totals.subtotal)} />}
                         mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
                     />
                 </div>

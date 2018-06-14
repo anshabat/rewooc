@@ -52,7 +52,8 @@ class Products {
 				'title' => $title,
 				'link'  => $productObject->get_permalink(),
 				'price' => $productObject->get_price(),
-				'image' => $image->getImage()
+				'image' => $image->getImage(),
+				'addToCartUrl' => $productObject->add_to_cart_url()
 			] );
 		}
 
