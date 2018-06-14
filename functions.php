@@ -33,9 +33,15 @@ add_action( 'wp_enqueue_scripts', function () {
 	//WC()->cart->empty_cart();
 
 	Api::addScriptData( 'cart', [
-		'count' => WC()->cart->get_cart_contents_count(),
-		'totals' => WC()->cart->get_totals(),
+		'count'    => WC()->cart->get_cart_contents_count(),
+		'totals'   => WC()->cart->get_totals(),
 		'subtotal' => WC()->cart->get_subtotal()
 	] );
 	Api::fetchScriptData();
+} );
+
+add_action( 'wc_ajax_rewooc_add_to_cart', function () {
+	wp_send_json( [
+		'test' => 'yes'
+	] );
 } );

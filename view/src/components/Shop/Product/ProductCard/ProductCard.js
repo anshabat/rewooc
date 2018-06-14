@@ -21,7 +21,9 @@ class ProductCard extends Component {
                 <div className="rw-product-card__row">
                     <strong>{this.props.price}</strong>
                 </div>
-                <a href={this.props.addToCartUrl}>Add to Cart</a>
+                <a href={this.props.addToCartUrl} onClick={(e) => this.props.onAddToCart(this.props.id, e)}>
+                    Add to Cart
+                </a>
             </article>
         )
     }

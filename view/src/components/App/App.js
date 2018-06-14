@@ -12,8 +12,32 @@ import Image from '../UI/Image/Image';
 import Carousel from '../UI/Carousel/Carousel';
 import ProductCard from '../Shop/Product/ProductCard/ProductCard';
 import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
+import * as utils from '../../shared';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            cart: {
+                count: this.props.appData.cart.count,
+                subtotal: this.props.appData.cart.subtotal
+            }
+        };
+
+        this.onAddToCart = this.onAddToCart.bind(this);
+    }
+
+    onAddToCart(id, e) {
+        e.preventDefault();
+        console.log(`add ${id}`);
+        jQuery.ajax({
+            url: utils.getAjaxEndpoint('rewooc_add_to_cart'),
+            success: (data) => {
+                console.log(data);
+            }
+        })
+    }
+
     render() {
         return (
             <div className={`pc-app pc-app--${this.props.appData.themeMods.rewooc_site_layout}`}>
@@ -22,7 +46,8 @@ class App extends Component {
                         headlineLeft={<Nav items={this.props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
                         headlineRight={<Phone phoneNumber={this.props.appData.themeMods.rewooc_site_phone}/>}
                         mainLeft={<Image image={this.props.appData.themeMods.custom_logo}/>}
-                        mainRight={<MiniCart count={this.props.appData.cart.count} subtotal={Number(this.props.appData.cart.totals.subtotal)} />}
+                        mainRight={<MiniCart count={this.state.cart.count}
+                                             subtotal={Number(this.state.cart.subtotal)}/>}
                         mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
                     />
                 </div>
@@ -42,7 +67,11 @@ class App extends Component {
                                 this.$carousel = carousel;
                             }}>
                                 {this.props.appData.featuredProducts.map(product => (
-                                    <ProductCard {...product} key={product.id}/>
+                                    <ProductCard
+                                        {...product}
+                                        key={product.id}
+                                        onAddToCart={this.onAddToCart}
+                                    />
                                 ))}
                             </Carousel>
                         </Card>
