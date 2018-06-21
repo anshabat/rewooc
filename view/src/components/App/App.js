@@ -18,10 +18,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cart: {
-                count: this.props.appData.cart.count,
-                subtotal: this.props.appData.cart.subtotal
-            }
+            cart: this.props.appData.cart
         };
 
         this.onAddToCart = this.onAddToCart.bind(this);
@@ -29,11 +26,16 @@ class App extends Component {
 
     onAddToCart(id, e) {
         e.preventDefault();
-        console.log(`add ${id}`);
         jQuery.ajax({
             url: utils.getAjaxEndpoint('rewooc_add_to_cart'),
-            success: (data) => {
-                console.log(data);
+            method: 'post',
+            data: {
+                productId: id
+            },
+            success: (cartData) => {
+                if(!cartData.error) {
+                    this.setState({cart: cartData});
+                }
             }
         })
     }

@@ -1,1 +1,5 @@
-<?php //Just to prevent notice
+<?php
+Api::fetchScriptData();
+wp_footer(); ?>
+</body>
+</html>
