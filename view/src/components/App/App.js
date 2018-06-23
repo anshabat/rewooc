@@ -5,7 +5,6 @@ import Dropdown from '../Nav/Dropdown/Dropdown';
 import ListNav from '../Nav/ListNav/ListNav';
 import Nav from '../Nav/Nav';
 import Autocomplete from '../Autocomplete/Autocomplete';
-import HeroBanner from '../../components/Banners/HeroBanner/HeroBanner';
 import Phone from "../Phone/Phone";
 import Card from '../UI/Card/Card';
 import Image from '../UI/Image/Image';
@@ -33,7 +32,7 @@ class App extends Component {
                 productId: id
             },
             success: (cartData) => {
-                if(!cartData.error) {
+                if (!cartData.error) {
                     this.setState({cart: cartData});
                 }
             }
@@ -53,32 +52,24 @@ class App extends Component {
                         mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
                     />
                 </div>
-                {/*<div className="pc-app__main-banner"><HeroBanner/></div>*/}
-                <div className="pc-app__featured">
-                    <div className="ps-container">
-                        <Card title="Featured Products">
-                            <div className="rw-carousel__arrows">
-                                <button className="rw-carousel__arrows" onClick={() => this.$carousel.prev()}>
-                                    Prev
-                                </button>
-                                <button className="rw-carousel__arrows" onClick={() => this.$carousel.next()}>
-                                    Next
-                                </button>
-                            </div>
-                            <Carousel ref={carousel => {
-                                this.$carousel = carousel;
-                            }}>
-                               {/* {this.props.appData.featuredProducts.map(product => (
-                                    <ProductCard
-                                        {...product}
-                                        key={product.id}
-                                        onAddToCart={this.onAddToCart}
-                                    />
-                                ))}*/}
-                            </Carousel>
-                        </Card>
+
+                {this.props.appData.widgets.homepage_main.map((widget, index) => (
+                    <div className="pc-app__featured" key={index}>
+                        <div className="ps-container">
+                            <Card title="Featured Products">
+                                <Carousel>
+                                    {widget.map(product => (
+                                        <ProductCard
+                                            {...product}
+                                            key={product.id}
+                                            onAddToCart={this.onAddToCart}
+                                        />
+                                    ))}
+                                </Carousel>
+                            </Card>
+                        </div>
                     </div>
-                </div>
+                ))}
             </div>
         )
     }

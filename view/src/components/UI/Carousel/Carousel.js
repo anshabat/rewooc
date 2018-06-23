@@ -79,6 +79,14 @@ class Carousel extends Component {
             <div className="rw-carousel" ref={element => {
                 this.$carousel = element
             }}>
+                <div className="rw-carousel__arrows">
+                    <button className="rw-carousel__arrows" onClick={() => this.prev()}>
+                        Prev
+                    </button>
+                    <button className="rw-carousel__arrows" onClick={() => this.next()}>
+                        Next
+                    </button>
+                </div>
                 {this.state.innerSlidesCount && (
                     <Fragment>
                         <div className="rw-carousel__wrapper">
