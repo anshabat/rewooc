@@ -68,13 +68,13 @@ class App extends Component {
                             <Carousel ref={carousel => {
                                 this.$carousel = carousel;
                             }}>
-                                {this.props.appData.featuredProducts.map(product => (
+                               {/* {this.props.appData.featuredProducts.map(product => (
                                     <ProductCard
                                         {...product}
                                         key={product.id}
                                         onAddToCart={this.onAddToCart}
                                     />
-                                ))}
+                                ))}*/}
                             </Carousel>
                         </Card>
                     </div>
