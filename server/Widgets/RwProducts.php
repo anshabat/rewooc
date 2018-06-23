@@ -1,13 +1,13 @@
 <?php
 
-class LatestPosts extends WP_Widget {
+class RwProducts extends WP_Widget {
 	/**
 	 * Sets up the widgets name etc
 	 */
 	public function __construct() {
-		parent::__construct( 'rewooc_latest_posts', 'Rewooc Latest posts', [
+		parent::__construct( 'rewooc_featured_products', 'Rewooc Featured product', [
 			'classname'   => 'widget_featured_products',
-			'description' => 'Rewooc Latest posts widget is awesome',
+			'description' => 'Rewooc Featured widget is awesome',
 		] );
 	}
 
@@ -18,21 +18,19 @@ class LatestPosts extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$title       = apply_filters( 'widget_title', $instance['title'] );
 
-		$postObjects = get_posts();
-		$posts = [];
-		foreach ($postObjects as $post) {
-			array_push($posts, Post::objectToArray($post));
-        }
+		$title    = apply_filters( 'widget_title', $instance['title'] );
+		$products = Products::getInstance()->getProducts( [
+			'featured' => true
+		] );
 
 		if ( isset( $args['onResult'] ) ) {
 			call_user_func( $args['onResult'], [
 				'id'        => $args['widget_id'],
 				'title'     => $title,
-				'component' => 'PostsWidget',
+				'component' => 'ProductsWidget',
 				'data'      => [
-					'posts' => $posts,
+					'products' => $products,
 				],
 			] );
 		}
