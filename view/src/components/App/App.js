@@ -12,6 +12,7 @@ import Carousel from '../UI/Carousel/Carousel';
 import ProductCard from '../Shop/Product/ProductCard/ProductCard';
 import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
 import * as utils from '../../shared';
+import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
 
 class App extends Component {
     constructor(props) {
@@ -53,23 +54,12 @@ class App extends Component {
                     />
                 </div>
 
-                {this.props.appData.widgets.homepage_main.map((widget, index) => (
-                    <div className="pc-app__featured" key={index}>
-                        <div className="ps-container">
-                            <Card title="Featured Products">
-                                <Carousel>
-                                    {widget.map(product => (
-                                        <ProductCard
-                                            {...product}
-                                            key={product.id}
-                                            onAddToCart={this.onAddToCart}
-                                        />
-                                    ))}
-                                </Carousel>
-                            </Card>
-                        </div>
-                    </div>
-                ))}
+                <div className="rw-app__homepage">
+                    <HomeLayout_1
+                        widgets={this.props.appData.widgets.homepage_main}
+                        onAddToCart={this.onAddToCart}
+                    />
+                </div>
             </div>
         )
     }
