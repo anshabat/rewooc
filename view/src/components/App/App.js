@@ -56,7 +56,8 @@ class App extends Component {
 
                 <div className="rw-app__homepage">
                     <HomeLayout_1
-                        widgets={this.props.appData.widgets.homepage_main}
+                        top={this.props.appData.widgets.homepage_main}
+                        sidebar={this.props.appData.widgets.homepage_sidebar}
                         onAddToCart={this.onAddToCart}
                     />
                 </div>

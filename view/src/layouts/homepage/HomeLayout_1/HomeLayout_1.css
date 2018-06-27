@@ -1,6 +1,13 @@
-.rwl-home-1 {
+.rw-home-1 {
 
-  &__widget {
+  &__top {
+
+  }
+
+  &__top-item {
     padding: 3rem 0;
   }
+
+
+
 }

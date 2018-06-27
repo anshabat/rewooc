@@ -36,6 +36,15 @@ class Widgets
                 }
             ]);
         }
+	    if (!is_registered_sidebar('homepage_sidebar')) {
+		    register_sidebar([
+			    'id' => 'homepage_sidebar',
+			    'name' => 'Homepage sidebar',
+			    'onResult' => function ($result) {
+				    self::addResult('homepage_sidebar', $result);
+			    }
+		    ]);
+	    }
     }
 
     /**
