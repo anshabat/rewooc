@@ -6,7 +6,7 @@ import ProductCard from '../../Shop/Product/ProductCard/ProductCard';
 const ProductsWidget = (props) => {
     return (
         <Carousel>
-            {props.products.map(product => (
+            {props.data.products.map(product => (
                 <ProductCard
                     {...product}
                     key={product.id}
