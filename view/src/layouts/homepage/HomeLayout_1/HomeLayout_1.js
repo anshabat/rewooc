@@ -33,7 +33,7 @@ const HomeLayout_1 = (props) => {
                         {props.sidebar.map(widget => {
                             return (
                                 <div className={['rw-home-1__sidebar-item', widget.id].join(' ')} key={widget.id}>
-                                    <SectionSidebar title={widget.title} carousel={1}>
+                                    <SectionSidebar title={widget.title}>
                                         <Widget
                                             {...widget}
                                             onAddToCart={props.onAddToCart}

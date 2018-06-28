@@ -1,5 +1,5 @@
 import './Carousel.css';
-import React, {Component, Children, Fragment} from 'react';
+import React, {Component, Children} from 'react';
 import * as utils from '../../../shared';
 
 class Carousel extends Component {
@@ -79,28 +79,18 @@ class Carousel extends Component {
             <div className="rw-carousel" ref={element => {
                 this.$carousel = element
             }}>
-                <div className="rw-carousel__arrows">
-                    <button className="rw-carousel__arrows" onClick={() => this.prev()}>
-                        Prev
-                    </button>
-                    <button className="rw-carousel__arrows" onClick={() => this.next()}>
-                        Next
-                    </button>
-                </div>
                 {this.state.innerSlidesCount && (
-                    <Fragment>
-                        <div className="rw-carousel__wrapper">
-                            <div className="rw-carousel__slides">
-                                {Children.map(this.props.children, (Slide, index) => {
-                                    return (
-                                        <div className="rw-carousel__slide">
-                                            {index < (this.state.lastLoadedIndex) ? Slide : null}
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                    <div className="rw-carousel__wrapper">
+                        <div className="rw-carousel__slides">
+                            {Children.map(this.props.children, (Slide, index) => {
+                                return (
+                                    <div className="rw-carousel__slide">
+                                        {index < (this.state.lastLoadedIndex) ? Slide : null}
+                                    </div>
+                                );
+                            })}
                         </div>
-                    </Fragment>
+                    </div>
                 )}
             </div>
         );

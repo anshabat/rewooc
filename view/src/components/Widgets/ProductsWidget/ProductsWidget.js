@@ -9,7 +9,9 @@ const ProductsWidget = (props) => {
 
     if (props.widgetLayout === 'carousel') {
         result = (
-            <Carousel>
+            <Carousel ref={elem => {
+                props.getCarousel(elem)
+            }}>
                 {props.data.products.map(product => (
                     <ProductCard
                         {...product}
