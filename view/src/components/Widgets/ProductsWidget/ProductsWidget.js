@@ -39,4 +39,8 @@ const ProductsWidget = (props) => {
     return result;
 };
 
+ProductsWidget.defaultProps = {
+    getCarousel: () => {}
+};
+
 export default ProductsWidget;
