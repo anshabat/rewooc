@@ -1,7 +1,8 @@
 import './HomeLayout_1.css';
 import React from 'react';
-import Card from '../../../components/UI/Card/Card';
 import Widget from '../../../hoc/Widget';
+import SectionSidebar from '../../../components/UI/sections/SectionSidebar/SectionSidebar';
+import SectionPrimary from '../../../components/UI/sections/SectionPrimary/SectionPrimary';
 
 const HomeLayout_1 = (props) => {
     return (
@@ -13,12 +14,12 @@ const HomeLayout_1 = (props) => {
                         return (
                             <div className={['rw-home-1__top-item', widget.id].join(' ')} key={widget.id}>
                                 <div className="ps-container">
-                                    <Card title={widget.title}>
+                                    <SectionPrimary title={widget.title}>
                                         <Widget
                                             {...widget}
                                             onAddToCart={props.onAddToCart}
                                         />
-                                    </Card>
+                                    </SectionPrimary>
                                 </div>
                             </div>
                         )
@@ -32,16 +33,32 @@ const HomeLayout_1 = (props) => {
                         {props.sidebar.map(widget => {
                             return (
                                 <div className={['rw-home-1__sidebar-item', widget.id].join(' ')} key={widget.id}>
-                                    <Widget
-                                        {...widget}
-                                    />
+                                    <SectionSidebar title={widget.title} carousel={1}>
+                                        <Widget
+                                            {...widget}
+                                            onAddToCart={props.onAddToCart}
+                                        />
+                                    </SectionSidebar>
                                 </div>
                             );
                         })}
                     </div>
-                    <div className="rw-home-1__main">
-
-                    </div>
+                    {props.main && (
+                        <div className="rw-home-1__main">
+                            {props.main.map(widget => {
+                                return (
+                                    <div className={['rw-home-1__main-item', widget.id].join(' ')} key={widget.id}>
+                                        <SectionPrimary title={widget.title}>
+                                            <Widget
+                                                {...widget}
+                                                onAddToCart={props.onAddToCart}
+                                            />
+                                        </SectionPrimary>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )}
                 </div>
             </div>
 

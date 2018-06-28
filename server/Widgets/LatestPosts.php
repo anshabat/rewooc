@@ -47,23 +47,32 @@ class LatestPosts extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		// outputs the options form on admin
-		$title  = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'text_domain' );
-		$layout = ! empty( $instance['layout'] ) ? $instance['layout'] : 'card';
+		$title  = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'rewooc' );
+		$layout = isset( $instance['layout'] ) ? $instance['layout'] : 'card';
 		?>
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'text_domain' ); ?></label>
-            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
-                   name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text"
+            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
+				<?php esc_attr_e( 'Title:', 'rewooc' ); ?>
+            </label>
+            <input class="widefat"
+                   id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
+                   name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
+                   type="text"
                    value="<?php echo esc_attr( $title ); ?>">
         </p>
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'layout' ) ); ?>"><?php esc_attr_e( 'Layout:', 'text_domain' ); ?></label>
-            <select
-                    name="<?php echo esc_attr( $this->get_field_name( 'layout' ) ); ?>"
+            <label for="<?php echo esc_attr( $this->get_field_id( 'layout' ) ); ?>">
+				<?php esc_attr_e( 'Post layout:', 'rewooc' ); ?>
+            </label>
+            <select name="<?php echo esc_attr( $this->get_field_name( 'layout' ) ); ?>"
                     id="<?php echo esc_attr( $this->get_field_id( 'layout' ) ); ?>"
             >
-                <option value="list" <?php selected( 'list', $layout ); ?>>list</option>
-                <option value="card" <?php selected( 'card', $layout ); ?>>card</option>
+                <option value="list" <?php selected( 'list', $layout ); ?>>
+					<?php esc_attr_e( 'List', 'rewooc' ); ?>
+                </option>
+                <option value="card" <?php selected( 'card', $layout ); ?>>
+					<?php esc_attr_e( 'Card', 'rewooc' ); ?>
+                </option>
             </select>
         </p>
 		<?php
@@ -80,8 +89,8 @@ class LatestPosts extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		// processes widget options to be saved
 		$instance           = [];
-		$instance['title']  = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
-		$instance['layout'] = ( ! empty( $new_instance['layout'] ) ) ? $new_instance['layout'] : 'card';
+		$instance['title']  = ( isset( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
+		$instance['layout'] = ( isset( $new_instance['layout'] ) ) ? $new_instance['layout'] : 'card';
 
 		return $instance;
 	}

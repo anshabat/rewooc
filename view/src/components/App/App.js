@@ -6,10 +6,7 @@ import ListNav from '../Nav/ListNav/ListNav';
 import Nav from '../Nav/Nav';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import Phone from "../Phone/Phone";
-import Card from '../UI/Card/Card';
 import Image from '../UI/Image/Image';
-import Carousel from '../UI/Carousel/Carousel';
-import ProductCard from '../Shop/Product/ProductCard/ProductCard';
 import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
 import * as utils from '../../shared';
 import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
@@ -56,7 +53,7 @@ class App extends Component {
 
                 <div className="rw-app__homepage">
                     <HomeLayout_1
-                        top={this.props.appData.widgets.homepage_main}
+                        main={this.props.appData.widgets.homepage_main}
                         sidebar={this.props.appData.widgets.homepage_sidebar}
                         onAddToCart={this.onAddToCart}
                     />

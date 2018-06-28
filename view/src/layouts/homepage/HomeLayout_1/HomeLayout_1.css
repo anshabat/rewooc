@@ -8,6 +8,25 @@
     padding: 3rem 0;
   }
 
+  &__middle {
+    display: flex;
+    width: 100%;
+  }
 
+  &__sidebar {
+    width: 300px;
+    padding-right: 30px;
+    flex-shrink: 0;
+  }
+
+  &__main {
+
+  }
+
+  &__main-item {
+    &:not(:first-child) {
+      padding-top: 3rem;
+    }
+  }
 
 }
