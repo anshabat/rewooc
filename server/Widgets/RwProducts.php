@@ -29,8 +29,6 @@ class RwProducts extends WP_Widget {
 			'featured' => true
 		] );
 
-		dump($instance);
-
 		if ( isset( $args['onResult'] ) ) {
 			call_user_func( $args['onResult'], [
 				'id'        => $args['widget_id'],
