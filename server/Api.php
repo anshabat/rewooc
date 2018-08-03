@@ -9,7 +9,5 @@ class Api {
 
 	public static function fetchScriptData() {
 		wp_localize_script( get_template(), 'rewooc', self::$data );
-
-		return;
 	}
 }

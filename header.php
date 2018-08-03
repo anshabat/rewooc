@@ -41,8 +41,7 @@ $themeMods       = $themeCustomizer->getMods();
 Api::addScriptData( 'themeMods', $themeMods );
 
 
-
 //WC()->cart->empty_cart();
-$cart = new Cart();
+$cart     = new Cart();
 $cartData = $cart->getData();
 Api::addScriptData( 'cart', $cartData );
