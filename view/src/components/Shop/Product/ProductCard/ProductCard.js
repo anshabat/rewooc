@@ -1,32 +1,29 @@
 import './ProductCard.css';
-import React, {Component} from 'react';
+import React from 'react';
 import Image from '../../../UI/Image/Image';
+import Price from '../../Price/Price';
 
-class ProductCard extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <article className="rw-product-card">
-                <div className="rw-product-card__row">
-                    <Image image={this.props.image}/>
-                </div>
-                <h3 className="rw-product-card__row">
-                    <a className="ps-link ps-link--primary" href={this.props.link}>
-                        {this.props.title}
-                    </a>
-                </h3>
-                <div className="rw-product-card__row">
-                    <strong>{this.props.price}</strong>
-                </div>
-                <a href={this.props.addToCartUrl} onClick={(e) => this.props.onAddToCart(this.props.id, e)}>
+const ProductCard = (props) => {
+    return (
+        <article className="rw-product-card">
+            <div className="rw-product-card__row">
+                <Image image={props.image}/>
+            </div>
+            <h3 className="rw-product-card__row">
+                <a className="ps-link ps-link--primary" href={props.link}>
+                    {props.title}
+                </a>
+            </h3>
+            <div className="rw-product-card__row">
+                <Price value={props.price}/>
+            </div>
+            <div className="rw-product-card__row">
+                <a href={props.addToCartUrl} onClick={(e) => props.onAddToCart(props.id, e)}>
                     Add to Cart
                 </a>
-            </article>
-        )
-    }
-}
+            </div>
+        </article>
+    )
+};
 
 export default ProductCard;
