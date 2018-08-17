@@ -1,0 +1,8 @@
+.rw-products-widget {
+
+  &--list_horizontal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 50px 30px;
+  }
+}

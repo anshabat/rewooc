@@ -29,20 +29,22 @@ const HomeLayout_1 = (props) => {
 
             <div className="ps-container">
                 <div className="rw-home-1__middle">
-                    <div className="rw-home-1__sidebar">
-                        {props.sidebar.map(widget => {
-                            return (
-                                <div className={['rw-home-1__sidebar-item', widget.id].join(' ')} key={widget.id}>
-                                    <SectionSidebar title={widget.title}>
-                                        <Widget
-                                            {...widget}
-                                            onAddToCart={props.onAddToCart}
-                                        />
-                                    </SectionSidebar>
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {props.sidebar && (
+                        <div className="rw-home-1__sidebar">
+                            {props.sidebar.map(widget => {
+                                return (
+                                    <div className={['rw-home-1__sidebar-item', widget.id].join(' ')} key={widget.id}>
+                                        <SectionSidebar title={widget.title}>
+                                            <Widget
+                                                {...widget}
+                                                onAddToCart={props.onAddToCart}
+                                            />
+                                        </SectionSidebar>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                     {props.main && (
                         <div className="rw-home-1__main">
                             {props.main.map(widget => {

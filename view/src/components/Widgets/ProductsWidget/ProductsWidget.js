@@ -23,7 +23,7 @@ const ProductsWidget = (props) => {
         );
     } else {
         result = (
-            <div className="rw-products-widget">
+            <div className={`rw-products-widget rw-products-widget--${props.widgetLayout}`}>
                 {props.data.products.map(product => (
                     <div className="rw-products-widget__item" key={product.id}>
                         <ProductCard
