@@ -5,7 +5,7 @@ import priceFormat from '../../../hoc/priceFormat';
 const Price = (props) => {
     return (
         <div className="rw-price">
-            <div className="rw-price__value">{props.value}</div>
+            <div className="rw-price__value">{props.formattedPrice}</div>
         </div>
     );
 };

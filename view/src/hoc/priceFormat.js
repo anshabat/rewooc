@@ -1,19 +1,46 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {settings} from '../index';
 
 const priceFormat = (PriceComponent) => {
 
-    return class extends Component {
+    return (props) => {
+        const formatValue = ({price, thousandSeparator = ' ', decimalSeparator = '.', decimalsCount = 2}) => {
+            const priceString = price.toFixed(decimalsCount);
+            const [intPrice, decimals] = priceString.split('.');
+            let reversedIntPrice = '';
 
-        constructor(props){
-            super(props);
-            console.log(props);
-        }
+            for (let i = intPrice.length - 1, caret = 0; i >= 0; i--, caret++) {
+                if (caret === 3) {
+                    reversedIntPrice += thousandSeparator;
+                    caret = 0;
+                }
+                reversedIntPrice += intPrice[i];
+            }
+            const resultIntPrice = reversedIntPrice.split("").reverse().join("");
 
-        render () {
-            return (
-                <PriceComponent {...this.props} addParam={1} />
-            )
-        }
+            return (decimals) ? resultIntPrice + decimalSeparator + decimals : resultIntPrice;
+        };
+
+        const formatCurrency = ({price, currency, format}) => {
+            return format.replace('%2$s', price).replace('&nbsp;', ' ').replace('%1$s', currency);
+        };
+
+        const formatPrice = () => {
+            return formatCurrency({
+                price: formatValue({
+                    price: Number(props.value),
+                    thousandSeparator: settings.price.thousandSeparator,
+                    decimalSeparator: settings.price.decimalSeparator,
+                    decimalsCount: settings.price.decimals
+                }),
+                currency: settings.price.currencySymbol,
+                format: settings.price.priceFormat
+            });
+        };
+
+        return (
+            <PriceComponent {...props} formattedPrice={formatPrice()}/>
+        )
     };
 };
 

@@ -7,6 +7,7 @@ require_once( dirname( __FILE__ ) . "/server/Setup.php" );
 require_once( dirname( __FILE__ ) . "/server/Media.php" );
 require_once( dirname( __FILE__ ) . "/server/Customizer.php" );
 require_once( dirname( __FILE__ ) . "/server/Options.php" );
+require_once( dirname( __FILE__ ) . "/server/Settings.php" );
 require_once( dirname( __FILE__ ) . "/server/Navigation.php" );
 require_once( dirname( __FILE__ ) . "/server/Shop/Cart.php" );
 require_once( dirname( __FILE__ ) . "/server/Products.php" );
