@@ -6,8 +6,6 @@ class Post {
 		$image = new Media( get_post_thumbnail_id($post), 'thumbnail' );
 		$image->setImageAlt( $post->post_title );
 
-		//dump($post);
-
 		return [
 			'id'    => $post->ID,
 			'title' => $post->post_title,
