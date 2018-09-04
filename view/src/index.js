@@ -9,11 +9,15 @@ import reducer from './store/reducers/cart';
 /* Provider */
 import {Provider} from 'react-redux';
 
+/* Middleware */
+import {applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+
 import App from './components/App/App';
 
 export const settings = window.rewooc.settings;
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
     <Provider store={store}>

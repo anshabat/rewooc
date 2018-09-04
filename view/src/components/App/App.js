@@ -72,7 +72,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddToCart: (id) => dispatch({type: 'ADD_TO_CART', id: id})
+        onAddToCart: (id, event) => dispatch(function(id, event){
+            event.preventDefault();
+            return dispatch => {
+                setTimeout(() => {
+                    dispatch({type: 'ADD_TO_CART', id: id})
+                }, 2000);
+            }
+        }(id, event))
     }
 };
 

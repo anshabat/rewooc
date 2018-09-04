@@ -18,10 +18,7 @@ const ProductCard = (props) => {
                 <Price value={props.price}/>
             </div>
             <div className="rw-product-card__row">
-                <a href={props.addToCartUrl} onClick={e => {
-                    e.preventDefault();
-                    props.onAddToCart(props.id, e);
-                }}>
+                <a href={props.addToCartUrl} onClick={e => props.onAddToCart(props.id, e)}>
                     Add to Cart
                 </a>
             </div>
