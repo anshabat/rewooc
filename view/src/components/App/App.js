@@ -10,18 +10,19 @@ import Image from '../UI/Image/Image';
 import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
 import * as utils from '../../shared';
 import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
+import {connect} from 'react-redux';
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        /*this.state = {
             cart: this.props.appData.cart
-        };
+        };*/
 
-        this.onAddToCart = this.onAddToCart.bind(this);
+        //this.onAddToCart = this.onAddToCart.bind(this);
     }
 
-    onAddToCart(id, e) {
+    /*onAddToCart(id, e) {
         e.preventDefault();
         jQuery.ajax({
             url: utils.getAjaxEndpoint('rewooc_add_to_cart'),
@@ -35,7 +36,7 @@ class App extends Component {
                 }
             }
         })
-    }
+    }*/
 
     render() {
         return (
@@ -45,8 +46,8 @@ class App extends Component {
                         headlineLeft={<Nav items={this.props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
                         headlineRight={<Phone phoneNumber={this.props.appData.themeMods.rewooc_site_phone}/>}
                         mainLeft={<Image image={this.props.appData.themeMods.custom_logo}/>}
-                        mainRight={<MiniCart count={this.state.cart.count}
-                                             subtotal={Number(this.state.cart.subtotal)}/>}
+                        mainRight={<MiniCart count={this.props.cart.count}
+                                             subtotal={Number(this.props.cart.subtotal)}/>}
                         mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
                     />
                 </div>
@@ -55,7 +56,7 @@ class App extends Component {
                     <HomeLayout_1
                         main={this.props.appData.widgets.homepage_main}
                         sidebar={this.props.appData.widgets.homepage_sidebar}
-                        onAddToCart={this.onAddToCart}
+                        onAddToCart={this.props.onAddToCart}
                     />
                 </div>
             </div>
@@ -63,4 +64,16 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        cart: state.cart
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddToCart: (id) => dispatch({type: 'ADD_TO_CART', id: id})
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
