@@ -5,8 +5,8 @@ const addToCartStart = () => {
     return {type: actionTypes.ADD_TO_CART_START}
 };
 
-const addToCartSuccess = (id) => {
-    return {type: actionTypes.ADD_TO_CART_SUCCESS, id: id}
+const addToCartSuccess = (cart) => {
+    return {type: actionTypes.ADD_TO_CART_SUCCESS, cart: cart}
 };
 
 const addToCartFail = (error) => {
@@ -26,7 +26,7 @@ export const addToCart = (id, event) => {
             },
             success: (cartData) => {
                 if (!cartData.error) {
-                    dispatch(addToCartSuccess(id))
+                    dispatch(addToCartSuccess(cartData))
                 } else {
                     dispatch(addToCartFail(cartData.error))
                 }

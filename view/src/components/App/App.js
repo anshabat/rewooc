@@ -8,37 +8,11 @@ import Autocomplete from '../Autocomplete/Autocomplete';
 import Phone from "../Phone/Phone";
 import Image from '../UI/Image/Image';
 import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
-import * as utils from '../../shared';
 import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
 import {connect} from 'react-redux';
 import {addToCart} from '../../store/actions/cart';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        /*this.state = {
-            cart: this.props.appData.cart
-        };*/
-
-        //this.onAddToCart = this.onAddToCart.bind(this);
-    }
-
-    /*onAddToCart(id, e) {
-        e.preventDefault();
-        jQuery.ajax({
-            url: utils.getAjaxEndpoint('rewooc_add_to_cart'),
-            method: 'post',
-            data: {
-                productId: id
-            },
-            success: (cartData) => {
-                if (!cartData.error) {
-                    this.setState({cart: cartData});
-                }
-            }
-        })
-    }*/
-
     render() {
         return (
             <div className={`pc-app pc-app--${this.props.appData.themeMods.rewooc_site_layout}`}>

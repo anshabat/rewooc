@@ -5,8 +5,12 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    if(action.type === actionTypes.ADD_TO_CART_SUCCESS) {
-        console.log(action);
+    switch(action.type) {
+        case actionTypes.ADD_TO_CART_SUCCESS :
+            return {cart: action.cart};
+        case actionTypes.ADD_TO_CART_FAIL :
+            console.log(action.error);
+            return state;
     }
     return state;
 };
