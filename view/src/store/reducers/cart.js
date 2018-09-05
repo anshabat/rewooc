@@ -3,9 +3,9 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    if(action.type === 'ADD_TO_CART') {
+    //if(action.type === 'ADD_TO_CART') {
         console.log(action);
-    }
+    //}
     return state;
 };
 

@@ -11,6 +11,7 @@ import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
 import * as utils from '../../shared';
 import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
 import {connect} from 'react-redux';
+import {addToCart} from '../../store/actions/cart';
 
 class App extends Component {
     constructor(props) {
@@ -72,14 +73,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddToCart: (id, event) => dispatch(function(id, event){
-            event.preventDefault();
-            return dispatch => {
-                setTimeout(() => {
-                    dispatch({type: 'ADD_TO_CART', id: id})
-                }, 2000);
-            }
-        }(id, event))
+        onAddToCart: (id, event) => dispatch(addToCart(id, event))
     }
 };
 
