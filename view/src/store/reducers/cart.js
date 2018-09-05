@@ -1,11 +1,13 @@
+import * as actionTypes from '../actions';
+
 const initialState = {
     cart: window.rewooc.cart
 };
 
 const reducer = (state = initialState, action) => {
-    //if(action.type === 'ADD_TO_CART') {
+    if(action.type === actionTypes.ADD_TO_CART_SUCCESS) {
         console.log(action);
-    //}
+    }
     return state;
 };
 

@@ -1,15 +1,16 @@
 import * as utils from '../../shared/index';
+import * as actionTypes from './index';
 
 const addToCartStart = () => {
-    return {type: 'ADD_TO_CART_START'}
+    return {type: actionTypes.ADD_TO_CART_START}
 };
 
 const addToCartSuccess = (id) => {
-    return {type: 'ADD_TO_CART_SUCCESS', id: id}
+    return {type: actionTypes.ADD_TO_CART_SUCCESS, id: id}
 };
 
 const addToCartFail = (error) => {
-    return {type: 'ADD_TO_CART_FAIL', error: error}
+    return {type: actionTypes.ADD_TO_CART_FAIL, error: error}
 };
 
 export const addToCart = (id, event) => {
