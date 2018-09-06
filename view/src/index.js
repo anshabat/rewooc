@@ -5,15 +5,13 @@ import ReactDOM from "react-dom";
 /* Store and Reducer */
 import {createStore} from 'redux';
 import reducer from './store/reducers/cart';
-
-/* Provider */
 import {Provider} from 'react-redux';
-
-/* Middleware */
 import {applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
+/* Application */
 import App from './containers/App/App';
+import Archive from './containers/Archive/Archive';
 
 export const settings = window.rewooc.settings;
 

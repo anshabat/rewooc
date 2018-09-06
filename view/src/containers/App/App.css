@@ -3,7 +3,7 @@ html {
   font-size: var(--font-size);
 }
 
-.pc-app {
+.rw-app {
 
   &--boxed {
     max-width: var(--container-width);
@@ -21,7 +21,12 @@ html {
     text-align: center;
   }
 
-  &__homepage {
+  &__main {
 
+  }
+
+  &__footer{
+    height: 300px;
+    background-color: lightblue;
   }
 }
