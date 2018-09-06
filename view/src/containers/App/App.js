@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {addToCart} from '../../store/actions/cart';
 import Layout from '../Layout/Layout';
 import Archive from '../Archive/Archive';
+import {Route} from 'react-router-dom';
 
 class App extends Component {
     render() {
@@ -13,15 +14,13 @@ class App extends Component {
                     cart={this.props.cart}
                     onAddToCart={this.props.onAddToCart}
             >
-                {(1 !== 1) ? (
-                    <HomeLayout_1
-                        main={this.props.appData.widgets.homepage_main}
-                        sidebar={this.props.appData.widgets.homepage_sidebar}
-                        onAddToCart={this.props.onAddToCart}
-                    />
-                ) : (
-                    <Archive />
-                )}
+                <Route path="/" render={(props) => <HomeLayout_1
+                    {...props}
+                    main={this.props.appData.widgets.homepage_main}
+                    sidebar={this.props.appData.widgets.homepage_sidebar}
+                    onAddToCart={this.props.onAddToCart}
+                />}/>
+                <Route path="/shop" component={Archive}/>
             </Layout>
         )
     }
