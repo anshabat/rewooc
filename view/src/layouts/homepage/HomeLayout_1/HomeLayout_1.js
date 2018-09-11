@@ -17,7 +17,6 @@ const HomeLayout_1 = (props) => {
                                     <SectionPrimary title={widget.title}>
                                         <Widget
                                             {...widget}
-                                            onAddToCart={props.onAddToCart}
                                         />
                                     </SectionPrimary>
                                 </div>
@@ -37,7 +36,6 @@ const HomeLayout_1 = (props) => {
                                         <SectionSidebar title={widget.title}>
                                             <Widget
                                                 {...widget}
-                                                onAddToCart={props.onAddToCart}
                                             />
                                         </SectionSidebar>
                                     </div>
@@ -53,7 +51,6 @@ const HomeLayout_1 = (props) => {
                                         <SectionPrimary title={widget.title}>
                                             <Widget
                                                 {...widget}
-                                                onAddToCart={props.onAddToCart}
                                             />
                                         </SectionPrimary>
                                     </div>

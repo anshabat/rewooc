@@ -2,6 +2,7 @@ import './ProductsWidget.css';
 import React from 'react';
 import Carousel from '../../UI/Carousel/Carousel';
 import ProductCard from '../../Shop/Product/ProductCard/ProductCard';
+import Product from '../../../containers/Product/Product';
 
 const ProductsWidget = (props) => {
 
@@ -16,7 +17,6 @@ const ProductsWidget = (props) => {
                     <ProductCard
                         {...product}
                         key={product.id}
-                        onAddToCart={props.onAddToCart}
                     />
                 ))}
             </Carousel>
@@ -26,10 +26,11 @@ const ProductsWidget = (props) => {
             <div className={`rw-products-widget rw-products-widget--${props.widgetLayout}`}>
                 {props.data.products.map(product => (
                     <div className="rw-products-widget__item" key={product.id}>
-                        <ProductCard
-                            {...product}
-                            onAddToCart={props.onAddToCart}
-                        />
+                        <Product>
+                            <ProductCard
+                                {...product}
+                            />
+                        </Product>
                     </div>
                 ))}
             </div>
@@ -40,7 +41,8 @@ const ProductsWidget = (props) => {
 };
 
 ProductsWidget.defaultProps = {
-    getCarousel: () => {}
+    getCarousel: () => {
+    }
 };
 
 export default ProductsWidget;
