@@ -5,17 +5,15 @@ import {compose} from 'redux'
 
 const product = (WrappedComponent) => {
     return class extends Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                inCart: false
-            }
+        isInCart(id, itemKeys) {
+            return Object.values(itemKeys).some(item => (item.product_id || item.variation_id) === id);
         }
 
         render() {
             return <WrappedComponent
                 {...this.props}
                 onAddToCart={this.props.onAddToCart}
+                inCart={this.isInCart(this.props.id, this.props.cart.items)}
             />
         }
     }
