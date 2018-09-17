@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const ConnectCarousel = (WrappedComponent) => {
+const ConnectCarousel = (ComposedComponent) => {
     return class extends Component {
 
         constructor(props) {
@@ -22,12 +22,12 @@ const ConnectCarousel = (WrappedComponent) => {
         render() {
             return (
                 <div>
-                    <WrappedComponent
+                    <ComposedComponent
                         {...this.props}
                         carousel={this.state.carousel}
                     >
                         {React.cloneElement(this.props.children, {getCarousel: this.getCarousel})}
-                    </WrappedComponent>
+                    </ComposedComponent>
                 </div>
             )
         }

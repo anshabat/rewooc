@@ -1,7 +1,7 @@
 import React from 'react';
 import {settings} from '../index';
 
-const priceFormat = (PriceComponent) => {
+const priceFormat = (ComposedComponent) => {
 
     return (props) => {
         const formatValue = ({price, thousandSeparator = ' ', decimalSeparator = '.', decimalsCount = 2}) => {
@@ -39,7 +39,7 @@ const priceFormat = (PriceComponent) => {
         };
 
         return (
-            <PriceComponent {...props} formattedPrice={formatPrice()}/>
+            <ComposedComponent {...props} formattedPrice={formatPrice()}/>
         )
     };
 };
