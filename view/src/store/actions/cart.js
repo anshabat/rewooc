@@ -1,8 +1,8 @@
 import * as utils from '../../shared/index';
 import * as actionTypes from './index';
 
-const addToCartStart = () => {
-    return {type: actionTypes.ADD_TO_CART_START}
+const addToCartStart = (id) => {
+    return {type: actionTypes.ADD_TO_CART_START, id: id}
 };
 
 const addToCartSuccess = (cart) => {
@@ -17,7 +17,7 @@ export const addToCart = (id, event) => {
     event.preventDefault();
 
     return dispatch => {
-        dispatch(addToCartStart());
+        dispatch(addToCartStart(id));
         jQuery.ajax({
             url: utils.getAjaxEndpoint('rewooc_add_to_cart'),
             method: 'post',

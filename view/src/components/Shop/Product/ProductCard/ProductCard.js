@@ -20,13 +20,11 @@ const ProductCard = (props) => {
             </div>
             <div className="rw-product-card__row">
                 {props.inCart ? (
-                    <a href="#">
-                        In Cart
-                    </a>
+                    <a href="#">In Cart</a>
+                ) : props.isAdding ? (
+                    <span>Adding...</span>
                 ) : (
-                    <a href={props.addToCartUrl} onClick={e => props.onAddToCart(props.id, e)}>
-                        Add to Cart
-                    </a>
+                    <a href={props.addToCartUrl} onClick={e => props.onAddToCart(props.id, e)}>Add to Cart</a>
                 )}
             </div>
         </article>

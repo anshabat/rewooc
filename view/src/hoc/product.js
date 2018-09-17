@@ -14,6 +14,7 @@ const product = (WrappedComponent) => {
                 {...this.props}
                 onAddToCart={this.props.onAddToCart}
                 inCart={this.isInCart(this.props.id, this.props.cart.items)}
+                isAdding={this.props.id === this.props.addingId}
             />
         }
     }
@@ -21,7 +22,8 @@ const product = (WrappedComponent) => {
 
 const mapStateToProps = state => {
     return {
-        cart: state.cart
+        cart: state.cart,
+        addingId: state.addingId
     }
 };
 
