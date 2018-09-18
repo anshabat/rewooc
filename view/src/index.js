@@ -1,17 +1,17 @@
 import './assets/css/core/reboot.css';
 import React from 'react';
 import ReactDOM from "react-dom";
-import {createStore} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import reducer from './store/reducers/cart';
 import {Provider} from 'react-redux';
-import {applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {BrowserRouter} from 'react-router-dom';
 import App from './containers/App/App';
 
 export const settings = window.rewooc.settings;
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>
