@@ -1,5 +1,5 @@
 import React from 'react';
-import {settings} from '../index';
+import {appData} from '../index';
 
 const priceFormat = (ComposedComponent) => {
 
@@ -29,12 +29,12 @@ const priceFormat = (ComposedComponent) => {
             return formatCurrency({
                 price: formatValue({
                     price: Number(props.value),
-                    thousandSeparator: settings.price.thousandSeparator,
-                    decimalSeparator: settings.price.decimalSeparator,
-                    decimalsCount: settings.price.decimals
+                    thousandSeparator: appData.settings.price.thousandSeparator,
+                    decimalSeparator: appData.settings.price.decimalSeparator,
+                    decimalsCount: appData.settings.price.decimals
                 }),
-                currency: settings.price.currencySymbol,
-                format: settings.price.priceFormat
+                currency: appData.settings.price.currencySymbol,
+                format: appData.settings.price.priceFormat
             });
         };
 

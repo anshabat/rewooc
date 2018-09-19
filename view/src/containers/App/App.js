@@ -1,6 +1,7 @@
 import './App.css';
 import React, {Component} from 'react';
 import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
+import Home from '../Home/Home';
 import {connect} from 'react-redux';
 import Layout from '../Layout/Layout';
 import Archive from '../Archive/Archive';
@@ -12,11 +13,7 @@ class App extends Component {
             <Layout appData={this.props.appData}
                     cart={this.props.cart}
             >
-                <Route path="/" render={(props) => <HomeLayout_1
-                    {...props}
-                    main={this.props.appData.widgets.homepage_main}
-                    sidebar={this.props.appData.widgets.homepage_sidebar}
-                />}/>
+                <Route path="/" component={Home}/>
                 <Route path="/shop" component={Archive}/>
             </Layout>
         )

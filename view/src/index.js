@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 import {BrowserRouter} from 'react-router-dom';
 import App from './containers/App/App';
 
-export const settings = window.rewooc.settings;
+export const appData = window.rewooc;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
