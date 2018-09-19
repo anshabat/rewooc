@@ -7,7 +7,7 @@ const ProductsWidget = (props) => {
 
     let result = null;
 
-    if (props.widgetLayout === 'carousel') {
+    if (props.layout === 'carousel') {
         result = (
             <Carousel ref={elem => {
                 props.getCarousel(elem)
@@ -22,7 +22,7 @@ const ProductsWidget = (props) => {
         );
     } else {
         result = (
-            <div className={`rw-products-widget rw-products-widget--${props.widgetLayout}`}>
+            <div className={`rw-products-widget rw-products-widget--${props.layout}`}>
                 {props.data.products.map(product => (
                     <div className="rw-products-widget__item" key={product.id}>
                         <ProductCard

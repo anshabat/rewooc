@@ -21,14 +21,12 @@ const ConnectCarousel = (ComposedComponent) => {
 
         render() {
             return (
-                <div>
-                    <ComposedComponent
-                        {...this.props}
-                        carousel={this.state.carousel}
-                    >
-                        {React.cloneElement(this.props.children, {getCarousel: this.getCarousel})}
-                    </ComposedComponent>
-                </div>
+                <ComposedComponent
+                    {...this.props}
+                    carousel={this.state.carousel}
+                >
+                    {React.cloneElement(this.props.children, {getCarousel: this.getCarousel})}
+                </ComposedComponent>
             )
         }
     }

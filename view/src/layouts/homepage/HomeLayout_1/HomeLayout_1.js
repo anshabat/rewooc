@@ -12,7 +12,7 @@ const HomeLayout_1 = (props) => {
                 <div className="rw-home-1__top">
                     {props.top.map(widget => {
                         return (
-                            <div className={['rw-home-1__top-item', widget.id].join(' ')} key={widget.id}>
+                            <div className="rw-home-1__top-item" key={widget.id}>
                                 <div className="ps-container">
                                     <SectionPrimary title={widget.title}>
                                         <Widget
@@ -32,7 +32,7 @@ const HomeLayout_1 = (props) => {
                         <div className="rw-home-1__sidebar">
                             {props.sidebar.map(widget => {
                                 return (
-                                    <div className={['rw-home-1__sidebar-item', widget.id].join(' ')} key={widget.id}>
+                                    <div className="rw-home-1__sidebar-item" key={widget.id}>
                                         <SectionSidebar title={widget.title}>
                                             <Widget
                                                 {...widget}
@@ -47,7 +47,7 @@ const HomeLayout_1 = (props) => {
                         <div className="rw-home-1__main">
                             {props.main.map(widget => {
                                 return (
-                                    <div className={['rw-home-1__main-item', widget.id].join(' ')} key={widget.id}>
+                                    <div className="rw-home-1__main-item" key={widget.id}>
                                         <SectionPrimary title={widget.title}>
                                             <Widget
                                                 {...widget}

@@ -34,7 +34,7 @@ class RwProducts extends WP_Widget {
 				'id'        => $args['widget_id'],
 				'title'     => $title,
 				'component' => 'ProductsWidget',
-				'widgetLayout'  => $instance['widgetLayout'],
+				'layout'  => $instance['layout'],
 				'data'      => [
 					'products' => $products,
 				],
@@ -50,7 +50,7 @@ class RwProducts extends WP_Widget {
 	public function form( $instance ) {
 		// outputs the options form on admin
 		$title    = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'rewooc' );
-		$widgetLayout = isset( $instance['widgetLayout'] ) ? $instance['widgetLayout'] : 'list_horizontal';
+		$layout = isset( $instance['layout'] ) ? $instance['layout'] : 'list_horizontal';
 		?>
         <p>
             <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
@@ -61,18 +61,18 @@ class RwProducts extends WP_Widget {
                    value="<?php echo esc_attr( $title ); ?>">
         </p>
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'widgetLayout' ) ); ?>"><?php esc_attr_e( 'Widget layout:', 'rewooc' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'layout' ) ); ?>"><?php esc_attr_e( 'Widget layout:', 'rewooc' ); ?></label>
             <select
-                    name="<?php echo esc_attr( $this->get_field_name( 'widgetLayout' ) ); ?>"
-                    id="<?php echo esc_attr( $this->get_field_id( 'widgetLayout' ) ); ?>"
+                    name="<?php echo esc_attr( $this->get_field_name( 'layout' ) ); ?>"
+                    id="<?php echo esc_attr( $this->get_field_id( 'layout' ) ); ?>"
             >
-                <option value="list_horizontal" <?php selected( 'list_horizontal', $widgetLayout ); ?>>
+                <option value="list_horizontal" <?php selected( 'list_horizontal', $layout ); ?>>
                     <?php esc_attr_e( 'List horizontal', 'rewooc' ); ?>
                 </option>
-                <option value="list_vertical" <?php selected( 'list_vertical', $widgetLayout ); ?>>
+                <option value="list_vertical" <?php selected( 'list_vertical', $layout ); ?>>
 	                <?php esc_attr_e( 'List vertical', 'rewooc' ); ?>
                 </option>
-                <option value="carousel" <?php selected( 'carousel', $widgetLayout ); ?>>
+                <option value="carousel" <?php selected( 'carousel', $layout ); ?>>
 	                <?php esc_attr_e( 'Carousel', 'rewooc' ); ?>
                 </option>
             </select>
@@ -92,7 +92,7 @@ class RwProducts extends WP_Widget {
 		// processes widget options to be saved
 		$instance             = [];
 		$instance['title']    = ( isset( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
-		$instance['widgetLayout'] = ( isset( $new_instance['widgetLayout'] ) ) ? $new_instance['widgetLayout'] : 'list_horizontal';
+		$instance['layout'] = ( isset( $new_instance['layout'] ) ) ? $new_instance['layout'] : 'list_horizontal';
 
 		return $instance;
 	}
