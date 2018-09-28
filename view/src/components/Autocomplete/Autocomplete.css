@@ -1,0 +1,14 @@
+.rw-autocomplete {
+  position: relative;
+
+  &__results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid var(--form-field-border-color);
+    border-radius: 5px;
+  }
+
+}

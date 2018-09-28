@@ -1,0 +1,13 @@
+.rw-product-card {
+  &__row {
+
+  }
+
+  &__title-link {
+
+  }
+
+  img {
+    max-width: 100px;
+  }
+}

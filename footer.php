@@ -1,7 +1,5 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
+Api::fetchScriptData();
 wp_footer(); ?>
 </body>
 </html>

@@ -1,0 +1,31 @@
+.rw-carousel {
+  --slides: 3;
+  --offset: 0;
+
+  background-color: rgba(255, 0, 0, 0.1);
+
+  @media (min-width: 1000px) {
+    --slides: 4;
+  }
+
+  &__wrapper {
+    overflow: hidden;
+  }
+
+  &__slides {
+    display: flex;
+    transform: translateX(calc(var(--offset) * 1%));
+    transition: transform 1s;
+  }
+
+  &__slide {
+    border: 1px solid #000;
+    height: 200px;
+    width: calc((100 / var(--slides)) * 1%);
+    flex-shrink: 0;
+    transform: translateX(0);
+  }
+  &__arrows {
+
+  }
+}
