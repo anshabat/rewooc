@@ -2,16 +2,14 @@ import './App.css';
 import React, {Component} from 'react';
 import Home from '../Home/Home';
 import {connect} from 'react-redux';
-import Layout from '../Layout/Layout';
+import Layout from '../../components/Layout/Layout';
 import Archive from '../Archive/Archive';
 import {Route, withRouter} from 'react-router-dom';
 
 class App extends Component {
     render() {
         return (
-            <Layout appData={this.props.appData}
-                    cart={this.props.cart}
-            >
+            <Layout cart={this.props.cart}>
                 <Route path="/" exact component={Home}/>
                 <Route path="/shop" component={Archive}/>
             </Layout>

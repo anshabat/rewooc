@@ -8,15 +8,16 @@ import Autocomplete from '../../components/Autocomplete/Autocomplete';
 import Phone from "../../components/Phone/Phone";
 import Image from '../../components/UI/Image/Image';
 import MiniCart from '../../components/Shop/Cart/MiniCart/MiniCart';
+import {appData} from '../../index';
 
 const Layout = (props) => {
     return (
-        <div className={`rw-app rw-app--${props.appData.themeMods.rewooc_site_layout}`}>
+        <div className={`rw-app rw-app--${appData.themeMods.rewooc_site_layout}`}>
             <div className="rw-app__header">
                 <Header
-                    headlineLeft={<Nav items={props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
-                    headlineRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone}/>}
-                    mainLeft={<Image image={props.appData.themeMods.custom_logo}/>}
+                    headlineLeft={<Nav items={appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
+                    headlineRight={<Phone phoneNumber={appData.themeMods.rewooc_site_phone}/>}
+                    mainLeft={<Image image={appData.themeMods.custom_logo}/>}
                     mainRight={<MiniCart count={props.cart.count}
                                          subtotal={Number(props.cart.subtotal)}/>}
                     mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
