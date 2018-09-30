@@ -1,0 +1,18 @@
+.pc-price {
+  display: inline-flex;
+  margin: 0 -2px;
+
+  &--has-space {
+    & > * {
+      padding: 0 2px;
+    }
+  }
+
+  &__value {
+
+  }
+
+  &__currency {
+
+  }
+}

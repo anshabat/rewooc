@@ -20,7 +20,6 @@
 
   &__slide {
     border: 1px solid #000;
-    height: 200px;
     width: calc((100 / var(--slides)) * 1%);
     flex-shrink: 0;
     transform: translateX(0);

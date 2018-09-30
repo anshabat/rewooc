@@ -49,7 +49,7 @@ class Products {
 		wp_send_json( $cartData );
 	}
 
-	private function convertProductObjectToArray( $productObjects ) {
+	public function convertProductObjectToArray( $productObjects ) {
 		//TODO Приймати аргументом масив ключів які слід отримати, якщо пусто, то повертати всі
 		$products = [];
 		foreach ( $productObjects as $productObject ) {

@@ -1,13 +1,12 @@
 .rw-product-card {
-  &__row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  &__row {
   }
 
   &__title-link {
 
-  }
-
-  img {
-    max-width: 100px;
   }
 }

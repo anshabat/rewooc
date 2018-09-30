@@ -42,14 +42,26 @@ class Customizer {
 			'type'    => 'radio',
 			'label'   => 'Site Layout',
 			'section' => get_template() . '_layout',
-			'choices' => array(
+			'choices' => [
 				'fluid' => __( 'Full width', get_template() . '_admin' ),
 				'boxed' => __( 'Boxed', get_template() . '_admin' )
-			),
+			],
 		] );
 
-		$wp_customize->add_setting( get_template() . '_site_phone' );
+		$wp_customize->add_setting(get_template() . '_homepage_layout', [
+			'default' => 'no-sidebar'
+		]);
+		$wp_customize->add_control(get_template() . '_homepage_layout', [
+			'type' => 'radio',
+			'label' => 'Homepage Layout',
+			'section' => get_template() . '_layout',
+			'choices' => [
+				'no-sidebar' => __( 'No sidebar', get_template() . '_admin' ),
+				'sidebar' => __( 'Sidebar', get_template() . '_admin' )
+			]
+		]);
 
+		$wp_customize->add_setting( get_template() . '_site_phone' );
 		$wp_customize->add_control( get_template() . '_site_phone', [
 			'label'   => 'Phone',
 			'type'    => 'text',
@@ -62,6 +74,10 @@ class Customizer {
 		$options['custom_logo'] = $this->getLogo();
 
 		return $options;
+	}
+
+	public function getMode($name) {
+		return $this->getMods()[get_template() . '_' . $name];
 	}
 
 	public function getLogo() {

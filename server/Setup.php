@@ -74,5 +74,7 @@ class Setup
         /* Woocommerce */
         add_theme_support('woocommerce');
     }
+
 }
+
 new Setup();

@@ -14,3 +14,7 @@ export const debounce = (callback, delay = 300) => {
         }, delay)
     }
 };
+
+export const cutUrlDomain = (url) => {
+    return url.replace(location.origin, '');
+};
