@@ -1,8 +1,15 @@
 <?php
-get_header();
+Api::renderPage( function () {
+	if ( wc_get_loop_prop( 'total' ) ) {
+		$products = [];
+		while ( have_posts() ) {
+			the_post();
+			$products[] = wc_get_product( get_the_ID() );
+		}
+	}
+	$products = Products::getInstance()->convertProductObjectToArray( $products );
 
-/* Get all shop products. Only for shop page. This is temp case */
-$catalog = Products::getInstance()->getProducts();
-Api::addScriptData('catalog', $catalog);
-
-get_footer();
+	return [
+		'products' => $products
+	];
+} );

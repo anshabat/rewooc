@@ -50,18 +50,18 @@ class Widgets {
 		array_push( self::$widgetsResults[ $sidebar ], $widgetData );
 	}
 
-	public static function getResults() {
-		return self::$widgetsResults;
-	}
-
 	/**
 	 * Output widget script
 	 *
 	 * @param string $sidebar - name of widget sidebar
+	 *
+	 * @return array sidebar widgets results
 	 */
 	public static function renderSidebar( $sidebar ) {
 		if ( is_registered_sidebar( $sidebar ) ) {
 			dynamic_sidebar( $sidebar );
 		}
+
+		return self::$widgetsResults[ $sidebar ];
 	}
 }

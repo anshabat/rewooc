@@ -1,14 +1,35 @@
 import React, {Component} from 'react';
-import {appData} from '../../index';
 import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            widgets: null
+        };
+    }
+
+    componentDidMount() {
+        jQuery.ajax({
+            url: window.location.href,
+            success: (data) => {
+                this.setState({
+                    widgets: data.widgets
+                });
+            }
+        });
+    }
+
     render() {
-        return (
+        return this.state.widgets ? (
             <HomeLayout_1
-                main={appData.widgets.homepage_main}
-                sidebar={appData.widgets.homepage_sidebar}
+                main={this.state.widgets.homepage_main}
+                sidebar={this.state.widgets.homepage_sidebar}
             />
+        ) : (
+            <div>
+                Loading homepage
+            </div>
         )
     }
 }
