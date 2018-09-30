@@ -18,7 +18,6 @@ require_once( dirname( __FILE__ ) . "/server/Media.php" );
 require_once( dirname( __FILE__ ) . "/server/Customizer.php" );
 require_once( dirname( __FILE__ ) . "/server/Options.php" );
 require_once( dirname( __FILE__ ) . "/server/Navigation.php" );
-require_once( dirname( __FILE__ ) . "/server/Products.php" );
 require_once( dirname( __FILE__ ) . "/server/Post.php" );
 require_once( dirname( __FILE__ ) . "/server/Widgets.php" );
 require_once( dirname( __FILE__ ) . "/server/Widgets/RwProducts.php" );
