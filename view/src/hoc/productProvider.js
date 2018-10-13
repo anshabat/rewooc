@@ -3,7 +3,7 @@ import {addToCart} from '../store/actions/cart';
 import {connect} from 'react-redux';
 import {compose} from 'redux'
 
-const product = (ComposedComponent) => {
+const productProvider = (ComposedComponent) => {
     return class extends Component {
         isInCart(id, itemKeys) {
             return Object.values(itemKeys).some(item => (item.product_id || item.variation_id) === id);
@@ -35,7 +35,7 @@ const mapDispatchToProps = dispatch => {
 
 const composedProduct = compose(
     connect(mapStateToProps, mapDispatchToProps),
-    product
+    productProvider
 );
 
 export default composedProduct;
