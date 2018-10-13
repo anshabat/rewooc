@@ -9,6 +9,7 @@
     background-color: #fff;
     border: 1px solid var(--form-field-border-color);
     border-radius: 5px;
+    z-index: var(--z-index-dropdown, 100);
   }
 
 }

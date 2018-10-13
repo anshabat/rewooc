@@ -1,4 +1,5 @@
 import './assets/css/core/reboot.css';
+import './assets/css/core/variables.css';
 import React from 'react';
 import ReactDOM from "react-dom";
 import {createStore, applyMiddleware, compose} from 'redux';
