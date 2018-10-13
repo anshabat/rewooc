@@ -1,6 +1,7 @@
 export {
     debounce,
-    siteUrl
+    siteUrl,
+    baseUrl
 } from './utilities';
 
 export {

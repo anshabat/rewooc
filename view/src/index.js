@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {BrowserRouter} from 'react-router-dom';
 import App from './containers/App/App';
+import {baseUrl} from './shared';
 
 export const appData = window.rewooc;
 
@@ -16,7 +17,7 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter basename={appData.settings.baseUrl}>
+        <BrowserRouter basename={baseUrl('/')}>
             <App appData={window.rewooc}/>
         </BrowserRouter>
     </Provider>,

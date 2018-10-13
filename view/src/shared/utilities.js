@@ -20,3 +20,8 @@ export const debounce = (callback, delay = 300) => {
 export const siteUrl = (url) => {
     return url.replace(location.origin + appData.settings.baseUrl, '');
 };
+
+
+export const baseUrl = (url = '') => {
+    return appData.settings.baseUrl + url;
+};
