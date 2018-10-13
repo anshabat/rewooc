@@ -3,7 +3,7 @@ import React from 'react';
 import Nav from '../Nav';
 import Icon from '../../UI/Icon/Icon';
 import {NavLink} from 'react-router-dom';
-import * as utils from '../../../shared/index';
+import {siteUrl} from '../../../shared';
 
 const ListNav = (props) => (
     <ul className={`pc-list-nav pc-list-nav--depth-${props.depth}`}>
@@ -13,7 +13,7 @@ const ListNav = (props) => (
                 onMouseLeave={() => props.hideItem(item)}
                 key={item.ID}
             >
-                <NavLink className="pc-list-nav__link" to={utils.cutUrlDomain(item.url)}>
+                <NavLink className="pc-list-nav__link" to={siteUrl(item.url)}>
                     {item.title}
                     {props.hasChildItems(item) ? (
                         <Icon name="fa-angle-down" classes={['pc-list-nav__arrow']} />

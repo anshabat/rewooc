@@ -15,7 +15,7 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename={appData.settings.baseUrl}>
             <App appData={window.rewooc}/>
         </BrowserRouter>
     </Provider>,
