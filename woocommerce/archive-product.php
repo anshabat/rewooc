@@ -1,5 +1,5 @@
 <?php
-Api::renderPage( function () {
+View::renderPage( function () {
 	if ( wc_get_loop_prop( 'total' ) ) {
 		$products = [];
 		while ( have_posts() ) {

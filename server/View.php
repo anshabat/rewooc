@@ -3,7 +3,7 @@
 /**
  * Class Api Provide data to Frontend regarding current Route
  */
-class Api {
+class View {
 	private static $data = [];
 
 	public static function addScriptData( $key, $val ) {
@@ -19,20 +19,12 @@ class Api {
 	}
 
 	public static function renderPage( $function ) {
-		if ( self::isAjax() ) {
+		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest' ) {
 			$data = call_user_func($function);
 			wp_send_json($data);
 		} else {
 			get_header();
 			get_footer();
 		}
-	}
-
-	public static function isAjax() {
-		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest' ) {
-			return true;
-		}
-
-		return false;
 	}
 }

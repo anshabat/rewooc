@@ -33,14 +33,14 @@
 
 $headerNav      = new Navigation( 'header_nav' );
 $headerNavItems = $headerNav->getNav( [ 'ID', 'title', 'menu_item_parent', 'url' ] );
-Api::addScriptData( 'headerNavigation', $headerNavItems );
+View::addScriptData( 'headerNavigation', $headerNavItems );
 
 $themeCustomizer = Customizer::getInstance();
 $themeMods       = $themeCustomizer->getMods();
-Api::addScriptData( 'themeMods', $themeMods );
+View::addScriptData( 'themeMods', $themeMods );
 
 
 WC()->cart->empty_cart();
 $cart     = new Cart();
 $cartData = $cart->getData();
-Api::addScriptData( 'cart', $cartData );
+View::addScriptData( 'cart', $cartData );

@@ -1,6 +1,6 @@
 <?php
 
-Api::renderPage(function(){
+View::renderPage(function(){
 	return [
 		'widgets' => [
 			'homepage_main'    => Widgets::renderSidebar( 'homepage_main' ),

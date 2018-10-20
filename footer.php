@@ -1,6 +1,6 @@
 <?php
-Api::addScriptData( 'settings', Settings::getResults() );
-Api::fetchScriptData();
+View::addScriptData( 'settings', Settings::getResults() );
+View::fetchScriptData();
 wp_footer(); ?>
 </body>
 </html>
