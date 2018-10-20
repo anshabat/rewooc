@@ -10,25 +10,25 @@ class Products {
 	}
 
 	private function __construct() {
-		add_action( 'wc_ajax_rw_search_products', [ $this, 'search' ] );
+		add_action( 'wc_ajax_rewooc_search_products', [ $this, 'search' ] );
 		add_action( 'wc_ajax_rewooc_add_to_cart', [ $this, 'addToCart' ] );
 	}
 
 	public function search() {
-		$search = wc_clean( stripslashes( $_GET['search'] ) );
+		$term = wc_clean( stripslashes( $_GET['term'] ) );
 
-		if ( empty( $search ) ) {
+		if ( empty( $term ) ) {
 			wp_die();
 		}
 
 		$dataStore = WC_Data_Store::load( 'product' );
-		$ids       = $dataStore->search_products( $search, '', true );
+		$ids       = $dataStore->search_products( $term, '', true );
 
 		if ( ! empty( $_GET['limit'] ) ) {
 			$ids = array_slice( $ids, 0, absint( $_GET['limit'] ) );
 		}
 
-		$productObjects = array_filter( array_map( 'wc_get_product', $ids ), 'wc_products_array_filter_editable' );
+		$productObjects = array_filter( array_map( 'wc_get_product', $ids ), 'wc_products_array_filter_visible' );
 		$products       = $this->convertProductObjectToArray( $productObjects );
 		wp_send_json( $products );
 	}

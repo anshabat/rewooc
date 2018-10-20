@@ -1,9 +1,6 @@
 export {
     debounce,
     siteUrl,
-    baseUrl
+    baseUrl,
+    ajaxEndpoint
 } from './utilities';
-
-export {
-    getAjaxEndpoint
-} from './wordpress';

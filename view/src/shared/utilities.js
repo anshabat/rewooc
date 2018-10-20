@@ -25,3 +25,7 @@ export const siteUrl = (url) => {
 export const baseUrl = (url = '') => {
     return appData.settings.baseUrl + url;
 };
+
+export const ajaxEndpoint = (action) => {
+    return appData.settings.ajaxUrl.toString().replace( '%%endpoint%%', action );
+};

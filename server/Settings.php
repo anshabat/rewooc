@@ -14,7 +14,8 @@ class Settings {
 	static public function getResults() {
 		return [
 			'price'   => self::getPrice(),
-			'baseUrl' => parse_url( site_url(), PHP_URL_PATH ) ?: ''
+			'baseUrl' => parse_url( site_url(), PHP_URL_PATH ) ?: '',
+			'ajaxUrl' => WC_AJAX::get_endpoint( '%%endpoint%%' )
 		];
 	}
 }

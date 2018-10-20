@@ -1,4 +1,4 @@
-import {getAjaxEndpoint} from '../../shared';
+import {ajaxEndpoint} from '../../shared';
 import * as actionTypes from './index';
 import axios from 'axios';
 
@@ -23,7 +23,7 @@ export const addToCart = (id, event) => {
         let params = new FormData();
         params.set('productId', id);
 
-        axios.post(getAjaxEndpoint('rewooc_add_to_cart'), params).then(({data}) => {
+        axios.post(ajaxEndpoint('rewooc_add_to_cart'), params).then(({data}) => {
             if (!data.error) {
                 dispatch(addToCartSuccess(data))
             } else {
