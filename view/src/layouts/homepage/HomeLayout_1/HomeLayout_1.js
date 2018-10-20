@@ -1,6 +1,6 @@
 import './HomeLayout_1.css';
 import React from 'react';
-import Widget from '../../../hoc/Widget';
+import Widget from '../../../components/Widget/Widget';
 import SectionSidebar from '../../../components/UI/sections/SectionSidebar/SectionSidebar';
 import SectionPrimary from '../../../components/UI/sections/SectionPrimary/SectionPrimary';
 

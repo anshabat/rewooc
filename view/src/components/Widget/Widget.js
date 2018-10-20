@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductsWidget from '../components/Widgets/ProductsWidget/ProductsWidget';
-import PostsWidget from '../components/Widgets/PostsWidget/PostsWidget';
+import ProductsWidget from './ProductsWidget/ProductsWidget';
+import PostsWidget from './PostsWidget/PostsWidget';
 
 const components = {
     'ProductsWidget': ProductsWidget,
