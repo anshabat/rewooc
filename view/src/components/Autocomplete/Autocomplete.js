@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import AutocompleteResults from './AutocompleteResults/AutocompleteResults';
 import AutocompleteField from './AutocompleteField/AutocompleteField';
-import {ajaxEndpoint} from '../../shared';
+import {ajaxEndpoint} from '../../shared/utilities';
 
 class Autocomplete extends Component {
     constructor(props) {

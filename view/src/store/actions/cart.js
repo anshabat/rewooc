@@ -1,4 +1,4 @@
-import {ajaxEndpoint} from '../../shared';
+import {ajaxEndpoint} from '../../shared/utilities';
 import * as actionTypes from './index';
 import axios from 'axios';
 

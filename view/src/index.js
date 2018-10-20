@@ -8,7 +8,7 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {BrowserRouter} from 'react-router-dom';
 import App from './containers/App/App';
-import {baseUrl} from './shared';
+import {baseUrl} from './shared/utilities';
 import axios from 'axios';
 
 export const appData = window.rewooc;

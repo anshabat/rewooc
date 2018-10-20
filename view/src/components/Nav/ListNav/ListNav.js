@@ -3,7 +3,7 @@ import React from 'react';
 import Nav from '../Nav';
 import Icon from '../../UI/Icon/Icon';
 import {NavLink} from 'react-router-dom';
-import {siteUrl} from '../../../shared';
+import {siteUrl} from '../../../shared/utilities';
 
 const ListNav = (props) => (
     <ul className={`pc-list-nav pc-list-nav--depth-${props.depth}`}>

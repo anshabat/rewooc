@@ -1,6 +1,6 @@
 import './Carousel.css';
 import React, {Component, Children} from 'react';
-import * as utils from '../../../shared';
+import * as utils from '../../../shared/utilities';
 
 class Carousel extends Component {
     constructor(props) {
