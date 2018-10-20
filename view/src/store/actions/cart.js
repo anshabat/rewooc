@@ -1,5 +1,6 @@
-import * as utils from '../../shared/index';
+import {getAjaxEndpoint} from '../../shared';
 import * as actionTypes from './index';
+import axios from 'axios';
 
 const addToCartStart = (id) => {
     return {type: actionTypes.ADD_TO_CART_START, id: id}
@@ -18,22 +19,18 @@ export const addToCart = (id, event) => {
 
     return dispatch => {
         dispatch(addToCartStart(id));
-        jQuery.ajax({
-            url: utils.getAjaxEndpoint('rewooc_add_to_cart'),
-            method: 'post',
-            data: {
-                productId: id
-            },
-            success: (cartData) => {
-                if (!cartData.error) {
-                    dispatch(addToCartSuccess(cartData))
-                } else {
-                    dispatch(addToCartFail(cartData.error))
-                }
-            },
-            error: () => {
-                dispatch(addToCartFail('some error'))
+
+        let params = new FormData();
+        params.set('productId', id);
+
+        axios.post(getAjaxEndpoint('rewooc_add_to_cart'), params).then(({data}) => {
+            if (!data.error) {
+                dispatch(addToCartSuccess(data))
+            } else {
+                dispatch(addToCartFail(data.error))
             }
+        }).catch(() => {
+            dispatch(addToCartFail('some error'))
         });
     }
 };

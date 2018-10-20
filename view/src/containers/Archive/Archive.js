@@ -2,6 +2,7 @@ import './Archive.css';
 import React, {Component} from 'react';
 import {appData} from '../../index';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
+import axios from 'axios/index';
 
 class Archive extends Component {
 
@@ -13,29 +14,10 @@ class Archive extends Component {
     }
 
     componentDidMount() {
-        //Cache page Proxy
-
-        /*if (appData.products) {
+        axios.get(window.location.href).then(({data}) => {
             this.setState({
-                products: appData.products
+                products: data.products
             });
-        } else {
-            jQuery.ajax({
-                url: window.location.href,
-                success: (data) => {
-                    this.setState({
-                        products: data.products
-                    });
-                }
-            });
-        }*/
-        jQuery.ajax({
-            url: window.location.href,
-            success: (data) => {
-                this.setState({
-                    products: data.products
-                });
-            }
         });
     }
 
@@ -43,7 +25,7 @@ class Archive extends Component {
         return this.state.products.length ? (
             <div style={{'display': 'flex', 'flexWrap': 'wrap'}}>
                 {this.state.products.map(product => (
-                   <ProductCard key={product.id} {...product} />
+                    <ProductCard key={product.id} {...product} />
                 ))}
             </div>
         ) : (

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
 
 class Home extends Component {
@@ -10,13 +11,10 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        jQuery.ajax({
-            url: window.location.href,
-            success: (data) => {
-                this.setState({
-                    widgets: data.widgets
-                });
-            }
+        axios.get(window.location.href).then(({data}) => {
+            this.setState({
+                widgets: data.widgets
+            });
         });
     }
 

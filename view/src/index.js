@@ -9,11 +9,16 @@ import thunk from 'redux-thunk';
 import {BrowserRouter} from 'react-router-dom';
 import App from './containers/App/App';
 import {baseUrl} from './shared';
+import axios from 'axios';
 
 export const appData = window.rewooc;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+
+axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest'
+};
 
 ReactDOM.render(
     <Provider store={store}>
