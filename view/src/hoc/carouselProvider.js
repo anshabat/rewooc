@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const ConnectCarousel = (ComposedComponent) => {
+const carouselProvider = (ComposedComponent) => {
     return class extends Component {
 
         constructor(props) {
@@ -32,4 +32,4 @@ const ConnectCarousel = (ComposedComponent) => {
     }
 };
 
-export default ConnectCarousel;
+export default carouselProvider;

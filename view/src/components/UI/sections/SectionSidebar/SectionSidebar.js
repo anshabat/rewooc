@@ -1,7 +1,7 @@
 import './SectionSidebar.css';
 import React from 'react';
 import Arrow from '../../Arrow/Arrow';
-import ConnectCarousel from '../../../../hoc/ConnectCarousel';
+import carouselProvider from '../../../../hoc/carouselProvider';
 
 const SectionSidebar = (props) => {
     return (
@@ -30,4 +30,4 @@ const SectionSidebar = (props) => {
     );
 };
 
-export default ConnectCarousel(SectionSidebar);
+export default carouselProvider(SectionSidebar);

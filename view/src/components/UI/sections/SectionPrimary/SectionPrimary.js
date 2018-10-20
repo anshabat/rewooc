@@ -1,7 +1,7 @@
 import './SectionPrimary.css';
 import React from 'react';
 import Arrow from '../../Arrow/Arrow';
-import ConnectCarousel from '../../../../hoc/ConnectCarousel';
+import carouselProvider from '../../../../hoc/carouselProvider';
 
 const SectionPrimary = (props) => {
     return (
@@ -30,4 +30,4 @@ const SectionPrimary = (props) => {
     );
 };
 
-export default ConnectCarousel(SectionPrimary);
+export default carouselProvider(SectionPrimary);
