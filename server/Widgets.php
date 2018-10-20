@@ -58,10 +58,15 @@ class Widgets {
 	 * @return array sidebar widgets results
 	 */
 	public static function renderSidebar( $sidebar ) {
-		if ( is_registered_sidebar( $sidebar ) ) {
-			dynamic_sidebar( $sidebar );
+		/* Do nothing if sidebar has no widgets or not registered */
+		if ( ! is_active_sidebar( $sidebar ) || ! is_registered_sidebar( $sidebar ) ) {
+			return null;
 		}
 
+		/*  Behind the scene calls addResult() method for each ./server/Widgets and pushes its results into self::$widgetsResults */
+		dynamic_sidebar( $sidebar );
+
+		/* Return $sidebar data, which contains widgets results after calling dynamic_sidebar() */
 		return self::$widgetsResults[ $sidebar ];
 	}
 }

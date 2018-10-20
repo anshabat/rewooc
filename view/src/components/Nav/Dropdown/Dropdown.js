@@ -3,7 +3,7 @@ import React from 'react';
 import Nav from '../Nav';
 import Icon from '../../UI/Icon/Icon';
 import {NavLink} from 'react-router-dom';
-import * as utils from '../../../shared/index';
+import {siteUrl} from '../../../shared';
 
 const Dropdown = (props) => (
     <ul className={`pc-dropdown pc-dropdown--depth-${props.depth}`}>
@@ -13,7 +13,7 @@ const Dropdown = (props) => (
                 onMouseLeave={() => props.hideItem(item)}
                 key={item.ID}
             >
-                <NavLink className="pc-dropdown__link" to={utils.cutUrlDomain(item.url)}>
+                <NavLink className="pc-dropdown__link" to={siteUrl(item.url)}>
                     {item.title}
                     {props.hasChildItems(item) ? (
                         <Icon name="fa-angle-right" classes={['pc-dropdown__arrow']} />

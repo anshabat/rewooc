@@ -2,7 +2,7 @@ import './ProductCard.css';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
-import product from '../../../../hoc/product';
+import productProvider from '../../../../hoc/productProvider';
 
 const ProductCard = (props) => {
     return (
@@ -31,4 +31,4 @@ const ProductCard = (props) => {
     )
 };
 
-export default product(ProductCard);
+export default productProvider(ProductCard);

@@ -1,6 +1,7 @@
 export {
     debounce,
-    cutUrlDomain
+    siteUrl,
+    baseUrl
 } from './utilities';
 
 export {

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import AutocompleteResults from './AutocompleteResults/AutocompleteResults';
 import AutocompleteField from './AutocompleteField/AutocompleteField';
+import {baseUrl} from '../../shared';
 
 class Autocomplete extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class Autocomplete extends Component {
     }
 
     getItems(e) {
-        axios.get('/', {
+        axios.get(baseUrl('/'), {
             params: {
                 'wc-ajax': 'rw_search_products',
                 'search': e.target.value,

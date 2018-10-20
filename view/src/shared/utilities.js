@@ -1,3 +1,5 @@
+import {appData} from '../index';
+
 /**
  * Delay event handler call until user finish trigger event
  *
@@ -15,6 +17,11 @@ export const debounce = (callback, delay = 300) => {
     }
 };
 
-export const cutUrlDomain = (url) => {
-    return url.replace(location.origin, '');
+export const siteUrl = (url) => {
+    return url.replace(location.origin + appData.settings.baseUrl, '');
+};
+
+
+export const baseUrl = (url = '') => {
+    return appData.settings.baseUrl + url;
 };
