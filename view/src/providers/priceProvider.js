@@ -1,7 +1,7 @@
 import React from 'react';
 import {appData} from '../index';
 
-const priceFormat = (ComposedComponent) => {
+const priceProvider = (ComposedComponent) => {
 
     return (props) => {
         const formatValue = ({price, thousandSeparator = ' ', decimalSeparator = '.', decimalsCount = 2}) => {
@@ -44,4 +44,4 @@ const priceFormat = (ComposedComponent) => {
     };
 };
 
-export default priceFormat;
+export default priceProvider;

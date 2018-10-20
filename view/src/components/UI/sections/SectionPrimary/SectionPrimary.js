@@ -1,7 +1,7 @@
 import './SectionPrimary.css';
 import React from 'react';
 import Arrow from '../../Arrow/Arrow';
-import carouselProvider from '../../../../hoc/carouselProvider';
+import carouselProvider from '../../../../providers/carouselProvider';
 
 const SectionPrimary = (props) => {
     return (

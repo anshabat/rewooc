@@ -1,6 +1,6 @@
 import './Price.css';
 import React from 'react';
-import priceFormat from '../../../hoc/priceFormat';
+import priceProvider from '../../../providers/priceProvider';
 
 const Price = (props) => {
     return (
@@ -10,4 +10,4 @@ const Price = (props) => {
     );
 };
 
-export default priceFormat(Price);
+export default priceProvider(Price);

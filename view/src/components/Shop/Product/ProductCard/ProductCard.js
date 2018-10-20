@@ -2,7 +2,7 @@ import './ProductCard.css';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
-import productProvider from '../../../../hoc/productProvider';
+import productProvider from '../../../../providers/productProvider';
 
 const ProductCard = (props) => {
     return (
