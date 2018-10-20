@@ -50,7 +50,6 @@ class Products {
 	}
 
 	public function convertProductObjectToArray( $productObjects ) {
-		//TODO Приймати аргументом масив ключів які слід отримати, якщо пусто, то повертати всі
 		$products = [];
 		foreach ( $productObjects as $productObject ) {
 			$title = rawurldecode( $productObject->get_name() );
