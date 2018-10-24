@@ -1,6 +1,5 @@
 import './Archive.css';
 import React, {Component} from 'react';
-import {appData} from '../../index';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import axios from 'axios/index';
 
@@ -9,7 +8,7 @@ class Archive extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: []
+            products: null
         };
     }
 
@@ -22,7 +21,7 @@ class Archive extends Component {
     }
 
     render() {
-        return this.state.products.length ? (
+        return this.state.products ? (
             <div style={{'display': 'flex', 'flexWrap': 'wrap'}}>
                 {this.state.products.map(product => (
                     <ProductCard key={product.id} {...product} />
