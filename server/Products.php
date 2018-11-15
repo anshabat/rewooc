@@ -1,15 +1,13 @@
 <?php
 
+namespace Rewooc;
+
+use Rewooc\Api\Media;
+use Rewooc\Api\Shop\Cart;
+
 class Products {
-	private static $instance;
 
-	public static function getInstance() {
-		self::$instance = empty( self::$instance ) ? new self() : self::$instance;
-
-		return self::$instance;
-	}
-
-	private function __construct() {
+	public function __construct() {
 		add_action( 'wc_ajax_rewooc_search_products', [ $this, 'search' ] );
 		add_action( 'wc_ajax_rewooc_add_to_cart', [ $this, 'addToCart' ] );
 	}
@@ -21,7 +19,7 @@ class Products {
 			wp_die();
 		}
 
-		$dataStore = WC_Data_Store::load( 'product' );
+		$dataStore = \WC_Data_Store::load( 'product' );
 		$ids       = $dataStore->search_products( $term, '', true );
 
 		if ( ! empty( $_GET['limit'] ) ) {
@@ -29,13 +27,13 @@ class Products {
 		}
 
 		$productObjects = array_filter( array_map( 'wc_get_product', $ids ), 'wc_products_array_filter_visible' );
-		$products       = $this->convertProductObjectToArray( $productObjects );
+		$products       = self::convertProductObjectToArray( $productObjects );
 		wp_send_json( $products );
 	}
 
-	public function getProducts( $args = [] ) {
+	public static function getProducts( $args = [] ) {
 		$productObjects = wc_get_products( $args );
-		$products       = $this->convertProductObjectToArray( $productObjects );
+		$products       = self::convertProductObjectToArray( $productObjects );
 
 		return $products;
 	}
@@ -44,12 +42,11 @@ class Products {
 		$productId = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_REQUEST['productId'] ) );
 		$quantity  = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
 
-		$cart     = new Cart();
-		$cartData = WC()->cart->add_to_cart( $productId, $quantity ) ? $cart->getData() : [ 'error' => true ];
+		$cartData = WC()->cart->add_to_cart( $productId, $quantity ) ? Cart::getData() : [ 'error' => true ];
 		wp_send_json( $cartData );
 	}
 
-	public function convertProductObjectToArray( $productObjects ) {
+	public static function convertProductObjectToArray( $productObjects ) {
 		$products = [];
 		foreach ( $productObjects as $productObject ) {
 			$title = rawurldecode( $productObject->get_name() );
@@ -69,5 +66,3 @@ class Products {
 		return $products;
 	}
 }
-
-Products::getInstance();

@@ -1,6 +1,10 @@
 <?php
 
-class LatestPosts extends WP_Widget {
+namespace Rewooc\Widgets;
+
+use Rewooc\Api\Post;
+
+class LatestPosts extends \WP_Widget {
 	/**
 	 * Sets up the widgets name etc
 	 */

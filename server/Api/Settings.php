@@ -1,5 +1,7 @@
 <?php
 
+namespace Rewooc\Api;
+
 class Settings {
 	static public function getPrice() {
 		return [
@@ -15,7 +17,7 @@ class Settings {
 		return [
 			'price'   => self::getPrice(),
 			'baseUrl' => parse_url( site_url(), PHP_URL_PATH ) ?: '',
-			'ajaxUrl' => WC_AJAX::get_endpoint( '%%endpoint%%' )
+			'ajaxUrl' => \WC_AJAX::get_endpoint( '%%endpoint%%' )
 		];
 	}
 }

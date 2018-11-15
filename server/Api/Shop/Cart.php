@@ -1,8 +1,10 @@
 <?php
 
+namespace Rewooc\Api\Shop;
+
 class Cart {
 
-	public function getData() {
+	public static function getData() {
 		return [
 			'count'    => WC()->cart->get_cart_contents_count(),
 			'totals'   => WC()->cart->get_totals(),

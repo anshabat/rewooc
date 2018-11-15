@@ -1,6 +1,10 @@
 <?php
 
-class RwProducts extends WP_Widget {
+namespace Rewooc\Widgets;
+
+use Rewooc\Products;
+
+class RwProducts extends \WP_Widget {
 	/**
 	 * Sets up the widgets name etc
 	 */
@@ -25,7 +29,7 @@ class RwProducts extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
-		$products = Products::getInstance()->getProducts( [
+		$products = Products::getProducts( [
 			'featured' => true
 		] );
 

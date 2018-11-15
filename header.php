@@ -31,16 +31,19 @@
 
 <?php
 
+use Rewooc\Customizer\Customizer;
+use Rewooc\Api\Navigation;
+use Rewooc\Api\Shop\Cart;
+use Rewooc\Api\View;
+
 $headerNav      = new Navigation( 'header_nav' );
 $headerNavItems = $headerNav->getNav( [ 'ID', 'title', 'menu_item_parent', 'url' ] );
 View::addScriptData( 'headerNavigation', $headerNavItems );
 
-$themeCustomizer = Customizer::getInstance();
-$themeMods       = $themeCustomizer->getMods();
+$themeMods = Customizer::getMods();
 View::addScriptData( 'themeMods', $themeMods );
 
 
 WC()->cart->empty_cart();
-$cart     = new Cart();
-$cartData = $cart->getData();
+$cartData = Cart::getData();
 View::addScriptData( 'cart', $cartData );

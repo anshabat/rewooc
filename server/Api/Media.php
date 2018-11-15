@@ -1,5 +1,7 @@
 <?php
 
+namespace Rewooc\Api;
+
 class Media {
 	private $id = null;
 	private $imageSize = null;

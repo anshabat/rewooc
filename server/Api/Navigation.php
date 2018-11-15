@@ -1,5 +1,7 @@
 <?php
 
+namespace Rewooc\Api;
+
 class Navigation {
 	private $position = null;
 

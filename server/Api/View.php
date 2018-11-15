@@ -1,5 +1,7 @@
 <?php
 
+namespace Rewooc\Api;
+
 /**
  * Class Api Provide data to Frontend regarding current Route
  */

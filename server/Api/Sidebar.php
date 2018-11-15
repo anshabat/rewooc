@@ -1,6 +1,8 @@
 <?php
 
-class Widgets {
+namespace Rewooc\Api;
+
+class Sidebar {
 	private static $widgetsResults = [];
 
 	/**

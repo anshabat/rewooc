@@ -1,15 +1,12 @@
 <?php
 
+namespace Rewooc\Customizer;
+
+use Rewooc\Api\Media;
+
 class Customizer {
-	private static $instance;
 
-	public static function getInstance() {
-		self::$instance = empty( self::$instance ) ? new self() : self::$instance;
-
-		return self::$instance;
-	}
-
-	private function __construct() {
+	public function __construct() {
 		add_action( 'customize_register', [ $this, 'addCustomSettings' ] );
 	}
 
@@ -29,7 +26,7 @@ class Customizer {
 		$wp_customize->add_setting( get_template() . '_font_color', [
 			'default' => '#000000'
 		] );
-		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, get_template() . '_font_color', [
+		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, get_template() . '_font_color', [
 			'label'   => __( 'Font color', get_template() . '_admin' ),
 			'section' => get_template() . '_layout',
 		] ) );
@@ -69,18 +66,18 @@ class Customizer {
 		] );
 	}
 
-	public function getMods() {
+	public static function getMods() {
 		$options                = get_theme_mods();
-		$options['custom_logo'] = $this->getLogo();
+		$options['custom_logo'] = self::getLogo();
 
 		return $options;
 	}
 
-	public function getMode($name) {
-		return $this->getMods()[get_template() . '_' . $name];
+	public static function getMode($name) {
+		return self::getMods()[get_template() . '_' . $name];
 	}
 
-	public function getLogo() {
+	public static function getLogo() {
 		$imageId = get_theme_mod( 'custom_logo' );
 		if ( ! $imageId ) {
 			return false;
@@ -91,5 +88,3 @@ class Customizer {
 
 	}
 }
-
-Customizer::getInstance();
