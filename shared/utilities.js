@@ -23,7 +23,7 @@ const trimLastSlash = (str) => {
 };
 
 const absoluteToRelative = (url) => {
-    const urlPath = url.replace('http://rewooc.loc', '');
+    const urlPath = url.replace('http://rewooc.loc/server/wp', '');
     return (urlPath[0] === '/') ? urlPath : '/' + urlPath;
 };
 

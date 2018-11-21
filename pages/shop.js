@@ -7,7 +7,7 @@ import Head from 'next/head';
 export default class extends Component {
     static async getInitialProps() {
         return new Promise((resolve) => {
-            axios.get('http://rewooc.loc/').then(({data}) => {
+            axios.get('http://rewooc.loc/server/wp/').then(({data}) => {
                 resolve({appData: data})
             });
         });
