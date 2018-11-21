@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import Nav from '../Nav/Nav';
 import ListNav from '../Nav/ListNav/ListNav';
 import Dropdown from '../Nav/Dropdown/Dropdown';
+import Phone from '../Phone/Phone';
 
 const Layout = (props) => {
     return (
@@ -11,6 +12,7 @@ const Layout = (props) => {
             <div className="rw-page__header">
                 <Header
                     headlineLeft={<Nav items={props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
+                    headlineRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone}/>}
                 />
             </div>
             <div className="rw-page__main">

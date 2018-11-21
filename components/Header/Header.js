@@ -6,7 +6,7 @@ const Header = (props) => {
         <div className="rw-header">
             <div className="rw-header__headline">
                 <div className="rw-header__container">
-                    <div style={{float: 'right'}}>props.headlineRight</div>
+                    <div style={{float: 'right'}}>{props.headlineRight}</div>
                     {props.headlineLeft}
                 </div>
             </div>
