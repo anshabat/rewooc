@@ -14,7 +14,7 @@ const Header = (props) => {
                 <div className="rw-header__container">
                     <div className="rw-header__main-row">
                         <div className="rw-header__main-left">
-                            props.mainLeft
+                            {props.mainLeft}
                         </div>
                         <div className="rw-header__main-center">
                             props.mainCenter
