@@ -26,3 +26,9 @@ Sidebar::registerSidebar( 'homepage_main', 'Homepage main' );
 if ( Customizer::getMode( 'homepage_layout' ) === 'sidebar' ) {
 	Sidebar::registerSidebar( 'homepage_sidebar', 'Homepage sidebar' );
 }
+
+add_filter( 'allowed_http_origins', function ( $origins ) {
+	$origins[] = 'http://localhost:3000';
+
+	return $origins;
+} );

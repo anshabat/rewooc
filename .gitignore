@@ -1,3 +1,16 @@
-**/node_modules
-view/build
-vendor/
+**/node_modules/
+/.idea/
+
+# Ignore Wordpress Server
+/server/wp/*.*
+/server/wp/wp-admin
+/server/wp/wp-includes
+/server/wp/wp-content/*.*
+/server/wp/wp-content/plugins
+/server/wp/wp-content/uploads
+/server/wp/wp-content/themes/
+/server/wp/wp-content/themes/rewooc/vendor
+/server/wp/wp-content/themes/rewooc/view/build
+
+# Allow Headless theme
+!server/wp/wp-content/themes/rewooc
