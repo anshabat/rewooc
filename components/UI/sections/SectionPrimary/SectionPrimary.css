@@ -1,0 +1,13 @@
+.rw-section-primary {
+
+  &__header {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  &__body {
+    padding-top: 2rem;
+  }
+}
