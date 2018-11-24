@@ -1,8 +1,0 @@
-.pc-hero-banner {
-  border: 1px solid red;
-
-  &__title {
-    font-weight: bold;
-    font-size: 2rem;
-  }
-}
