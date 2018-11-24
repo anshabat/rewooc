@@ -1,22 +1,24 @@
 import './Home.scss';
 import React from 'react';
+import SectionPrimary from '../../components/UI/sections/SectionPrimary/SectionPrimary';
+import SectionSidebar from '../../components/UI/sections/SectionSidebar/SectionSidebar';
+import Widget from '../../components/Widget/Widget';
 
 const Home = (props) => {
     return (
-        <div className="rw-home-1">
+        <div className="rw-home">
 
             {props.top && (
-                <div className="rw-home-1__top">
+                <div className="rw-home__top">
                     {props.top.map(widget => {
                         return (
-                            <div className="rw-home-1__top-item" key={widget.id}>
-                                <div className="ps-container">
-                                    Section Primary
-                                    {/*<SectionPrimary title={widget.title}>
+                            <div className="rw-home__top-item" key={widget.id}>
+                                <div className="rw-home__container">
+                                    <SectionPrimary title={widget.title}>
                                         <Widget
                                             {...widget}
                                         />
-                                    </SectionPrimary>*/}
+                                    </SectionPrimary>
                                 </div>
                             </div>
                         )
@@ -24,35 +26,33 @@ const Home = (props) => {
                 </div>
             )}
 
-            <div className="ps-container">
-                <div className="rw-home-1__middle">
+            <div className="rw-home__container">
+                <div className="rw-home__middle">
                     {props.sidebar && (
-                        <div className="rw-home-1__sidebar">
+                        <div className="rw-home__sidebar">
                             {props.sidebar.map(widget => {
                                 return (
-                                    <div className="rw-home-1__sidebar-item" key={widget.id}>
-                                        Section Sidebar
-                                       {/* <SectionSidebar title={widget.title}>
+                                    <div className="rw-home__sidebar-item" key={widget.id}>
+                                        <SectionSidebar title={widget.title}>
                                             <Widget
                                                 {...widget}
                                             />
-                                        </SectionSidebar>*/}
+                                        </SectionSidebar>
                                     </div>
                                 );
                             })}
                         </div>
                     )}
                     {props.main && (
-                        <div className="rw-home-1__main">
+                        <div className="rw-home__main">
                             {props.main.map(widget => {
                                 return (
-                                    <div className="rw-home-1__main-item" key={widget.id}>
-                                        Sectoin Primary
-                                        {/*<SectionPrimary title={widget.title}>
+                                    <div className="rw-home__main-item" key={widget.id}>
+                                        <SectionPrimary title={widget.title}>
                                             <Widget
                                                 {...widget}
                                             />
-                                        </SectionPrimary>*/}
+                                        </SectionPrimary>
                                     </div>
                                 )
                             })}
@@ -61,7 +61,7 @@ const Home = (props) => {
                 </div>
             </div>
 
-            <div className="rw-home-1__bottom">
+            <div className="rw-home__bottom">
 
             </div>
 

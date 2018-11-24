@@ -1,4 +1,4 @@
-import './SectionSidebar.css';
+import './SectionSidebar.scss';
 import React from 'react';
 import Arrow from '../../Arrow/Arrow';
 import carouselProvider from '../../../../providers/carouselProvider';

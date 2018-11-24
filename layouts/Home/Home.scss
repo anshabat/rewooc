@@ -1,4 +1,6 @@
-.rw-home-1 {
+@import "../../assets/scss/mixins";
+
+.rw-home {
 
   &__top {
 
@@ -10,7 +12,6 @@
 
   &__middle {
     display: flex;
-    width: 100%;
   }
 
   &__sidebar {
@@ -20,13 +21,17 @@
   }
 
   &__main {
-
+    flex-grow: 1;
   }
 
   &__main-item {
     &:not(:first-child) {
       padding-top: 3rem;
     }
+  }
+
+  &__container {
+    @include container;
   }
 
 }
