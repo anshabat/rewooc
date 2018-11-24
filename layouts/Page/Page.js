@@ -1,12 +1,12 @@
 import './Page.scss';
 import React from 'react';
 import Header from '../Header/Header';
-import Nav from '../Nav/Nav';
-import ListNav from '../Nav/ListNav/ListNav';
-import Dropdown from '../Nav/Dropdown/Dropdown';
-import Phone from '../Phone/Phone';
-import Image from '../UI/Image/Image';
-import Autocomplete from '../Autocomplete/Autocomplete';
+import Nav from '../../components/Nav/Nav';
+import ListNav from '../../components/Nav/ListNav/ListNav';
+import Dropdown from '../../components/Nav/Dropdown/Dropdown';
+import Phone from '../../components/Phone/Phone';
+import Image from '../../components/UI/Image/Image';
+import Autocomplete from '../../components/Autocomplete/Autocomplete';
 import MiniCart from '../../components/Shop/Cart/MiniCart/MiniCart';
 
 const Layout = (props) => {

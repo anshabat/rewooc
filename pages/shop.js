@@ -1,7 +1,7 @@
 import '../assets/scss/styles.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
-import Page from '../components/Page/Page';
+import Page from '../layouts/Page/Page';
 import Head from 'next/head';
 
 export default class extends Component {

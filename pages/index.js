@@ -1,8 +1,9 @@
 import '../assets/scss/styles.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
-import Page from '../components/Page/Page';
 import Head from 'next/head';
+import Page from '../layouts/Page/Page';
+import Home from '../layouts/Home/Home';
 
 export default class extends Component {
 
@@ -20,9 +21,12 @@ export default class extends Component {
         return (
             <Page appData={this.props.appData}>
                 <Head>
-                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+                    <link rel="stylesheet"
+                          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
                 </Head>
-                This is Home page
+                <Home main={this.props.appData.widgets.homepage_main}
+                      sidebar={this.props.appData.widgets.homepage_sidebar}
+                />
             </Page>
         )
     }

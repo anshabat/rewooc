@@ -1,10 +1,7 @@
-import './HomeLayout_1.css';
+import './Home.scss';
 import React from 'react';
-import Widget from '../../../components/Widget/Widget';
-import SectionSidebar from '../../../components/UI/sections/SectionSidebar/SectionSidebar';
-import SectionPrimary from '../../../components/UI/sections/SectionPrimary/SectionPrimary';
 
-const HomeLayout_1 = (props) => {
+const Home = (props) => {
     return (
         <div className="rw-home-1">
 
@@ -14,11 +11,12 @@ const HomeLayout_1 = (props) => {
                         return (
                             <div className="rw-home-1__top-item" key={widget.id}>
                                 <div className="ps-container">
-                                    <SectionPrimary title={widget.title}>
+                                    Section Primary
+                                    {/*<SectionPrimary title={widget.title}>
                                         <Widget
                                             {...widget}
                                         />
-                                    </SectionPrimary>
+                                    </SectionPrimary>*/}
                                 </div>
                             </div>
                         )
@@ -33,11 +31,12 @@ const HomeLayout_1 = (props) => {
                             {props.sidebar.map(widget => {
                                 return (
                                     <div className="rw-home-1__sidebar-item" key={widget.id}>
-                                        <SectionSidebar title={widget.title}>
+                                        Section Sidebar
+                                       {/* <SectionSidebar title={widget.title}>
                                             <Widget
                                                 {...widget}
                                             />
-                                        </SectionSidebar>
+                                        </SectionSidebar>*/}
                                     </div>
                                 );
                             })}
@@ -48,11 +47,12 @@ const HomeLayout_1 = (props) => {
                             {props.main.map(widget => {
                                 return (
                                     <div className="rw-home-1__main-item" key={widget.id}>
-                                        <SectionPrimary title={widget.title}>
+                                        Sectoin Primary
+                                        {/*<SectionPrimary title={widget.title}>
                                             <Widget
                                                 {...widget}
                                             />
-                                        </SectionPrimary>
+                                        </SectionPrimary>*/}
                                     </div>
                                 )
                             })}
@@ -69,4 +69,4 @@ const HomeLayout_1 = (props) => {
     );
 };
 
-export default HomeLayout_1;
+export default Home;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import HomeLayout_1 from '../../layouts/homepage/HomeLayout_1/HomeLayout_1';
+import HomeLayout_1 from '../../../../../../../../../layouts/HomeLayout_1/HomeLayout_1';
 
 class Home extends Component {
     constructor(props) {
