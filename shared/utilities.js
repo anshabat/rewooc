@@ -31,6 +31,10 @@ export const siteUrl = (url) => {
     return absoluteToRelative(trimLastSlash(url));
 };
 
+export const ajaxEndpoint = (action) => {
+    return 'http://rewooc.loc/server/wp/?wc-ajax=%%endpoint%%'.toString().replace( '%%endpoint%%', action );
+};
+
 /*export class siteUrl extends Component  {
     constructor() {
         super();
