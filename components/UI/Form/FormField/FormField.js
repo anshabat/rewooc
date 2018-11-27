@@ -1,4 +1,4 @@
-import './FormField.css';
+import './FormField.scss';
 import React from 'react';
 
 const FormField = (props) => {
