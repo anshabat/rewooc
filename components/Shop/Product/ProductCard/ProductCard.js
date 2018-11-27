@@ -1,6 +1,7 @@
 import './ProductCard.scss';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
+import Price from '../../Price/Price';
 
 const ProductCard = (props) => {
     return (
@@ -14,7 +15,7 @@ const ProductCard = (props) => {
                 </a>
             </h3>
             <div className="rw-product-card__row">
-                {/*<Price value={props.price}/>*/}
+                <Price value={props.price}/>
             </div>
             <div className="rw-product-card__row">
                 {props.inCart ? (

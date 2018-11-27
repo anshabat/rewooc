@@ -1,11 +1,10 @@
 import '../assets/scss/styles.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
-import Head from 'next/head';
-import Page from '../layouts/Page/Page';
+import Main from '../Main';
 import Home from '../layouts/Home/Home';
 
-export default class extends Component {
+class Index extends Component {
 
     static async getInitialProps() {
         return new Promise((resolve) => {
@@ -16,18 +15,16 @@ export default class extends Component {
     }
 
     render() {
-        console.log(this.props.appData);
+        console.log(this.props);
 
         return (
-            <Page appData={this.props.appData}>
-                <Head>
-                    <link rel="stylesheet"
-                          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-                </Head>
+            <Main appData={this.props.appData}>
                 <Home main={this.props.appData.widgets.homepage_main}
                       sidebar={this.props.appData.widgets.homepage_sidebar}
                 />
-            </Page>
+            </Main>
         )
     }
 }
+
+export default Index;

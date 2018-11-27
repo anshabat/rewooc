@@ -1,5 +1,5 @@
 import React from 'react';
-import {appData} from '../index';
+import {Consumer} from '../Main';
 
 const priceProvider = (ComposedComponent) => {
 
@@ -25,21 +25,23 @@ const priceProvider = (ComposedComponent) => {
             return format.replace('%2$s', price).replace('&nbsp;', ' ').replace('%1$s', currency);
         };
 
-        const formatPrice = () => {
+        const formatPrice = (settings) => {
             return formatCurrency({
                 price: formatValue({
                     price: Number(props.value),
-                    thousandSeparator: appData.settings.price.thousandSeparator,
-                    decimalSeparator: appData.settings.price.decimalSeparator,
-                    decimalsCount: appData.settings.price.decimals
+                    thousandSeparator: settings.price.thousandSeparator,
+                    decimalSeparator: settings.price.decimalSeparator,
+                    decimalsCount: settings.price.decimals
                 }),
-                currency: appData.settings.price.currencySymbol,
-                format: appData.settings.price.priceFormat
+                currency: settings.price.currencySymbol,
+                format: settings.price.priceFormat
             });
         };
 
         return (
-            <ComposedComponent {...props} formattedPrice={formatPrice()}/>
+            <Consumer>
+                {context => <ComposedComponent {...props} formattedPrice={formatPrice(context)}/>}
+            </Consumer>
         )
     };
 };

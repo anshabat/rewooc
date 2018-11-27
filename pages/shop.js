@@ -1,11 +1,10 @@
 import '../assets/scss/styles.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
-import Page from '../layouts/Page/Page';
-import Head from 'next/head';
+import Main from '../Main';
 import Archive from '../layouts/Archive/Archive';
 
-export default class extends Component {
+class Shop extends Component {
     static async getInitialProps() {
         return new Promise((resolve) => {
             axios.get('http://rewooc.loc/server/wp/shop/').then(({data}) => {
@@ -16,13 +15,11 @@ export default class extends Component {
 
     render() {
         return (
-            <Page appData={this.props.appData}>
-                <Head>
-                    <link rel="stylesheet"
-                          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-                </Head>
+            <Main appData={this.props.appData}>
                 <Archive products={this.props.appData.products}/>
-            </Page>
+            </Main>
         )
     }
 }
+
+export default Shop;
