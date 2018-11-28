@@ -3,12 +3,13 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Main from '../Main';
 import Home from '../layouts/Home/Home';
+import {baseUrl} from '../shared/utilities';
 
 class Index extends Component {
 
     static async getInitialProps() {
         return new Promise((resolve) => {
-            axios.get('http://rewooc.loc/server/wp/').then(({data}) => {
+            axios.get(baseUrl()).then(({data}) => {
                 resolve({appData: data})
             });
         });

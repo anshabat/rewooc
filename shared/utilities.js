@@ -6,7 +6,7 @@
  * @returns {function(*=)} Delayed event handler function
  */
 
-import React, {Component} from 'react';
+import {Config} from '../config';
 
 export const debounce = (callback, delay = 300) => {
     let timeout = null;
@@ -23,7 +23,7 @@ const trimLastSlash = (str) => {
 };
 
 const absoluteToRelative = (url) => {
-    const urlPath = url.replace('http://rewooc.loc/server/wp', '');
+    const urlPath = url.replace(trimLastSlash(Config.apiUrl), '');
     return (urlPath[0] === '/') ? urlPath : '/' + urlPath;
 };
 
@@ -31,25 +31,10 @@ export const siteUrl = (url) => {
     return absoluteToRelative(trimLastSlash(url));
 };
 
-export const ajaxEndpoint = (action) => {
-    return 'http://rewooc.loc/server/wp/?wc-ajax=%%endpoint%%'.toString().replace( '%%endpoint%%', action );
-};
-
-/*export class siteUrl extends Component  {
-    constructor() {
-        super();
-    }
-    render () {
-        return url.replace('http://rewooc.loc', '');
-    }
-};*/
-
-
-/*
 export const baseUrl = (url = '') => {
-    return appData.settings.baseUrl + url;
+    return Config.apiUrl + url;
 };
 
 export const ajaxEndpoint = (action) => {
-    return appData.settings.ajaxUrl.toString().replace( '%%endpoint%%', action );
-};*/
+    return baseUrl(`?wc-ajax=${action}`);
+};

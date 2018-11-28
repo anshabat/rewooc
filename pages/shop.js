@@ -3,11 +3,12 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Main from '../Main';
 import Archive from '../layouts/Archive/Archive';
+import {baseUrl} from '../shared/utilities';
 
 class Shop extends Component {
     static async getInitialProps() {
         return new Promise((resolve) => {
-            axios.get('http://rewooc.loc/server/wp/shop/').then(({data}) => {
+            axios.get(baseUrl('shop/')).then(({data}) => {
                 resolve({appData: data})
             });
         });
