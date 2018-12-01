@@ -1,13 +1,12 @@
 import React from 'react';
 import Nav from '../Nav';
-import {NavLink} from 'react-router-dom';
-import {siteUrl} from '../../../shared/utilities';
+import Link from '../../UI/Link/Link';
 
 const MegaNav = (props) => (
     <ul className="megaNav">
         {props.items.map(item => (
             <li key={item.ID}>
-                <NavLink to={siteUrl(item.url)}>{item.title}</NavLink> - {props.depth}
+                <Link href={item.url}><a>{item.title}</a></Link> - {props.depth}
                 <Nav parentId={item.ID} depth={props.depth + 1}/>
             </li>
         ))}

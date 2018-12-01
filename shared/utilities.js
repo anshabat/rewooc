@@ -18,17 +18,17 @@ export const debounce = (callback, delay = 300) => {
     }
 };
 
-const trimLastSlash = (str) => {
-    return str.endsWith('/') ? str.slice(0, -1) : str;
-};
-
-const absoluteToRelative = (url) => {
-    const urlPath = url.replace(trimLastSlash(Config.apiUrl), '');
-    return (urlPath[0] === '/') ? urlPath : '/' + urlPath;
+const trailingSlash = {
+    remove(str) {
+        return str.endsWith('/') ? str.slice(0, -1) : str;
+    }
 };
 
 export const siteUrl = (url) => {
-    return absoluteToRelative(trimLastSlash(url));
+    let urlPath = url.replace(trailingSlash.remove(Config.apiUrl), '');
+    urlPath = trailingSlash.remove(urlPath);
+
+    return (urlPath[0] === '/' || urlPath.startsWith('http')) ? urlPath : '/' + urlPath;
 };
 
 export const baseUrl = (url = '') => {

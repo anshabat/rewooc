@@ -1,9 +1,8 @@
 import './Dropdown.scss';
 import React from 'react';
 import Nav from '../Nav';
-import Link from 'next/link';
+import Link from '../../UI/Link/Link';
 import Icon from '../../UI/Icon/Icon';
-import {siteUrl} from '../../../shared/utilities';
 
 const Dropdown = (props) => (
     <ul className={`rw-dropdown rw-dropdown--depth-${props.depth}`}>
@@ -13,8 +12,8 @@ const Dropdown = (props) => (
                 onMouseLeave={() => props.hideItem(item)}
                 key={item.ID}
             >
-                <Link href={siteUrl(item.url)}>
-                    <a className="rw-dropdown__link">
+                <Link href={item.url} className="rw-dropdown__link">
+                    <a>
                         {item.title}
                         {props.hasChildItems(item) ? (
                             <Icon name="fa-angle-right" classes={['pc-dropdown__arrow']}/>

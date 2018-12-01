@@ -1,9 +1,8 @@
 import './ListNav.scss';
 import React from 'react';
 import Nav from '../Nav';
-import Link from 'next/link';
 import Icon from '../../UI/Icon/Icon';
-import {siteUrl} from '../../../shared/utilities';
+import Link from '../../UI/Link/Link';
 
 const ListNav = (props) => (
     <ul className={`rw-list-nav rw-list-nav--depth-${props.depth}`}>
@@ -13,11 +12,11 @@ const ListNav = (props) => (
                 onMouseLeave={() => props.hideItem(item)}
                 key={item.ID}
             >
-                <Link href={siteUrl(item.url)}>
-                    <a className="rw-list-nav__link">
+                <Link href={item.url} className="rw-list-nav__link">
+                    <a>
                         {item.title}
                         {props.hasChildItems(item) ? (
-                            <Icon name="fa-angle-down" classes={['rw-list-nav__arrow']} />
+                            <Icon name="fa-angle-down" classes={['rw-list-nav__arrow']}/>
                         ) : null}
                     </a>
                 </Link>
