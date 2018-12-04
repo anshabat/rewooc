@@ -2,6 +2,7 @@ import './ProductCard.scss';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
+import Link from '../../../UI/Link/Link';
 
 const ProductCard = (props) => {
     return (
@@ -23,7 +24,8 @@ const ProductCard = (props) => {
                 ) : props.isAdding ? (
                     <span>Adding...</span>
                 ) : (
-                    <a href={props.addToCartUrl} onClick={e => props.onAddToCart(props.id, e)}>Add to Cart</a>
+                    <Link href={props.addToCartUrl} onClick={e => props.onAddToCart(e, props.id)}><span>Add to Cart</span></Link>
+                    /*<a href={'http://rewooc.loc' + props.addToCartUrl}><span>Add to Cart</span></a>*/
                 )}
             </div>
         </article>

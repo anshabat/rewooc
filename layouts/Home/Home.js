@@ -36,6 +36,7 @@ const Home = (props) => {
                                         <SectionSidebar title={widget.title}>
                                             <Widget
                                                 {...widget}
+                                                onAddToCart={props.onAddToCart}
                                             />
                                         </SectionSidebar>
                                     </div>
@@ -51,6 +52,7 @@ const Home = (props) => {
                                         <SectionPrimary title={widget.title}>
                                             <Widget
                                                 {...widget}
+                                                onAddToCart={props.onAddToCart}
                                             />
                                         </SectionPrimary>
                                     </div>

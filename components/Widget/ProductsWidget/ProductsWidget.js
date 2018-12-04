@@ -16,6 +16,7 @@ const ProductsWidget = (props) => {
                     <ProductCard
                         {...product}
                         key={product.id}
+                        onAddToCart={props.onAddToCart}
                     />
                 ))}
             </Carousel>
@@ -27,6 +28,7 @@ const ProductsWidget = (props) => {
                     <div className="rw-products-widget__item" key={product.id}>
                         <ProductCard
                             {...product}
+                            onAddToCart={props.onAddToCart}
                         />
                     </div>
                 ))}

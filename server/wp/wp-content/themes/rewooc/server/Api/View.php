@@ -12,8 +12,12 @@ class View {
 	private static $data = [];
 
 	public static function responseHeaders() {
-		@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
 		send_origin_headers();
+		@header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
+		@header( 'X-Robots-Tag: noindex' );
+		send_nosniff_header();
+		nocache_headers();
+		status_header( 200 );
 	}
 
 	public static function addScriptData( $key, $val ) {

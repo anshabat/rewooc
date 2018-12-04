@@ -43,7 +43,5 @@ View::addScriptData( 'headerNavigation', $headerNavItems );
 $themeMods = Customizer::getMods();
 View::addScriptData( 'themeMods', $themeMods );
 
-
-WC()->cart->empty_cart();
 $cartData = Cart::getData();
 View::addScriptData( 'cart', $cartData );
