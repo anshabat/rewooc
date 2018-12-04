@@ -28,9 +28,17 @@ class Index extends Component {
         let params = new FormData();
         params.set('productId', id);
 
-        axios.post(ajaxEndpoint('rewooc_add_to_cart'), params).then(response => {
+        /*axios.post(ajaxEndpoint('rewooc_add_to_cart'), params).then(response => {
             console.log(response);
-        })
+        });*/
+
+        axios.get(baseUrl('wp-json/wc/v3/products'), {
+            headers: {
+                'Authorization': 'Basic ' + btoa('simple:simple')
+            }
+        }).then(response => {
+            console.log(response);
+        });
     }
 
     render() {
