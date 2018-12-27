@@ -6,6 +6,7 @@ export const {Provider, Consumer} = React.createContext();
 
 
 const Main = (props) => {
+    console.log(props.appData.user);
     return (
         <Provider value={props.appData.settings}>
             <Head>

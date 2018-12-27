@@ -13,6 +13,7 @@ class View {
 
 	public static function responseHeaders() {
 		send_origin_headers();
+		@header( 'Access-Control-Allow-Headers: Authorization, Content-Type' );
 		@header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 		@header( 'X-Robots-Tag: noindex' );
 		send_nosniff_header();
@@ -45,6 +46,7 @@ class View {
 		$data['themeMods']        = $themeMods;
 		$data['cart']             = $cartData;
 		$data['settings']         = Settings::getResults();
+		$data['user']             = is_user_logged_in();
 		wp_send_json( $data );
 	}
 }
