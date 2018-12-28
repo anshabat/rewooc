@@ -28,6 +28,7 @@ if ( Customizer::getMode( 'homepage_layout' ) === 'sidebar' ) {
 }
 
 add_filter( 'allowed_http_origins', function ( $origins ) {
+	@header( 'Access-Control-Allow-Headers: Authorization, Content-Type' );
 	$origins[] = 'http://localhost:3000';
 
 	return $origins;
