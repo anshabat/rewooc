@@ -11,7 +11,7 @@ class Index extends Component {
         return new Promise((resolve) => {
             axios.get(baseUrl(), {
                 headers: {
-                    //'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
+                    'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
                 }
             }).then(({data}) => {
                 resolve({appData: data})
