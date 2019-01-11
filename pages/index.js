@@ -9,7 +9,11 @@ class Index extends Component {
 
     static async getInitialProps() {
         return new Promise((resolve) => {
-            axios.get(baseUrl()).then(({data}) => {
+            axios.get(baseUrl('/'), {
+                headers: {
+                    'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
+                }
+            }).then(({data}) => {
                 resolve({appData: data})
             });
         });
@@ -28,15 +32,17 @@ class Index extends Component {
         let params = new FormData();
         params.set('productId', id);
 
-        axios.post(ajaxEndpoint('rewooc_add_to_cart'), params).then(response => {
+        /*axios.post(ajaxEndpoint('rewooc_add_to_cart'), params).then(response => {
             console.log(response);
-        })
+        });*/
+
+        axios.get(ajaxEndpoint('rewooc_add_to_cart')).then(response => {
+            console.log('lala');
+            console.log(response.data);
+        });
     }
 
     render() {
-        console.log(this.props);
-        console.log(this.state);
-
         return (
             <Main appData={this.props.appData}>
                 <Home main={this.props.appData.widgets.homepage_main}

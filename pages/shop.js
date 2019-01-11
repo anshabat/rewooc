@@ -8,7 +8,11 @@ import {baseUrl} from '../shared/utilities';
 class Shop extends Component {
     static async getInitialProps() {
         return new Promise((resolve) => {
-            axios.get(baseUrl('shop/')).then(({data}) => {
+            axios.get(baseUrl('/shop/'), {
+                headers: {
+                    'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
+                }
+            }).then(({data}) => {
                 resolve({appData: data})
             });
         });

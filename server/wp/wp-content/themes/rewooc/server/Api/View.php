@@ -14,7 +14,6 @@ class View {
 	public static function responseHeaders() {
 		send_origin_headers();
 		@header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
-		status_header( 200 );
 	}
 
 	public static function addScriptData( $key, $val ) {
@@ -42,6 +41,7 @@ class View {
 		$data['themeMods']        = $themeMods;
 		$data['cart']             = $cartData;
 		$data['settings']         = Settings::getResults();
+		$data['user']             = is_user_logged_in();
 		wp_send_json( $data );
 	}
 }

@@ -1,3 +1,3 @@
 export const Config = {
-    apiUrl: 'http://localhost/rewooc/server/wp/'
+    apiUrl: 'http://divi.premme.cloud'
 };
