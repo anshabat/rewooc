@@ -9,7 +9,7 @@ class Index extends Component {
 
     static async getInitialProps() {
         return new Promise((resolve) => {
-            axios.get(baseUrl(), {
+            axios.get(baseUrl('/'), {
                 headers: {
                     'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
                 }
