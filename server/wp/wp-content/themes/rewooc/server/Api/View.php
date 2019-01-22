@@ -14,9 +14,6 @@ class View {
 	public static function responseHeaders() {
 		send_origin_headers();
 		@header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
-		@header( 'X-Robots-Tag: noindex' );
-		send_nosniff_header();
-		nocache_headers();
 		status_header( 200 );
 	}
 
