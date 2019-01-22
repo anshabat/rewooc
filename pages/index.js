@@ -42,8 +42,6 @@ class Index extends Component {
     }
 
     render() {
-        console.log(this.props);
-        console.log(this.state);
 
         return (
             <Main appData={this.props.appData}>
