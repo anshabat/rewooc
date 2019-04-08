@@ -43,6 +43,7 @@ class Index extends Component {
     }
 
     render() {
+
         return (
             <Main appData={this.props.appData}>
                 <Home main={this.props.appData.widgets.homepage_main}
