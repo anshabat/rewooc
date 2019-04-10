@@ -36,5 +36,5 @@ export const baseUrl = (url = '') => {
 };
 
 export const ajaxEndpoint = (action) => {
-    return baseUrl(`?wc-ajax=${action}`);
+    return baseUrl(`/?wc-ajax=${action}`);
 };

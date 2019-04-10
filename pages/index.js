@@ -32,12 +32,7 @@ class Index extends Component {
         let params = new FormData();
         params.set('productId', id);
 
-        /*axios.post(ajaxEndpoint('rewooc_add_to_cart'), params).then(response => {
-            console.log(response);
-        });*/
-
         axios.get(ajaxEndpoint('rewooc_add_to_cart')).then(response => {
-            console.log('lala');
             console.log(response.data);
         });
     }

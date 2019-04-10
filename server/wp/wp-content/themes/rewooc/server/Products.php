@@ -41,17 +41,7 @@ class Products {
 	public function addToCart() {
 		$productId = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_REQUEST['productId'] ) );
 		$quantity  = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
-
 		$cartData = WC()->cart->add_to_cart( $productId, $quantity ) ? Cart::getData() : [ 'error' => true ];
-
-		send_origin_headers();
-		@header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
-		@header( 'X-Robots-Tag: noindex' );
-		@header("Access-Control-Allow-Origin", "*");
-		@header("Access-Control-Allow-Credentials", "true");
-		@header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-		@header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
-
 		$output = [
 			'test' => is_user_logged_in()
 		];

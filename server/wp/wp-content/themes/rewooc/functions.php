@@ -28,7 +28,9 @@ if ( Customizer::getMode( 'homepage_layout' ) === 'sidebar' ) {
 }
 
 add_filter( 'allowed_http_origins', function ( $origins ) {
+	// Fix CORS error in page routing
 	@header( 'Access-Control-Allow-Headers: Authorization, Content-Type' );
+	// Fix CORS error for ajax Endpoints and page routing
 	$origins[] = 'http://localhost:3000';
 
 	return $origins;
