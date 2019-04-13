@@ -5,12 +5,9 @@ namespace Rewooc;
 class Init {
 
 	private static $services = [
-		Core\Theme::class,
-		Core\Assets::class,
-		Core\Menus::class,
+		Core\Setup::class,
 		Customizer\Customizer::class,
-		Plugins\Woocommerce::class,
-		Products::class
+		Api\Shop\Products::class
 	];
 
 	public static function register_services() {

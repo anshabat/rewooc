@@ -14,24 +14,3 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 if ( class_exists( 'Rewooc\Init' ) ) {
 	Rewooc\Init::register_services();
 }
-
-/* Register custom widgets */
-Sidebar::registerWidgets( [
-	Widgets\RwProducts::class,
-	Widgets\LatestPosts::class
-] );
-
-/* Register custom widget sidebars */
-Sidebar::registerSidebar( 'homepage_main', 'Homepage main' );
-if ( Customizer::getMode( 'homepage_layout' ) === 'sidebar' ) {
-	Sidebar::registerSidebar( 'homepage_sidebar', 'Homepage sidebar' );
-}
-
-add_filter( 'allowed_http_origins', function ( $origins ) {
-	// Fix CORS error in page routing
-	@header( 'Access-Control-Allow-Headers: Authorization, Content-Type' );
-	// Fix CORS error for ajax Endpoints and page routing
-	$origins[] = 'http://localhost:3000';
-
-	return $origins;
-} );

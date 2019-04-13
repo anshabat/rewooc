@@ -15,10 +15,10 @@ const Layout = (props) => {
             <div className="rw-page__header">
                 <Header
                     headlineLeft={<Nav items={props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
-                    headlineRight={<Phone phoneNumber={props.appData.themeMods.rewooc_site_phone}/>}
-                    mainLeft={<Image image={props.appData.themeMods.custom_logo}/>}
+                    headlineRight={<Phone phoneNumber={props.appData.phone}/>}
+                    mainLeft={<Image image={props.appData.logo}/>}
                     mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
-                    mainRight={<MiniCart count={props.appData.cart.count} subtotal={Number(props.appData.cart.subtotal)}/>}
+                    mainRight={<MiniCart count={0} subtotal={0}/>}
                 />
             </div>
             <div className="rw-page__main">

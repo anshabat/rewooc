@@ -2,7 +2,7 @@
 
 namespace Rewooc\Widgets;
 
-use Rewooc\Products;
+use Rewooc\Api\Shop\Products;
 
 class RwProducts extends \WP_Widget {
 	/**

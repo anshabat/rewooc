@@ -11,11 +11,9 @@ class Sidebar {
 	 * @param $widgets - array of widgets classes
 	 */
 	public static function registerWidgets( $widgets ) {
-		add_action( 'widgets_init', function () use ( $widgets ) {
-			foreach ( $widgets as $widget ) {
-				register_widget( $widget );
-			}
-		} );
+		foreach ( $widgets as $widget ) {
+			register_widget( $widget );
+		}
 	}
 
 	/**
@@ -25,17 +23,15 @@ class Sidebar {
 	 * @param string $name - sidebar name
 	 */
 	public static function registerSidebar( $id, $name ) {
-		add_action( 'widgets_init', function () use ( $id, $name ) {
-			if ( ! is_registered_sidebar( $id ) ) {
-				register_sidebar( [
-					'id'       => $id,
-					'name'     => $name,
-					'onResult' => function ( $result ) use ( $id ) {
-						self::addResult( $id, $result );
-					}
-				] );
-			}
-		} );
+		if ( ! is_registered_sidebar( $id ) ) {
+			register_sidebar( [
+				'id'       => $id,
+				'name'     => $name,
+				'onResult' => function ( $result ) use ( $id ) {
+					self::addResult( $id, $result );
+				}
+			] );
+		}
 	}
 
 
@@ -69,6 +65,7 @@ class Sidebar {
 		dynamic_sidebar( $sidebar );
 
 		/* Return $sidebar data, which contains widgets results after calling dynamic_sidebar() */
+
 		return self::$widgetsResults[ $sidebar ];
 	}
 }

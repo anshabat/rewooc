@@ -15,6 +15,8 @@ class Index extends Component {
                 }
             }).then(({data}) => {
                 resolve({appData: data})
+            }).catch(data => {
+                console.log(data);
             });
         });
     }

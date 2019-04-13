@@ -1,7 +1,7 @@
 <?php
 
-use Rewooc\Products;
-use Rewooc\Api\View;
+use Rewooc\Api\Shop\Products;
+use Rewooc\Core\View;
 
 View::renderPage( function () {
 	$products = [];

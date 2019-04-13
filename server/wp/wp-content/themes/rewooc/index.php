@@ -1,4 +1,2 @@
-<?php
-get_header();
-
-get_footer();
+<?php // Silence is golden
+//TODO maybe redirect to 404

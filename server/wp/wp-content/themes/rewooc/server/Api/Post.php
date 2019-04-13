@@ -2,8 +2,6 @@
 
 namespace Rewooc\Api;
 
-use Rewooc\Api\Media;
-
 class Post {
 	public static function objectToArray( $post ) {
 
