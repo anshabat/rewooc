@@ -1,9 +1,5 @@
 <?php
 
-use Rewooc\Customizer\Customizer;
-use Rewooc\Api\Sidebar;
-use Rewooc\Widgets;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
