@@ -6,11 +6,6 @@ use Rewooc\Api\Media;
 
 class Products {
 
-	public function __construct() {
-		add_action( 'wc_ajax_rewooc_search_products', [ $this, 'search' ] );
-		add_action( 'wc_ajax_rewooc_add_to_cart', [ $this, 'addToCart' ] );
-	}
-
 	public function search() {
 		$term = wc_clean( stripslashes( $_GET['term'] ) );
 

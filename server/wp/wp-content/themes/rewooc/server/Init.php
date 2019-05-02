@@ -6,8 +6,8 @@ class Init {
 
 	private static $services = [
 		Core\Setup::class,
-		Customizer\Customizer::class,
-		Api\Shop\Products::class
+		Core\Ajax::class,
+		Customizer\Customizer::class
 	];
 
 	public static function register_services() {
