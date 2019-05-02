@@ -23,6 +23,7 @@ class View {
 			'ajaxUrl'          => self::ajaxUrl(),
 			'siteMeta'         => self::getSiteMeta(),
 			'user'             => self::getUser(),
+			'customizer'       => self::getCustomizerData()
 		];
 	}
 
@@ -95,5 +96,11 @@ class View {
 
 	private static function getFavicon() {
 		return get_site_icon_url();
+	}
+
+	private static function getCustomizerData() {
+		return [
+			'site_layout' => get_theme_mod( 'rewooc_site_layout', 'fluid' )
+		];
 	}
 }

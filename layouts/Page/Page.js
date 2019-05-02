@@ -11,7 +11,7 @@ import MiniCart from '../../components/Shop/Cart/MiniCart/MiniCart';
 
 const Layout = (props) => {
     return (
-        <div className={`rw-page`}>
+        <div  className={`rw-page rw-page--${props.appData.customizer.site_layout}`}>
             <div className="rw-page__header">
                 <Header
                     headlineLeft={<Nav items={props.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
