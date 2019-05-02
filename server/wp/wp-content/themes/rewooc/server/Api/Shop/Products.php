@@ -6,6 +6,18 @@ use Rewooc\Api\Media;
 
 class Products {
 
+	public static function getArchiveProducts() {
+		$products = [];
+
+		while ( have_posts() ) {
+			the_post();
+			global $product;
+			$products[] = $product;
+		}
+
+		return self::convertProductObjectToArray( $products );
+	}
+
 	public function search() {
 		$term = wc_clean( stripslashes( $_GET['term'] ) );
 
@@ -35,8 +47,8 @@ class Products {
 	public function addToCart() {
 		$productId = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_REQUEST['productId'] ) );
 		$quantity  = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
-		$cartData = WC()->cart->add_to_cart( $productId, $quantity ) ? Cart::getData() : [ 'error' => true ];
-		$output = [
+		$cartData  = WC()->cart->add_to_cart( $productId, $quantity ) ? Cart::getData() : [ 'error' => true ];
+		$output    = [
 			'test' => is_user_logged_in()
 		];
 
