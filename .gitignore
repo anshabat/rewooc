@@ -2,6 +2,7 @@
 /.idea
 /.next
 config.js
+**/public
 
 # Ignore Wordpress Server
 /server/wp/*.*

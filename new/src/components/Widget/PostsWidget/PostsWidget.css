@@ -1,0 +1,9 @@
+.rw-posts-widget {
+  display: flex;
+  margin: 0 -15px;
+
+  &__item {
+    width: 25%;
+    padding: 15px;
+  }
+}
