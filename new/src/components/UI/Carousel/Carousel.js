@@ -1,4 +1,4 @@
-import './Carousel.css';
+import './Carousel.scss';
 import React, {Component, Children} from 'react';
 import * as utils from '../../../shared/utilities';
 

@@ -1,4 +1,4 @@
-import './CardPost.css';
+import './CardPost.scss';
 import React from 'react';
 import Image from '../../UI/Image/Image';
 

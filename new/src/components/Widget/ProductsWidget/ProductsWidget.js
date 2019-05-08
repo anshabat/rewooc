@@ -1,4 +1,4 @@
-import './ProductsWidget.css';
+import './ProductsWidget.scss';
 import React from 'react';
 import Carousel from '../../UI/Carousel/Carousel';
 import ProductCard from '../../Shop/Product/ProductCard/ProductCard';

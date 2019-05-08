@@ -1,4 +1,4 @@
-import './Dropdown.css';
+import './Dropdown.scss';
 import React from 'react';
 import Nav from '../Nav';
 import Link from '../../UI/Link/Link';

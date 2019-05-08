@@ -1,4 +1,4 @@
-import './Nav.css';
+import './Nav.scss';
 import React, {Component} from 'react';
 
 let allItems = [];

@@ -1,4 +1,4 @@
-import './MiniCart.css';
+import './MiniCart.scss';
 import React from 'react';
 
 const MiniCart = (props) => {

@@ -1,4 +1,4 @@
-import './AutocompleteField.css';
+import './AutocompleteField.scss';
 import React from 'react';
 import Button from '../../UI/Button/Button';
 

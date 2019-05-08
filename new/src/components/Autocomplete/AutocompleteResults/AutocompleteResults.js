@@ -1,4 +1,4 @@
-import './AutocompleteResults.css';
+import './AutocompleteResults.scss';
 import React, {Component} from 'react';
 import Link from '../../UI/Link/Link';
 

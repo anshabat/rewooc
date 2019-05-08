@@ -1,4 +1,4 @@
-import './Link.css';
+import './Link.scss';
 import React from 'react';
 import {siteUrl} from '../../../shared/utilities';
 

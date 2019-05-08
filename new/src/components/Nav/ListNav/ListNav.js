@@ -1,4 +1,4 @@
-import './ListNav.css';
+import './ListNav.scss';
 import React from 'react';
 import Nav from '../Nav';
 import Icon from '../../UI/Icon/Icon';

@@ -1,4 +1,4 @@
-import './Phone.css';
+import './Phone.scss';
 import React from 'react';
 
 const Phone = (props) => (

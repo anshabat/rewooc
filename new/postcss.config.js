@@ -1,6 +1,5 @@
 module.exports = () => ({
     plugins: {
-        'autoprefixer': { browsers: ['last 2 versions'] },
-        'postcss-nested': {}
+        'autoprefixer': { browsers: ['last 2 versions'] }
     }
 });

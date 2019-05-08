@@ -1,4 +1,4 @@
-import './Price.css';
+import './Price.scss';
 import React from 'react';
 import priceProvider from '../../../providers/priceProvider';
 

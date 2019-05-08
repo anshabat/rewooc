@@ -1,4 +1,4 @@
-import './Arrow.css';
+import './Arrow.scss';
 import React from 'react';
 
 const Arrow = (props) => (

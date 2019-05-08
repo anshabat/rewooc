@@ -1,4 +1,4 @@
-import './PostsWidget.css';
+import './PostsWidget.scss';
 import React from 'react';
 import ListPost from '../../Posts/ListPost/ListPost';
 import CardPost from '../../Posts/CardPost/CardPost';

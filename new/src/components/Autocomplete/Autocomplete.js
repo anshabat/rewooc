@@ -1,4 +1,4 @@
-import './Autocomplete.css';
+import './Autocomplete.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
 import AutocompleteResults from './AutocompleteResults/AutocompleteResults';

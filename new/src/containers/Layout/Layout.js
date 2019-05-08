@@ -1,4 +1,4 @@
-import './Layout.css';
+import './Layout.scss';
 import React from 'react';
 import Header from '../Header/Header';
 import Nav from '../../components/Nav/Nav';

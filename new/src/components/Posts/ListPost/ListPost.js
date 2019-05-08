@@ -1,4 +1,4 @@
-import './ListPost.css';
+import './ListPost.scss';
 import React from 'react';
 
 const ListPost = (props) => {

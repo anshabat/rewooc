@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import React, {Component} from 'react';
 import Layout from '../Layout/Layout';
 
