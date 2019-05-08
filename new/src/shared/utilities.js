@@ -25,7 +25,6 @@ const trailingSlash = {
 };
 
 export const siteUrl = (url) => {
-    console.log(url);
     let urlPath = url.replace(trailingSlash.remove(Config.apiUrl), '');
     urlPath = trailingSlash.remove(urlPath);
 
