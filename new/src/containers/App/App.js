@@ -1,6 +1,7 @@
 import './App.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
+import {BrowserRouter} from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import Home from '../Home/Home';
 import Archive from '../Archive/Archive';
@@ -43,13 +44,10 @@ class App extends Component {
         return this.state.appData ? (
             <Provider value={this.state.appData}>
                 <Layout>
-                    {true ? (
-                        <Home main={this.state.appData.widgets.homepage_main}
-                              sidebar={this.state.appData.widgets.homepage_sidebar}
-                              onAddToCart={this.onAddToCart}
-                        />
+                    {false ? (
+                        <Home onAddToCart={this.onAddToCart} />
                     ) : (
-                        <Archive products={this.state.appData.products}/>
+                        <Archive />
                     )}
                 </Layout>
             </Provider>
