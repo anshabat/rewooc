@@ -25,7 +25,7 @@ const trailingSlash = {
 };
 
 export const siteUrl = (url) => {
-    let urlPath = url.replace(trailingSlash.remove(Config.apiUrl), '');
+    let urlPath = url.replace(trailingSlash.remove(Config.apiUrl), 'new/public');
     urlPath = trailingSlash.remove(urlPath);
 
     return (urlPath[0] === '/' || urlPath.startsWith('http')) ? urlPath : '/' + urlPath;

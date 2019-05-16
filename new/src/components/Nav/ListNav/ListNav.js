@@ -2,7 +2,7 @@ import './ListNav.scss';
 import React from 'react';
 import Nav from '../Nav';
 import Icon from '../../UI/Icon/Icon';
-import Link from '../../UI/Link/Link';
+import {Link} from 'react-router-dom';
 import {siteUrl} from '../../../shared/utilities';
 
 const ListNav = (props) => (
@@ -14,12 +14,12 @@ const ListNav = (props) => (
                     onMouseLeave={() => props.hideItem(item)}
                     key={item.ID}
                 >
-                    <a className="rw-list-nav__link" href={siteUrl(item.url)}>
+                    <Link className="rw-list-nav__link" to={siteUrl(item.url)}>
                         {item.title}
                         {props.hasChildItems(item) ? (
                             <Icon name="fa-angle-down" classes={['rw-list-nav__arrow']} />
                         ) : null}
-                    </a>
+                    </Link>
                     {props.openedItems.includes(item.ID) ? (
                         <div className="rw-list-nav__drop rw-list-nav__drop--ltr">
                             <Nav parentId={item.ID} depth={props.depth + 1}/>

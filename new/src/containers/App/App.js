@@ -43,12 +43,12 @@ class App extends Component {
     render() {
         return this.state.appData ? (
             <Provider value={this.state.appData}>
-                <Layout>
-                    <BrowserRouter>
+                <BrowserRouter>
+                    <Layout>
                         <Route path="/new/public/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
                         <Route path="/new/public/shop" component={Archive}/>
-                    </BrowserRouter>
-                </Layout>
+                    </Layout>
+                </BrowserRouter>
             </Provider>
         ) : (
             <div>Loading...</div>

@@ -1,6 +1,6 @@
 import './AutocompleteResults.scss';
 import React, {Component} from 'react';
-import Link from '../../UI/Link/Link';
+import {siteUrl} from '../../../shared/utilities';
 
 class AutocompleteResults extends Component {
 
@@ -19,17 +19,15 @@ class AutocompleteResults extends Component {
                     const active = (this.props.cursor === index) ? 'rw-autocomplete-results__item--active' : '';
                     return (
                         <li className={`rw-autocomplete-results__item ${active}`} key={post.id}>
-                            <Link href={post.link} className="rw-autocomplete-results__link">
-                                <a ref={elem => {
+                            <a className="rw-autocomplete-results__link"
+                                href={siteUrl(post.link)}
+                                ref={elem => {
                                     if (active && elem) {
                                         this.props.getActiveItemRef(elem);
                                     }
                                 }}
-                                   onMouseOver={(e) => this.props.onLinkHover(e, index)}
-                                >
-                                    {post.title} ({post.price})
-                                </a>
-                            </Link>
+                                onMouseOver={(e) => this.props.onLinkHover(e, index)}
+                            >{post.title} ({post.price})</a>
                         </li>
                     )
                 })}
