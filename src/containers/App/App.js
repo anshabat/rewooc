@@ -6,6 +6,7 @@ import Layout from '../Layout/Layout';
 import Home from '../Home/Home';
 import Archive from '../Archive/Archive';
 import {ajaxEndpoint} from '../../shared/utilities';
+import Page404 from '../../components/Page404/Page404';
 
 export const {Provider, Consumer} = React.createContext();
 
@@ -49,6 +50,7 @@ class App extends Component {
                             <Route path="/dist/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
                             <Route path="/dist/shop" component={Archive}/>
                             <Route path="/dist/product-category/:slug" component={Archive}/>
+                            <Route component={Page404}/>
                         </Switch>
                     </Layout>
                 </BrowserRouter>
