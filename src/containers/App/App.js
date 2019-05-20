@@ -1,7 +1,7 @@
 import './App.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import Home from '../Home/Home';
 import Archive from '../Archive/Archive';
@@ -45,8 +45,11 @@ class App extends Component {
             <Provider value={this.state.appData}>
                 <BrowserRouter>
                     <Layout>
-                        <Route path="/dist/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
-                        <Route path="/dist/shop" component={Archive}/>
+                        <Switch>
+                            <Route path="/dist/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
+                            <Route path="/dist/shop" component={Archive}/>
+                            <Route path="/dist/product-category/:slug" component={Archive}/>
+                        </Switch>
                     </Layout>
                 </BrowserRouter>
             </Provider>

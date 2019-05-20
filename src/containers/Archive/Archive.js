@@ -2,6 +2,7 @@ import './Archive.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
+import {baseUrl} from '../../shared/utilities';
 
 class Archive extends Component {
 
@@ -13,7 +14,17 @@ class Archive extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://rewooc.loc/server/wp/shop').then(({data}) => {
+        this.loadData();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.location.pathname !== this.props.location.pathname) {
+            this.loadData();
+        }
+    }
+
+    loadData() {
+        axios.get(baseUrl(window.location.pathname)).then(({data}) => {
             this.setState({
                 products: data.products
             });

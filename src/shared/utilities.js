@@ -32,7 +32,7 @@ export const siteUrl = (url) => {
 };
 
 export const baseUrl = (url = '') => {
-    return Config.apiUrl + url;
+    return Config.apiUrl + url.replace('/dist', '');
 };
 
 export const ajaxEndpoint = (action) => {
