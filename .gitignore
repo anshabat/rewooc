@@ -1,7 +1,6 @@
-**/node_modules
-/.idea
-/.next
-**/public
+node_modules/
+.idea/
+dist/
 
 # Ignore Wordpress Server
 /server/wp/*.*

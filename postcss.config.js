@@ -1,5 +1,5 @@
-module.exports = ({env}) => ({
+module.exports = () => ({
     plugins: {
-        'autoprefixer': (env === 'production')
+        'autoprefixer': { browsers: ['last 2 versions'] }
     }
 });
