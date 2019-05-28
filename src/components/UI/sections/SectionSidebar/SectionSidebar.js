@@ -30,4 +30,4 @@ const SectionSidebar = (props) => {
     );
 };
 
-export default carouselProvider(SectionSidebar);
+export default SectionSidebar;

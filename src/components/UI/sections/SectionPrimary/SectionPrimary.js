@@ -30,4 +30,4 @@ const SectionPrimary = (props) => {
     );
 };
 
-export default carouselProvider(SectionPrimary);
+export default SectionPrimary;

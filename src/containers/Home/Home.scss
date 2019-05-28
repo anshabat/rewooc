@@ -1,18 +1,10 @@
 @import "../../assets/scss/mixins";
 
 .rw-home {
-
-  &__top {
-
-  }
-
-  &__top-item {
-    padding: 3rem 0;
-  }
-
-  &__middle {
-    display: flex;
-  }
+  @include container;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  display: flex;
 
   &__sidebar {
     width: 300px;
@@ -29,9 +21,4 @@
       padding-top: 3rem;
     }
   }
-
-  &__container {
-    @include container;
-  }
-
 }
