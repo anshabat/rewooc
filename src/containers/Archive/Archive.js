@@ -9,7 +9,8 @@ class Archive extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: null
+            products: null,
+            loading: true
         }
     }
 
@@ -24,15 +25,19 @@ class Archive extends Component {
     }
 
     loadData() {
+        this.setState({
+            loading: true
+        });
         axios.get(baseUrl(window.location.pathname)).then(({data}) => {
             this.setState({
-                products: data.products
+                products: data.products,
+                loading: false
             });
         })
     }
 
     render() {
-        return this.state.products ? (
+        return !this.state.loading ? (
             <div style={{'display': 'flex', 'flexWrap': 'wrap'}}>
                 {this.state.products.map(product => (
                     <ProductCard key={product.id} {...product} />
