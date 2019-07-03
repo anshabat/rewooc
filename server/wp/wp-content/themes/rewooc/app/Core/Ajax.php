@@ -2,7 +2,7 @@
 
 namespace Rewooc\Core;
 
-use Rewooc\Api\Shop\Products;
+use Rewooc\Shop\Products;
 
 class Ajax {
 	private $endpoints = [

@@ -2,8 +2,8 @@
 
 namespace Rewooc\Core;
 
-use Rewooc\Api\Media;
-use Rewooc\Api\Navigation;
+use Rewooc\Common\Media;
+use Rewooc\Common\Navigation;
 
 class View {
 

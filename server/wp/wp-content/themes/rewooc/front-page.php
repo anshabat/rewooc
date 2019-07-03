@@ -1,7 +1,7 @@
 <?php
 
-use Rewooc\Api\Post;
-use Rewooc\Api\Shop\Products;
+use Rewooc\Common\Post;
+use Rewooc\Shop\Products;
 use Rewooc\Core\View;
 
 $postObjects = get_posts();

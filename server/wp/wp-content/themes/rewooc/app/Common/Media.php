@@ -1,6 +1,6 @@
 <?php
 
-namespace Rewooc\Api;
+namespace Rewooc\Common;
 
 class Media {
 	private $id = null;

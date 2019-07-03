@@ -2,8 +2,6 @@
 
 namespace Rewooc\Core;
 
-use Rewooc\Widgets;
-
 class Setup {
 
 	public function __construct() {

@@ -1,6 +1,6 @@
 <?php
 
-use Rewooc\Api\Shop\Products;
+use Rewooc\Shop\Products;
 use Rewooc\Core\View;
 
 View::renderPage( function () {

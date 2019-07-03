@@ -1,8 +1,8 @@
 <?php
 
-namespace Rewooc\Api\Shop;
+namespace Rewooc\Shop;
 
-use Rewooc\Api\Media;
+use Rewooc\Common\Media;
 
 class Products {
 

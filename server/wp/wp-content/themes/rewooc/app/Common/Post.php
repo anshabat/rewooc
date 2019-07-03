@@ -1,6 +1,6 @@
 <?php
 
-namespace Rewooc\Api;
+namespace Rewooc\Common;
 
 class Post {
 	public static function objectToArray( $post ) {

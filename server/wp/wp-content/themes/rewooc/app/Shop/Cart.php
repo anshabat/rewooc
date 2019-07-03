@@ -1,6 +1,6 @@
 <?php
 
-namespace Rewooc\Api\Shop;
+namespace Rewooc\Shop;
 
 class Cart {
 
