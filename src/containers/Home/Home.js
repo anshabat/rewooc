@@ -6,6 +6,7 @@ import axios from 'axios';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import CardPost from '../../components/Posts/CardPost/CardPost';
 import ListPost from '../../components/Posts/ListPost/ListPost';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Home extends Component {
 
@@ -92,7 +93,9 @@ class Home extends Component {
                 </div>
             </div>
         ) : (
-            <div>Loading home...</div>
+            <div className="rw-page-loader">
+              <Loader/>
+            </div>
         );
     }
 }

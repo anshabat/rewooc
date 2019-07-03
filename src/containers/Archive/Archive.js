@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import {baseUrl} from '../../shared/utilities';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Archive extends Component {
 
@@ -44,8 +45,8 @@ class Archive extends Component {
                 ))}
             </div>
         ) : (
-            <div>
-                There are no products
+            <div className="rw-page-loader">
+                <Loader/>
             </div>
         )
     }

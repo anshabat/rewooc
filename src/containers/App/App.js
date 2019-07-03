@@ -7,6 +7,7 @@ import Home from '../Home/Home';
 import Archive from '../Archive/Archive';
 import {ajaxEndpoint} from '../../shared/utilities';
 import Page404 from '../../components/Page404/Page404';
+import Loader from '../../components/UI/Loader/Loader';
 
 export const {Provider, Consumer} = React.createContext();
 
@@ -56,7 +57,9 @@ class App extends Component {
                 </BrowserRouter>
             </Provider>
         ) : (
-            <div>Loading...</div>
+            <div className="rw-app-loader">
+                <Loader/>
+            </div>
         )
     }
 }
