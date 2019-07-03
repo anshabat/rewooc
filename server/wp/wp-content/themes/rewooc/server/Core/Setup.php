@@ -2,7 +2,6 @@
 
 namespace Rewooc\Core;
 
-use Rewooc\Api\Sidebar;
 use Rewooc\Widgets;
 
 class Setup {
@@ -11,7 +10,6 @@ class Setup {
 		add_action( 'after_setup_theme', [ $this, 'addThemeFeatures' ] );
 		add_action( 'after_setup_theme', [ $this, 'registerMenus' ] );
 		add_filter( 'allowed_http_origins', [ $this, 'allowedHttpOrigins' ] );
-		add_action( 'widgets_init', [ $this, 'registerSidebars' ] );
 	}
 
 	/**
@@ -57,18 +55,6 @@ class Setup {
 		$origins[] = 'http://localhost:3000';
 
 		return $origins;
-	}
-
-	public function registerSidebars() {
-		/* Register custom widgets */
-		Sidebar::registerWidgets( [
-			Widgets\RwProducts::class,
-			Widgets\LatestPosts::class
-		] );
-
-		/* Register custom widget sidebars */
-		Sidebar::registerSidebar( 'homepage_main', 'Homepage main' );
-		Sidebar::registerSidebar( 'homepage_sidebar', 'Homepage sidebar' );
 	}
 
 }

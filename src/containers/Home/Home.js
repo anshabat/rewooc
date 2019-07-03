@@ -2,7 +2,6 @@ import './Home.scss';
 import React, {Component} from 'react';
 import SectionPrimary from '../../components/UI/sections/SectionPrimary/SectionPrimary';
 import SectionSidebar from '../../components/UI/sections/SectionSidebar/SectionSidebar';
-import Widget from '../../components/Widget/Widget';
 import axios from 'axios';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import CardPost from '../../components/Posts/CardPost/CardPost';

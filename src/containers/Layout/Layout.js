@@ -14,7 +14,7 @@ const Layout = (props) => {
     return (
         <Consumer>
             {context => (
-                <div className={`rw-page rw-page--${context.customizer.site_layout}`}>
+                <div className={`rw-page`}>
                     <div className="rw-page__header">
                         <Header
                             headlineLeft={<Nav items={context.headerNavigation} navs={[ListNav, Dropdown]}/>}
