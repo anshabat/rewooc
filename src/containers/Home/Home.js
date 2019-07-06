@@ -8,6 +8,8 @@ import ListPost from '../../components/Posts/ListPost/ListPost';
 import Loader from '../../components/UI/Loader/Loader';
 import Grid from '../../components/UI/Grid/Grid';
 import Carousel from '../../components/UI/Carousel/Carousel';
+import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 class Home extends Component {
 
@@ -28,7 +30,7 @@ class Home extends Component {
         })
     }
 
-    getCarousel(carousel){
+    getCarousel(carousel) {
         this.setState({carousel})
     }
 
@@ -53,13 +55,25 @@ class Home extends Component {
                     )}
                     {this.state.appData.blogPosts.length && (
                         <div className="rw-home__main-item">
-                            <SectionPrimary title="Blog posts">
-                                <Grid items={this.state.appData.blogPosts}>
-                                    {(item) => (
-                                        <CardPost {...item}/>
-                                    )}
-                                </Grid>
-                            </SectionPrimary>
+                            <CarouselProvider
+                                naturalSlideWidth={50}
+                                naturalSlideHeight={10}
+                                totalSlides={this.state.appData.blogPosts.length}
+                            >
+                                <SectionPrimary title="Blog posts">
+                                    <>
+                                        <ButtonBack>Back</ButtonBack>
+                                        <ButtonNext>Next</ButtonNext>
+                                        <Slider>
+                                            {this.state.appData.blogPosts.map((item) => (
+                                                <Slide index={item.id} key={item.id}>
+                                                    <CardPost {...item}/>
+                                                </Slide>
+                                            ))}
+                                        </Slider>
+                                    </>
+                                </SectionPrimary>
+                            </CarouselProvider>
                         </div>
                     )}
                     {this.state.appData.blogPosts.length && (
@@ -86,7 +100,8 @@ class Home extends Component {
 }
 
 Home.defaultProps = {
-    getCarousel: () => {}
+    getCarousel: () => {
+    }
 };
 
 export default Home;
