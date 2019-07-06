@@ -1,6 +1,7 @@
 import './SectionPrimary.scss';
 import React from 'react';
 import Arrow from '../../Arrow/Arrow';
+import withCarousel from '../../Carousel/withCarousel';
 
 const SectionPrimary = (props) => {
     return (
@@ -29,4 +30,4 @@ const SectionPrimary = (props) => {
     );
 };
 
-export default SectionPrimary;
+export default withCarousel(SectionPrimary);

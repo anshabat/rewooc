@@ -1,8 +1,10 @@
 import './Carousel.scss';
 import React, {Component, Children} from 'react';
 import * as utils from '../../../shared/utilities';
+import withCarousel from './withCarousel';
 
 class Carousel extends Component {
+
     constructor(props) {
         super(props);
 
@@ -98,4 +100,4 @@ class Carousel extends Component {
     }
 }
 
-export default Carousel;
+export default withCarousel(Carousel);
