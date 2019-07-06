@@ -1,12 +1,12 @@
 import './Home.scss';
 import React, {Component} from 'react';
 import SectionPrimary from '../../components/UI/sections/SectionPrimary/SectionPrimary';
-import SectionSidebar from '../../components/UI/sections/SectionSidebar/SectionSidebar';
 import axios from 'axios';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import CardPost from '../../components/Posts/CardPost/CardPost';
 import ListPost from '../../components/Posts/ListPost/ListPost';
 import Loader from '../../components/UI/Loader/Loader';
+import Grid from '../../components/UI/Grid/Grid';
 
 class Home extends Component {
 
@@ -29,51 +29,29 @@ class Home extends Component {
     render() {
         return this.state.appData ? (
             <div className="rw-home">
-                <div className="rw-home__sidebar">
-                    {this.state.appData.featuredProducts.length && (
-                        <div className="rw-home__sidebar-item">
-                            <SectionSidebar title="Sales">
-                                <div className="rw-products-widget">
-                                    {this.state.appData.featuredProducts.map(product => (
-                                        <div className="rw-products-widget__item" key={product.id}>
-                                            <ProductCard
-                                                {...product}
-                                                onAddToCart={this.props.onAddToCart}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </SectionSidebar>
-                        </div>
-                    )}
-                </div>
                 <div className="rw-home__main">
                     {this.state.appData.featuredProducts.length && (
                         <div className="rw-home__main-item">
                             <SectionPrimary title="Featured Products">
-                                <div className="rw-products-widget rw-products-widget--horizontal">
-                                    {this.state.appData.featuredProducts.map(product => (
-                                        <div className="rw-products-widget__item" key={product.id}>
-                                            <ProductCard
-                                                {...product}
-                                                onAddToCart={this.props.onAddToCart}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
+                                <Grid items={this.state.appData.featuredProducts}>
+                                    {(item) => (
+                                        <ProductCard
+                                            {...item}
+                                            onAddToCart={this.props.onAddToCart}
+                                        />
+                                    )}
+                                </Grid>
                             </SectionPrimary>
                         </div>
                     )}
                     {this.state.appData.blogPosts.length && (
                         <div className="rw-home__main-item">
                             <SectionPrimary title="Blog posts">
-                                <ul className="rw-posts-widget">
-                                    {this.state.appData.blogPosts.map(post => (
-                                        <li className="rw-posts-widget__item" key={post.id}>
-                                            <CardPost {...post}/>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <Grid items={this.state.appData.blogPosts}>
+                                    {(item) => (
+                                        <CardPost {...item}/>
+                                    )}
+                                </Grid>
                             </SectionPrimary>
                         </div>
                     )}
@@ -94,7 +72,7 @@ class Home extends Component {
             </div>
         ) : (
             <div className="rw-page-loader">
-              <Loader/>
+                <Loader/>
             </div>
         );
     }
