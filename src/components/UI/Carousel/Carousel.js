@@ -24,6 +24,7 @@ class Carousel extends Component {
             lastLoadedIndex: innerSlidesCount
         });
         window.addEventListener('resize', this.debouncedFitSlides);
+        this.props.getCarousel(this);
     }
 
     componentWillUnmount() {

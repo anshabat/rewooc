@@ -7,6 +7,7 @@ import CardPost from '../../components/Posts/CardPost/CardPost';
 import ListPost from '../../components/Posts/ListPost/ListPost';
 import Loader from '../../components/UI/Loader/Loader';
 import Grid from '../../components/UI/Grid/Grid';
+import Carousel from '../../components/UI/Carousel/Carousel';
 
 class Home extends Component {
 
@@ -14,7 +15,8 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            appData: null
+            appData: null,
+            carousel: null
         }
     }
 
@@ -26,21 +28,26 @@ class Home extends Component {
         })
     }
 
+    getCarousel(carousel){
+        this.setState({carousel})
+    }
+
     render() {
         return this.state.appData ? (
             <div className="rw-home">
                 <div className="rw-home__main">
                     {this.state.appData.featuredProducts.length && (
                         <div className="rw-home__main-item">
-                            <SectionPrimary title="Featured Products">
-                                <Grid items={this.state.appData.featuredProducts}>
-                                    {(item) => (
+                            <SectionPrimary title="Featured Products" carousel={this.state.carousel}>
+                                <Carousel getCarousel={this.getCarousel.bind(this)}>
+                                    {this.state.appData.featuredProducts.map(item => (
                                         <ProductCard
                                             {...item}
+                                            key={item.id}
                                             onAddToCart={this.props.onAddToCart}
                                         />
-                                    )}
-                                </Grid>
+                                    ))}
+                                </Carousel>
                             </SectionPrimary>
                         </div>
                     )}
@@ -77,5 +84,9 @@ class Home extends Component {
         );
     }
 }
+
+Home.defaultProps = {
+    getCarousel: () => {}
+};
 
 export default Home;
