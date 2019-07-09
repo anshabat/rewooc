@@ -6,8 +6,7 @@ import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import CardPost from '../../components/Posts/CardPost/CardPost';
 import Loader from '../../components/UI/Loader/Loader';
 import Grid from '../../components/UI/Grid/Grid';
-import Slider from '../../components/UI/Carousel/Slider';
-import CarouselProvider from '../../components/UI/Carousel/CarouselProvider';
+import {Slider, CarouselProvider} from '../../components/Carousel';
 
 class Home extends Component {
 

@@ -1,7 +1,7 @@
-import './Carousel.scss';
+import './Slider.scss';
 import React, {Component, Children} from 'react';
 import * as utils from '../../../shared/utilities';
-import withCarousel from './withCarousel';
+import withCarousel from '../withCarousel';
 
 class Slider extends Component {
 
@@ -79,15 +79,15 @@ class Slider extends Component {
 
     render() {
         return (
-            <div className="rw-carousel" ref={element => {
+            <div className="rw-slider" ref={element => {
                 this.$carousel = element
             }}>
                 {this.state.innerSlidesCount && (
-                    <div className="rw-carousel__wrapper">
-                        <div className="rw-carousel__slides">
+                    <div className="rw-slider__wrapper">
+                        <div className="rw-slider__list">
                             {Children.map(this.props.children, (Slide, index) => {
                                 return (
-                                    <div className="rw-carousel__slide">
+                                    <div className="rw-slider__item">
                                         {index < (this.state.lastLoadedIndex) ? Slide : null}
                                     </div>
                                 );

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Context from './context';
+import Context from '../context';
 
-class CP extends Component {
+class CarouselProvider extends Component {
     constructor(props) {
         super(props);
 
@@ -26,4 +26,4 @@ class CP extends Component {
     }
 }
 
-export default CP;
+export default CarouselProvider;
