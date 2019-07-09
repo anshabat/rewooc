@@ -6,7 +6,7 @@ import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import CardPost from '../../components/Posts/CardPost/CardPost';
 import Loader from '../../components/UI/Loader/Loader';
 import Grid from '../../components/UI/Grid/Grid';
-import Carousel from '../../components/UI/Carousel/Carousel';
+import Slider from '../../components/UI/Carousel/Slider';
 import CarouselProvider from '../../components/UI/Carousel/CarouselProvider';
 
 class Home extends Component {
@@ -36,7 +36,7 @@ class Home extends Component {
                         <div className="rw-home__main-item">
                             <CarouselProvider>
                                 <SectionPrimary title="Featured Products">
-                                    <Carousel>
+                                    <Slider>
                                         {this.state.appData.featuredProducts.map(item => (
                                             <ProductCard
                                                 {...item}
@@ -44,7 +44,7 @@ class Home extends Component {
                                                 onAddToCart={this.props.onAddToCart}
                                             />
                                         ))}
-                                    </Carousel>
+                                    </Slider>
                                 </SectionPrimary>
                             </CarouselProvider>
                         </div>

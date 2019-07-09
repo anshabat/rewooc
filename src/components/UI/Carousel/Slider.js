@@ -3,7 +3,7 @@ import React, {Component, Children} from 'react';
 import * as utils from '../../../shared/utilities';
 import withCarousel from './withCarousel';
 
-class Carousel extends Component {
+class Slider extends Component {
 
     constructor(props) {
         super(props);
@@ -26,7 +26,7 @@ class Carousel extends Component {
             lastLoadedIndex: innerSlidesCount
         });
         window.addEventListener('resize', this.debouncedFitSlides);
-        this.props.getCarousel(this);
+        this.props.getSlider(this);
     }
 
     componentWillUnmount() {
@@ -100,4 +100,4 @@ class Carousel extends Component {
     }
 }
 
-export default withCarousel(Carousel);
+export default withCarousel(Slider);
