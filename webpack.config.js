@@ -41,5 +41,10 @@ module.exports = {
         new CopyPlugin([
             {from: '.htaccess'}
         ])
-    ]
+    ],
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 9000
+    }
 };

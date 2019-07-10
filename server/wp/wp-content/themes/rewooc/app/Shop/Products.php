@@ -52,7 +52,7 @@ class Products {
 			'test' => is_user_logged_in()
 		];
 
-		wp_send_json( $cartData );
+		wp_send_json( $output );
 	}
 
 	public static function convertProductObjectToArray( $productObjects ) {

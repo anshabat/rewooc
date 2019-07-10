@@ -20,7 +20,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://rewooc.loc/server/wp').then(({data}) => {
+        axios.get('http://rewooc.loc/server/wp/').then(({data}) => {
             this.setState({
                 appData: data
             });
@@ -66,10 +66,5 @@ class Home extends Component {
         );
     }
 }
-
-Home.defaultProps = {
-    getCarousel: () => {
-    }
-};
 
 export default Home;

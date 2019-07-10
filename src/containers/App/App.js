@@ -20,7 +20,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://rewooc.loc/server/wp', {
+        axios.get('http://rewooc.loc/server/wp/', {
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
@@ -39,7 +39,10 @@ class App extends Component {
         params.set('productId', id);
 
         axios.get(ajaxEndpoint('rewooc_add_to_cart'), {
-            params: {productId: id}
+            params: {productId: id},
+            headers: {
+                'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
+            }
         }).then(response => {
             console.log(response.data);
         });
@@ -51,9 +54,9 @@ class App extends Component {
                 <BrowserRouter>
                     <Layout>
                         <Switch>
-                            <Route path="/dist/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
-                            <Route path="/dist/shop" component={Archive}/>
-                            <Route path="/dist/product-category/:slug" component={Archive}/>
+                            <Route path="/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
+                            <Route path="/shop" component={Archive}/>
+                            <Route path="/product-category/:slug" component={Archive}/>
                             <Route component={Page404}/>
                         </Switch>
                     </Layout>
