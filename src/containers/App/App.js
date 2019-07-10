@@ -34,10 +34,13 @@ class App extends Component {
     onAddToCart(e, id) {
         e.preventDefault();
 
+        //TODO unused FORM data object. Maybe delete or use somehow
         let params = new FormData();
         params.set('productId', id);
 
-        axios.get(ajaxEndpoint('rewooc_add_to_cart')).then(response => {
+        axios.get(ajaxEndpoint('rewooc_add_to_cart'), {
+            params: {productId: id}
+        }).then(response => {
             console.log(response.data);
         });
     }
