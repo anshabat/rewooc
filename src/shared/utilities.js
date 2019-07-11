@@ -25,14 +25,14 @@ const trailingSlash = {
 };
 
 export const siteUrl = (url) => {
-    let urlPath = url.replace(trailingSlash.remove(Config.apiUrl), 'dist');
+    let urlPath = url.replace(trailingSlash.remove(Config.apiUrl), '');
     urlPath = trailingSlash.remove(urlPath);
 
     return (urlPath[0] === '/' || urlPath.startsWith('http')) ? urlPath : '/' + urlPath;
 };
 
 export const baseUrl = (url = '') => {
-    return Config.apiUrl + url.replace('/dist', '');
+    return Config.apiUrl + url.replace('/dist', '') + '/';
 };
 
 export const ajaxEndpoint = (action) => {

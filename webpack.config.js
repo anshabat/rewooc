@@ -6,8 +6,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        publicPath: process.env.WEBPACK_DEV_SERVER ? '/' : ''
     },
     module: {
         rules: [
@@ -30,6 +29,9 @@ module.exports = {
             }
         ]
     },
+    devServer: {
+        historyApiFallback: true
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
@@ -41,10 +43,5 @@ module.exports = {
         new CopyPlugin([
             {from: '.htaccess'}
         ])
-    ],
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 9000
-    }
+    ]
 };
