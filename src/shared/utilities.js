@@ -31,10 +31,10 @@ export const siteUrl = (url) => {
     return (urlPath[0] === '/' || urlPath.startsWith('http')) ? urlPath : '/' + urlPath;
 };
 
-export const baseUrl = (url = '') => {
-    return Config.apiUrl + url.replace('/dist', '') + '/';
+export const apiUrl = (url = '') => {
+    return trailingSlash.remove(Config.apiUrl) + url;
 };
 
 export const ajaxEndpoint = (action) => {
-    return baseUrl(`/?wc-ajax=${action}`);
+    return apiUrl(`/?wc-ajax=${action}`);
 };

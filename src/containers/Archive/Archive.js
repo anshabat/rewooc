@@ -2,7 +2,7 @@ import './Archive.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
 import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
-import {baseUrl} from '../../shared/utilities';
+import {apiUrl} from '../../shared/utilities';
 import Loader from '../../components/UI/Loader/Loader';
 
 class Archive extends Component {
@@ -29,7 +29,7 @@ class Archive extends Component {
         this.setState({
             loading: true
         });
-        axios.get(baseUrl(window.location.pathname)).then(({data}) => {
+        axios.get(apiUrl(window.location.pathname + '/')).then(({data}) => {
             this.setState({
                 products: data.products,
                 loading: false
@@ -41,7 +41,11 @@ class Archive extends Component {
         return !this.state.loading ? (
             <div style={{'display': 'flex', 'flexWrap': 'wrap'}}>
                 {this.state.products.map(product => (
-                    <ProductCard key={product.id} {...product} />
+                    <ProductCard
+                        key={product.id}
+                        {...product}
+                        onAddToCart={this.props.onAddToCart}
+                    />
                 ))}
             </div>
         ) : (

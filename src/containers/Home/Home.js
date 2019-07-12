@@ -7,6 +7,7 @@ import CardPost from '../../components/Posts/CardPost/CardPost';
 import Loader from '../../components/UI/Loader/Loader';
 import Grid from '../../components/UI/Grid/Grid';
 import {Slider, CarouselProvider} from '../../components/Carousel';
+import {apiUrl} from '../../shared/utilities';
 
 class Home extends Component {
 
@@ -20,7 +21,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://rewooc.loc/server/wp/').then(({data}) => {
+        axios.get(apiUrl('/')).then(({data}) => {
             this.setState({
                 appData: data
             });

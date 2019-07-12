@@ -5,7 +5,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import Home from '../Home/Home';
 import Archive from '../Archive/Archive';
-import {ajaxEndpoint} from '../../shared/utilities';
+import {ajaxEndpoint, apiUrl} from '../../shared/utilities';
 import Page404 from '../../components/Page404/Page404';
 import Loader from '../../components/UI/Loader/Loader';
 
@@ -20,7 +20,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://rewooc.loc/server/wp/', {
+        axios.get(apiUrl('/'), {
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
@@ -55,7 +55,7 @@ class App extends Component {
                     <Layout>
                         <Switch>
                             <Route path="/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
-                            <Route path="/shop" component={Archive}/>
+                            <Route path="/shop" render={(props) => <Archive onAddToCart={this.onAddToCart} {...props} />}/>
                             <Route path="/product-category/:slug" component={Archive}/>
                             <Route component={Page404}/>
                         </Switch>

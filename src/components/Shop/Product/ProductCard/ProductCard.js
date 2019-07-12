@@ -2,6 +2,7 @@ import './ProductCard.scss';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
+import {apiUrl} from '../../../../shared/utilities';
 
 const ProductCard = (props) => {
     return (
@@ -23,7 +24,7 @@ const ProductCard = (props) => {
                 ) : props.isAdding ? (
                     <span>Adding...</span>
                 ) : (
-                    <a href={props.addToCartUrl} onClick={e => props.onAddToCart(e, props.id)}>Add to Cart</a>
+                    <button onClick={e => props.onAddToCart(e, props.id)}>Add to Cart</button>
                 )}
             </div>
         </article>
