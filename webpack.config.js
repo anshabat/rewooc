@@ -1,4 +1,3 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
@@ -6,7 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: './src/index.js',
     output: {
-        publicPath: process.env.WEBPACK_DEV_SERVER ? '/' : ''
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -41,7 +40,7 @@ module.exports = {
             filename: "styles.css",
         }),
         new CopyPlugin([
-            {from: '.htaccess'}
+            {from: './src/.htaccess'}
         ])
     ]
 };
