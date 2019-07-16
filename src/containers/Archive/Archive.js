@@ -29,7 +29,7 @@ class Archive extends Component {
         this.setState({
             loading: true
         });
-        axios.get(apiUrl(window.location.pathname + '/')).then(({data}) => {
+        axios.get(apiUrl(window.location.pathname)).then(({data}) => {
             this.setState({
                 products: data.products,
                 loading: false

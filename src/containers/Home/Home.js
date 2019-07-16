@@ -21,7 +21,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get(apiUrl('/')).then(({data}) => {
+        axios.get(apiUrl()).then(({data}) => {
             this.setState({
                 appData: data
             });

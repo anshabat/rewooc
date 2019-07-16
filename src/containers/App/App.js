@@ -20,7 +20,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get(apiUrl('/'), {
+        axios.get(apiUrl(), {
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
