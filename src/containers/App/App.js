@@ -54,9 +54,14 @@ class App extends Component {
                 <BrowserRouter>
                     <Layout>
                         <Switch>
-                            <Route path="/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
-                            <Route path="/shop" render={(props) => <Archive onAddToCart={this.onAddToCart} {...props} />}/>
-                            <Route path="/product-category/:slug" component={Archive}/>
+                            <Route
+                                path="/" exact
+                                render={() => <Home onAddToCart={this.onAddToCart}/>}
+                            />
+                            <Route
+                                path={['/shop', '/product-category/:slug']}
+                                render={(props) => <Archive onAddToCart={this.onAddToCart} {...props} />}
+                            />
                             <Route component={Page404}/>
                         </Switch>
                     </Layout>
