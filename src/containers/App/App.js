@@ -14,8 +14,10 @@ export const {Provider, Consumer} = React.createContext();
 class App extends Component {
     constructor(props) {
         super(props);
+        this.onAddToCart = this.onAddToCart.bind(this);
         this.state = {
-            appData: null
+            appData: null,
+            cart: []
         };
     }
 
@@ -25,8 +27,10 @@ class App extends Component {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
         }).then(({data}) => {
+            const {cart, ...appData} = data;
             this.setState({
-                appData: data
+                appData,
+                cart
             });
         })
     }
@@ -44,13 +48,13 @@ class App extends Component {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
         }).then(response => {
-            console.log(response.data);
+            this.setState({cart: response.data});
         });
     }
 
     render() {
         return this.state.appData ? (
-            <Provider value={this.state.appData}>
+            <Provider value={this.state}>
                 <BrowserRouter>
                     <Layout>
                         <Switch>

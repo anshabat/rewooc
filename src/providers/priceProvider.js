@@ -25,22 +25,25 @@ const priceProvider = (ComposedComponent) => {
             return format.replace('%2$s', price).replace('&nbsp;', ' ').replace('%1$s', currency);
         };
 
-        const formatPrice = (settings) => {
+        const formatPrice = (priceData, value) => {
             return formatCurrency({
                 price: formatValue({
-                    price: Number(props.value),
-                    thousandSeparator: settings.price.thousandSeparator,
-                    decimalSeparator: settings.price.decimalSeparator,
-                    decimalsCount: settings.price.decimals
+                    price: Number(value),
+                    thousandSeparator: priceData.thousandSeparator,
+                    decimalSeparator: priceData.decimalSeparator,
+                    decimalsCount: priceData.decimals
                 }),
-                currency: settings.price.currencySymbol,
-                format: settings.price.priceFormat
+                currency: priceData.currencySymbol,
+                format: priceData.priceFormat
             });
         };
 
         return (
             <Consumer>
-                {context => <ComposedComponent {...props} formattedPrice={formatPrice(context)}/>}
+                {({appData}) => <ComposedComponent
+                    {...props}
+                    formatPrice={value => formatPrice(appData.price, value)}
+                />}
             </Consumer>
         )
     };
