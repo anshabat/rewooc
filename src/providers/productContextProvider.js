@@ -8,11 +8,12 @@ export default function (WrappedComponent) {
         }
         render() {
             return (
-                <Consumer>{({cart}) => {
+                <Consumer>{({cart, addingToCartId}) => {
                     return (
                         <WrappedComponent
                             {...this.props}
                             inCart={this.isInCart(this.props.id, cart.items)}
+                            isAddingToCart={this.props.id === addingToCartId}
                         />
                     );
                 }}

@@ -19,10 +19,9 @@ const ProductCard = (props) => {
                 <Price value={props.price}/>
             </div>
             <div className="rw-product-card__row">
+                {props.isAddingToCart && <span>Adding...</span>}
                 {props.inCart ? (
                     <a href="#">In Cart</a>
-                ) : props.isAdding ? (
-                    <span>Adding...</span>
                 ) : (
                     <button onClick={e => props.onAddToCart(e, props.id)}>Add to Cart</button>
                 )}

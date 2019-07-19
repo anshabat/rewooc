@@ -17,7 +17,8 @@ class App extends Component {
         this.onAddToCart = this.onAddToCart.bind(this);
         this.state = {
             appData: null,
-            cart: []
+            cart: [],
+            addingToCartId: null
         };
     }
 
@@ -42,13 +43,20 @@ class App extends Component {
         let params = new FormData();
         params.set('productId', id);
 
+        this.setState({
+            addingToCartId: id
+        });
+
         axios.get(ajaxEndpoint('rewooc_add_to_cart'), {
             params: {productId: id},
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
         }).then(response => {
-            this.setState({cart: response.data});
+            this.setState({
+                cart: response.data,
+                addingToCartId: null
+            });
         });
     }
 
