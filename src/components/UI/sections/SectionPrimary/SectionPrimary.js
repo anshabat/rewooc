@@ -1,7 +1,7 @@
 import './SectionPrimary.scss';
 import React from 'react';
 import Arrow from '../../Arrow/Arrow';
-import withCarousel from '../../Carousel/withCarousel';
+import {withCarousel} from '../../../Carousel';
 
 const SectionPrimary = (props) => {
     return (

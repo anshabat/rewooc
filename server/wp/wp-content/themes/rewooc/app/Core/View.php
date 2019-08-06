@@ -4,6 +4,7 @@ namespace Rewooc\Core;
 
 use Rewooc\Common\Media;
 use Rewooc\Common\Navigation;
+use Rewooc\Shop\Cart;
 
 class View {
 
@@ -22,7 +23,8 @@ class View {
 			'baseUrl'          => self::baseUrl(),
 			'ajaxUrl'          => self::ajaxUrl(),
 			'siteMeta'         => self::getSiteMeta(),
-			'user'             => self::getUser()
+			'user'             => self::getUser(),
+			'cart'             => Cart::getData()
 		];
 	}
 

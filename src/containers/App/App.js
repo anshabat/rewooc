@@ -5,7 +5,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import Home from '../Home/Home';
 import Archive from '../Archive/Archive';
-import {ajaxEndpoint} from '../../shared/utilities';
+import {ajaxEndpoint, apiUrl} from '../../shared/utilities';
 import Page404 from '../../components/Page404/Page404';
 import Loader from '../../components/UI/Loader/Loader';
 
@@ -14,19 +14,24 @@ export const {Provider, Consumer} = React.createContext();
 class App extends Component {
     constructor(props) {
         super(props);
+        this.onAddToCart = this.onAddToCart.bind(this);
         this.state = {
-            appData: null
+            appData: null,
+            cart: [],
+            addingToCartId: null
         };
     }
 
     componentDidMount() {
-        axios.get('http://rewooc.loc/server/wp', {
+        axios.get(apiUrl(), {
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
         }).then(({data}) => {
+            const {cart, ...appData} = data;
             this.setState({
-                appData: data
+                appData,
+                cart
             });
         })
     }
@@ -34,23 +39,41 @@ class App extends Component {
     onAddToCart(e, id) {
         e.preventDefault();
 
+        //TODO unused FORM data object. Maybe delete or use somehow
         let params = new FormData();
         params.set('productId', id);
 
-        axios.get(ajaxEndpoint('rewooc_add_to_cart')).then(response => {
-            console.log(response.data);
+        this.setState({
+            addingToCartId: id
+        });
+
+        axios.get(ajaxEndpoint('rewooc_add_to_cart'), {
+            params: {productId: id},
+            headers: {
+                'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
+            }
+        }).then(response => {
+            this.setState({
+                cart: response.data,
+                addingToCartId: null
+            });
         });
     }
 
     render() {
         return this.state.appData ? (
-            <Provider value={this.state.appData}>
+            <Provider value={this.state}>
                 <BrowserRouter>
                     <Layout>
                         <Switch>
-                            <Route path="/dist/" exact render={() => <Home onAddToCart={this.onAddToCart}/>}/>
-                            <Route path="/dist/shop" component={Archive}/>
-                            <Route path="/dist/product-category/:slug" component={Archive}/>
+                            <Route
+                                path="/" exact
+                                render={() => <Home onAddToCart={this.onAddToCart}/>}
+                            />
+                            <Route
+                                path={['/shop', '/product-category/:slug']}
+                                render={(props) => <Archive onAddToCart={this.onAddToCart} {...props} />}
+                            />
                             <Route component={Page404}/>
                         </Switch>
                     </Layout>

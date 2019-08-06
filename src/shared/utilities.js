@@ -18,23 +18,20 @@ export const debounce = (callback, delay = 300) => {
     }
 };
 
-const trailingSlash = {
-    remove(str) {
-        return str.endsWith('/') ? str.slice(0, -1) : str;
-    }
+export const removeTrailingSlash = str => {
+    return str.endsWith('/') ? removeTrailingSlash(str.slice(0, -1)) : str
 };
 
 export const siteUrl = (url) => {
-    let urlPath = url.replace(trailingSlash.remove(Config.apiUrl), 'dist');
-    urlPath = trailingSlash.remove(urlPath);
+    let urlPath = url.replace(Config.apiUrl, '');
 
     return (urlPath[0] === '/' || urlPath.startsWith('http')) ? urlPath : '/' + urlPath;
 };
 
-export const baseUrl = (url = '') => {
-    return Config.apiUrl + url.replace('/dist', '');
+export const apiUrl = (url = '') => {
+    return removeTrailingSlash(Config.apiUrl + url) + '/';
 };
 
 export const ajaxEndpoint = (action) => {
-    return baseUrl(`/?wc-ajax=${action}`);
+    return `${Config.apiUrl}/?wc-ajax=${action}`;
 };

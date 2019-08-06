@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Context from './context';
+import Context from '../context';
 
-class CP extends Component {
+class CarouselProvider extends Component {
     constructor(props) {
         super(props);
 
@@ -9,21 +9,21 @@ class CP extends Component {
             carousel: null
         };
 
-        this.getCarousel = this.getCarousel.bind(this);
+        this.getSlider = this.getSlider.bind(this);
     }
 
-    getCarousel(carousel) {
+    getSlider(carousel) {
         this.setState({carousel})
     }
 
     render() {
         return (
             <Context.Provider value={{
-                getCarousel: this.getCarousel,
+                getSlider: this.getSlider,
                 carousel: this.state.carousel
             }}>{this.props.children}</Context.Provider>
         )
     }
 }
 
-export default CP;
+export default CarouselProvider;

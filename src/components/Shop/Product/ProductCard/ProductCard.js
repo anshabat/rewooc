@@ -2,6 +2,7 @@ import './ProductCard.scss';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
+import productContextProvider from '../../../../providers/productContextProvider';
 
 const ProductCard = (props) => {
     return (
@@ -18,16 +19,15 @@ const ProductCard = (props) => {
                 <Price value={props.price}/>
             </div>
             <div className="rw-product-card__row">
+                {props.isAddingToCart && <span>Adding...</span>}
                 {props.inCart ? (
                     <a href="#">In Cart</a>
-                ) : props.isAdding ? (
-                    <span>Adding...</span>
                 ) : (
-                    <a href={props.addToCartUrl} onClick={e => props.onAddToCart(e, props.id)}>Add to Cart</a>
+                    <button onClick={e => props.onAddToCart(e, props.id)}>Add to Cart</button>
                 )}
             </div>
         </article>
     )
 };
 
-export default ProductCard;
+export default productContextProvider(ProductCard);

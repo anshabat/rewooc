@@ -6,8 +6,8 @@ import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
 import CardPost from '../../components/Posts/CardPost/CardPost';
 import Loader from '../../components/UI/Loader/Loader';
 import Grid from '../../components/UI/Grid/Grid';
-import Carousel from '../../components/UI/Carousel/Carousel';
-import CarouselProvider from '../../components/UI/Carousel/CarouselProvider';
+import {Slider, CarouselProvider} from '../../components/Carousel';
+import {apiUrl} from '../../shared/utilities';
 
 class Home extends Component {
 
@@ -21,7 +21,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://rewooc.loc/server/wp').then(({data}) => {
+        axios.get(apiUrl()).then(({data}) => {
             this.setState({
                 appData: data
             });
@@ -36,7 +36,7 @@ class Home extends Component {
                         <div className="rw-home__main-item">
                             <CarouselProvider>
                                 <SectionPrimary title="Featured Products">
-                                    <Carousel>
+                                    <Slider>
                                         {this.state.appData.featuredProducts.map(item => (
                                             <ProductCard
                                                 {...item}
@@ -44,7 +44,7 @@ class Home extends Component {
                                                 onAddToCart={this.props.onAddToCart}
                                             />
                                         ))}
-                                    </Carousel>
+                                    </Slider>
                                 </SectionPrimary>
                             </CarouselProvider>
                         </div>
@@ -67,10 +67,5 @@ class Home extends Component {
         );
     }
 }
-
-Home.defaultProps = {
-    getCarousel: () => {
-    }
-};
 
 export default Home;
