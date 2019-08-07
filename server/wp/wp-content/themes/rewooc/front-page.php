@@ -13,11 +13,9 @@ foreach ( $postObjects as $post ) {
 	array_push( $posts, Post::objectToArray( $post ) );
 }
 
-View::renderPage( function () use ( $posts ) {
-	return [
-		'featuredProducts' => Products::getProducts( [
-			'featured' => true
-		] ),
-		'blogPosts'        => $posts
-	];
-} );
+View::renderPage( [
+	'featuredProducts' => Products::getProducts( [
+		'featured' => true
+	] ),
+	'blogPosts'        => $posts
+] );

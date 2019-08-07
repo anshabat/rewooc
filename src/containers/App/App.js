@@ -47,7 +47,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get(apiUrl(), {
+        axios.get(ajaxEndpoint('rewooc_get_common_data'), {
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
             }
@@ -73,7 +73,7 @@ class App extends Component {
                         <Switch>
                             <Route
                                 path="/" exact
-                                render={() => <Home appData={this.state.appData} />}
+                                render={(props) => <Home {...props} appData={this.state.appData} />}
                             />
                             <Route
                                 path={['/shop', '/product-category/:slug']}

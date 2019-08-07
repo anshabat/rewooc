@@ -31,16 +31,16 @@ class View {
 	/**
 	 * Provide data to Frontend
 	 *
-	 * @param callable $function - should return an array with data for specific page
+	 * @param array $data - an array with data for specific page
 	 *
 	 */
-	public static function renderPage( callable $function ) {
+	public static function renderPage( array $data ) {
 		send_origin_headers();
+		wp_send_json( $data );
+	}
 
-		$commonData = self::getCommonData();
-		$pageData   = array_merge( $commonData, call_user_func( $function ) );
-
-		wp_send_json( $pageData );
+	public static function renderCommonData() {
+		wp_send_json( self::getCommonData() );
 	}
 
 	private static function getCurrencyFormat() {
