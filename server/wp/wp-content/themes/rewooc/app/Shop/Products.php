@@ -44,7 +44,7 @@ class Products {
 		return $products;
 	}
 
-	public function addToCart() {
+	public static function addToCart() {
 		$productId = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_REQUEST['productId'] ) );
 		$quantity  = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
 		WC()->cart->add_to_cart( $productId, $quantity );
