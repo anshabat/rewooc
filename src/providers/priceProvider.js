@@ -40,9 +40,9 @@ const priceProvider = (ComposedComponent) => {
 
         return (
             <Consumer>
-                {({appData}) => <ComposedComponent
+                {({store}) => <ComposedComponent
                     {...props}
-                    formatPrice={value => formatPrice(appData.price, value)}
+                    formatPrice={value => formatPrice(store.appData.price, value)}
                 />}
             </Consumer>
         )

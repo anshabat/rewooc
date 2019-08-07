@@ -44,7 +44,6 @@ class Archive extends Component {
                     <ProductCard
                         key={product.id}
                         {...product}
-                        onAddToCart={this.props.onAddToCart}
                     />
                 ))}
             </div>

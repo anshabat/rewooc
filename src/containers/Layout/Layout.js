@@ -13,15 +13,15 @@ import {Consumer} from '../App/App';
 const Layout = (props) => {
     return (
         <Consumer>
-            {({appData, cart}) => (
+            {({store}) => (
                 <div className={`rw-page`}>
                     <div className="rw-page__header">
                         <Header
-                            headlineLeft={<Nav items={appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
-                            headlineRight={<Phone phoneNumber={appData.phone}/>}
-                            mainLeft={<Image image={appData.logo}/>}
+                            headlineLeft={<Nav items={store.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
+                            headlineRight={<Phone phoneNumber={store.appData.phone}/>}
+                            mainLeft={<Image image={store.appData.logo}/>}
                             mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
-                            mainRight={<MiniCart count={cart.count} subtotal={cart.subtotal}/>}
+                            mainRight={<MiniCart count={store.cart.count} subtotal={store.cart.subtotal}/>}
                         />
                     </div>
                     <div className="rw-page__main">

@@ -13,35 +13,30 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            appData: null,
-            carousel: null
-        }
+        this.state = {}
     }
 
-    componentDidMount() {
+   /* componentDidMount() {
         axios.get(apiUrl()).then(({data}) => {
             this.setState({
                 appData: data
             });
         })
-    }
+    }*/
 
     render() {
-        return this.state.appData ? (
+        return (
             <div className="rw-home">
                 <div className="rw-home__main">
-                    {this.state.appData.featuredProducts.length && (
+                    {this.props.appData.featuredProducts.length && (
                         <div className="rw-home__main-item">
                             <CarouselProvider>
                                 <SectionPrimary title="Featured Products">
                                     <Slider>
-                                        {this.state.appData.featuredProducts.map(item => (
+                                        {this.props.appData.featuredProducts.map(item => (
                                             <ProductCard
                                                 {...item}
                                                 key={item.id}
-                                                onAddToCart={this.props.onAddToCart}
                                             />
                                         ))}
                                     </Slider>
@@ -49,20 +44,16 @@ class Home extends Component {
                             </CarouselProvider>
                         </div>
                     )}
-                    {this.state.appData.blogPosts.length && (
+                    {this.props.appData.blogPosts.length && (
                         <div className="rw-home__main-item">
                             <SectionPrimary title="Latest news">
-                                <Grid items={this.state.appData.blogPosts}>
+                                <Grid items={this.props.appData.blogPosts}>
                                     {item => <CardPost {...item}/>}
                                 </Grid>
                             </SectionPrimary>
                         </div>
                     )}
                 </div>
-            </div>
-        ) : (
-            <div className="rw-page-loader">
-                <Loader/>
             </div>
         );
     }
