@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Context from './context';
 
-const withCarousel = (WrappedComponent => {
+const withCarousel = WrappedComponent => {
     return class extends Component {
         static contextType = Context;
 
@@ -11,6 +11,6 @@ const withCarousel = (WrappedComponent => {
             )
         }
     }
-});
+};
 
 export default withCarousel;
