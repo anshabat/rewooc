@@ -3,7 +3,7 @@ import axios from 'axios';
 import {BrowserRouter} from 'react-router-dom';
 import {ajaxEndpoint} from './shared/utilities';
 import Root from './components/Root';
-import PageLoader from './components/UI/PageLoader/PageLoader';
+import PageLoader from './components/UI/loaders/PageLoader/PageLoader';
 
 export const {Provider, Consumer} = React.createContext();
 
@@ -66,7 +66,7 @@ class App extends Component {
                 }
             }}>
                 <BrowserRouter>
-                    <Root appData={this.state.appData}/>
+                    <Root />
                 </BrowserRouter>
             </Provider>
         )
