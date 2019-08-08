@@ -1,13 +1,9 @@
-import './App.scss';
 import React, {Component} from 'react';
 import axios from 'axios';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import Layout from '../Layout/Layout';
-import Home from '../Home/Home';
-import Archive from '../Archive/Archive';
-import {ajaxEndpoint, apiUrl} from '../../shared/utilities';
-import Page404 from '../../components/Page404/Page404';
-import Loader from '../../components/UI/Loader/Loader';
+import {BrowserRouter} from 'react-router-dom';
+import {ajaxEndpoint} from './shared/utilities';
+import Root from './components/Root';
+import PageLoader from './components/UI/PageLoader/PageLoader';
 
 export const {Provider, Consumer} = React.createContext();
 
@@ -61,7 +57,8 @@ class App extends Component {
     }
 
     render() {
-        return this.state.appData ? (
+        if (!this.state.appData) return <PageLoader/>;
+        return (
             <Provider value={{
                 store: this.state,
                 actions: {
@@ -69,26 +66,11 @@ class App extends Component {
                 }
             }}>
                 <BrowserRouter>
-                    <Layout>
-                        <Switch>
-                            <Route
-                                path="/" exact
-                                render={(props) => <Home {...props} appData={this.state.appData} />}
-                            />
-                            <Route
-                                path={['/shop', '/product-category/:slug']}
-                                render={(props) => <Archive {...props} />}
-                            />
-                            <Route component={Page404}/>
-                        </Switch>
-                    </Layout>
+                    <Root appData={this.state.appData}/>
                 </BrowserRouter>
             </Provider>
-        ) : (
-            <div className="rw-app-loader">
-                <Loader/>
-            </div>
         )
+
     }
 }
 

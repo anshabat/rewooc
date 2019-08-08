@@ -1,11 +1,11 @@
 import './Home.scss';
-import React, {Component} from 'react';
-import SectionPrimary from '../../components/UI/sections/SectionPrimary/SectionPrimary';
-import ProductCard from '../../components/Shop/Product/ProductCard/ProductCard';
-import CardPost from '../../components/Posts/CardPost/CardPost';
-import Grid from '../../components/UI/Grid/Grid';
-import {Slider, CarouselProvider} from '../../components/Carousel';
-import pageProvider from '../../providers/pageProvider';
+import React from 'react';
+import SectionPrimary from '../../UI/sections/SectionPrimary/SectionPrimary';
+import ProductCard from '../../Shop/Product/ProductCard/ProductCard';
+import CardPost from '../../Posts/CardPost/CardPost';
+import Grid from '../../UI/Grid/Grid';
+import {Slider, CarouselProvider} from '../../Carousel';
+import pageProvider from '../../../providers/pageProvider';
 
 const Home = ({featuredProducts, blogPosts}) => {
     return (

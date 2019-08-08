@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import Loader from '../components/UI/Loader/Loader';
 import {apiUrl} from '../shared/utilities';
+import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader';
 
 export default function (WrappedComponent) {
     return class extends Component {
@@ -34,9 +34,7 @@ export default function (WrappedComponent) {
             return this.state.data ? (
                 <WrappedComponent {...this.props} {...this.state.data} />
             ) : (
-                <div className="rw-page-loader">
-                    <Loader/>
-                </div>
+                <ContentLoader/>
             )
         }
     }

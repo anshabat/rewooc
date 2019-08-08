@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Consumer} from '../containers/App/App';
-import axios from 'axios';
-import {ajaxEndpoint} from '../shared/utilities';
+import {Consumer} from '../App';
 
 export default function (WrappedComponent) {
     return class extends Component {

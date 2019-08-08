@@ -1,5 +1,5 @@
 import React from 'react';
-import {Consumer} from '../containers/App/App';
+import {Consumer} from '../App';
 
 const priceProvider = (ComposedComponent) => {
 
