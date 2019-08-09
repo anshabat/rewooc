@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {Consumer} from '../App';
+import Context from '../context';
+
+const {Consumer} = Context;
 
 export default function (WrappedComponent) {
     return class extends Component {

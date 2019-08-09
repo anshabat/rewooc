@@ -1,5 +1,7 @@
 import React from 'react';
-import {Consumer} from '../App';
+import Context from '../context';
+
+const {Consumer} = Context
 
 const priceProvider = (ComposedComponent) => {
 

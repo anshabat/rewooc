@@ -4,8 +4,9 @@ import {BrowserRouter} from 'react-router-dom';
 import {ajaxEndpoint} from './shared/utilities';
 import Root from './components/Root';
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader';
+import Context from './context';
 
-export const {Provider, Consumer} = React.createContext();
+export const {Provider} = Context;
 
 class App extends Component {
     constructor(props) {

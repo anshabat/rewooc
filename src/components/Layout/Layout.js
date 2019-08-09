@@ -1,6 +1,6 @@
 import './Layout.scss';
 import React from 'react';
-import {Consumer} from '../../App';
+import Context from '../../context';
 import Header from './Header/Header';
 import Nav from '../Nav/Nav';
 import ListNav from '../Nav/ListNav/ListNav';
@@ -9,6 +9,8 @@ import Phone from '../Phone/Phone';
 import Image from '../UI/Image/Image';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
+
+const {Consumer} = Context;
 
 const Layout = (props) => {
     return (
