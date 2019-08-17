@@ -2,7 +2,7 @@ import './ProductCard.scss';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
-import productContextProvider from '../../../../providers/productContextProvider';
+import productProvider from '../../../../providers/productProvider';
 
 const ProductCard = (props) => {
     return (
@@ -30,4 +30,4 @@ const ProductCard = (props) => {
     )
 };
 
-export default productContextProvider(ProductCard);
+export default productProvider(ProductCard);

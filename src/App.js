@@ -6,8 +6,6 @@ import Root from './components/Root';
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader';
 import Context from './context';
 
-export const {Provider} = Context;
-
 class App extends Component {
     constructor(props) {
         super(props);
@@ -60,7 +58,7 @@ class App extends Component {
     render() {
         if (!this.state.appData) return <PageLoader/>;
         return (
-            <Provider value={{
+            <Context.Provider value={{
                 store: this.state,
                 actions: {
                     onAddToCart: this.onAddToCart,
@@ -69,7 +67,7 @@ class App extends Component {
                 <BrowserRouter>
                     <Root />
                 </BrowserRouter>
-            </Provider>
+            </Context.Provider>
         )
 
     }
