@@ -15,15 +15,15 @@ const {Consumer} = Context;
 const Layout = (props) => {
     return (
         <Consumer>
-            {({store}) => (
+            {({headerNavigation, phone, logo, cart, }) => (
                 <div className={`rw-page`}>
                     <div className="rw-page__header">
                         <Header
-                            headlineLeft={<Nav items={store.appData.headerNavigation} navs={[ListNav, Dropdown]}/>}
-                            headlineRight={<Phone phoneNumber={store.appData.phone}/>}
-                            mainLeft={<Image image={store.appData.logo}/>}
+                            headlineLeft={<Nav items={headerNavigation} navs={[ListNav, Dropdown]}/>}
+                            headlineRight={<Phone phoneNumber={phone}/>}
+                            mainLeft={<Image image={logo}/>}
                             mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
-                            mainRight={<MiniCart count={store.cart.count} subtotal={store.cart.subtotal}/>}
+                            mainRight={<MiniCart count={cart.count} subtotal={cart.subtotal}/>}
                         />
                     </div>
                     <div className="rw-page__main">

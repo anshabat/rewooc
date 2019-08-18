@@ -12,15 +12,21 @@ export default function (WrappedComponent) {
 
         render() {
             return (
-                <Consumer>{({store, actions}) => {
+                <Consumer>{({cart}) => {
                     return (
                         <WrappedComponent
                             {...this.props}
-                            inCart={this.isInCart(this.props.id, store.cart.items)}
-                            isAddingToCart={this.props.id === store.addingToCartId}
-                            onAddToCart={actions.onAddToCart}
+                            inCart={false}
+                            isAddingToCart={false}
+                            onAddToCart={() => {}}
                         />
                     );
+                    /*<WrappedComponent
+                            {...this.props}
+                            inCart={this.isInCart(this.props.id, cart.items)}
+                            isAddingToCart={this.props.id === store.addingToCartId}
+                            onAddToCart={actions.onAddToCart}
+                        />*/
                 }}
                 </Consumer>
             );

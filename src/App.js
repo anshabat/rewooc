@@ -5,19 +5,23 @@ import {ajaxEndpoint} from './shared/utilities';
 import Root from './components/Root';
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader';
 import Context from './context';
+import appProvider from './providers/appProvider';
+
+/* Redux */
+import {createStore} from 'redux';
+import reducer from './redux/reducer/cart';
+import {Provider} from 'react-redux';
 
 class App extends Component {
-    constructor(props) {
+    /*constructor(props) {
         super(props);
         this.onAddToCart = this.onAddToCart.bind(this);
         this.state = {
-            appData: null,
-            cart: [],
             addingToCartId: null
         };
-    }
+    }*/
 
-    onAddToCart(e, id) {
+    /*onAddToCart(e, id) {
         e.preventDefault();
 
         //TODO unused FORM data object. Maybe delete or use somehow
@@ -39,38 +43,21 @@ class App extends Component {
                 addingToCartId: null
             });
         });
-    }
+    }*/
 
-    componentDidMount() {
-        axios.get(ajaxEndpoint('rewooc_get_common_data'), {
-            headers: {
-                'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
-            }
-        }).then(({data}) => {
-            const {cart, ...appData} = data;
-            this.setState({
-                appData,
-                cart
-            });
-        })
-    }
+    static contextType = Context;
 
     render() {
-        if (!this.state.appData) return <PageLoader/>;
+        const store = createStore(reducer, this.context);
         return (
-            <Context.Provider value={{
-                store: this.state,
-                actions: {
-                    onAddToCart: this.onAddToCart,
-                }
-            }}>
+            <Provider store={store}>
                 <BrowserRouter>
-                    <Root />
+                    <Root/>
                 </BrowserRouter>
-            </Context.Provider>
+            </Provider>
         )
 
     }
 }
 
-export default App;
+export default appProvider(App);
