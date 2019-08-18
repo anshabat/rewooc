@@ -1,6 +1,7 @@
 import './MiniCart.scss';
 import React from 'react';
 import Price from '../../Price/Price';
+import {connect} from 'react-redux';
 
 const MiniCart = (props) => {
     return (
@@ -10,4 +11,9 @@ const MiniCart = (props) => {
     );
 };
 
-export default MiniCart;
+export default connect((state) => {
+    return {
+        count: state.cart.count,
+        subtotal: state.cart.subtotal
+    }
+})(MiniCart);

@@ -2,7 +2,8 @@ import './ProductCard.scss';
 import React from 'react';
 import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
-import productProvider from '../../../../providers/productProvider';
+import {connect} from 'react-redux';
+import {addToCart} from '../../../../redux/actionCreators';
 
 const ProductCard = (props) => {
     return (
@@ -23,11 +24,17 @@ const ProductCard = (props) => {
                 {props.inCart ? (
                     <a href="#">In Cart</a>
                 ) : (
-                    <button onClick={e => props.onAddToCart(e, props.id)}>Add to Cart</button>
+                    <button onClick={e => props.addToCart(e, props.id)} type="button">Add to Cart</button>
                 )}
             </div>
         </article>
     )
 };
 
-export default productProvider(ProductCard);
+export default connect(null, (dispatch) => {
+    return {
+        addToCart: (event, id) => {
+            dispatch(addToCart(event, id))
+        }
+    }
+})(ProductCard);

@@ -1,9 +1,12 @@
-import * as ac from '../actionTypes';
-const defaultState = {
-    data: null
-};
+import {
+    CART_ADD_PRODUCT
+} from '../actionTypes';
 
 export default (state, action) => {
-    console.log(state);
-    return state;
+    switch (action.type) {
+        case CART_ADD_PRODUCT:
+            return {...state, cart: {...state.cart, count: state.cart.count+1}};
+        default:
+            return state
+    }
 };

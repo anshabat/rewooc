@@ -1,8 +1,11 @@
-import * as ac from './actionTypes';
+import {
+    CART_ADD_PRODUCT
+} from './actionTypes';
 
-export const addToCart = () => {
+export const addToCart = (e, productId) => {
     console.log('action load homepage');
     return {
-        type: ac.CART_PRODUCT_START
+        type: CART_ADD_PRODUCT,
+        payload: {productId}
     }
 };

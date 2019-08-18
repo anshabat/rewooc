@@ -23,7 +23,7 @@ const Layout = (props) => {
                             headlineRight={<Phone phoneNumber={phone}/>}
                             mainLeft={<Image image={logo}/>}
                             mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
-                            mainRight={<MiniCart count={cart.count} subtotal={cart.subtotal}/>}
+                            mainRight={<MiniCart />}
                         />
                     </div>
                     <div className="rw-page__main">
