@@ -24,12 +24,12 @@ const appProvider = (WrappedComponent) => {
         }
 
         render() {
-            return this.state.data ? (
-                <Context.Provider value={this.state.data}>
-                    <WrappedComponent {...this.props} />
+            if (!this.state.data) return <PageLoader/>;
+            const {cart, user, ...appData} = this.state.data;
+            return (
+                <Context.Provider value={appData}>
+                    <WrappedComponent serverState={{cart, user}} {...this.props} />
                 </Context.Provider>
-            ) : (
-                <PageLoader/>
             )
         }
     }

@@ -4,8 +4,10 @@ import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
 import {connect} from 'react-redux';
 import {addToCart} from '../../../../redux/actionCreators';
+import {isProductInCart} from '../../../../shared/utilities';
 
 const ProductCard = (props) => {
+    console.log(props.isAddingToCart);
     return (
         <article className="rw-product-card">
             <div className="rw-product-card__row">
@@ -21,7 +23,7 @@ const ProductCard = (props) => {
             </div>
             <div className="rw-product-card__row">
                 {props.isAddingToCart && <span>Adding...</span>}
-                {props.inCart ? (
+                {props.isInCart ? (
                     <a href="#">In Cart</a>
                 ) : (
                     <button onClick={e => props.addToCart(e, props.id)} type="button">Add to Cart</button>
@@ -31,10 +33,18 @@ const ProductCard = (props) => {
     )
 };
 
-export default connect(null, (dispatch) => {
-    return {
-        addToCart: (event, id) => {
-            dispatch(addToCart(event, id))
+export default connect(
+    (state, ownProps) => {
+        return {
+            isAddingToCart: state.cart.addingProductId === ownProps.id,
+            isInCart: isProductInCart(ownProps.id, state.cart.items)
+        }
+    },
+    dispatch => {
+        return {
+            addToCart: (event, id) => {
+                dispatch(addToCart(event, id))
+            }
         }
     }
-})(ProductCard);
+)(ProductCard);
