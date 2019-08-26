@@ -8,13 +8,9 @@ export const addToCart = store => next => action => {
         next(action);
         return;
     }
-
     next(addToCartStart(action.payload.productId));
     axios.get(ajaxEndpoint('rewooc_add_to_cart'), {
-        params: {productId: action.payload.productId},
-        headers: {
-            'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
-        }
+        params: {productId: action.payload.productId}
     }).then(response => {
         next(addToCartSuccess(response.data));
     }).catch(error => {

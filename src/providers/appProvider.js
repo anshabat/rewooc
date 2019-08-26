@@ -14,11 +14,7 @@ const appProvider = (WrappedComponent) => {
         }
 
         componentDidMount() {
-            axios.get(ajaxEndpoint('rewooc_get_common_data'), {
-                headers: {
-                    'Authorization': 'Basic ' + Buffer.from('admin:admin').toString('base64')
-                }
-            }).then(({data}) => {
+            axios.get(ajaxEndpoint('rewooc_get_common_data')).then(({data}) => {
                 this.setState({data});
             })
         }

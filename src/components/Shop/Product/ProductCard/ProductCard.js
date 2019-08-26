@@ -7,7 +7,6 @@ import {addToCart} from '../../../../redux/actionCreators';
 import {isProductInCart} from '../../../../shared/utilities';
 
 const ProductCard = (props) => {
-    console.log(props.isAddingToCart);
     return (
         <article className="rw-product-card">
             <div className="rw-product-card__row">
@@ -23,11 +22,8 @@ const ProductCard = (props) => {
             </div>
             <div className="rw-product-card__row">
                 {props.isAddingToCart && <span>Adding...</span>}
-                {props.isInCart ? (
-                    <a href="#">In Cart</a>
-                ) : (
-                    <button onClick={e => props.addToCart(e, props.id)} type="button">Add to Cart</button>
-                )}
+                {props.isInCart && <a href="#">In Cart</a>}
+                <button onClick={e => props.addToCart(e, props.id)} type="button">Add to Cart</button>
             </div>
         </article>
     )

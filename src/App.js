@@ -17,6 +17,8 @@ class App extends Component {
             applyMiddleware(addToCart)
         );
 
+        console.log(serverState.user);
+
         return (
             <Provider store={store}>
                 <BrowserRouter>
