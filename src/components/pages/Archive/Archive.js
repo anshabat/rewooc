@@ -1,6 +1,6 @@
 import './Archive.scss';
 import React from 'react';
-import ProductCard from '../../Shop/Product/ProductCard/ProductCard';
+import ProductCard from '../../shop/product/ProductCard/ProductCard';
 import pageProvider from '../../../providers/pageProvider';
 
 const Archive = ({products}) => {

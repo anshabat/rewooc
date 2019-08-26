@@ -8,7 +8,7 @@ import Dropdown from '../Nav/Dropdown/Dropdown';
 import Phone from '../Phone/Phone';
 import Image from '../UI/Image/Image';
 import Autocomplete from '../Autocomplete/Autocomplete';
-import MiniCart from '../Shop/Cart/MiniCart/MiniCart';
+import MiniCart from '../shop/cart/MiniCart/MiniCart';
 
 const {Consumer} = Context;
 
