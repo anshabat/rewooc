@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {apiUrl} from '../shared/utilities';
-import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader';
+import {apiUrl} from '../../shared/utilities';
+import ContentLoader from '../UI/loaders/ContentLoader/ContentLoader';
 
 export default function (WrappedComponent) {
     return class extends Component {

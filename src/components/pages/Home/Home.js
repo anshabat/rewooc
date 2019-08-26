@@ -5,7 +5,7 @@ import ProductCard from '../../shop/product/ProductCard/ProductCard';
 import CardPost from '../../posts/CardPost/CardPost';
 import Grid from '../../UI/Grid/Grid';
 import {Slider, CarouselProvider} from '../../carousel';
-import pageProvider from '../../../providers/pageProvider';
+import pageProvider from '../pageProvider';
 
 const Home = ({featuredProducts, blogPosts}) => {
     return (

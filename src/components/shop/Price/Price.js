@@ -1,6 +1,6 @@
 import './Price.scss';
 import React from 'react';
-import priceProvider from '../../../providers/priceProvider';
+import priceProvider from './priceProvider';
 
 const Price = (props) => {
     return (

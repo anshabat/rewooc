@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {ajaxEndpoint} from '../shared/utilities';
-import PageLoader from '../components/UI/loaders/PageLoader/PageLoader';
-import Context from '../context';
+import {ajaxEndpoint} from './shared/utilities';
+import PageLoader from './components/UI/loaders/PageLoader/PageLoader';
+import Context from './context';
 
 const appProvider = (WrappedComponent) => {
     return class extends Component {
