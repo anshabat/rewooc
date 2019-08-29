@@ -25,6 +25,13 @@ module.exports = {
                     loader: 'html-loader',
                     options: {minimize: false}
                 }]
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {outputPath: 'fonts/', name: '[name].[ext]',}
+                }]
             }
         ]
     },
