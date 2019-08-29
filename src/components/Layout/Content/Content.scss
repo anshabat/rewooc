@@ -1,0 +1,29 @@
+@import "../../../assets/scss/mixins";
+
+.rw-content {
+  background-color: var(--main-bg);
+
+  &__breadcrumbs {
+    border-bottom: var(--main-bg);
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-light-color);
+  }
+
+  &__container {
+    @include container();
+  }
+
+  &__heading {
+    padding: 40px 0 20px;
+  }
+
+  &__title {
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--font-color);
+  }
+
+  &__body {
+    padding-bottom: 60px;
+  }
+}

@@ -7,7 +7,7 @@ use Rewooc\Core\View;
 $postObjects = get_posts();
 $posts       = [];
 
-WC()->cart->empty_cart();
+//WC()->cart->empty_cart();
 
 foreach ( $postObjects as $post ) {
 	array_push( $posts, Post::objectToArray( $post ) );

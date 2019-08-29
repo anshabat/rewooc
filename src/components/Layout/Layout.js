@@ -17,7 +17,7 @@ const Layout = (props) => {
         <Consumer>
             {({headerNavigation, phone, logo, cart, }) => (
                 <div className={`rw-page`}>
-                    <div className="rw-page__header">
+                    <header className="rw-page__header">
                         <Header
                             headlineLeft={<Nav items={headerNavigation} navs={[ListNav, Dropdown]}/>}
                             headlineRight={<Phone phoneNumber={phone}/>}
@@ -25,13 +25,13 @@ const Layout = (props) => {
                             mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
                             mainRight={<MiniCart />}
                         />
-                    </div>
-                    <div className="rw-page__main">
+                    </header>
+                    <main className="rw-page__main">
                         {props.children}
-                    </div>
-                    <div className="rw-page__footer">
+                    </main>
+                    <footer className="rw-page__footer">
                         This is Page Footer
-                    </div>
+                    </footer>
                 </div>
             )}
         </Consumer>
