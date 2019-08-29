@@ -1,34 +1,43 @@
+import './CartTable.scss';
 import React from 'react';
 import SectionPrimary from '../../../UI/sections/SectionPrimary/SectionPrimary';
 import Icon from '../../../UI/Icon/Icon';
 import CartProduct from '../CartProduct/CartProduct';
+import FormField from '../../../UI/Form/FormField/FormField';
+import priceProvider from '../../Price/priceProvider';
 
-function CartTable({products, totals}) {
+function CartTable({products, totals, formatPrice}) {
     console.log(products);
+    const foo = () => {
+        console.log('lala');
+    };
     return (
-        <SectionPrimary title="Подробности заказа">
+        <>
             <div className="rw-cart-table">
                 {products.map(product => {
-                   return (
-                       <div className="rw-cart-table__row" key={product.key}>
-                           <div className="rw-cart-table__delete">
-                               <Icon classes={['fa-times']} />
-                           </div>
-                           <div className="rw-cart-table__product">
-                               <CartProduct product={product} />
-                           </div>
-                           <div className="rw-cart-table__quantity">
-
-                           </div>
-                           <div className="rw-cart-table__price">
-
-                           </div>
-                       </div>
-                   )
+                    return (
+                        <div className="rw-cart-table__row" key={product.key}>
+                            <div className="rw-cart-table__delete" onClick={foo}>
+                                <Icon classes={['fa-times']}/>
+                            </div>
+                            <div className="rw-cart-table__product">
+                                <CartProduct product={product}/>
+                            </div>
+                            <div className="rw-cart-table__quantity">
+                                <FormField value={2} onChange={foo} type="number"/>
+                            </div>
+                            <div className="rw-cart-table__price">
+                                {formatPrice(product.line_subtotal)}
+                            </div>
+                        </div>
+                    )
                 })}
             </div>
-        </SectionPrimary>
+            <div style={{textAlign: 'right', fontWeight: 'bold', marginTop: '20px'}}>
+                Total: {formatPrice(totals.subtotal)}
+            </div>
+        </>
     );
 }
 
-export default CartTable;
+export default priceProvider(CartTable);
