@@ -7,7 +7,6 @@ import FormField from '../../../UI/Form/FormField/FormField';
 import priceProvider from '../../Price/priceProvider';
 
 function CartTable({products, totals, formatPrice}) {
-    console.log(products);
     const foo = () => {
         console.log('lala');
     };
@@ -16,7 +15,7 @@ function CartTable({products, totals, formatPrice}) {
             <div className="rw-cart-table">
                 {products.map(product => {
                     return (
-                        <div className="rw-cart-table__row" key={product.key}>
+                        <div className="rw-cart-table__row" key={product.id}>
                             <div className="rw-cart-table__delete" onClick={foo}>
                                 <Icon classes={['fa-times']}/>
                             </div>
@@ -27,14 +26,14 @@ function CartTable({products, totals, formatPrice}) {
                                 <FormField value={2} onChange={foo} type="number"/>
                             </div>
                             <div className="rw-cart-table__price">
-                                {formatPrice(product.line_subtotal)}
+                                {formatPrice(product.price * product.quantity)}
                             </div>
                         </div>
                     )
                 })}
             </div>
             <div style={{textAlign: 'right', fontWeight: 'bold', marginTop: '20px'}}>
-                Total: {formatPrice(totals.subtotal)}
+                Total: {formatPrice(100)}
             </div>
         </>
     );

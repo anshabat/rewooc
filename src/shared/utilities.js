@@ -37,5 +37,5 @@ export const ajaxEndpoint = (action) => {
 };
 
 export const isProductInCart = (id, cartItems) => {
-    return Object.values(cartItems).some(item => (item.product_id || item.variation_id) === id);
+    return cartItems.some(item => item.id === id);
 };

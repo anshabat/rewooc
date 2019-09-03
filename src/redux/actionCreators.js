@@ -16,8 +16,8 @@ export const addToCartStart = (productId) => {
     return {type: CART_ADD_PRODUCT_START, payload: {productId}}
 };
 
-export const addToCartSuccess = (cart) => {
-    return {type: CART_ADD_PRODUCT_SUCCESS, payload: {cart}}
+export const addToCartSuccess = (products) => {
+    return {type: CART_ADD_PRODUCT_SUCCESS, payload: {products}}
 };
 
 export const addToCartFail = (error) => {

@@ -6,15 +6,15 @@ import {connect} from 'react-redux';
 const MiniCart = (props) => {
     return (
         <div className="rw-mini-cart" onClick={props.onLoad}>
-            Cart: {props.count} - <Price value={props.subtotal}/>
+            Cart: {props.count} - <Price value={props.total}/>
         </div>
     );
 };
 
 export default connect((state) => {
     return {
-        count: state.cart.count,
-        subtotal: state.cart.subtotal
+        count: state.cart.products.length,
+        total: 100
     }
 }, (dispatch) => {
     return {

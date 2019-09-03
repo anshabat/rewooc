@@ -17,7 +17,7 @@ class App extends Component {
             applyMiddleware(addToCart)
         );
 
-        console.log(serverState.user);
+        console.log(serverState.user,' - User in App.js');
 
         return (
             <Provider store={store}>

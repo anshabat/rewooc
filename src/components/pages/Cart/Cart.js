@@ -7,8 +7,8 @@ import CartTable from '../../shop/cart/CartTable/CartTable';
 function Cart({title, cart}) {
     return (
         <Content title={title}>
-            {cart.count > 0 ? (
-                <CartTable products={Object.values(cart.items)} totals={cart.totals}/>
+            {cart.products.length > 0 ? (
+                <CartTable products={cart.products} />
             ) : (
                 <p>Cart is empty</p>
             )}

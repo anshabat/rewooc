@@ -33,7 +33,7 @@ export default connect(
     (state, ownProps) => {
         return {
             isAddingToCart: state.cart.addingProductId === ownProps.id,
-            isInCart: isProductInCart(ownProps.id, state.cart.items)
+            isInCart: isProductInCart(ownProps.id, state.cart.products)
         }
     },
     dispatch => {
