@@ -2,8 +2,6 @@
 
 namespace Rewooc\Shop;
 
-use Rewooc\Common\Media;
-
 class Products {
 
 	public static function getArchiveProducts() {
@@ -39,26 +37,16 @@ class Products {
 
 	public static function getProducts( $args = [] ) {
 		$productObjects = wc_get_products( $args );
-		$products       = self::convertProductObjectToArray( $productObjects );
 
-		return $products;
+		return self::convertProductObjectToArray( $productObjects );
 	}
 
-	public static function convertProductObjectToArray( $productObjects ) {
+	private static function convertProductObjectToArray( $productObjects ) {
 		$products = [];
-		foreach ( $productObjects as $productObject ) {
-			$title = rawurldecode( $productObject->get_name() );
-			$image = new Media( $productObject->get_image_id(), 'shop_catalog' );
-			$image->setImageAlt( $title );
-
-			array_push( $products, [
-				'id'           => $productObject->get_id(),
-				'title'        => $title,
-				'link'         => $productObject->get_permalink(),
-				'price'        => $productObject->get_price(),
-				'image'        => $image->getImage(),
-				'addToCartUrl' => $productObject->add_to_cart_url()
-			] );
+		foreach ( $productObjects as $wcProduct ) {
+			$productEntity = new Product( $wcProduct );
+			$productFacade = new ProductFacade( $productEntity );
+			$products[]    = $productFacade->getProductCard();
 		}
 
 		return $products;

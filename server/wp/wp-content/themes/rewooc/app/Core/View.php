@@ -24,7 +24,7 @@ class View {
 			'ajaxUrl'          => self::ajaxUrl(),
 			'siteMeta'         => self::getSiteMeta(),
 			'user'             => self::getUser(),
-			'cart'             => Cart::getData()
+			'cart'             => Cart::getProducts()
 		];
 	}
 

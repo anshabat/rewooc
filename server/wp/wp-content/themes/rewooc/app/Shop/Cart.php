@@ -2,42 +2,29 @@
 
 namespace Rewooc\Shop;
 
-use Rewooc\Common\Media;
-
 class Cart {
 
-	public static function getData() {
-		$products = self::getCartProducts( WC()->cart->get_cart_contents() );
-		return $products;
+	public static function addToCart() {
+		$productId  = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_REQUEST['productId'] ) );
+		$quantity   = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
+		$productKey = WC()->cart->add_to_cart( $productId, $quantity );
+
+		//TODO return single item after adding to cart
+		//$cartItem = WC()->cart->get_cart_item( $productKey );
+
+		wp_send_json( self::getProducts() );
 	}
 
-	private static function getCartProducts( $cartData ) {
+	public static function getProducts() {
+		$cartData = WC()->cart->get_cart_contents();
 		$products = [];
 
-		foreach ( $cartData as $item ) {
-			$productObject = $item['data'];
-			$title         = rawurldecode( $productObject->get_name() );
-			$image         = new Media( $productObject->get_image_id(), 'shop_catalog' );
-			$image->setImageAlt( $title );
-
-			$products[] = [
-				'quantity' => $item['quantity'],
-				'id'       => $item['product_id'],
-				'title'    => rawurldecode( $productObject->get_name() ),
-				'link'     => $productObject->get_permalink(),
-				'price'    => $productObject->get_price(),
-				'image'    => $image->getImage()
-			];
+		foreach ( $cartData as $cartItem ) {
+			$productEntity = new CartProduct( $cartItem );
+			$productFacade = new ProductFacade( $productEntity );
+			$products[]    = $productFacade->getCartProduct();
 		}
 
 		return $products;
-	}
-
-	public static function addToCart() {
-		$productId = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_REQUEST['productId'] ) );
-		$quantity  = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
-		WC()->cart->add_to_cart( $productId, $quantity );
-
-		wp_send_json( self::getData() );
 	}
 }
