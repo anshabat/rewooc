@@ -5,8 +5,9 @@ import Icon from '../../../UI/Icon/Icon';
 import CartProduct from '../CartProduct/CartProduct';
 import FormField from '../../../UI/Form/FormField/FormField';
 import priceProvider from '../../Price/priceProvider';
+import {getCartTotalPrice} from '../../../../redux/reducer/utils';
 
-function CartTable({products, totals, formatPrice}) {
+function CartTable({products, formatPrice}) {
     const foo = () => {
         console.log('lala');
     };
@@ -23,7 +24,7 @@ function CartTable({products, totals, formatPrice}) {
                                 <CartProduct product={product}/>
                             </div>
                             <div className="rw-cart-table__quantity">
-                                <FormField value={2} onChange={foo} type="number"/>
+                                <FormField value={product.quantity} onChange={foo} type="number"/>
                             </div>
                             <div className="rw-cart-table__price">
                                 {formatPrice(product.price * product.quantity)}
@@ -33,7 +34,7 @@ function CartTable({products, totals, formatPrice}) {
                 })}
             </div>
             <div style={{textAlign: 'right', fontWeight: 'bold', marginTop: '20px'}}>
-                Total: {formatPrice(100)}
+                Total: {formatPrice(getCartTotalPrice(products))}
             </div>
         </>
     );

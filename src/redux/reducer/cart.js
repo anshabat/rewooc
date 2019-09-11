@@ -22,6 +22,8 @@ export default function reducer(state = {}, action) {
             return {...state, products: action.payload.products, addingProductId: null};
         case CART_ADD_PRODUCT_FAIL:
             return state;
+        case 'TEST':
+            return {...state};
         default:
             return state;
     }

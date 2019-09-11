@@ -2,22 +2,25 @@ import './MiniCart.scss';
 import React from 'react';
 import Price from '../../Price/Price';
 import {connect} from 'react-redux';
+import {getCartTotalPrice, getCartTotalQuantity} from '../../../../redux/reducer/utils';
 
 const MiniCart = (props) => {
     return (
         <div className="rw-mini-cart" onClick={props.onLoad}>
-            Cart: {props.count} - <Price value={props.total}/>
+            Cart: {props.quantity} - <Price value={props.total}/>
         </div>
     );
 };
 
-export default connect((state) => {
+export default connect(({cart}) => {
     return {
-        count: state.cart.products.length,
-        total: 100
+        quantity: getCartTotalQuantity(cart.products),
+        total: getCartTotalPrice(cart.products)
     }
 }, (dispatch) => {
     return {
-        onLoad: () => {dispatch({type: 'TEST'})}
+        onLoad: () => {
+            dispatch({type: 'TEST'})
+        }
     }
 })(MiniCart);
