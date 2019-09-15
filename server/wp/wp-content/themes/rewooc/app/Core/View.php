@@ -34,8 +34,12 @@ class View {
 	 * @param array $data - an array with data for specific page
 	 *
 	 */
-	public static function renderPage( array $data ) {
+	public static function renderPage( $data ) {
 		send_origin_headers();
+		wp_send_json( $data );
+	}
+
+	public static function response( $data ) {
 		wp_send_json( $data );
 	}
 

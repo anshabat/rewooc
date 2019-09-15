@@ -2,6 +2,8 @@
 
 namespace Rewooc\Shop;
 
+use Rewooc\Core\View;
+
 class Products {
 
 	public static function getArchiveProducts() {
@@ -32,7 +34,7 @@ class Products {
 
 		$productObjects = array_filter( array_map( 'wc_get_product', $ids ), 'wc_products_array_filter_visible' );
 		$products       = self::convertProductObjectToArray( $productObjects );
-		wp_send_json( $products );
+		View::response( $products );
 	}
 
 	public static function getProducts( $args = [] ) {
