@@ -1,11 +1,10 @@
 import './CartTable.scss';
 import React from 'react';
-import SectionPrimary from '../../../UI/sections/SectionPrimary/SectionPrimary';
 import Icon from '../../../UI/Icon/Icon';
 import CartProduct from '../CartProduct/CartProduct';
 import FormField from '../../../UI/Form/FormField/FormField';
 import priceProvider from '../../Price/priceProvider';
-import {getCartTotalPrice} from '../../../../redux/reducer/utils';
+import {getCartTotalPrice} from '../../../../redux/utils';
 
 function CartTable({products, formatPrice}) {
     const foo = () => {

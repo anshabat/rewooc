@@ -5,7 +5,6 @@ import {
 } from '../actionTypes';
 
 export const initialState = (products) => {
-    console.log(products);
     return {
         products,
         addingProductId: null
@@ -19,7 +18,7 @@ export default function reducer(state = {}, action) {
         case CART_ADD_PRODUCT_START:
             return {...state, addingProductId: action.payload.productId};
         case CART_ADD_PRODUCT_SUCCESS:
-            return {...state, products: action.payload.products, addingProductId: null};
+            return addProductToCart(state, action.payload.product);
         case CART_ADD_PRODUCT_FAIL:
             return state;
         case 'TEST':
@@ -27,4 +26,15 @@ export default function reducer(state = {}, action) {
         default:
             return state;
     }
+};
+
+const addProductToCart = (state, newProduct) => {
+    const products = [...state.products];
+    const existingProduct = products.findIndex(product => product.id === newProduct.id);
+    if(existingProduct !== -1) {
+        products[existingProduct].quantity = newProduct.quantity
+    } else {
+        products.push(newProduct);
+    }
+    return{...state, products: products, addingProductId: null};
 };
