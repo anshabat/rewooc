@@ -27,7 +27,7 @@ class ProductFacade {
 			'title'    => $this->product->getTitle(),
 			'link'     => $this->product->getLink(),
 			'price'    => $this->product->getPrice(),
-			'image'    => $this->product->getImage( 'shop_catalog' )
+			'image'    => $this->product->getImage()
 		];
 	}
 }

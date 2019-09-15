@@ -1,0 +1,18 @@
+.rw-cart-product {
+  display: flex;
+
+  &__right {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+
+  &__img {
+  }
+
+  &__title {
+    margin-bottom: 5px;
+  }
+
+  &__price {
+  }
+}
