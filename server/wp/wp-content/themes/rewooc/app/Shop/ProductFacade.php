@@ -24,6 +24,7 @@ class ProductFacade {
 		return [
 			'quantity' => $this->product->getQuantity(),
 			'id'       => $this->product->getId(),
+			'key'      => $this->product->getKey(),
 			'title'    => $this->product->getTitle(),
 			'link'     => $this->product->getLink(),
 			'price'    => $this->product->getPrice(),

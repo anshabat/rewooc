@@ -10,6 +10,10 @@ class CartProduct extends Product {
 		$this->cartItem = $wcCartItem;
 	}
 
+	public function getKey() {
+		return $this->cartItem['key'];
+	}
+
 	public function getQuantity() {
 		return $this->cartItem['quantity'];
 	}

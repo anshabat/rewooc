@@ -16,7 +16,7 @@ export const initialState = (products) => {
 
 export default function reducer(state = {}, action) {
     console.log(action);
-    console.log(state);
+    //console.log(state);
     switch (action.type) {
         case CART_ADD_PRODUCT_START:
             return {...state, addingProductId: action.payload.productId};

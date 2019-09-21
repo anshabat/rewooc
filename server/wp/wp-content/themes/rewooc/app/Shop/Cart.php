@@ -21,6 +21,16 @@ class Cart {
 		View::response( $product );
 	}
 
+	public static function deleteFromCart() {
+		$key = wc_clean( $_POST['key'] );
+
+		if ( $key && WC()->cart->remove_cart_item( $key ) ) {
+			wp_send_json_success();
+		} else {
+			wp_send_json_error();
+		}
+	}
+
 	public static function getProducts() {
 		$cartData = WC()->cart->get_cart_contents();
 		$products = [];

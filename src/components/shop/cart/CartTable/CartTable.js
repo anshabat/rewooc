@@ -17,9 +17,9 @@ function CartTable({products, formatPrice, onProductDelete}) {
             <div className="rw-cart-table">
                 {products.map(product => {
                     return (
-                        <Fragment key={product.id}>
+                        <Fragment key={product.key}>
                             <button className="rw-cart-table__delete" onClick={() => {
-                                onProductDelete(product.id)
+                                onProductDelete(product.key)
                             }}>
                                 <Icon classes={['fa-times']}/>
                             </button>
@@ -45,8 +45,8 @@ function CartTable({products, formatPrice, onProductDelete}) {
 
 export default connect(null, (dispatch => {
     return {
-        onProductDelete: (productId) => {
-            dispatch(deleteFromCart(productId));
+        onProductDelete: (key) => {
+            dispatch(deleteFromCart(key));
         }
     }
 }))(priceProvider(CartTable));

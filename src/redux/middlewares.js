@@ -36,12 +36,19 @@ export const deleteFromCartMiddleware = store => next => action => {
         next(action);
         return;
     }
-    const productId = action.payload.productId;
+    const key = action.payload.key;
 
-    next(deleteFromCartStart(productId));
-    axios.delete('rewooc_delete_from_cart').then(response => {
-        console.log(response);
-        next(deleteFromCartSuccess(productId));
+    const data = new FormData();
+    data.set('key', key);
+
+    next(deleteFromCartStart(key));
+    axios.post(ajaxEndpoint('rewooc_delete_from_cart'), data).then(response => {
+        console.log(response.data.success);
+        if (response.data.success) {
+            next(deleteFromCartSuccess(key));
+        } else {
+            throw new Error(ErrorMessage.CART_FAIL_TO_DELETE_PRODUCT);
+        }
     }).catch(error => {
         next(deleteFromCartFail(error));
     });
