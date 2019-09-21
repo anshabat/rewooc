@@ -25,16 +25,16 @@ export const addToCartFail = (error) => {
     return {type: CART_ADD_PRODUCT_FAIL, error}
 };
 
-export const deleteFromCart = (key) => {
-    return {type: CART_DELETE_PRODUCT, payload: {key}}
+export const deleteFromCart = (productKey) => {
+    return {type: CART_DELETE_PRODUCT, payload: {productKey}}
 };
 
-export const deleteFromCartStart = (key) => {
-    return {type: CART_DELETE_PRODUCT_START, payload: {key}}
+export const deleteFromCartStart = (productKey) => {
+    return {type: CART_DELETE_PRODUCT_START, payload: {productKey}}
 };
 
-export const deleteFromCartSuccess = (key) => {
-    return {type: CART_DELETE_PRODUCT_SUCCESS, payload: {key}}
+export const deleteFromCartSuccess = (productKey) => {
+    return {type: CART_DELETE_PRODUCT_SUCCESS, payload: {productKey}}
 };
 
 export const deleteFromCartFail = (error) => {

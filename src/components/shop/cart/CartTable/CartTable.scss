@@ -4,14 +4,10 @@
   gap: 15px;
   align-items: center;
 
-  &__delete {
+  &__delete-btn {
     cursor: pointer;
-  }
-
-  &__product {
-  }
-
-  &__quantity {
+    width: 28px;
+    height: 28px;
   }
 
   &__price {

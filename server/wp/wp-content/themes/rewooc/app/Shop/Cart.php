@@ -22,9 +22,9 @@ class Cart {
 	}
 
 	public static function deleteFromCart() {
-		$key = wc_clean( $_POST['key'] );
+		$productKey = wc_clean( $_POST['productKey'] );
 
-		if ( $key && WC()->cart->remove_cart_item( $key ) ) {
+		if ( $productKey && WC()->cart->remove_cart_item( $productKey ) ) {
 			wp_send_json_success();
 		} else {
 			wp_send_json_error();

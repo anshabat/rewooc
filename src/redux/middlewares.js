@@ -36,16 +36,15 @@ export const deleteFromCartMiddleware = store => next => action => {
         next(action);
         return;
     }
-    const key = action.payload.key;
+    const productKey = action.payload.productKey;
 
     const data = new FormData();
-    data.set('key', key);
+    data.set('productKey', productKey);
 
-    next(deleteFromCartStart(key));
+    next(deleteFromCartStart(productKey));
     axios.post(ajaxEndpoint('rewooc_delete_from_cart'), data).then(response => {
-        console.log(response.data.success);
         if (response.data.success) {
-            next(deleteFromCartSuccess(key));
+            next(deleteFromCartSuccess(productKey));
         } else {
             throw new Error(ErrorMessage.CART_FAIL_TO_DELETE_PRODUCT);
         }

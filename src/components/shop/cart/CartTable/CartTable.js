@@ -8,7 +8,7 @@ import {getCartTotalPrice} from '../../../../redux/utils';
 import {connect} from 'react-redux';
 import {deleteFromCart} from '../../../../redux/actionCreators';
 
-function CartTable({products, formatPrice, onProductDelete}) {
+function CartTable({products, formatPrice, deleteFromCart, deletingProduct}) {
     const foo = () => {
         console.log('lala');
     };
@@ -18,11 +18,17 @@ function CartTable({products, formatPrice, onProductDelete}) {
                 {products.map(product => {
                     return (
                         <Fragment key={product.key}>
-                            <button className="rw-cart-table__delete" onClick={() => {
-                                onProductDelete(product.key)
-                            }}>
-                                <Icon classes={['fa-times']}/>
-                            </button>
+                            <div className="rw-cart-table__delete">
+                                <button className="rw-cart-table__delete-btn" onClick={() => {
+                                    deleteFromCart(product.key)
+                                }}>
+                                    {deletingProduct === product.key ? (
+                                        <Icon classes={['fa-circle-o-notch', 'fa-spin']}/>
+                                    ) : (
+                                        <Icon classes={['fa-times']}/>
+                                    )}
+                                </button>
+                            </div>
                             <div className="rw-cart-table__product">
                                 <CartProduct product={product}/>
                             </div>
@@ -43,10 +49,8 @@ function CartTable({products, formatPrice, onProductDelete}) {
     );
 }
 
-export default connect(null, (dispatch => {
+export default connect(({cart}) => {
     return {
-        onProductDelete: (key) => {
-            dispatch(deleteFromCart(key));
-        }
+        deletingProduct: cart.deletingProductKey
     }
-}))(priceProvider(CartTable));
+}, {deleteFromCart})(priceProvider(CartTable));
