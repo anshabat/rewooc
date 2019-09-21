@@ -1,35 +1,20 @@
 .rw-cart-table {
-
-  &__row {
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-
-    &:not(:first-child) {
-      border-top: 1px solid var(--border-light-color);
-    }
-  }
+  display: grid;
+  grid-template-columns: min-content 1fr fit-content(100px) max-content;
+  gap: 15px;
+  align-items: center;
 
   &__delete {
-    margin-right: 10px;
-    padding: 5px 10px 5px 0;
-    flex-shrink: 0;
     cursor: pointer;
   }
 
   &__product {
-    padding-right: 40px;
-    flex-grow: 1;
   }
 
   &__quantity {
-    padding-right: 20px;
-    width: 100px;
-    flex-shrink: 0;
   }
 
   &__price {
-    min-width: 80px;
     text-align: right;
   }
 }
