@@ -5,8 +5,10 @@ import CartProduct from '../CartProduct/CartProduct';
 import FormField from '../../../UI/Form/FormField/FormField';
 import priceProvider from '../../Price/priceProvider';
 import {getCartTotalPrice} from '../../../../redux/utils';
+import {connect} from 'react-redux';
+import {deleteFromCart} from '../../../../redux/actionCreators';
 
-function CartTable({products, formatPrice}) {
+function CartTable({products, formatPrice, onProductDelete}) {
     const foo = () => {
         console.log('lala');
     };
@@ -16,9 +18,11 @@ function CartTable({products, formatPrice}) {
                 {products.map(product => {
                     return (
                         <Fragment key={product.id}>
-                            <div className="rw-cart-table__delete" onClick={foo}>
+                            <button className="rw-cart-table__delete" onClick={() => {
+                                onProductDelete(product.id)
+                            }}>
                                 <Icon classes={['fa-times']}/>
-                            </div>
+                            </button>
                             <div className="rw-cart-table__product">
                                 <CartProduct product={product}/>
                             </div>
@@ -39,4 +43,10 @@ function CartTable({products, formatPrice}) {
     );
 }
 
-export default priceProvider(CartTable);
+export default connect(null, (dispatch => {
+    return {
+        onProductDelete: (productId) => {
+            dispatch(deleteFromCart(productId));
+        }
+    }
+}))(priceProvider(CartTable));
