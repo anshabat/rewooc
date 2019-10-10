@@ -12,22 +12,22 @@ class Cart {
 		$productKey = WC()->cart->add_to_cart( $productId, $quantity );
 
 		if ( ! $productKey ) {
-			View::response( false );
+			View::responseError();
 		}
 
 		$cartItem = WC()->cart->get_cart_item( $productKey );
 		$product  = self::getProduct( $cartItem );
 
-		View::response( $product );
+		View::responseSuccess( $product );
 	}
 
 	public static function deleteFromCart() {
 		$productKey = wc_clean( $_POST['productKey'] );
 
 		if ( $productKey && WC()->cart->remove_cart_item( $productKey ) ) {
-			wp_send_json_success();
+			View::responseSuccess();
 		} else {
-			wp_send_json_error();
+			View::responseError();
 		}
 	}
 

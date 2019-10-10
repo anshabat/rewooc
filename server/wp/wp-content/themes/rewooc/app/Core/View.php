@@ -43,6 +43,14 @@ class View {
 		wp_send_json( $data );
 	}
 
+	public static function responseSuccess( $data = null ) {
+		wp_send_json_success( $data );
+	}
+
+	public static function responseError() {
+		wp_send_json_error();
+	}
+
 	public static function renderCommonData() {
 		wp_send_json( self::getCommonData() );
 	}

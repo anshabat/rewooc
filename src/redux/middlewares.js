@@ -20,9 +20,8 @@ export const addToCartMiddleware = store => next => action => {
     axios.get(ajaxEndpoint('rewooc_add_to_cart'), {
         params: {productId: action.payload.productId}
     }).then(response => {
-        const {data} = response;
-        if (data) {
-            next(addToCartSuccess(data));
+        if (response.data.success && response.data.data) {
+            next(addToCartSuccess(response.data.data));
         } else {
             throw new Error(ErrorMessage.CART_FAIL_TO_ADD_PRODUCT);
         }
