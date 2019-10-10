@@ -29,18 +29,15 @@ const ProductCard = (props) => {
     )
 };
 
-export default connect(
-    (state, ownProps) => {
-        return {
-            isAddingToCart: state.cart.addingProductId === ownProps.id,
-            isInCart: isProductInCart(ownProps.id, state.cart.products)
-        }
-    },
-    dispatch => {
-        return {
-            addToCart: (event, id) => {
-                dispatch(addToCart(event, id))
-            }
-        }
+const mapStateToProps = (state, ownProps) => ({
+    isAddingToCart: state.cart.addingProductId === ownProps.id,
+    isInCart: isProductInCart(ownProps.id, state.cart.products)
+});
+
+const mapDispatchToProps = dispatch => ({
+    addToCart: (event, id) => {
+        dispatch(addToCart(event, id))
     }
-)(ProductCard);
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

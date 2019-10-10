@@ -49,8 +49,8 @@ function CartTable({products, formatPrice, deleteFromCart, deletingProduct}) {
     );
 }
 
-export default connect(({cart}) => {
-    return {
-        deletingProduct: cart.deletingProductKey
-    }
-}, {deleteFromCart})(priceProvider(CartTable));
+const mapStateToProps = ({cart}) => ({
+    deletingProduct: cart.deletingProductKey
+});
+
+export default connect(mapStateToProps, {deleteFromCart})(priceProvider(CartTable));

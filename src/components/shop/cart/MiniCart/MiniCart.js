@@ -12,15 +12,15 @@ const MiniCart = (props) => {
     );
 };
 
-export default connect(({cart}) => {
-    return {
-        quantity: getCartTotalQuantity(cart.products),
-        total: getCartTotalPrice(cart.products)
+const mapStateToProps = ({cart}) => ({
+    quantity: getCartTotalQuantity(cart.products),
+    total: getCartTotalPrice(cart.products)
+});
+
+const mapDispatchToProps = dispatch => ({
+    onLoad: () => {
+        dispatch({type: 'TEST'})
     }
-}, (dispatch) => {
-    return {
-        onLoad: () => {
-            dispatch({type: 'TEST'})
-        }
-    }
-})(MiniCart);
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MiniCart);

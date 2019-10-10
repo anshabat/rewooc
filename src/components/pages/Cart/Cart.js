@@ -8,7 +8,7 @@ function Cart({title, cart}) {
     return (
         <Content title={title}>
             {cart.products.length > 0 ? (
-                <CartTable products={cart.products} />
+                <CartTable products={cart.products}/>
             ) : (
                 <p>Cart is empty</p>
             )}
@@ -16,6 +16,8 @@ function Cart({title, cart}) {
     );
 }
 
-export default connect(state => ({
+const mapStateToProps = state => ({
     cart: state.cart
-}))(pageProvider(Cart));
+});
+
+export default connect(mapStateToProps)(pageProvider(Cart));
