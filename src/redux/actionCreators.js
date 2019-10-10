@@ -6,7 +6,8 @@ import {
     CART_DELETE_PRODUCT,
     CART_DELETE_PRODUCT_START,
     CART_DELETE_PRODUCT_SUCCESS,
-    CART_DELETE_PRODUCT_FAIL
+    CART_DELETE_PRODUCT_FAIL,
+    CART_SET_PRODUCT_QUANTITY
 } from './actionTypes';
 
 export const addToCart = (event, productId) => {
@@ -39,4 +40,8 @@ export const deleteFromCartSuccess = (productKey) => {
 
 export const deleteFromCartFail = (error) => {
     return {type: CART_DELETE_PRODUCT_FAIL, error}
+};
+
+export const setCartProductQuantity = (productKey, quantity) => {
+    return {type: CART_SET_PRODUCT_QUANTITY, payload: {productKey, quantity}}
 };

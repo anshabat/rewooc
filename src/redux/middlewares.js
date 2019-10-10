@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {CART_ADD_PRODUCT, CART_DELETE_PRODUCT} from './actionTypes';
+import {CART_ADD_PRODUCT, CART_DELETE_PRODUCT, CART_SET_PRODUCT_QUANTITY} from './actionTypes';
 import {
     addToCartSuccess,
     addToCartStart,
@@ -50,4 +50,13 @@ export const deleteFromCartMiddleware = store => next => action => {
     }).catch(error => {
         next(deleteFromCartFail(error));
     });
+};
+
+export const setCartProductQuantityMiddleware = store => next => action => {
+  if(action.type !== CART_SET_PRODUCT_QUANTITY){
+      next(action);
+      return;
+  }
+
+  console.log('stop quantity');
 };

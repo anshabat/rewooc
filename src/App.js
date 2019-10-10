@@ -4,7 +4,7 @@ import Root from './components/Root';
 import appProvider from './appProvider';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
-import {addToCartMiddleware, deleteFromCartMiddleware} from './redux/middlewares';
+import {addToCartMiddleware, deleteFromCartMiddleware, setCartProductQuantityMiddleware} from './redux/middlewares';
 import {rootReducer, initialState} from './redux/reducer';
 
 class App extends Component {
@@ -14,7 +14,7 @@ class App extends Component {
         const store = createStore(
             rootReducer,
             initialState(serverState),
-            applyMiddleware(addToCartMiddleware, deleteFromCartMiddleware)
+            applyMiddleware(addToCartMiddleware, deleteFromCartMiddleware, setCartProductQuantityMiddleware)
         );
 
         console.log(serverState.user,' - User in App.js');

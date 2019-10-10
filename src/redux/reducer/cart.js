@@ -4,7 +4,8 @@ import {
     CART_ADD_PRODUCT_FAIL,
     CART_DELETE_PRODUCT_SUCCESS,
     CART_DELETE_PRODUCT_START,
-    CART_DELETE_PRODUCT_FAIL
+    CART_DELETE_PRODUCT_FAIL,
+    CART_SET_PRODUCT_QUANTITY
 } from '../actionTypes';
 
 export const initialState = (products) => {
@@ -31,6 +32,9 @@ export default function reducer(state = {}, action) {
             return deleteProduct(state, action.payload.productKey);
         case CART_DELETE_PRODUCT_FAIL:
             return {...state, deletingProductKey: null};
+        case CART_SET_PRODUCT_QUANTITY:
+            console.log('quandity ', action.payload);
+            return state;
         case 'TEST':
             return {...state};
         default:

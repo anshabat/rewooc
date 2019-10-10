@@ -1,21 +1,19 @@
 import './CartTable.scss';
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import Icon from '../../../UI/Icon/Icon';
 import CartProduct from '../CartProduct/CartProduct';
 import FormField from '../../../UI/Form/FormField/FormField';
 import priceProvider from '../../Price/priceProvider';
 import {getCartTotalPrice} from '../../../../redux/utils';
 import {connect} from 'react-redux';
-import {deleteFromCart} from '../../../../redux/actionCreators';
+import {deleteFromCart, setCartProductQuantity} from '../../../../redux/actionCreators';
 
-function CartTable({products, formatPrice, deleteFromCart, deletingProduct}) {
-    const foo = () => {
-        console.log('lala');
-    };
+function CartTable({products, formatPrice, deleteFromCart, setCartProductQuantity, deletingProduct}) {
     return (
         <>
             <div className="rw-cart-table">
                 {products.map(product => {
+                    const [quantity, setQuantity] = useState(product.quantity);
                     return (
                         <Fragment key={product.key}>
                             <div className="rw-cart-table__delete">
@@ -33,7 +31,12 @@ function CartTable({products, formatPrice, deleteFromCart, deletingProduct}) {
                                 <CartProduct product={product}/>
                             </div>
                             <div className="rw-cart-table__quantity">
-                                <FormField value={product.quantity} onChange={foo} type="number"/>
+                                <FormField
+                                    value={quantity}
+                                    onChange={e => setQuantity(e.target.value)}
+                                    onBlur={() => setCartProductQuantity(product.key, quantity)}
+                                    type="number"
+                                />
                             </div>
                             <div className="rw-cart-table__price">
                                 {formatPrice(product.price * product.quantity)}
@@ -53,4 +56,4 @@ const mapStateToProps = ({cart}) => ({
     deletingProduct: cart.deletingProductKey
 });
 
-export default connect(mapStateToProps, {deleteFromCart})(priceProvider(CartTable));
+export default connect(mapStateToProps, {deleteFromCart, setCartProductQuantity})(priceProvider(CartTable));
