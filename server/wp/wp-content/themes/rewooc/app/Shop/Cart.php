@@ -31,6 +31,10 @@ class Cart {
 		}
 	}
 
+	public static function setProductQuantity( $productKey, $quantity ) {
+		return WC()->cart->set_quantity( $productKey, $quantity );
+	}
+
 	public static function getProducts() {
 		$cartData = WC()->cart->get_cart_contents();
 		$products = [];

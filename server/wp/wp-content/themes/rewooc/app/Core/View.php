@@ -47,8 +47,8 @@ class View {
 		wp_send_json_success( $data );
 	}
 
-	public static function responseError() {
-		wp_send_json_error();
+	public static function responseError( $data = null ) {
+		wp_send_json_error( $data );
 	}
 
 	public static function renderCommonData() {

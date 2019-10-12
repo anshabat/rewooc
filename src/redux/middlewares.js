@@ -41,22 +41,42 @@ export const deleteFromCartMiddleware = store => next => action => {
     data.set('productKey', productKey);
 
     next(deleteFromCartStart(productKey));
-    axios.post(ajaxEndpoint('rewooc_delete_from_cart'), data).then(response => {
-        if (response.data.success) {
-            next(deleteFromCartSuccess(productKey));
-        } else {
-            throw new Error(ErrorMessage.CART_FAIL_TO_DELETE_PRODUCT);
-        }
-    }).catch(error => {
-        next(deleteFromCartFail(error));
-    });
+    axios.post(ajaxEndpoint('rewooc_delete_from_cart'), data)
+        .then(response => {
+            if (response.data.success) {
+                next(deleteFromCartSuccess(productKey));
+            } else {
+                throw new Error(ErrorMessage.CART_FAIL_TO_DELETE_PRODUCT);
+            }
+        })
+        .catch(error => {
+            next(deleteFromCartFail(error));
+        });
 };
 
 export const setCartProductQuantityMiddleware = store => next => action => {
-  if(action.type !== CART_SET_PRODUCT_QUANTITY){
-      next(action);
-      return;
-  }
+    if (action.type !== CART_SET_PRODUCT_QUANTITY) {
+        next(action);
+        return;
+    }
 
-  console.log('stop quantity');
+    const {productKey, quantity} = action.payload;
+
+    const data = new FormData();
+    data.set('productKey', productKey);
+    data.set('quantity', quantity);
+
+    axios.post(ajaxEndpoint('rewooc_set_cat_product_quantity'), data)
+        .then(response => {
+            if(response.data.success){
+                console.log('increase for ' + quantity);
+            } else {
+                console.log('fail to increase' + quantity);
+            }
+        })
+        .catch(error => {
+            console.log('error ', error)
+        });
+
+    console.log('stop quantity');
 };
