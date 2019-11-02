@@ -4,7 +4,8 @@ import Image from '../../../UI/Image/Image';
 import Price from '../../Price/Price';
 import {connect} from 'react-redux';
 import {addToCart} from '../../../../redux/actionCreators';
-import {isProductInCart} from '../../../../shared/utilities';
+import {isProductInCart, siteUrl} from '../../../../shared/utilities';
+import {Link} from 'react-router-dom';
 
 const ProductCard = (props) => {
     return (
@@ -22,7 +23,7 @@ const ProductCard = (props) => {
             </div>
             <div className="rw-product-card__row">
                 {props.isAddingToCart && <span>Adding...</span>}
-                {props.isInCart && <a href="#">In Cart</a>}
+                {props.isInCart && <Link to={siteUrl('cart')}>In Cart</Link>}
                 <button onClick={e => props.addToCart(e, props.id)} type="button">Add to Cart</button>
             </div>
         </article>
