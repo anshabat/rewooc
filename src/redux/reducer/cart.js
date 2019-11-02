@@ -30,7 +30,7 @@ export default function reducer(state = {}, action) {
             products = addProduct(state, action.payload.product);
             return {...state, products, addingProductId: null};
         case CART_ADD_PRODUCT_FAIL:
-            return state;
+            return {...state, addingProductId: null};
         case CART_DELETE_PRODUCT_START:
             return {...state, deletingProductKey: action.payload.productKey};
         case CART_DELETE_PRODUCT_SUCCESS:
