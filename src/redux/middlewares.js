@@ -6,7 +6,10 @@ import {
     addToCartFail,
     deleteFromCartStart,
     deleteFromCartSuccess,
-    deleteFromCartFail
+    deleteFromCartFail,
+    setCartProductQuantityStart,
+    setCartProductQuantitySuccess,
+    setCartProductQuantityFail
 } from './actionCreators';
 import {ajaxEndpoint} from '../shared/utilities';
 import {ErrorMessage} from '../shared/errorMessages';
@@ -66,17 +69,17 @@ export const setCartProductQuantityMiddleware = store => next => action => {
     data.set('productKey', productKey);
     data.set('quantity', quantity);
 
+    next(setCartProductQuantityStart(productKey));
     axios.post(ajaxEndpoint('rewooc_set_cat_product_quantity'), data)
         .then(response => {
             if(response.data.success){
-                console.log('increase for ' + quantity);
+                next(setCartProductQuantitySuccess(productKey, quantity));
             } else {
-                console.log('fail to increase' + quantity);
+                throw new Error(ErrorMessage.CART_FAIL_TO_CHANGE_QUANTITY)
             }
         })
         .catch(error => {
-            console.log('error ', error)
+            next(setCartProductQuantityFail(error));
         });
 
-    console.log('stop quantity');
 };

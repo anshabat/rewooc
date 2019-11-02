@@ -32,6 +32,7 @@ class Cart {
 	}
 
 	public static function setProductQuantity( $productKey, $quantity ) {
+		//TODO add sold_individual and max_purchase_count check
 		return WC()->cart->set_quantity( $productKey, $quantity );
 	}
 
