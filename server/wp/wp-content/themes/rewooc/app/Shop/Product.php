@@ -43,4 +43,8 @@ class Product {
 	public function isSoldIndividually() {
 		return $this->product->is_sold_individually();
 	}
+
+	public function getStockQuantity() {
+		return $this->product->get_stock_quantity();
+	}
 }

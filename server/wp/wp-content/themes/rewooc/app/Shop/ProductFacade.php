@@ -11,25 +11,28 @@ class ProductFacade {
 
 	public function getProductCard() {
 		return [
-			'id'           => $this->product->getId(),
-			'title'        => $this->product->getTitle(),
-			'link'         => $this->product->getLink(),
-			'price'        => $this->product->getPrice(),
-			'image'        => $this->product->getImage( 'shop_catalog' ),
-			'addToCartUrl' => $this->product->getCartUrl()
+			'id'                 => $this->product->getId(),
+			'title'              => $this->product->getTitle(),
+			'link'               => $this->product->getLink(),
+			'price'              => $this->product->getPrice(),
+			'image'              => $this->product->getImage( 'shop_catalog' ),
+			'addToCartUrl'       => $this->product->getCartUrl(),
+			'isSoldIndividually' => $this->product->isSoldIndividually(),
+			'getStockQuantity'   => $this->product->getStockQuantity()
 		];
 	}
 
 	public function getCartProduct() {
 		return [
-			'quantity' => $this->product->getQuantity(),
-			'id'       => $this->product->getId(),
-			'key'      => $this->product->getKey(),
-			'title'    => $this->product->getTitle(),
-			'link'     => $this->product->getLink(),
-			'price'    => $this->product->getPrice(),
-			'image'    => $this->product->getImage(),
-			'isSoldIndividually' => $this->product->isSoldIndividually()
+			'quantity'           => $this->product->getQuantity(),
+			'id'                 => $this->product->getId(),
+			'key'                => $this->product->getKey(),
+			'title'              => $this->product->getTitle(),
+			'link'               => $this->product->getLink(),
+			'price'              => $this->product->getPrice(),
+			'image'              => $this->product->getImage(),
+			'isSoldIndividually' => $this->product->isSoldIndividually(),
+			'getStockQuantity'   => $this->product->getStockQuantity()
 		];
 	}
 }

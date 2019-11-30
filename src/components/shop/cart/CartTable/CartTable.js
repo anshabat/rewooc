@@ -2,7 +2,7 @@ import "./CartTable.scss";
 import React, {Fragment} from "react";
 import Icon from "../../../UI/Icon/Icon";
 import CartProduct from "../CartProduct/CartProduct";
-import FormField from "../../../UI/Form/FormField/FormField";
+import QuantityField from "../QuantityField/QuantityField";
 import priceProvider from "../../Price/priceProvider";
 import {getCartTotalPrice} from "../../../../redux/utils";
 import {connect} from "react-redux";
@@ -39,7 +39,7 @@ function CartTable(props) {
                 <CartProduct product={product}/>
               </div>
               <div className="rw-cart-table__quantity">
-                <FormField
+                <QuantityField
                   product={product}
                   value={product.quantity}
                   onBlur={(e) => setCartProductQuantity(product.key, e.target.value)}

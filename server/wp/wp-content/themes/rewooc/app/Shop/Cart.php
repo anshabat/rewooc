@@ -34,11 +34,14 @@ class Cart {
 	public static function setProductQuantity( $productKey, $quantity ) {
 		$cartItem = WC()->cart->cart_contents[ $productKey ];
 		$product  = new CartProduct( $cartItem );
+		$stockQuantity = $product->getStockQuantity();
 
 		if ( $product->isSoldIndividually() ) {
 			$quantity = $quantity > 0 ? 1 : $quantity;
+		} else if($stockQuantity) {
+			$quantity = $quantity > $stockQuantity ? $stockQuantity : $quantity;
 		}
-		//TODO max_purchase_count check
+
 		if ( WC()->cart->set_quantity( $productKey, $quantity ) ) {
 			return $quantity;
 		} else {

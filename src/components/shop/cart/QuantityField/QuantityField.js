@@ -1,7 +1,7 @@
-import "./FormField.scss";
+import "./QuantityField.scss";
 import React, {Component} from "react";
 
-class FormField extends Component {
+class QuantityField extends Component {
   state = {
     value: this.props.value
   };
@@ -38,4 +38,4 @@ class FormField extends Component {
   }
 }
 
-export default FormField;
+export default QuantityField;
