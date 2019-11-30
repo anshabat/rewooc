@@ -39,4 +39,8 @@ class Product {
 	public function getCartUrl() {
 		return $this->product->add_to_cart_url();
 	}
+
+	public function isSoldIndividually() {
+		return $this->product->is_sold_individually();
+	}
 }

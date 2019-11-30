@@ -1,30 +1,41 @@
-import './FormField.scss';
-import React, {useState} from 'react';
+import "./FormField.scss";
+import React, {Component} from "react";
 
-const FormField = (props) => {
+class FormField extends Component {
+  state = {
+    value: this.props.value
+  };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.hasChanged) {
+      this.setState({value: this.props.value});
+    }
+  }
+
+  render() {
     const {
-        className = '',
-        onChange = () => {
-        },
-        value = '',
-        ...restProps
-    } = props;
+      className = "",
+      onChange = () => {
+      },
+      value = "",
+      hasChanged = false,
+      ...restProps
+    } = this.props;
 
-    const [newValue, setValue] = useState(value);
-    
     return (
-        <div className="pc-form-field">
-            <input
-                className={`pc-form-field__control ${className}`.trim()}
-                onChange={(e) => {
-                    setValue(e.target.value);
-                    onChange(e);
-                }}
-                value={newValue}
-                {...restProps}
-            />
-        </div>
+      <div className="pc-form-field">
+        <input
+          className={`pc-form-field__control ${className}`.trim()}
+          onChange={(e) => {
+            this.setState({value: e.target.value});
+            onChange(e);
+          }}
+          value={this.state.value}
+          {...restProps}
+        />
+      </div>
     );
-};
+  }
+}
 
 export default FormField;

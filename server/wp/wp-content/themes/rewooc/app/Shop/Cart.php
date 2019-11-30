@@ -32,8 +32,18 @@ class Cart {
 	}
 
 	public static function setProductQuantity( $productKey, $quantity ) {
-		//TODO add sold_individual and max_purchase_count check
-		return WC()->cart->set_quantity( $productKey, $quantity );
+		$cartItem = WC()->cart->cart_contents[ $productKey ];
+		$product  = new CartProduct( $cartItem );
+
+		if ( $product->isSoldIndividually() ) {
+			$quantity = $quantity > 0 ? 1 : $quantity;
+		}
+		//TODO max_purchase_count check
+		if ( WC()->cart->set_quantity( $productKey, $quantity ) ) {
+			return $quantity;
+		} else {
+			return false;
+		}
 	}
 
 	public static function getProducts() {

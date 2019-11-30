@@ -28,7 +28,8 @@ class ProductFacade {
 			'title'    => $this->product->getTitle(),
 			'link'     => $this->product->getLink(),
 			'price'    => $this->product->getPrice(),
-			'image'    => $this->product->getImage()
+			'image'    => $this->product->getImage(),
+			'isSoldIndividually' => $this->product->isSoldIndividually()
 		];
 	}
 }

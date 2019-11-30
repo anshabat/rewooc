@@ -9,6 +9,7 @@ dist/
 /server/wp/wp-content/*.*
 /server/wp/wp-content/plugins
 /server/wp/wp-content/uploads
+/server/wp/wp-content/upgrade
 /server/wp/wp-content/themes/*
 /server/wp/wp-content/themes/rewooc/vendor
 

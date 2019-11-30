@@ -7,6 +7,10 @@ module.exports = {
     output: {
         publicPath: '/'
     },
+    stats: {
+        entrypoints: false,
+        children: false
+    },
     module: {
         rules: [
             {
