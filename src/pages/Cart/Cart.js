@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Content from '../../Layout/Content/Content';
+import Content from '../../components/Layout/Content/Content';
 import pageProvider from '../pageProvider';
-import CartTable from '../../shop/cart/CartTable/CartTable';
+import CartTable from '../../components/shop/cart/CartTable/CartTable';
 
 function Cart({title, cart}) {
     return (

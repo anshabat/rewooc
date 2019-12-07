@@ -1,8 +1,8 @@
 import './Archive.scss';
 import React from 'react';
-import ProductCard from '../../shop/product/ProductCard/ProductCard';
+import ProductCard from '../../components/shop/product/ProductCard/ProductCard';
 import pageProvider from '../pageProvider';
-import Content from '../../Layout/Content/Content';
+import Content from '../../components/Layout/Content/Content';
 
 const Archive = ({products, title}) => {
     return (
