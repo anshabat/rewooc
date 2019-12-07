@@ -7,7 +7,7 @@ use Rewooc\Core\View;
 class Cart {
 
 	public static function addToCart() {
-		$productId  = absint( $_REQUEST['productId'] );
+		$productId  = absint( $_POST['productId'] );
 		$quantity   = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
 		$productKey = WC()->cart->add_to_cart( $productId, $quantity );
 
@@ -32,13 +32,13 @@ class Cart {
 	}
 
 	public static function setProductQuantity( $productKey, $quantity ) {
-		$cartItem = WC()->cart->cart_contents[ $productKey ];
-		$product  = new CartProduct( $cartItem );
+		$cartItem      = WC()->cart->cart_contents[ $productKey ];
+		$product       = new CartProduct( $cartItem );
 		$stockQuantity = $product->getStockQuantity();
 
 		if ( $product->isSoldIndividually() ) {
 			$quantity = $quantity > 0 ? 1 : $quantity;
-		} else if($stockQuantity) {
+		} else if ( $stockQuantity ) {
 			$quantity = $quantity > $stockQuantity ? $stockQuantity : $quantity;
 		}
 

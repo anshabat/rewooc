@@ -4,9 +4,16 @@
   align-items: center;
 
   &__row {
+    &:not(:first-child) {
+      padding-top: 10px;
+    }
   }
 
   &__title-link {
 
+  }
+
+  &__quantity {
+    max-width: 80px;
   }
 }

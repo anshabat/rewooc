@@ -20,9 +20,12 @@ export const addToCartMiddleware = store => next => action => {
     return;
   }
   next(addToCartStart(action.payload.productId));
-  axios.get(ajaxEndpoint("rewooc_add_to_cart"), {
-    params: {productId: action.payload.productId}
-  }).then(response => {
+
+  const params = new FormData();
+  params.set("productId", action.payload.productId);
+  params.set("quantity", action.payload.quantity);
+
+  axios.post(ajaxEndpoint("rewooc_add_to_cart"), params).then(response => {
     if (response.data.success && response.data.data) {
       next(addToCartSuccess(response.data.data));
     } else {

@@ -9,9 +9,9 @@ const FormField = props => {
   } = props;
 
   return (
-    <div className={`pc-form-field ${className}`.trim()}>
+    <div className={`rw-form-field ${className}`.trim()}>
       <input
-        className={`pc-form-field__control`}
+        className={`rw-form-field__control`}
         {...restProps}
       />
     </div>

@@ -9,14 +9,14 @@ function Content(props) {
                     [Beadcrumbs]
                 </div>
             </div>
-            <div className="rw-content__container">
+            <section className="rw-content__container">
                 <div className="rw-content__heading">
-                    <div className="rw-content__title">{props.title}</div>
+                    <h1 className="rw-content__title">{props.title}</h1>
                 </div>
                 <div className="rw-content__body">
                     {props.children}
                 </div>
-            </div>
+            </section>
         </div>
     );
 }
