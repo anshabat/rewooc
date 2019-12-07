@@ -3,12 +3,12 @@ import {BrowserRouter} from "react-router-dom";
 import Root from "./Root";
 import {createStore, applyMiddleware} from "redux";
 import {Provider as ReduxProvider} from "react-redux";
-import {addToCartMiddleware, deleteFromCartMiddleware, setCartProductQuantityMiddleware} from "./redux/middlewares";
 import {rootReducer, initialState} from "./redux/reducer";
 import axios from "axios";
 import {ajaxEndpoint} from "./shared/utilities";
 import PageLoader from "./components/UI/loaders/PageLoader/PageLoader";
 import {AppProvider} from "./context/appContext";
+import thunk from "redux-thunk";
 
 class App extends Component {
   state = {
@@ -29,7 +29,7 @@ class App extends Component {
     const store = createStore(
       rootReducer,
       initialState({cart, user}),
-      applyMiddleware(addToCartMiddleware, deleteFromCartMiddleware, setCartProductQuantityMiddleware)
+      applyMiddleware(thunk)
     );
 
     console.log(user, " - User in App.js");
