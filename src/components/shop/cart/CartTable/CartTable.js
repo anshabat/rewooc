@@ -3,7 +3,7 @@ import React, {Fragment} from "react";
 import Icon from "../../../UI/Icon/Icon";
 import CartProduct from "../CartProduct/CartProduct";
 import QuantityField from "../QuantityField/QuantityField";
-import priceProvider from "../../Price/priceProvider";
+import withPriceFormat from "../../Price/withPriceFormat";
 import {getCartTotalPrice} from "../../../../redux/utils";
 import {connect} from "react-redux";
 import {deleteFromCart, setCartProductQuantity} from "../../../../redux/actionCreators";
@@ -65,4 +65,8 @@ const mapStateToProps = ({cart}) => ({
   changingQuantity: cart.changingQuantityKey
 });
 
-export default connect(mapStateToProps, {deleteFromCart, setCartProductQuantity})(priceProvider(CartTable));
+const mapDispatchToProps = {deleteFromCart, setCartProductQuantity};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withPriceFormat(CartTable)
+);

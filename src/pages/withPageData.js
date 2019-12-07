@@ -3,7 +3,7 @@ import axios from 'axios';
 import {apiUrl} from '../shared/utilities';
 import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader';
 
-export default function (WrappedComponent) {
+const withPageData = (InnerComponent) => {
     return class extends Component {
         constructor(props) {
             super(props);
@@ -32,10 +32,12 @@ export default function (WrappedComponent) {
 
         render() {
             return this.state.data ? (
-                <WrappedComponent {...this.props} {...this.state.data} />
+                <InnerComponent {...this.props} {...this.state.data} />
             ) : (
                 <ContentLoader/>
             )
         }
     }
 }
+
+export default withPageData

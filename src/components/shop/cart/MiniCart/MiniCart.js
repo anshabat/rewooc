@@ -17,10 +17,4 @@ const mapStateToProps = ({cart}) => ({
     total: getCartTotalPrice(cart.products)
 });
 
-const mapDispatchToProps = dispatch => ({
-    onLoad: () => {
-        dispatch({type: 'TEST'})
-    }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MiniCart);
+export default connect(mapStateToProps)(MiniCart);

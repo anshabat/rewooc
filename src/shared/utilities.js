@@ -6,36 +6,36 @@
  * @returns {function(*=)} Delayed event handler function
  */
 
-import {Config} from '../config';
+import {Config} from "../config";
 
 export const debounce = (callback, delay = 300) => {
-    let timeout = null;
-    return (event) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            callback(event);
-        }, delay)
-    }
+  let timeout = null;
+  return (event) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      callback(event);
+    }, delay)
+  }
 };
 
 export const removeTrailingSlash = str => {
-    return str.endsWith('/') ? removeTrailingSlash(str.slice(0, -1)) : str
+  return str.endsWith("/") ? removeTrailingSlash(str.slice(0, -1)) : str
 };
 
 export const siteUrl = (url) => {
-    let urlPath = url.replace(Config.apiUrl, '');
+  let urlPath = url.replace(Config.apiUrl, "");
 
-    return (urlPath[0] === '/' || urlPath.startsWith('http')) ? urlPath : '/' + urlPath;
+  return (urlPath[0] === "/" || urlPath.startsWith("http")) ? urlPath : "/" + urlPath;
 };
 
-export const apiUrl = (url = '') => {
-    return removeTrailingSlash(Config.apiUrl + url) + '/';
+export const apiUrl = (url = "") => {
+  return removeTrailingSlash(Config.apiUrl + url) + "/";
 };
 
 export const ajaxEndpoint = (action) => {
-    return `${Config.apiUrl}/?wc-ajax=${action}`;
+  return `${Config.apiUrl}/?wc-ajax=${action}`;
 };
 
 export const isProductInCart = (id, cartItems) => {
-    return cartItems.some(item => item.id === id);
+  return cartItems.some(item => item.id === id);
 };
