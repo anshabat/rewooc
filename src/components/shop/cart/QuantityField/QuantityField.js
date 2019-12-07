@@ -1,7 +1,8 @@
-import "./QuantityField.scss";
 import React, {Component} from "react";
+import FormField from "../../../UI/Form/FormField/FormField";
 
 class QuantityField extends Component {
+
   state = {
     value: this.props.value
   };
@@ -14,26 +15,21 @@ class QuantityField extends Component {
 
   render() {
     const {
-      className = "",
-      onChange = () => {
-      },
-      value = "",
-      hasChanged = false,
+      onChange,
+      value,
+      hasChanged,
       ...restProps
     } = this.props;
 
     return (
-      <div className="pc-form-field">
-        <input
-          className={`pc-form-field__control ${className}`.trim()}
-          onChange={(e) => {
-            this.setState({value: e.target.value});
-            onChange(e);
-          }}
-          value={this.state.value}
-          {...restProps}
-        />
-      </div>
+      <FormField
+        type="number"
+        onChange={(e) => {
+          this.setState({value: e.target.value});
+        }}
+        value={this.state.value}
+        {...restProps}
+      />
     );
   }
 }

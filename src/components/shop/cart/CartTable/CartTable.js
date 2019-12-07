@@ -40,10 +40,8 @@ function CartTable(props) {
               </div>
               <div className="rw-cart-table__quantity">
                 <QuantityField
-                  product={product}
                   value={product.quantity}
                   onBlur={(e) => setCartProductQuantity(product.key, e.target.value)}
-                  type="number"
                   disabled={changingQuantity}
                   hasChanged={product.key === changingQuantity}
                 />
