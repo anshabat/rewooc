@@ -11,5 +11,8 @@
     "psr-4": {
       "Rewooc\\": "./app"
     }
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.0"
   }
 }
