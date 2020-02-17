@@ -7,11 +7,33 @@ import {
   CART_DELETE_PRODUCT_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
-  CART_SET_PRODUCT_QUANTITY_FAIL
+  CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_START, INIT_APP_SUCCESS, INIT_APP_FAIL
 } from "./actionTypes";
 import axios from "axios";
 import {ajaxEndpoint} from "../shared/utilities";
 import {ErrorMessage} from "../shared/errorMessages";
+
+export const initApp = () => {
+  return dispatch => {
+    dispatch(initAppStart());
+    axios.get(ajaxEndpoint("rewooc_get_common_data")).then(({data}) => {
+      //this.setState({serverData: data});
+      dispatch(initAppSuccess(data))
+    }).catch(error => {
+      dispatch(initAppFail(error))
+    })
+  }
+};
+
+export const initAppStart = () => {
+  return {type: INIT_APP_START}
+};
+export const initAppSuccess = (data) => {
+  return {type: INIT_APP_SUCCESS, payload: {data}}
+};
+export const initAppFail = (error) => {
+  return {type: INIT_APP_FAIL, error}
+};
 
 export const addToCart = (productId, quantity) => {
   return dispatch => {
