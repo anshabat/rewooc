@@ -7,23 +7,26 @@ import {
   CART_DELETE_PRODUCT_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
-  CART_SET_PRODUCT_QUANTITY_FAIL
+  CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_START, INIT_APP_SUCCESS
 } from "../actionTypes";
 
-export const initialState = (products) => {
-  return {
-    products,
+export const initialState = {
+    products: [],
     addingProductId: null,
     deletingProductKey: null,
     changingQuantityKey: null
-  }
 };
 
-export default function reducer(state = {}, action) {
-  //console.log(action);
+export default function reducer(state = initialState, action) {
+  console.log(action);
   //console.log(state);
   let products;
   switch (action.type) {
+    //TODO: перенести в окркмий Редюсер app
+    case INIT_APP_START:
+      return {...state};
+    case INIT_APP_SUCCESS:
+      return {...state, products: action.payload.data.cart};
     case CART_ADD_PRODUCT_START:
       return {...state, addingProductId: action.payload.productId};
     case CART_ADD_PRODUCT_SUCCESS:
