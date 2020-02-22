@@ -5,16 +5,9 @@ import Home from "./pages/Home/Home";
 import Archive from "./pages/Archive/Archive";
 import Page404 from "./pages/Page404/Page404";
 import Cart from "./pages/Cart/Cart";
-import {connect} from "react-redux";
-import {initApp} from "./redux/actionCreators";
 
 class Root extends Component {
-  componentDidMount() {
-    this.props.init()
-  }
-
   render() {
-    console.log(this.props);
     return (
       <Layout>
         <Switch>
@@ -28,15 +21,4 @@ class Root extends Component {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      cart: state.cart
-    }
-  },
-  dispatch => {
-    return {
-      init: () => dispatch(initApp())
-    }
-  }
-)(Root);
+export default Root;

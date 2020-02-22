@@ -18,13 +18,10 @@ export const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  console.log(action);
+  //console.log(action);
   //console.log(state);
   let products;
   switch (action.type) {
-    //TODO: перенести в окркмий Редюсер app
-    case INIT_APP_START:
-      return {...state};
     case INIT_APP_SUCCESS:
       return {...state, products: action.payload.data.cart};
     case CART_ADD_PRODUCT_START:
