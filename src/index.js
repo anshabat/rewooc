@@ -10,14 +10,9 @@ import {Provider} from "react-redux";
 
 axios.defaults.headers.common["Authorization"] = "Basic " + Buffer.from("admin:admin").toString("base64");
 
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunk)
-);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App/>
-  </Provider>,
+  <Provider store={store}><App/></Provider>,
   document.querySelector("#app")
 );

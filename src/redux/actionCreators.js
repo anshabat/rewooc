@@ -17,7 +17,6 @@ export const initApp = () => {
   return dispatch => {
     dispatch(initAppStart());
     axios.get(ajaxEndpoint("rewooc_get_common_data")).then(({data}) => {
-      //this.setState({serverData: data});
       dispatch(initAppSuccess(data))
     }).catch(error => {
       dispatch(initAppFail(error))
