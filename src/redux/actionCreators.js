@@ -7,10 +7,16 @@ import {
   CART_DELETE_PRODUCT_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
-  CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_START, INIT_APP_SUCCESS, INIT_APP_FAIL
+  CART_SET_PRODUCT_QUANTITY_FAIL,
+  INIT_APP_START,
+  INIT_APP_SUCCESS,
+  INIT_APP_FAIL,
+  PRODUCTS_LOAD_START,
+  PRODUCTS_LOAD_SUCCESS,
+  PRODUCTS_LOAD_FAIL
 } from "./actionTypes";
 import axios from "axios";
-import {ajaxEndpoint} from "../shared/utilities";
+import {ajaxEndpoint, apiUrl} from "../shared/utilities";
 import {ErrorMessage} from "../shared/errorMessages";
 
 export const initApp = () => {
@@ -129,4 +135,27 @@ export const setCartProductQuantitySuccess = (productKey, quantity) => {
 
 export const setCartProductQuantityFail = (error) => {
   return {type: CART_SET_PRODUCT_QUANTITY_FAIL, error}
+};
+
+export const loadProducts = (url) => {
+  return dispatch => {
+    dispatch(loadProductsStart());
+    axios.get(url).then(({data}) => {
+      dispatch(loadProductsSuccess(data.products));
+    }).catch(error => {
+      dispatch(loadProductsFail(error))
+    })
+  }
+};
+
+export const loadProductsStart = () => {
+  return {type: PRODUCTS_LOAD_START}
+};
+
+export const loadProductsSuccess = products => {
+  return {type: PRODUCTS_LOAD_SUCCESS, payload: {products}}
+};
+
+export const loadProductsFail = error => {
+  return {type: PRODUCTS_LOAD_FAIL, error}
 };
