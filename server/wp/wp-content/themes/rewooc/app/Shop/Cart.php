@@ -8,7 +8,7 @@ class Cart {
 
 	public static function addToCart() {
 		$productId  = absint( $_POST['productId'] );
-		$quantity   = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( $_POST['quantity'] );
+		$quantity   = absint( $_POST['quantity'] );
 		$productKey = WC()->cart->add_to_cart( $productId, $quantity );
 
 		if ( ! $productKey ) {
@@ -16,7 +16,6 @@ class Cart {
 		}
 
 		$cartItem = WC()->cart->get_cart_item( $productKey );
-		$product  = self::getProduct( $cartItem );
 
 		View::responseSuccess( $cartItem );
 	}
@@ -43,7 +42,7 @@ class Cart {
 		}
 
 		if ( WC()->cart->set_quantity( $productKey, $quantity ) ) {
-			return $quantity;
+			return WC()->cart->get_cart_item( $productKey );
 		} else {
 			return false;
 		}
@@ -60,7 +59,7 @@ class Cart {
 		return $products;
 	}
 
-	public static function getCartItems(){
+	public static function getCartItems() {
 		return WC()->cart->get_cart_contents();
 	}
 

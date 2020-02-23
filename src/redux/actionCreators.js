@@ -16,8 +16,9 @@ import {
   PRODUCTS_LOAD_FAIL
 } from "./actionTypes";
 import axios from "axios";
-import {ajaxEndpoint, apiUrl} from "../shared/utilities";
+import {ajaxEndpoint} from "../shared/utilities";
 import {ErrorMessage} from "../shared/errorMessages";
+import {cartItemAdapter} from "./utils";
 
 export const initApp = () => {
   return dispatch => {
@@ -49,8 +50,10 @@ export const addToCart = (productId, quantity) => {
     params.set("quantity", quantity);
 
     axios.post(ajaxEndpoint("rewooc_add_to_cart"), params).then(response => {
-      if (response.data.success && response.data.data) {
-        dispatch(addToCartSuccess(response.data.data));
+      const {success, data} = response.data;
+      if (success && data) {
+        const cartItem = cartItemAdapter(data);
+        dispatch(addToCartSuccess(cartItem));
       } else {
         throw new Error(ErrorMessage.CART_FAIL_TO_ADD_PRODUCT);
       }
@@ -113,8 +116,10 @@ export const setCartProductQuantity = (productKey, quantity) => {
     dispatch(setCartProductQuantityStart(productKey));
     axios.post(ajaxEndpoint("rewooc_set_cat_product_quantity"), data)
       .then(response => {
-        if (response.data.success) {
-          dispatch(setCartProductQuantitySuccess(productKey, response.data.data.quantity));
+        const {success, data} = response.data;
+        if (success && data) {
+          const cartItem = cartItemAdapter(data);
+          dispatch(setCartProductQuantitySuccess(productKey, cartItem));
         } else {
           throw new Error(ErrorMessage.CART_FAIL_TO_CHANGE_QUANTITY)
         }
@@ -129,8 +134,8 @@ export const setCartProductQuantityStart = (productKey) => {
   return {type: CART_SET_PRODUCT_QUANTITY_START, payload: {productKey}}
 };
 
-export const setCartProductQuantitySuccess = (productKey, quantity) => {
-  return {type: CART_SET_PRODUCT_QUANTITY_SUCCESS, payload: {productKey, quantity}}
+export const setCartProductQuantitySuccess = (productKey, item) => {
+  return {type: CART_SET_PRODUCT_QUANTITY_SUCCESS, payload: {item}}
 };
 
 export const setCartProductQuantityFail = (error) => {

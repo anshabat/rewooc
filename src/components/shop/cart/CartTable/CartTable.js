@@ -10,7 +10,7 @@ import {deleteFromCart, setCartProductQuantity} from "../../../../redux/actionCr
 
 function CartTable(props) {
   const {
-    products,
+    items,
     formatPrice,
     deleteFromCart,
     setCartProductQuantity,
@@ -21,14 +21,14 @@ function CartTable(props) {
   return (
     <>
       <div className="rw-cart-table">
-        {products.map(product => {
+        {items.map(item => {
           return (
-            <Fragment key={product.key}>
+            <Fragment key={item.key}>
               <div className="rw-cart-table__delete">
                 <button className="rw-cart-table__delete-btn" onClick={() => {
-                  deleteFromCart(product.key)
+                  deleteFromCart(item.key)
                 }}>
-                  {deletingProduct === product.key ? (
+                  {deletingProduct === item.key ? (
                     <Icon classes={["fa-circle-o-notch", "fa-spin"]}/>
                   ) : (
                     <Icon classes={["fa-times"]}/>
@@ -36,25 +36,25 @@ function CartTable(props) {
                 </button>
               </div>
               <div className="rw-cart-table__product">
-                <CartProduct product={product}/>
+                {/*<CartProduct product={product}/>*/}
               </div>
               <div className="rw-cart-table__quantity">
                 <QuantityField
-                  value={product.quantity}
-                  onBlur={(e) => setCartProductQuantity(product.key, e.target.value)}
+                  value={item.quantity}
+                  onBlur={(e) => setCartProductQuantity(item.key, e.target.value)}
                   disabled={changingQuantity}
-                  hasChanged={product.key === changingQuantity}
+                  hasChanged={item.key === changingQuantity}
                 />
               </div>
               <div className="rw-cart-table__price">
-                {formatPrice(product.price * product.quantity)}
+                {formatPrice(item.totalPrice)}
               </div>
             </Fragment>
           )
         })}
       </div>
       <div style={{textAlign: "right", fontWeight: "bold", marginTop: "20px"}}>
-        Total: {formatPrice(getCartTotalPrice(products))}
+        Total: {formatPrice(getCartTotalPrice(items))}
       </div>
     </>
   );

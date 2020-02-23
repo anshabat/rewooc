@@ -28,10 +28,10 @@ class Ajax {
 			return;
 		}
 
-		$resultQuantity = Cart::setProductQuantity( $productKey, $quantity );
+		$cartItems = Cart::setProductQuantity( $productKey, $quantity );
 
-		if ( $resultQuantity ) {
-			View::responseSuccess( [ 'quantity' => $resultQuantity ] );
+		if ( $cartItems ) {
+			View::responseSuccess( $cartItems );
 		} else {
 			View::responseError();
 		};

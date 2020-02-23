@@ -7,8 +7,8 @@ import CartTable from "../../components/shop/cart/CartTable/CartTable";
 function Cart({title, cart}) {
   return (
     <Content title={title}>
-      {cart.products.length > 0 ? (
-        <CartTable products={cart.products}/>
+      {cart.items.length > 0 ? (
+        <CartTable items={cart.items}/>
       ) : (
         <p>Cart is empty</p>
       )}

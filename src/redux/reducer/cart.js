@@ -61,7 +61,7 @@ export default function reducer(state = initialState, action) {
     case CART_SET_PRODUCT_QUANTITY_START:
       return {...state, changingQuantityKey: action.payload.productKey};
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
-      items = changeQuantity(state, action.payload.productKey, action.payload.quantity);
+      items = changeQuantity(state, action.payload.item);
       return {...state, items, changingQuantityKey: null};
     case CART_SET_PRODUCT_QUANTITY_FAIL:
       return {...state, changingQuantityKey: null};
@@ -76,14 +76,12 @@ const getCartItems = (state, cart) => {
   });
 };
 
-const addProduct = (state, serverItem) => {
-  const newItem = cartItemAdapter(serverItem);
+const addProduct = (state, newItem) => {
   const items = [...state.items];
   const itemIndex = items.findIndex(item => item.productId === newItem.productId);
 
   if (itemIndex !== -1) {
-    items[itemIndex].quantity = newItem.quantity;
-    items[itemIndex].totalPrice = newItem.totalPrice;
+    changeQuantity(state, newItem);
   } else {
     items.push(newItem);
   }
@@ -91,19 +89,20 @@ const addProduct = (state, serverItem) => {
   return items;
 };
 
-const deleteProduct = (state, productKey) => {
-  return state.products.filter(product => product.key !== productKey);
+const deleteProduct = (state, key) => {
+  return state.items.filter(item => item.key !== key);
 };
 
-const changeQuantity = (state, productKey, quantity) => {
-  let products = [...state.products];
+const changeQuantity = (state, newItem) => {
+  let items = [...state.items];
 
-  if (quantity === 0) {
-    return deleteProduct(state, productKey);
+  if (newItem.quantity === 0) {
+    return deleteProduct(state, newItem.key);
   }
 
-  const productIndex = products.findIndex(product => product.key === productKey);
-  products[productIndex].quantity = quantity;
+  const itemIndex = items.findIndex(item => item.key === newItem.key);
+  items[itemIndex].quantity = newItem.quantity;
+  items[itemIndex].totalPrice = newItem.totalPrice;
 
-  return products;
+  return items;
 };
