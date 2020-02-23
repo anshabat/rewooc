@@ -36,6 +36,7 @@ class Archive extends Component {
 
 const mapStateToProps = ({products}) => {
   return {
+    title: products.title,
     products: products.items,
     loading: products.loading
   }

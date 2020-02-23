@@ -1,6 +1,7 @@
 import {PRODUCTS_LOAD_FAIL, PRODUCTS_LOAD_START, PRODUCTS_LOAD_SUCCESS} from "../actionTypes";
 
 const initialState = {
+  title: '',
   items: [],
   loading: true
 };
@@ -12,7 +13,7 @@ const reducer = (state = initialState, action) => {
     case PRODUCTS_LOAD_START:
       return {...state, loading: true};
     case PRODUCTS_LOAD_SUCCESS:
-      return {...state, items: action.payload.products, loading: false};
+      return {...state, items: action.payload.products, title: action.payload.title, loading: false};
     case PRODUCTS_LOAD_FAIL:
       return {...state, loading: false};
     default:

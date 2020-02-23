@@ -7,42 +7,62 @@ import {
   CART_DELETE_PRODUCT_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
-  CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_START, INIT_APP_SUCCESS
+  CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_SUCCESS
 } from "../actionTypes";
+import {cartItemAdapter} from "../utils";
 
+
+/*
+items: <arrayOfObjects>
+  key: <string>,
+  productId: <int>
+  quantity: <int>>
+  totalPrice: <int>
+
+products: <arrayOfObjects>
+  title: "Blouse Juicy Couture"
+  link: "http://rewooc.loc/server/wp/product/blouse-juicy-couture/"
+  price: "39"
+  image: {,…}
+  isSoldIndividually: false
+  getStockQuantity: null
+
+ */
 export const initialState = {
-    products: [],
-    addingProductId: null,
-    deletingProductKey: null,
-    changingQuantityKey: null
+  items: [],
+  products: [],
+  addingProductId: null,
+  deletingProductKey: null,
+  changingQuantityKey: null
 };
 
 export default function reducer(state = initialState, action) {
   //console.log(action);
   //console.log(state);
-  let products;
+  let items;
   switch (action.type) {
     case INIT_APP_SUCCESS:
-      return {...state, products: action.payload.data.cart};
+      items = getCartItems(state, action.payload.data.cart);
+      return {...state, items};
     case CART_ADD_PRODUCT_START:
       return {...state, addingProductId: action.payload.productId};
     case CART_ADD_PRODUCT_SUCCESS:
-      products = addProduct(state, action.payload.product);
-      return {...state, products, addingProductId: null};
+      items = addProduct(state, action.payload.product);
+      return {...state, items, addingProductId: null};
     case CART_ADD_PRODUCT_FAIL:
       return {...state, addingProductId: null};
     case CART_DELETE_PRODUCT_START:
       return {...state, deletingProductKey: action.payload.productKey};
     case CART_DELETE_PRODUCT_SUCCESS:
-      products = deleteProduct(state, action.payload.productKey);
-      return {...state, products, deletingProductKey: null};
+      items = deleteProduct(state, action.payload.productKey);
+      return {...state, items, deletingProductKey: null};
     case CART_DELETE_PRODUCT_FAIL:
       return {...state, deletingProductKey: null};
     case CART_SET_PRODUCT_QUANTITY_START:
       return {...state, changingQuantityKey: action.payload.productKey};
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
-      products = changeQuantity(state, action.payload.productKey, action.payload.quantity);
-      return {...state, products, changingQuantityKey: null};
+      items = changeQuantity(state, action.payload.productKey, action.payload.quantity);
+      return {...state, items, changingQuantityKey: null};
     case CART_SET_PRODUCT_QUANTITY_FAIL:
       return {...state, changingQuantityKey: null};
     default:
@@ -50,16 +70,25 @@ export default function reducer(state = initialState, action) {
   }
 };
 
-const addProduct = (state, newProduct) => {
-  const products = [...state.products];
-  const productIndex = products.findIndex(product => product.id === newProduct.id);
-  if (productIndex !== -1) {
-    products[productIndex].quantity = newProduct.quantity
+const getCartItems = (state, cart) => {
+  return Object.values(cart).map(item => {
+    return cartItemAdapter(item);
+  });
+};
+
+const addProduct = (state, serverItem) => {
+  const newItem = cartItemAdapter(serverItem);
+  const items = [...state.items];
+  const itemIndex = items.findIndex(item => item.productId === newItem.productId);
+
+  if (itemIndex !== -1) {
+    items[itemIndex].quantity = newItem.quantity;
+    items[itemIndex].totalPrice = newItem.totalPrice;
   } else {
-    products.push(newProduct);
+    items.push(newItem);
   }
 
-  return products;
+  return items;
 };
 
 const deleteProduct = (state, productKey) => {

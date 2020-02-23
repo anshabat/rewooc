@@ -35,7 +35,3 @@ export const apiUrl = (url = "") => {
 export const ajaxEndpoint = (action) => {
   return `${Config.apiUrl}/?wc-ajax=${action}`;
 };
-
-export const isProductInCart = (id, cartItems) => {
-  return cartItems.some(item => item.id === id);
-};

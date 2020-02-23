@@ -141,7 +141,7 @@ export const loadProducts = (url) => {
   return dispatch => {
     dispatch(loadProductsStart());
     axios.get(url).then(({data}) => {
-      dispatch(loadProductsSuccess(data.products));
+      dispatch(loadProductsSuccess(data));
     }).catch(error => {
       dispatch(loadProductsFail(error))
     })
@@ -152,8 +152,14 @@ export const loadProductsStart = () => {
   return {type: PRODUCTS_LOAD_START}
 };
 
-export const loadProductsSuccess = products => {
-  return {type: PRODUCTS_LOAD_SUCCESS, payload: {products}}
+export const loadProductsSuccess = data => {
+  return {
+    type: PRODUCTS_LOAD_SUCCESS,
+    payload: {
+      products: data.products,
+      title: data.title
+    }
+  }
 };
 
 export const loadProductsFail = error => {

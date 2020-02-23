@@ -18,7 +18,7 @@ class Cart {
 		$cartItem = WC()->cart->get_cart_item( $productKey );
 		$product  = self::getProduct( $cartItem );
 
-		View::responseSuccess( $product );
+		View::responseSuccess( $cartItem );
 	}
 
 	public static function deleteFromCart() {
@@ -58,6 +58,10 @@ class Cart {
 		}
 
 		return $products;
+	}
+
+	public static function getCartItems(){
+		return WC()->cart->get_cart_contents();
 	}
 
 	private static function getProduct( $cartItem ) {

@@ -4,9 +4,10 @@ import Image from "../../../UI/Image/Image";
 import Price from "../../Price/Price";
 import {connect} from "react-redux";
 import {addToCart} from "../../../../redux/actionCreators";
-import {isProductInCart, siteUrl} from "../../../../shared/utilities";
+import {siteUrl} from "../../../../shared/utilities";
 import {Link} from "react-router-dom";
 import FormField from "../../../UI/Form/FormField/FormField";
+import {isProductInCart} from "../../../../redux/utils";
 
 const ProductCard = (props) => {
 
@@ -47,7 +48,7 @@ const ProductCard = (props) => {
 
 const mapStateToProps = (state, ownProps) => ({
   isAddingToCart: state.cart.addingProductId === ownProps.id,
-  isInCart: isProductInCart(ownProps.id, state.cart.products)
+  isInCart: isProductInCart(ownProps.id, state.cart.items)
 });
 
 export default connect(mapStateToProps, {addToCart})(ProductCard);

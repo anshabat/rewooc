@@ -13,8 +13,8 @@ const MiniCart = (props) => {
 };
 
 const mapStateToProps = ({cart}) => ({
-    quantity: getCartTotalQuantity(cart.products),
-    total: getCartTotalPrice(cart.products)
+    quantity: getCartTotalQuantity(cart.items),
+    total: getCartTotalPrice(cart.items)
 });
 
 export default connect(mapStateToProps)(MiniCart);
