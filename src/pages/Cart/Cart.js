@@ -1,38 +1,29 @@
 import React from "react";
-import {connect} from "react-redux";
-import Content from "../../components/Layout/Content/Content";
 import withPageData2 from "../withPageData2";
 import CartTable from "../../components/shop/cart/CartTable/CartTable";
-import {loadCart} from "../../redux/actionCreators";
-import {apiUrl} from "../../shared/utilities";
+import {loadPage} from "../../redux/actionCreators";
 
 class Cart extends React.Component {
 
-  componentDidMount() {
-    this.props.loadCart(apiUrl(window.location.pathname));
-  }
-
   render() {
-    const {cart, title} = this.props;
-    return (
-      <Content title={title}>
-        {cart.items.length > 0 ? (
-          <CartTable items={cart.items}/>
-        ) : (
-          <p>Cart is empty</p>
-        )}
-      </Content>
+    const {cartItems} = this.props;
+    return cartItems.length > 0 ? (
+      <CartTable items={cartItems} />
+    ) : (
+      <p>Cart is empty</p>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart,
-  title: 'lala'
+  cartItems: state.cart.items,
+  page: state.page
 });
 
-const mapDispatchToProps = {loadCart};
+const mapDispatchToProps = dispatch => {
+  return {
+    loadPage: (url) => dispatch(loadPage(url))
+  }
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  Cart
-);
+export default withPageData2(mapStateToProps, mapDispatchToProps)(Cart);

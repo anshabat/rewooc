@@ -1,44 +1,49 @@
-import React, {Component} from 'react';
-import axios from 'axios';
-import {apiUrl} from '../shared/utilities';
-import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader';
+import React, {Component} from "react";
+import axios from "axios";
+import {apiUrl} from "../shared/utilities";
+import ContentLoader from "../components/UI/loaders/ContentLoader/ContentLoader";
+import {connect} from "react-redux";
+import Content from "../components/Layout/Content/Content";
 
-const withPageData2 = (InnerComponent) => {
-    return class extends Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                data: null
-            };
-            this.loadData = this.loadData.bind(this);
-        }
+const withPageData2 = (mapStateToProps, mapDispatchToProps) => {
+  return (InnerComponent) => {
+    return connect(mapStateToProps, mapDispatchToProps)(class extends Component {
+      /*constructor(props) {
+        super(props);
+        this.state = {
+          data: null
+        };
+        this.loadData = this.loadData.bind(this);
+      }*/
 
-        componentDidMount() {
-            this.loadData();
-        }
+      componentDidMount() {
+        this.loadData();
+      }
 
-        componentDidUpdate(prevProps, prevState, snapshot) {
-            if (prevProps.location.pathname !== this.props.location.pathname) {
-                this.setState({data: null});
-                this.loadData();
-            }
+      componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.location.pathname !== this.props.location.pathname) {
+          this.loadData();
         }
+      }
 
-        loadData() {
-            axios.get(apiUrl(window.location.pathname)).then(({data}) => {
-                this.setState({data});
-            })
-        }
+      loadData() {
+        this.props.loadPage(apiUrl(window.location.pathname))
+      }
 
-        render() {
-            console.log(this.props)
-            return this.state.data ? (
-                <InnerComponent {...this.props} {...this.state.data} />
-            ) : (
-                <ContentLoader/>
-            )
-        }
-    }
-}
+      render() {
+        const {title, loading} = this.props.page;
+
+        if (loading) return <ContentLoader/>;
+
+        return (
+          <Content title={title}>
+            <InnerComponent {...this.props} />
+          </Content>
+        )
+
+      }
+    })
+  }
+};
 
 export default withPageData2
