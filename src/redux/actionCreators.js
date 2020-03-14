@@ -13,7 +13,7 @@ import {
   INIT_APP_FAIL,
   PRODUCTS_LOAD_START,
   PRODUCTS_LOAD_SUCCESS,
-  PRODUCTS_LOAD_FAIL
+  PRODUCTS_LOAD_FAIL, CART_LOAD_SUCCESS, CART_LOAD_FAIL, CART_LOAD_START
 } from "./actionTypes";
 import axios from "axios";
 import {ajaxEndpoint} from "../shared/utilities";
@@ -169,4 +169,35 @@ export const loadProductsSuccess = data => {
 
 export const loadProductsFail = error => {
   return {type: PRODUCTS_LOAD_FAIL, error}
+};
+
+
+export const loadCart = (url) => {
+  return dispatch => {
+    dispatch(loadCartStart());
+    axios.get(url).then(({data}) => {
+      console.log('lala')
+      dispatch(loadCartSuccess(data));
+    }).catch(error => {
+      dispatch(loadCartFail(error))
+    })
+  }
+};
+
+export const loadCartStart = () => {
+  return {type: CART_LOAD_START}
+};
+
+export const loadCartSuccess = data => {
+  return {
+    type: CART_LOAD_SUCCESS,
+    payload: {
+      products: data.products,
+      title: data.title
+    }
+  }
+};
+
+export const loadCartFail = error => {
+  return {type: CART_LOAD_FAIL, error}
 };
