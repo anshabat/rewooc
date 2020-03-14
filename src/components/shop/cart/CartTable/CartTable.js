@@ -36,7 +36,7 @@ function CartTable(props) {
                 </button>
               </div>
               <div className="rw-cart-table__product">
-                {/*<CartProduct product={product}/>*/}
+                <CartProduct product={item.products[0]}/>
               </div>
               <div className="rw-cart-table__quantity">
                 <QuantityField

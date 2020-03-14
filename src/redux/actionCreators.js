@@ -13,7 +13,7 @@ import {
   INIT_APP_FAIL,
   PRODUCTS_LOAD_START,
   PRODUCTS_LOAD_SUCCESS,
-  PRODUCTS_LOAD_FAIL, PAGE_LOAD_SUCCESS, PAGE_LOAD_FAIL, PAGE_LOAD_START
+  PRODUCTS_LOAD_FAIL, CART_PAGE_LOAD_SUCCESS, CART_PAGE_LOAD_FAIL, CART_PAGE_LOAD_START
 } from "./actionTypes";
 import axios from "axios";
 import {ajaxEndpoint} from "../shared/utilities";
@@ -172,29 +172,30 @@ export const loadProductsFail = error => {
 };
 
 
-export const loadPage = (url) => {
+export const loadCartPage = (url) => {
   return dispatch => {
-    dispatch(loadPageStart());
+    dispatch(loadCartPageStart());
     axios.get(url).then(({data}) => {
-      console.log(data)
-      dispatch(loadPageSuccess(data));
+      dispatch(loadCartPageSuccess(data));
     }).catch(error => {
-      dispatch(loadPageFail(error))
+      dispatch(loadCartPageFail(error))
     })
   }
 };
 
-export const loadPageStart = () => {
-  return {type: PAGE_LOAD_START}
+export const loadCartPageStart = () => {
+  return {type: CART_PAGE_LOAD_START}
 };
 
-export const loadPageSuccess = data => {
+export const loadCartPageSuccess = data => {
   return {
-    type: PAGE_LOAD_SUCCESS,
-    payload: {data}
+    type: CART_PAGE_LOAD_SUCCESS,
+    payload: {
+      title: data.title
+    }
   }
 };
 
-export const loadPageFail = error => {
-  return {type: PAGE_LOAD_FAIL, error}
+export const loadCartPageFail = error => {
+  return {type: CART_PAGE_LOAD_FAIL, error}
 };

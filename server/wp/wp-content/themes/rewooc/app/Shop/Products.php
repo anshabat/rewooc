@@ -43,7 +43,7 @@ class Products {
 		return self::convertProductObjectToArray( $productObjects );
 	}
 
-	private static function convertProductObjectToArray( $productObjects ) {
+	public static function convertProductObjectToArray( $productObjects ) {
 		$products = [];
 		foreach ( $productObjects as $wcProduct ) {
 			$productEntity = new Product( $wcProduct );

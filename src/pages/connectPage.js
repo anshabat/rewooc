@@ -1,20 +1,10 @@
 import React, {Component} from "react";
-import axios from "axios";
 import {apiUrl} from "../shared/utilities";
-import ContentLoader from "../components/UI/loaders/ContentLoader/ContentLoader";
 import {connect} from "react-redux";
-import Content from "../components/Layout/Content/Content";
 
-const withPageData2 = (mapStateToProps, mapDispatchToProps) => {
+const connectPage = (mapStateToProps, mapDispatchToProps) => {
   return (InnerComponent) => {
     return connect(mapStateToProps, mapDispatchToProps)(class extends Component {
-      /*constructor(props) {
-        super(props);
-        this.state = {
-          data: null
-        };
-        this.loadData = this.loadData.bind(this);
-      }*/
 
       componentDidMount() {
         this.loadData();
@@ -31,19 +21,12 @@ const withPageData2 = (mapStateToProps, mapDispatchToProps) => {
       }
 
       render() {
-        const {title, loading} = this.props.page;
-
-        if (loading) return <ContentLoader/>;
-
         return (
-          <Content title={title}>
-            <InnerComponent {...this.props} />
-          </Content>
+          <InnerComponent {...this.props} />
         )
-
       }
     })
   }
 };
 
-export default withPageData2
+export default connectPage

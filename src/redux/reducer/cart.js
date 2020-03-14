@@ -7,30 +7,14 @@ import {
   CART_DELETE_PRODUCT_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
-  CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_SUCCESS
+  CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_SUCCESS, CART_PAGE_LOAD_START, CART_PAGE_LOAD_SUCCESS, CART_PAGE_LOAD_FAIL
 } from "../actionTypes";
 import {cartItemAdapter} from "../utils";
 
-
-/*
-items: <arrayOfObjects>
-  key: <string>,
-  productId: <int>
-  quantity: <int>>
-  totalPrice: <int>
-
-products: <arrayOfObjects>
-  title: "Blouse Juicy Couture"
-  link: "http://rewooc.loc/server/wp/product/blouse-juicy-couture/"
-  price: "39"
-  image: {,…}
-  isSoldIndividually: false
-  getStockQuantity: null
-
- */
 export const initialState = {
+  title: null,
+  loading: false,
   items: [],
-  products: [],
   addingProductId: null,
   deletingProductKey: null,
   changingQuantityKey: null
@@ -44,10 +28,16 @@ export default function reducer(state = initialState, action) {
     case INIT_APP_SUCCESS:
       items = getCartItems(state, action.payload.data.cart);
       return {...state, items};
+    case CART_PAGE_LOAD_START:
+      return {...state, loading: true};
+    case CART_PAGE_LOAD_SUCCESS:
+      return {...state, loading: false, title: action.payload.title};
+    case CART_PAGE_LOAD_FAIL:
+      return {...state, loading: false};
     case CART_ADD_PRODUCT_START:
       return {...state, addingProductId: action.payload.productId};
     case CART_ADD_PRODUCT_SUCCESS:
-      items = addProduct(state, action.payload.product);
+      items = addItem(state, action.payload.product);
       return {...state, items, addingProductId: null};
     case CART_ADD_PRODUCT_FAIL:
       return {...state, addingProductId: null};
@@ -76,7 +66,7 @@ const getCartItems = (state, cart) => {
   });
 };
 
-const addProduct = (state, newItem) => {
+const addItem = (state, newItem) => {
   const items = [...state.items];
   const itemIndex = items.findIndex(item => item.productId === newItem.productId);
 

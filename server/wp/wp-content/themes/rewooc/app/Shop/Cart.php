@@ -16,6 +16,7 @@ class Cart {
 		}
 
 		$cartItem = WC()->cart->get_cart_item( $productKey );
+		$cartItem = self::getCartItem( $cartItem );
 
 		View::responseSuccess( $cartItem );
 	}
@@ -59,13 +60,24 @@ class Cart {
 		return $products;
 	}
 
-	public static function getCartItems() {
-		return WC()->cart->get_cart_contents();
+	public static function getCartItems($cartItems) {
+		$result = [];
+		foreach ($cartItems as $key => $data) {
+			$result[$key] = self::getCartItem($data);
+		}
+		return $result;
 	}
 
 	private static function getProduct( $cartItem ) {
 		$productFacade = new ProductFacade( new CartProduct( $cartItem ) );
 
 		return $productFacade->getCartProduct();
+	}
+
+	public static function getCartItem( $cartItem ) {
+		$result         = $cartItem;
+		$result['data'] = Products::convertProductObjectToArray( [ $cartItem['data'] ] );
+
+		return $result;
 	}
 }
