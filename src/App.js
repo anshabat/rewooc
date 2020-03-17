@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {BrowserRouter} from "react-router-dom";
-import Root from "./Root";
+import Root from "./pages/Root";
 import {connect} from "react-redux";
 import {initApp} from "./redux/actionCreators";
 import PageLoader from "./components/UI/loaders/PageLoader/PageLoader";
