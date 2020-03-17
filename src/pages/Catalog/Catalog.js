@@ -1,4 +1,3 @@
-import "./Archive.scss";
 import React, {Component} from "react";
 import ProductCard from "../../components/shop/product/ProductCard/ProductCard";
 import Content from "../../components/Layout/Content/Content";
@@ -8,7 +7,7 @@ import {apiUrl} from "../../shared/utilities";
 import {loadProducts} from "../../redux/actionCreators";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
 
-class Archive extends Component {
+class Catalog extends Component {
   componentDidMount() {
     this.props.loadProducts(apiUrl(window.location.pathname))
   }
@@ -43,4 +42,4 @@ const mapStateToProps = ({products}) => {
 };
 const mapDispatchToProps = {loadProducts};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Archive);
+export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
