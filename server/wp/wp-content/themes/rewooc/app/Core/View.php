@@ -71,9 +71,9 @@ class View {
 			return false;
 		}
 
-		$logo = new Media( $imageId, 'full' );
+		$logo = new Media( $imageId );
 
-		return $logo->getImage();
+		return $logo->getImages();
 
 	}
 

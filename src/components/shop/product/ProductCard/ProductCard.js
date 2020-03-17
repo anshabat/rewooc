@@ -16,7 +16,7 @@ const ProductCard = (props) => {
   return (
     <article className="rw-product-card">
       <div className="rw-product-card__row">
-        <Image image={props.image}/>
+        <Image image={props.images.medium}/>
       </div>
       <h3 className="rw-product-card__row">
         <a className="ps-link ps-link--primary" href={props.link}>

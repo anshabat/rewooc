@@ -27,13 +27,14 @@ class Product {
 		return $this->product->get_price();
 	}
 
-	public function getImage( $size = 'thumbnail', $alt = false ) {
-		$image = new Media( $this->product->get_image_id(), $size );
+	public function getImages( $alt = false ) {
+		$image = new Media( $this->product->get_image_id() );
+
 		if ( $alt ) {
 			$image->setImageAlt( $alt );
 		}
 
-		return $image->getImage();
+		return $image->getImages();
 	}
 
 	public function getCartUrl() {

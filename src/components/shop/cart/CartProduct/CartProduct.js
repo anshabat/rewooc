@@ -8,7 +8,7 @@ function CartProduct({product}) {
     <div className="rw-cart-product">
       <div className="rw-cart-product__left">
         <div className="rw-cart-product__img">
-          <Image image={product.image}/>
+          <Image image={product.images.thumbnail}/>
         </div>
       </div>
       <div className="rw-cart-product__right">

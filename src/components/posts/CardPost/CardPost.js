@@ -6,7 +6,7 @@ const CardPost = (props) => {
   return (
     <div className="rw-post-card">
       <div className="rw-post-card__image">
-        <Image image={props.image}/>
+        <Image image={props.images.medium}/>
       </div>
       <div className="rw-post-card__created">
         {props.dateCreated}

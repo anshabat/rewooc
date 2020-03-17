@@ -4,16 +4,28 @@ namespace Rewooc\Common;
 
 class Media {
 	private $id = null;
-	private $imageSize = null;
 	private $imageAlt = null;
 
-	public function __construct( $id, $size = 'thumbnail' ) {
-		$this->id        = (int) $id;
-		$this->imageSize = $size;
+	public function __construct( $id ) {
+		$this->id = (int) $id;
 	}
 
-	public function getImage() {
-		$image = wp_get_attachment_image_src( $this->id, $this->imageSize );
+	public function getImages() {
+		$sizes  = get_intermediate_image_sizes();
+		$images = [];
+		foreach ( $sizes as $size ) {
+			if ( image_get_intermediate_size( $this->id, $size ) ) {
+				$images[ $size ] = $this->getImage( $size );
+			}
+		}
+
+		$images['full'] = $this->getImage( 'full' );
+
+		return $images;
+	}
+
+	public function getImage( $size = 'medium' ) {
+		$image = wp_get_attachment_image_src( $this->id, $size );
 
 		if ( ! $image ) {
 			return [];

@@ -20,7 +20,7 @@ const Layout = props => {
         <Header
           headlineLeft={<Nav items={headerNavigation} navs={[ListNav, Dropdown]}/>}
           headlineRight={<Phone phoneNumber={phone}/>}
-          mainLeft={<Image image={logo}/>}
+          mainLeft={<Image image={logo.full}/>}
           mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
           mainRight={<MiniCart/>}
         />

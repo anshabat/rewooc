@@ -15,7 +15,7 @@ class ProductFacade {
 			'title'              => $this->product->getTitle(),
 			'link'               => $this->product->getLink(),
 			'price'              => $this->product->getPrice(),
-			'image'              => $this->product->getImage( 'shop_catalog' ),
+			'images'              => $this->product->getImages(),
 			'addToCartUrl'       => $this->product->getCartUrl(),
 			'isSoldIndividually' => $this->product->isSoldIndividually(),
 			'getStockQuantity'   => $this->product->getStockQuantity()
@@ -30,7 +30,7 @@ class ProductFacade {
 			'title'              => $this->product->getTitle(),
 			'link'               => $this->product->getLink(),
 			'price'              => $this->product->getPrice(),
-			'image'              => $this->product->getImage(),
+			'images'              => $this->product->getImages(),
 			'isSoldIndividually' => $this->product->isSoldIndividually(),
 			'getStockQuantity'   => $this->product->getStockQuantity()
 		];
