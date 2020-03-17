@@ -20,7 +20,7 @@ class Ajax {
 		}
 	}
 
-	public function setCartProductQuantity() {
+	public static function setCartProductQuantity() {
 		$productKey = isset( $_POST['productKey'] ) ? wc_clean( $_POST['productKey'] ) : null;
 		$quantity   = isset( $_POST['quantity'] ) ? absint( $_POST['quantity'] ) : 1;
 

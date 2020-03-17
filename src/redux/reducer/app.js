@@ -12,11 +12,11 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case INIT_APP_START:
-      return {...state, loading: true};
+      return {...state, loading: true, error: false};
     case INIT_APP_SUCCESS:
-      return {...state, loading: false, data: action.payload.data};
+      return {...state, loading: false, error: false, data: action.payload.data};
     case INIT_APP_FAIL:
-      return {...state, error: true};
+      return {...state, loading: false, error: action.error};
     default:
       return {...state}
   }

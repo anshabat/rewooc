@@ -14,6 +14,7 @@ import {cartItemAdapter} from "../utils";
 export const initialState = {
   title: null,
   loading: false,
+  error: false,
   items: [],
   addingProductId: null,
   deletingProductKey: null,
@@ -33,28 +34,28 @@ export default function reducer(state = initialState, action) {
     case CART_PAGE_LOAD_SUCCESS:
       return {...state, loading: false, title: action.payload.title};
     case CART_PAGE_LOAD_FAIL:
-      return {...state, loading: false};
+      return {...state, loading: false, error: action.error};
     case CART_ADD_PRODUCT_START:
       return {...state, addingProductId: action.payload.productId};
     case CART_ADD_PRODUCT_SUCCESS:
       items = addItem(state, action.payload.product);
       return {...state, items, addingProductId: null};
     case CART_ADD_PRODUCT_FAIL:
-      return {...state, addingProductId: null};
+      return {...state, addingProductId: null, error: action.error};
     case CART_DELETE_PRODUCT_START:
       return {...state, deletingProductKey: action.payload.productKey};
     case CART_DELETE_PRODUCT_SUCCESS:
       items = deleteProduct(state, action.payload.productKey);
       return {...state, items, deletingProductKey: null};
     case CART_DELETE_PRODUCT_FAIL:
-      return {...state, deletingProductKey: null};
+      return {...state, deletingProductKey: null, error: action.error};
     case CART_SET_PRODUCT_QUANTITY_START:
       return {...state, changingQuantityKey: action.payload.productKey};
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
       items = changeQuantity(state, action.payload.item);
       return {...state, items, changingQuantityKey: null};
     case CART_SET_PRODUCT_QUANTITY_FAIL:
-      return {...state, changingQuantityKey: null};
+      return {...state, changingQuantityKey: null, error: action.error};
     default:
       return state;
   }
