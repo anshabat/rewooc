@@ -11,9 +11,12 @@ import {
   INIT_APP_START,
   INIT_APP_SUCCESS,
   INIT_APP_FAIL,
-  PRODUCTS_LOAD_START,
-  PRODUCTS_LOAD_SUCCESS,
-  PRODUCTS_LOAD_FAIL, CART_PAGE_LOAD_SUCCESS, CART_PAGE_LOAD_FAIL, CART_PAGE_LOAD_START
+  CATALOG_PAGE_LOAD_START,
+  CATALOG_PAGE_LOAD_SUCCESS,
+  CATALOG_PAGE_LOAD_FAIL,
+  CART_PAGE_LOAD_START,
+  CART_PAGE_LOAD_SUCCESS,
+  CART_PAGE_LOAD_FAIL
 } from "./actionTypes";
 import axios from "axios";
 import {ajaxEndpoint} from "../shared/utilities";
@@ -142,24 +145,24 @@ export const setCartProductQuantityFail = (error) => {
   return {type: CART_SET_PRODUCT_QUANTITY_FAIL, error}
 };
 
-export const loadProducts = (url) => {
+export const loadCatalogPage = (url) => {
   return dispatch => {
-    dispatch(loadProductsStart());
+    dispatch(loadCatalogPageStart());
     axios.get(url).then(({data}) => {
-      dispatch(loadProductsSuccess(data));
+      dispatch(loadCatalogPageSuccess(data));
     }).catch(error => {
-      dispatch(loadProductsFail(error))
+      dispatch(loadCatalogPageFail(error))
     })
   }
 };
 
-export const loadProductsStart = () => {
-  return {type: PRODUCTS_LOAD_START}
+export const loadCatalogPageStart = () => {
+  return {type: CATALOG_PAGE_LOAD_START}
 };
 
-export const loadProductsSuccess = data => {
+export const loadCatalogPageSuccess = data => {
   return {
-    type: PRODUCTS_LOAD_SUCCESS,
+    type: CATALOG_PAGE_LOAD_SUCCESS,
     payload: {
       products: data.products,
       title: data.title
@@ -167,8 +170,8 @@ export const loadProductsSuccess = data => {
   }
 };
 
-export const loadProductsFail = error => {
-  return {type: PRODUCTS_LOAD_FAIL, error}
+export const loadCatalogPageFail = error => {
+  return {type: CATALOG_PAGE_LOAD_FAIL, error}
 };
 
 

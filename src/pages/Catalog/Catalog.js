@@ -1,45 +1,37 @@
 import React, {Component} from "react";
+import connectPage from "../connectPage";
 import ProductCard from "../../components/shop/product/ProductCard/ProductCard";
 import Content from "../../components/Layout/Content/Content";
 import Grid from "../../components/UI/Grid/Grid"
-import {connect} from "react-redux";
-import {apiUrl} from "../../shared/utilities";
-import {loadProducts} from "../../redux/actionCreators";
+import {loadCatalogPage} from "../../redux/actionCreators";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
 
 class Catalog extends Component {
-  componentDidMount() {
-    this.props.loadProducts(apiUrl(window.location.pathname))
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.location.pathname !== this.props.location.pathname) {
-      this.props.loadProducts(apiUrl(window.location.pathname))
-    }
-  }
 
   render() {
-    const {products, loading, title} = this.props;
+    const {page} = this.props;
 
-    if (loading) return <ContentLoader/>;
+    if (page.loading) return <ContentLoader/>;
 
     return (
-      <Content title={title}>
-        <Grid items={products}>
+      <Content title={page.title}>
+        <Grid items={page.products}>
           {product => <ProductCard {...product} />}
         </Grid>
       </Content>
-    );
+    )
   }
 }
 
-const mapStateToProps = ({products}) => {
+const mapStateToProps = (state) => {
   return {
-    title: products.title,
-    products: products.items,
-    loading: products.loading
+    page: state.catalog,
   }
 };
-const mapDispatchToProps = {loadProducts};
+const mapDispatchToProps = dispatch => {
+  return {
+    loadPage: url => dispatch(loadCatalogPage(url))
+  }
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
+export default connectPage(mapStateToProps, mapDispatchToProps)(Catalog);
