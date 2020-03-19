@@ -15,47 +15,58 @@ export const initialState = {
   title: null,
   loading: false,
   error: false,
+  products: [],
   items: [],
   addingProductId: null,
   deletingProductKey: null,
   changingQuantityKey: null
 };
 
+/**
+ * 1 - загрузка АПП
+ * 2 - загрузка Сторінки
+ * 3 - Додавання в корзину
+ */
+
 export default function reducer(state = initialState, action) {
   //console.log(action);
   //console.log(state);
+
+  const {type, payload, error} = action;
   let items;
-  switch (action.type) {
+
+  switch (type) {
     case INIT_APP_SUCCESS:
-      items = getCartItems(state, action.payload.data.cart);
-      return {...state, items};
+      items = getCartItems(state, payload.data.cart);
+      //const {cart} = payload.data;
+      return {...state, items: items};
     case CART_PAGE_LOAD_START:
       return {...state, loading: true};
     case CART_PAGE_LOAD_SUCCESS:
-      return {...state, loading: false, title: action.payload.title};
+      return {...state, loading: false, title: payload.title};
     case CART_PAGE_LOAD_FAIL:
-      return {...state, loading: false, error: action.error};
+      return {...state, loading: false, error: error};
     case CART_ADD_PRODUCT_START:
-      return {...state, addingProductId: action.payload.productId};
+      return {...state, addingProductId: payload.productId};
     case CART_ADD_PRODUCT_SUCCESS:
-      items = addItem(state, action.payload.cartItem);
+      items = addItem(state, payload.cartItem);
       return {...state, items, addingProductId: null};
     case CART_ADD_PRODUCT_FAIL:
-      return {...state, addingProductId: null, error: action.error};
+      return {...state, addingProductId: null, error: error};
     case CART_DELETE_PRODUCT_START:
-      return {...state, deletingProductKey: action.payload.productKey};
+      return {...state, deletingProductKey: payload.productKey};
     case CART_DELETE_PRODUCT_SUCCESS:
-      items = deleteProduct(state, action.payload.productKey);
+      items = deleteProduct(state, payload.productKey);
       return {...state, items, deletingProductKey: null};
     case CART_DELETE_PRODUCT_FAIL:
-      return {...state, deletingProductKey: null, error: action.error};
+      return {...state, deletingProductKey: null, error: error};
     case CART_SET_PRODUCT_QUANTITY_START:
-      return {...state, changingQuantityKey: action.payload.productKey};
+      return {...state, changingQuantityKey: payload.productKey};
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
-      items = changeQuantity(state, action.payload.cartItem);
+      items = changeQuantity(state, payload.cartItem);
       return {...state, items, changingQuantityKey: null};
     case CART_SET_PRODUCT_QUANTITY_FAIL:
-      return {...state, changingQuantityKey: null, error: action.error};
+      return {...state, changingQuantityKey: null, error: error};
     default:
       return state;
   }
