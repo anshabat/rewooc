@@ -38,7 +38,7 @@ export default function reducer(state = initialState, action) {
     case CART_ADD_PRODUCT_START:
       return {...state, addingProductId: action.payload.productId};
     case CART_ADD_PRODUCT_SUCCESS:
-      items = addItem(state, action.payload.product);
+      items = addItem(state, action.payload.cartItem);
       return {...state, items, addingProductId: null};
     case CART_ADD_PRODUCT_FAIL:
       return {...state, addingProductId: null, error: action.error};
@@ -52,7 +52,7 @@ export default function reducer(state = initialState, action) {
     case CART_SET_PRODUCT_QUANTITY_START:
       return {...state, changingQuantityKey: action.payload.productKey};
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
-      items = changeQuantity(state, action.payload.item);
+      items = changeQuantity(state, action.payload.cartItem);
       return {...state, items, changingQuantityKey: null};
     case CART_SET_PRODUCT_QUANTITY_FAIL:
       return {...state, changingQuantityKey: null, error: action.error};

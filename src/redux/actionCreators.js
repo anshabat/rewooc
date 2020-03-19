@@ -25,28 +25,18 @@ import {cartItemAdapter} from "./utils";
 
 export const initApp = () => {
   return dispatch => {
-    dispatch(initAppStart());
+    dispatch({type: INIT_APP_START});
     axios.get(ajaxEndpoint("rewooc_get_common_data")).then(({data}) => {
-      dispatch(initAppSuccess(data))
+      dispatch({type: INIT_APP_SUCCESS, payload: {data}})
     }).catch(error => {
-      dispatch(initAppFail(error))
+      dispatch({type: INIT_APP_FAIL, error})
     })
   }
 };
 
-export const initAppStart = () => {
-  return {type: INIT_APP_START}
-};
-export const initAppSuccess = (data) => {
-  return {type: INIT_APP_SUCCESS, payload: {data}}
-};
-export const initAppFail = (error) => {
-  return {type: INIT_APP_FAIL, error}
-};
-
 export const addToCart = (productId, quantity) => {
   return dispatch => {
-    dispatch(addToCartStart(productId));
+    dispatch({type: CART_ADD_PRODUCT_START, payload: {productId}});
 
     const params = new FormData();
     params.set("productId", productId);
@@ -56,26 +46,14 @@ export const addToCart = (productId, quantity) => {
       const {success, data} = response.data;
       if (success && data) {
         const cartItem = cartItemAdapter(data);
-        dispatch(addToCartSuccess(cartItem));
+        dispatch({type: CART_ADD_PRODUCT_SUCCESS, payload: {cartItem}});
       } else {
         throw new Error(ErrorMessage.CART_FAIL_TO_ADD_PRODUCT);
       }
     }).catch(error => {
-      dispatch(addToCartFail(error));
+      dispatch({type: CART_ADD_PRODUCT_FAIL, error});
     });
   }
-};
-
-export const addToCartStart = (productId) => {
-  return {type: CART_ADD_PRODUCT_START, payload: {productId}}
-};
-
-export const addToCartSuccess = (product) => {
-  return {type: CART_ADD_PRODUCT_SUCCESS, payload: {product}}
-};
-
-export const addToCartFail = (error) => {
-  return {type: CART_ADD_PRODUCT_FAIL, error}
 };
 
 export const deleteFromCart = (productKey) => {
@@ -83,31 +61,19 @@ export const deleteFromCart = (productKey) => {
     const data = new FormData();
     data.set("productKey", productKey);
 
-    dispatch(deleteFromCartStart(productKey));
+    dispatch({type: CART_DELETE_PRODUCT_START, payload: {productKey}});
     axios.post(ajaxEndpoint("rewooc_delete_from_cart"), data)
       .then(response => {
         if (response.data.success) {
-          dispatch(deleteFromCartSuccess(productKey));
+          dispatch({type: CART_DELETE_PRODUCT_SUCCESS, payload: {productKey}});
         } else {
           throw new Error(ErrorMessage.CART_FAIL_TO_DELETE_PRODUCT);
         }
       })
       .catch(error => {
-        dispatch(deleteFromCartFail(error));
+        dispatch({type: CART_DELETE_PRODUCT_FAIL, error});
       });
   }
-};
-
-export const deleteFromCartStart = (productKey) => {
-  return {type: CART_DELETE_PRODUCT_START, payload: {productKey}}
-};
-
-export const deleteFromCartSuccess = (productKey) => {
-  return {type: CART_DELETE_PRODUCT_SUCCESS, payload: {productKey}}
-};
-
-export const deleteFromCartFail = (error) => {
-  return {type: CART_DELETE_PRODUCT_FAIL, error}
 };
 
 export const setCartProductQuantity = (productKey, quantity) => {
@@ -116,89 +82,52 @@ export const setCartProductQuantity = (productKey, quantity) => {
     data.set("productKey", productKey);
     data.set("quantity", quantity);
 
-    dispatch(setCartProductQuantityStart(productKey));
+    dispatch({type: CART_SET_PRODUCT_QUANTITY_START, payload: {productKey}});
     axios.post(ajaxEndpoint("rewooc_set_cat_product_quantity"), data)
       .then(response => {
         const {success, data} = response.data;
         if (success && data) {
           const cartItem = cartItemAdapter(data);
-          dispatch(setCartProductQuantitySuccess(productKey, cartItem));
+          dispatch({type: CART_SET_PRODUCT_QUANTITY_SUCCESS, payload: {cartItem}});
         } else {
           throw new Error(ErrorMessage.CART_FAIL_TO_CHANGE_QUANTITY)
         }
       })
       .catch(error => {
-        dispatch(setCartProductQuantityFail(error));
+        dispatch({type: CART_SET_PRODUCT_QUANTITY_FAIL, error});
       });
   }
 };
 
-export const setCartProductQuantityStart = (productKey) => {
-  return {type: CART_SET_PRODUCT_QUANTITY_START, payload: {productKey}}
-};
-
-export const setCartProductQuantitySuccess = (productKey, item) => {
-  return {type: CART_SET_PRODUCT_QUANTITY_SUCCESS, payload: {item}}
-};
-
-export const setCartProductQuantityFail = (error) => {
-  return {type: CART_SET_PRODUCT_QUANTITY_FAIL, error}
-};
-
 export const loadCatalogPage = (url) => {
   return dispatch => {
-    dispatch(loadCatalogPageStart());
+    dispatch({type: CATALOG_PAGE_LOAD_START});
     axios.get(url).then(({data}) => {
-      dispatch(loadCatalogPageSuccess(data));
+      dispatch({
+        type: CATALOG_PAGE_LOAD_SUCCESS,
+        payload: {
+          products: data.products,
+          title: data.title
+        }
+      });
     }).catch(error => {
-      dispatch(loadCatalogPageFail(error))
+      dispatch({type: CATALOG_PAGE_LOAD_FAIL, error})
     })
   }
 };
-
-export const loadCatalogPageStart = () => {
-  return {type: CATALOG_PAGE_LOAD_START}
-};
-
-export const loadCatalogPageSuccess = data => {
-  return {
-    type: CATALOG_PAGE_LOAD_SUCCESS,
-    payload: {
-      products: data.products,
-      title: data.title
-    }
-  }
-};
-
-export const loadCatalogPageFail = error => {
-  return {type: CATALOG_PAGE_LOAD_FAIL, error}
-};
-
 
 export const loadCartPage = (url) => {
   return dispatch => {
-    dispatch(loadCartPageStart());
+    dispatch({type: CART_PAGE_LOAD_START});
     axios.get(url).then(({data}) => {
-      dispatch(loadCartPageSuccess(data));
+      dispatch({
+        type: CART_PAGE_LOAD_SUCCESS,
+        payload: {
+          title: data.title
+        }
+      });
     }).catch(error => {
-      dispatch(loadCartPageFail(error))
+      dispatch({type: CART_PAGE_LOAD_FAIL, error})
     })
   }
-};
-
-export const loadCartPageStart = () => {
-  return {type: CART_PAGE_LOAD_START}
-};
-
-export const loadCartPageSuccess = data => {
-  return {
-    type: CART_PAGE_LOAD_SUCCESS,
-    payload: {
-      title: data.title
-    }
-  }
-};
-
-export const loadCartPageFail = error => {
-  return {type: CART_PAGE_LOAD_FAIL, error}
 };
