@@ -19,7 +19,6 @@ export const cartItemAdapter = (item) => {
     key: item.key,
     productId: item.product_id,
     quantity: item.quantity,
-    totalPrice: item.line_total,
-    products: item.data
+    totalPrice: item.line_total
   }
 };

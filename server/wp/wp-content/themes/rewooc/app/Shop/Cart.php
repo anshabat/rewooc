@@ -60,11 +60,12 @@ class Cart {
 		return $products;
 	}
 
-	public static function getCartItems($cartItems) {
+	public static function getCartItems( $cartItems ) {
 		$result = [];
-		foreach ($cartItems as $key => $data) {
-			$result[$key] = self::getCartItem($data);
+		foreach ( $cartItems as $key => $data ) {
+			$result[ $key ] = self::getCartItem( $data );
 		}
+
 		return $result;
 	}
 
@@ -76,7 +77,10 @@ class Cart {
 
 	public static function getCartItem( $cartItem ) {
 		$result         = $cartItem;
-		$result['data'] = Products::convertProductObjectToArray( [ $cartItem['data'] ] );
+		$productEntity  = new Product( $cartItem['data'] );
+		$productFacade  = new ProductFacade( $productEntity );
+		$product        = $productFacade->getProductCard();
+		$result['data'] = $product;
 
 		return $result;
 	}

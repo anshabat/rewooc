@@ -3,7 +3,8 @@ import React from "react";
 import Image from "../../../UI/Image/Image";
 import Price from "../../Price/Price";
 
-function CartProduct({product}) {
+function CartProduct(props) {
+  const {product} = props;
   return (
     <div className="rw-cart-product">
       <div className="rw-cart-product__left">

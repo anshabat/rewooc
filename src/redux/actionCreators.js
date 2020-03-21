@@ -27,7 +27,7 @@ export const initApp = () => {
   return dispatch => {
     dispatch({type: INIT_APP_START});
     axios.get(ajaxEndpoint("rewooc_get_common_data")).then(({data}) => {
-      dispatch({type: INIT_APP_SUCCESS, payload: {data}})
+      dispatch({type: INIT_APP_SUCCESS, payload: data})
     }).catch(error => {
       dispatch({type: INIT_APP_FAIL, error})
     })
@@ -45,8 +45,7 @@ export const addToCart = (productId, quantity) => {
     axios.post(ajaxEndpoint("rewooc_add_to_cart"), params).then(response => {
       const {success, data} = response.data;
       if (success && data) {
-        const cartItem = cartItemAdapter(data);
-        dispatch({type: CART_ADD_PRODUCT_SUCCESS, payload: {cartItem}});
+        dispatch({type: CART_ADD_PRODUCT_SUCCESS, payload: {cartItem: data}});
       } else {
         throw new Error(ErrorMessage.CART_FAIL_TO_ADD_PRODUCT);
       }
@@ -87,8 +86,7 @@ export const setCartProductQuantity = (productKey, quantity) => {
       .then(response => {
         const {success, data} = response.data;
         if (success && data) {
-          const cartItem = cartItemAdapter(data);
-          dispatch({type: CART_SET_PRODUCT_QUANTITY_SUCCESS, payload: {cartItem}});
+          dispatch({type: CART_SET_PRODUCT_QUANTITY_SUCCESS, payload: {cartItem: data}});
         } else {
           throw new Error(ErrorMessage.CART_FAIL_TO_CHANGE_QUANTITY)
         }

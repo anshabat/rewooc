@@ -8,14 +8,14 @@ import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoad
 class Cart extends React.Component {
 
   render() {
-    const {page} = this.props;
+    const {title, loading, cartItems} = this.props;
 
-    if (page.loading) return <ContentLoader/>;
+    if (loading) return <ContentLoader/>;
 
     return (
-      <Content title={page.title}>
-        {page.items.length > 0 ? (
-          <CartTable items={page.items}/>
+      <Content title={title}>
+        {cartItems.length > 0 ? (
+          <CartTable items={cartItems}/>
         ) : (
           <p>Cart is empty</p>
         )}
@@ -24,8 +24,17 @@ class Cart extends React.Component {
   }
 }
 
+const getCartItems = (state) => {
+  return state.cart.items.map(item => {
+    const product = state.cart.products.find(product => product.id === item.productId);
+    return {...item, product};
+  })
+};
+
 const mapStateToProps = state => ({
-  page: state.cart
+  title: state.cart.title,
+  loading: state.cart.loading,
+  cartItems: getCartItems(state)
 });
 
 const mapDispatchToProps = dispatch => {
