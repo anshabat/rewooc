@@ -21,7 +21,6 @@ import {
 import axios from "axios";
 import {ajaxEndpoint} from "../shared/utilities";
 import {ErrorMessage} from "../shared/errorMessages";
-import {cartItemAdapter} from "./utils";
 
 export const initApp = () => {
   return dispatch => {

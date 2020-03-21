@@ -3,19 +3,19 @@ import React, {Fragment} from "react";
 import Icon from "../../../UI/Icon/Icon";
 import CartProduct from "../CartProduct/CartProduct";
 import QuantityField from "../QuantityField/QuantityField";
-import withPriceFormat from "../../Price/withPriceFormat";
-import {getCartTotalPrice} from "../../../../redux/utils";
+import {getCartTotalPrice} from "../../../../redux/selectors";
 import {connect} from "react-redux";
 import {deleteFromCart, setCartProductQuantity} from "../../../../redux/actionCreators";
+import Price from "../../Price/Price";
 
 function CartTable(props) {
   const {
     items,
-    formatPrice,
     deleteFromCart,
     setCartProductQuantity,
     deletingProduct,
-    changingQuantity
+    changingQuantity,
+    total
   } = props;
 
   return (
@@ -47,26 +47,25 @@ function CartTable(props) {
                 />
               </div>
               <div className="rw-cart-table__price">
-                {formatPrice(item.totalPrice)}
+                <Price value={item.totalPrice}/>
               </div>
             </Fragment>
           )
         })}
       </div>
       <div style={{textAlign: "right", fontWeight: "bold", marginTop: "20px"}}>
-        Total: {formatPrice(getCartTotalPrice(items))}
+        Total: <Price value={total}/>
       </div>
     </>
   );
 }
 
-const mapStateToProps = ({cart}) => ({
-  deletingProduct: cart.deletingProductKey,
-  changingQuantity: cart.changingQuantityKey
+const mapStateToProps = (state) => ({
+  deletingProduct: state.cart.deletingProductKey,
+  changingQuantity: state.cart.changingQuantityKey,
+  total: getCartTotalPrice(state)
 });
 
 const mapDispatchToProps = {deleteFromCart, setCartProductQuantity};
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withPriceFormat(CartTable)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CartTable);

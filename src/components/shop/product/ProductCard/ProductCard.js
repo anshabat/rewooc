@@ -7,7 +7,7 @@ import {addToCart} from "../../../../redux/actionCreators";
 import {siteUrl} from "../../../../shared/utilities";
 import {Link} from "react-router-dom";
 import FormField from "../../../UI/Form/FormField/FormField";
-import {isProductInCart} from "../../../../redux/utils";
+import {isProductInCart, addingProductToCart} from "../../../../redux/selectors";
 
 const ProductCard = (props) => {
 
@@ -38,7 +38,7 @@ const ProductCard = (props) => {
         </div>
       </div>
       <div className="rw-product-card__row">
-        {props.isAddingToCart && <span>Adding...</span>}
+        {props.addingToCart && <span>Adding...</span>}
         {props.isInCart && <Link to={siteUrl("cart")}>In Cart</Link>}
         <button onClick={e => props.addToCart(props.id, quantity)} type="button">Add to Cart</button>
       </div>
@@ -47,8 +47,8 @@ const ProductCard = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  isAddingToCart: state.cart.addingProductId === ownProps.id,
-  isInCart: isProductInCart(ownProps.id, state.cart.items)
+  addingToCart: addingProductToCart(state, ownProps.id),
+  isInCart: isProductInCart(state, ownProps.id)
 });
 
 export default connect(mapStateToProps, {addToCart})(ProductCard);

@@ -4,6 +4,7 @@ import CartTable from "../../components/shop/cart/CartTable/CartTable";
 import {loadCartPage} from "../../redux/actionCreators";
 import Content from "../../components/Layout/Content/Content";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
+import {getCartItems} from "../../redux/selectors";
 
 class Cart extends React.Component {
 
@@ -24,12 +25,6 @@ class Cart extends React.Component {
   }
 }
 
-const getCartItems = (state) => {
-  return state.cart.items.map(item => {
-    const product = state.cart.products.find(product => product.id === item.productId);
-    return {...item, product};
-  })
-};
 
 const mapStateToProps = state => ({
   title: state.cart.title,

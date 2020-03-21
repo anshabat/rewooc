@@ -9,7 +9,6 @@ import {
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
   CART_SET_PRODUCT_QUANTITY_FAIL, INIT_APP_SUCCESS, CART_PAGE_LOAD_START, CART_PAGE_LOAD_SUCCESS, CART_PAGE_LOAD_FAIL
 } from "../actionTypes";
-import {cartItemAdapter} from "../utils";
 
 export const initialState = {
   title: null,
@@ -21,12 +20,6 @@ export const initialState = {
   deletingProductKey: null,
   changingQuantityKey: null
 };
-
-/**
- * 1 - загрузка АПП
- * 2 - загрузка Сторінки
- * 3 - Додавання в корзину
- */
 
 export default function reducer(state = initialState, action) {
   const {type, payload, error} = action;
@@ -144,4 +137,13 @@ const changeQuantity = (state, serverItem) => {
   items[itemIndex].totalPrice = newItem.totalPrice;
 
   return items;
+};
+
+const cartItemAdapter = (item) => {
+  return {
+    key: item.key,
+    productId: item.product_id,
+    quantity: item.quantity,
+    totalPrice: item.line_total
+  }
 };
