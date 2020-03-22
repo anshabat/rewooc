@@ -9,13 +9,13 @@ import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoad
 class Catalog extends Component {
 
   render() {
-    const {page} = this.props;
+    const {loading, title, products} = this.props;
 
-    if (page.loading) return <ContentLoader/>;
+    if (loading) return <ContentLoader/>;
 
     return (
-      <Content title={page.title}>
-        <Grid items={page.products}>
+      <Content title={title}>
+        <Grid items={products}>
           {product => <ProductCard {...product} />}
         </Grid>
       </Content>
@@ -25,7 +25,9 @@ class Catalog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    page: state.catalog,
+    loading: state.catalog.loading,
+    title: state.catalog.title,
+    products: state.catalog.products
   }
 };
 const mapDispatchToProps = dispatch => {
