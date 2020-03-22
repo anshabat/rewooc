@@ -6,34 +6,26 @@ use Rewooc\Core\View;
 
 class Cart {
 
-	public static function addToCart() {
-		$productId  = absint( $_POST['productId'] );
-		$quantity   = absint( $_POST['quantity'] );
+	public static function addToCart( $productId, $quantity ) {
 		$productKey = WC()->cart->add_to_cart( $productId, $quantity );
 
 		if ( ! $productKey ) {
-			View::responseError();
+			return false;
 		}
 
 		$cartItem = WC()->cart->get_cart_item( $productKey );
 		$cartItem = self::getCartItem( $cartItem );
 
-		View::responseSuccess( $cartItem );
+		return $cartItem;
 	}
 
-	public static function deleteFromCart() {
-		$productKey = wc_clean( $_POST['productKey'] );
-
-		if ( $productKey && WC()->cart->remove_cart_item( $productKey ) ) {
-			View::responseSuccess();
-		} else {
-			View::responseError();
-		}
+	public static function deleteCartItem( $productKey ) {
+		return WC()->cart->remove_cart_item( $productKey );
 	}
 
 	public static function setProductQuantity( $productKey, $quantity ) {
 		$cartItem      = WC()->cart->cart_contents[ $productKey ];
-		$product       = new CartProduct( $cartItem );
+		$product       = new Product( $cartItem['data'] );
 		$stockQuantity = $product->getStockQuantity();
 
 		if ( $product->isSoldIndividually() ) {
@@ -49,17 +41,6 @@ class Cart {
 		}
 	}
 
-	public static function getProducts() {
-		$cartData = WC()->cart->get_cart_contents();
-		$products = [];
-
-		foreach ( $cartData as $cartItem ) {
-			$products[] = self::getProduct( $cartItem );
-		}
-
-		return $products;
-	}
-
 	public static function getCartItems( $cartItems ) {
 		$result = [];
 		foreach ( $cartItems as $key => $data ) {
@@ -67,12 +48,6 @@ class Cart {
 		}
 
 		return $result;
-	}
-
-	private static function getProduct( $cartItem ) {
-		$productFacade = new ProductFacade( new CartProduct( $cartItem ) );
-
-		return $productFacade->getCartProduct();
 	}
 
 	public static function getCartItem( $cartItem ) {

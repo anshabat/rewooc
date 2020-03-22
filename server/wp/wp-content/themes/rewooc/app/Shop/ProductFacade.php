@@ -15,22 +15,8 @@ class ProductFacade {
 			'title'              => $this->product->getTitle(),
 			'link'               => $this->product->getLink(),
 			'price'              => $this->product->getPrice(),
-			'images'              => $this->product->getImages(),
+			'images'             => $this->product->getImages(),
 			'addToCartUrl'       => $this->product->getCartUrl(),
-			'isSoldIndividually' => $this->product->isSoldIndividually(),
-			'getStockQuantity'   => $this->product->getStockQuantity()
-		];
-	}
-
-	public function getCartProduct() {
-		return [
-			'quantity'           => $this->product->getQuantity(),
-			'id'                 => $this->product->getId(),
-			'key'                => $this->product->getKey(),
-			'title'              => $this->product->getTitle(),
-			'link'               => $this->product->getLink(),
-			'price'              => $this->product->getPrice(),
-			'images'              => $this->product->getImages(),
 			'isSoldIndividually' => $this->product->isSoldIndividually(),
 			'getStockQuantity'   => $this->product->getStockQuantity()
 		];
