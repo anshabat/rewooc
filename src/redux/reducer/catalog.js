@@ -3,19 +3,20 @@ import {CATALOG_PAGE_LOAD_FAIL, CATALOG_PAGE_LOAD_START, CATALOG_PAGE_LOAD_SUCCE
 const initialState = {
   title: '',
   loading: true,
+  error: false,
   products: []
 };
 
 const reducer = (state = initialState, action) => {
-  //console.log(action);
-  //console.log(state);
-  switch (action.type) {
+  const {type, error, payload} = action;
+
+  switch (type) {
     case CATALOG_PAGE_LOAD_START:
-      return {...state, loading: true};
+      return {...state, loading: true, error: false};
     case CATALOG_PAGE_LOAD_SUCCESS:
-      return {...state, products: action.payload.products, title: action.payload.title, loading: false};
+      return {...state, loading: false, error: false, products: payload.products, title: payload.title};
     case CATALOG_PAGE_LOAD_FAIL:
-      return {...state, loading: false};
+      return {...state, loading: false, error: error};
     default:
       return {...state};
   }

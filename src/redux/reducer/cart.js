@@ -87,7 +87,7 @@ const addItem = (state, serverItem) => {
   const itemIndex = items.findIndex(item => item.productId === newItem.productId);
 
   if (itemIndex !== -1) {
-    changeQuantity(state, newItem);
+    changeQuantity(state, serverItem);
   } else {
     items.push(newItem);
   }
