@@ -53,10 +53,11 @@ export default function reducer(state = initialState, action) {
     case CART_DELETE_PRODUCT_FAIL:
       return {...state, deletingProductKey: null, error: error};
     case CART_SET_PRODUCT_QUANTITY_START:
-      return {...state, changingQuantityKey: payload.productKey};
+      const product = state.items.find(item => item.key === payload.productKey);
+      return {...state, changingQuantityKey: payload.productKey, addingProductId: product.productId};
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
       items = changeQuantity(state, payload.cartItem);
-      return {...state, items, changingQuantityKey: null};
+      return {...state, items, changingQuantityKey: null, addingProductId: null};
     case CART_SET_PRODUCT_QUANTITY_FAIL:
       return {...state, changingQuantityKey: null, error: error};
     default:
@@ -76,6 +77,7 @@ const getCartProducts = (state, cartItems) => {
     if (!exist) {
       products.push(item.data);
     }
+
     return products;
   }, []);
 
@@ -83,16 +85,8 @@ const getCartProducts = (state, cartItems) => {
 
 const addItem = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem);
-  const items = [...state.items];
-  const itemIndex = items.findIndex(item => item.productId === newItem.productId);
 
-  if (itemIndex !== -1) {
-    changeQuantity(state, serverItem);
-  } else {
-    items.push(newItem);
-  }
-
-  return items;
+  return state.items.concat(newItem);
 };
 
 const addProduct = (state, serverItem) => {

@@ -34,7 +34,15 @@ export const initApp = () => {
 };
 
 export const addToCart = (productId, quantity) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+
+    const itemInCart = getState().cart.items.find(item => item.productId === productId);
+    if (itemInCart) {
+      const totalQuantity = parseInt(quantity) + parseInt(itemInCart.quantity);
+      dispatch(setCartProductQuantity(itemInCart.key, totalQuantity));
+      return;
+    }
+
     dispatch({type: CART_ADD_PRODUCT_START, payload: {productId}});
 
     const params = new FormData();
@@ -77,7 +85,7 @@ export const deleteFromCart = (productKey) => {
 export const setCartProductQuantity = (productKey, quantity) => {
   return dispatch => {
 
-    if(parseInt(quantity) === 0) {
+    if (parseInt(quantity) === 0) {
       dispatch(deleteFromCart(productKey));
       return;
     }
