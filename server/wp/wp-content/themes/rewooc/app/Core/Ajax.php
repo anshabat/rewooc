@@ -55,10 +55,10 @@ class Ajax {
 			return;
 		}
 
-		$cartItems = Cart::setProductQuantity( $productKey, $quantity );
+		$cartItem = Cart::setProductQuantity( $productKey, $quantity );
 
-		if ( $cartItems ) {
-			View::responseSuccess( $cartItems );
+		if ( is_array( $cartItem ) ) {
+			View::responseSuccess( $cartItem );
 		} else {
 			View::responseError();
 		};

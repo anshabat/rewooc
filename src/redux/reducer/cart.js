@@ -116,25 +116,27 @@ const deleteProduct = (state, key) => {
   const cartItems = state.items.filter(item => item.key !== key);
   const exist = cartItems.some(cartItem => cartItem.productId === productId);
 
+  let items;
   if (!exist) {
-    return state.products.filter(product => product.id !== productId);
+    items = state.products.filter(product => product.id !== productId);
   } else {
-    return state.products
+    items = state.products
   }
+
+  return items;
 
 };
 
 const changeQuantity = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem);
   let items = [...state.items];
-
-  if (newItem.quantity === 0) {
-    return deleteItem(state, newItem.key);
-  }
-
   const itemIndex = items.findIndex(item => item.key === newItem.key);
-  items[itemIndex].quantity = newItem.quantity;
-  items[itemIndex].totalPrice = newItem.totalPrice;
+
+  items.splice(itemIndex, 1, {
+    ...items[itemIndex],
+    quantity: newItem.quantity,
+    totalPrice: newItem.totalPrice
+  });
 
   return items;
 };

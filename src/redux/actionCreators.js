@@ -76,6 +76,12 @@ export const deleteFromCart = (productKey) => {
 
 export const setCartProductQuantity = (productKey, quantity) => {
   return dispatch => {
+
+    if(parseInt(quantity) === 0) {
+      dispatch(deleteFromCart(productKey));
+      return;
+    }
+
     const data = new FormData();
     data.set("productKey", productKey);
     data.set("quantity", quantity);
