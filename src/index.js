@@ -9,7 +9,7 @@ import axios from "axios";
 import App from "./App";
 import {rootReducer} from "./redux/reducer";
 
-axios.defaults.headers.common["Authorization"] = "Basic " + Buffer.from("admin:admin").toString("base64");
+//axios.defaults.headers.common["Authorization"] = "Basic " + Buffer.from("admin:admin").toString("base64");
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 

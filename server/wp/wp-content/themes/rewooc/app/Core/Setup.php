@@ -14,6 +14,9 @@ class Setup {
 	 * Activate Wordpress features
 	 */
 	public function addThemeFeatures() {
+		/* CORS for WP routes */
+		send_origin_headers();
+
 		/* Multilingual support */
 		load_theme_textdomain( 'rewooc', get_template_directory() . '/languages' );
 

@@ -35,7 +35,6 @@ class View {
 	 *
 	 */
 	public static function renderPage( $data ) {
-		send_origin_headers();
 		wp_send_json( $data );
 	}
 
