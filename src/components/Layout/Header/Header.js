@@ -1,5 +1,6 @@
 import "./Header.scss";
 import React from "react";
+import UserNav from "../../UserNav/UserNav"
 
 const Header = (props) => {
   return (
@@ -27,6 +28,7 @@ const Header = (props) => {
       </div>
       <div className="rw-header__navbar">
         <div className="rw-header__container">
+          <UserNav/>
           {/*<Nav items={props.mainNav} navs={[TreeNav, MegaNav]}/>*/}
         </div>
       </div>
