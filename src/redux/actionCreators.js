@@ -146,17 +146,16 @@ export const loadCartPage = (url) => {
 export const signIn = (username, password) => dispatch => {
   dispatch({type: USER_SIGN_IN_START});
 
-  const header = `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
-  axios.get(ajaxEndpoint("rewooc_get_current_user"), {
-    headers: {
-      Authorization: header
-    }
-  }).then(result => {
+  const params = new URLSearchParams();
+  params.append("username", username);
+  params.append("password", password);
+
+  axios.post(ajaxEndpoint("rewooc_get_current_user"), params).then(result => {
     const {success, data} = result.data;
     if (success && data) {
-      localStorage.setItem("header", header);
-      localStorage.setItem("userId", data);
-      dispatch({type: USER_SIGN_IN_SUCCESS, payload: {userId: data, header}});
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.userId);
+      dispatch(signInSuccess(data.userId, data.token));
     } else {
       throw new Error(ErrorMessage.USER_FAIL_TO_SIGN_IN);
     }
@@ -165,18 +164,22 @@ export const signIn = (username, password) => dispatch => {
   });
 };
 
+export const signInSuccess = (userId, token) => {
+  return {type: USER_SIGN_IN_SUCCESS, payload: {userId, token}}
+};
+
 export const signOut = () => {
-  localStorage.removeItem("header");
+  localStorage.removeItem("token");
   localStorage.removeItem("userId");
   return {type: USER_SIGN_OUT}
 };
 
 export const checkAuth = () => dispatch => {
-  const header = localStorage.getItem("header");
+  const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  if (!header) {
+  if (!token) {
     dispatch(signOut());
   } else {
-    dispatch({type: USER_SIGN_IN_SUCCESS, payload: {userId: userId, header}});
+    dispatch(signInSuccess(userId, token));
   }
 };

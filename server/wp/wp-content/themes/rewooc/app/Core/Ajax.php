@@ -2,7 +2,6 @@
 
 namespace Rewooc\Core;
 
-use Rewooc\Common\User;
 use Rewooc\Shop\Cart;
 use Rewooc\Shop\Products;
 
@@ -68,11 +67,20 @@ class Ajax {
 	}
 
 	public static function getCurrentUser() {
-		$user = new User();
-		if ( $user->isLoggedIn() ) {
-			View::responseSuccess( $user->getId() );
-		} else {
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$user2    = wp_authenticate( $username, $password );
+
+		if ( is_wp_error( $user2 ) ) {
 			View::responseError();
 		}
+
+		$token    = "Basic " . base64_encode( $username . ":" . $password );
+		$response = [
+			"userId" => $user2->get( 'id' ),
+			"token"  => $token
+		];
+
+		View::responseSuccess( $response );
 	}
 }

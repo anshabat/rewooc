@@ -18,6 +18,8 @@ class App extends Component {
 
     if (loading) return <PageLoader/>;
 
+    console.log(data.user);
+
     return (
       <AppProvider value={data}>
         <BrowserRouter>
