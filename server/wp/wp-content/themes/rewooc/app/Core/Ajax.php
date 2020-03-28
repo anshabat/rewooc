@@ -2,6 +2,7 @@
 
 namespace Rewooc\Core;
 
+use Rewooc\Common\User;
 use Rewooc\Shop\Cart;
 use Rewooc\Shop\Products;
 
@@ -11,7 +12,8 @@ class Ajax {
 		'wc_ajax_rewooc_add_to_cart'              => [ self::class, 'addToCart' ],
 		'wc_ajax_rewooc_delete_from_cart'         => [ self::class, 'deleteFromCart' ],
 		'wc_ajax_rewooc_set_cat_product_quantity' => [ self::class, 'setCartProductQuantity' ],
-		'wc_ajax_rewooc_get_common_data'          => [ View::class, 'renderCommonData' ]
+		'wc_ajax_rewooc_get_common_data'          => [ View::class, 'renderCommonData' ],
+		'wc_ajax_rewooc_get_current_user'         => [ self::class, 'getCurrentUser' ]
 	];
 
 	public function __construct() {
@@ -63,5 +65,14 @@ class Ajax {
 			View::responseError();
 		};
 
+	}
+
+	public static function getCurrentUser() {
+		$user = new User();
+		if ( $user->isLoggedIn() ) {
+			View::responseSuccess( $user->getData() );
+		} else {
+			View::responseError();
+		}
 	}
 }
