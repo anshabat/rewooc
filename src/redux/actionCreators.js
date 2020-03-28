@@ -16,7 +16,7 @@ import {
   CATALOG_PAGE_LOAD_FAIL,
   CART_PAGE_LOAD_START,
   CART_PAGE_LOAD_SUCCESS,
-  CART_PAGE_LOAD_FAIL, USER_SIGN_IN_START, USER_SIGN_IN_SUCCESS, USER_SIGN_IN_FAIL
+  CART_PAGE_LOAD_FAIL, USER_SIGN_IN_START, USER_SIGN_IN_SUCCESS, USER_SIGN_IN_FAIL, USER_SIGN_OUT
 } from "./actionTypes";
 import axios from "axios";
 import {ajaxEndpoint} from "../shared/utilities";
@@ -143,12 +143,7 @@ export const loadCartPage = (url) => {
   }
 };
 
-export const signIn = event => dispatch => {
-  event.preventDefault();
-  const formElement = event.target;
-  const formData = new FormData(formElement);
-  const {username, password} = Object.fromEntries(formData.entries());
-
+export const signIn = (username, password) => dispatch => {
   dispatch({type: USER_SIGN_IN_START});
   axios.get(ajaxEndpoint("rewooc_get_current_user"), {
     headers: {
@@ -164,4 +159,8 @@ export const signIn = event => dispatch => {
   }).catch(error => {
     dispatch({type: USER_SIGN_IN_FAIL, error});
   });
+};
+
+export const signOut = () => dispatch => {
+  dispatch({type: USER_SIGN_OUT})
 };

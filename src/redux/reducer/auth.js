@@ -1,4 +1,4 @@
-import {USER_SIGN_IN_FAIL, USER_SIGN_IN_START, USER_SIGN_IN_SUCCESS} from "../actionTypes";
+import {USER_SIGN_IN_FAIL, USER_SIGN_IN_START, USER_SIGN_IN_SUCCESS, USER_SIGN_OUT} from "../actionTypes";
 
 const initialState = {
   userId: 0,
@@ -16,6 +16,8 @@ const reducer = (state = initialState, action) => {
       return {...state, loading: false, error: false, userId: payload};
     case USER_SIGN_IN_FAIL:
       return {...state, loading: false, error: error};
+    case USER_SIGN_OUT:
+      return {...state, userId: 0};
     default:
       return state;
   }
