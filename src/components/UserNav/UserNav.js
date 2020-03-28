@@ -12,7 +12,7 @@ const UserNav = props => {
       {userId ? (
         <>
           <li className="rw-user-nav__item">
-            <Link className="rw-user-nav__link" to="/sign_in">My Account</Link>
+            <Link className="rw-user-nav__link" to="/sign_in">My Account ({userId}) </Link>
           </li>
           <li className="rw-user-nav__item">
             <Link className="rw-user-nav__link" to="/sign_out">Log out</Link>

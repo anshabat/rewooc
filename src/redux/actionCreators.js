@@ -145,14 +145,18 @@ export const loadCartPage = (url) => {
 
 export const signIn = (username, password) => dispatch => {
   dispatch({type: USER_SIGN_IN_START});
+
+  const header = `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
   axios.get(ajaxEndpoint("rewooc_get_current_user"), {
     headers: {
-      Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`
+      Authorization: header
     }
   }).then(result => {
     const {success, data} = result.data;
     if (success && data) {
-      dispatch({type: USER_SIGN_IN_SUCCESS, payload: data});
+      localStorage.setItem("header", header);
+      localStorage.setItem("userId", data);
+      dispatch({type: USER_SIGN_IN_SUCCESS, payload: {userId: data, header}});
     } else {
       throw new Error(ErrorMessage.USER_FAIL_TO_SIGN_IN);
     }
@@ -161,6 +165,18 @@ export const signIn = (username, password) => dispatch => {
   });
 };
 
-export const signOut = () => dispatch => {
-  dispatch({type: USER_SIGN_OUT})
+export const signOut = () => {
+  localStorage.removeItem("header");
+  localStorage.removeItem("userId");
+  return {type: USER_SIGN_OUT}
+};
+
+export const checkAuth = () => dispatch => {
+  const header = localStorage.getItem("header");
+  const userId = localStorage.getItem("userId");
+  if (!header) {
+    dispatch(signOut());
+  } else {
+    dispatch({type: USER_SIGN_IN_SUCCESS, payload: {userId: userId, header}});
+  }
 };
