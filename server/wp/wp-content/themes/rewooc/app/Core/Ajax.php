@@ -70,7 +70,7 @@ class Ajax {
 	public static function getCurrentUser() {
 		$user = new User();
 		if ( $user->isLoggedIn() ) {
-			View::responseSuccess( $user->getData() );
+			View::responseSuccess( $user->getId() );
 		} else {
 			View::responseError();
 		}

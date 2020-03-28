@@ -1,36 +1,17 @@
 import "./Form.scss";
 import React from "react";
-import axios from "axios";
+import {connect} from "react-redux";
+import {signIn} from "../../redux/actionCreators";
 import Content from "../../components/Layout/Content/Content";
 import FormField from "../../components/UI/Form/FormField/FormField";
 import Button from "../../components/UI/Button/Button";
-import {ajaxEndpoint} from "../../shared/utilities";
 
-const SignIn = () => {
-
-  const onSubmitFrom = (event) => {
-    event.preventDefault();
-    const formElement = event.target;
-    const formData = new FormData(formElement);
-    const {username, password} = Object.fromEntries(formData.entries());
-    console.log(username, password);
-    axios.get(ajaxEndpoint('rewooc_get_current_user'), {
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`
-      }
-    }).then(result => {
-      console.log(result)
-    }).catch(e => {
-      console.log(e)
-    })
-
-  };
-
-  //axios.defaults.headers.common["Authorization"] = "Basic " + Buffer.from("admin:admin").toString("base64");
+const SignIn = props => {
+  const {signInUser} = props;
 
   return (
     <Content title="Sign In" size="sm">
-      <form className="rw-form" action="" id="sign-in" onSubmit={onSubmitFrom}>
+      <form className="rw-form" action="" id="sign-in" onSubmit={(event) => signInUser(event)}>
         <div className="rw-form__field">
           <label htmlFor="sign-in-username" className="rw-form__label">Username or email</label>
           <div className="rw-form__control">
@@ -55,4 +36,12 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const mapDispatchToProps = dispatch => {
+  return {
+    signInUser: (event) => {
+      dispatch(signIn(event))
+    }
+  }
+};
+
+export default connect(null, mapDispatchToProps)(SignIn);
