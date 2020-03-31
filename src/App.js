@@ -10,15 +10,12 @@ class App extends Component {
 
   componentDidMount() {
     this.props.checkAuth();
-    this.props.initApp();
   }
 
   render() {
     const {data, loading} = this.props.app;
 
     if (loading) return <PageLoader/>;
-
-    console.log(data.user);
 
     return (
       <AppProvider value={data}>

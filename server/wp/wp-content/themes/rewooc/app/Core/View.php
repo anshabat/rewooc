@@ -23,7 +23,6 @@ class View {
 			'baseUrl'          => self::baseUrl(),
 			'ajaxUrl'          => self::ajaxUrl(),
 			'siteMeta'         => self::getSiteMeta(),
-			'user'             => self::getUser(),
 			'cart'             => Cart::getCartItems( WC()->cart->get_cart_contents() )
 		];
 	}
@@ -100,10 +99,6 @@ class View {
 		$headerNav = new Navigation( 'header_nav' );
 
 		return $headerNav->getNav( [ 'ID', 'title', 'menu_item_parent', 'url' ] );
-	}
-
-	private static function getUser() {
-		return is_user_logged_in();
 	}
 
 	private static function getFavicon() {

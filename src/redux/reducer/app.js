@@ -13,7 +13,6 @@ const reducer = (state = initialState, action) => {
     case INIT_APP_START:
       return {...state, loading: true, error: false};
     case INIT_APP_SUCCESS:
-      console.log(payload.user);
       return {...state, loading: false, error: false, data: payload};
     case INIT_APP_FAIL:
       return {...state, loading: false, error: error};

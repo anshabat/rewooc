@@ -164,14 +164,16 @@ export const signIn = (username, password) => dispatch => {
   });
 };
 
-export const signInSuccess = (userId, token) => {
-  return {type: USER_SIGN_IN_SUCCESS, payload: {userId, token}}
+export const signInSuccess = (userId, token) => dispatch => {
+  dispatch({type: USER_SIGN_IN_SUCCESS, payload: {userId, token}});
+  dispatch(initApp());
 };
 
-export const signOut = () => {
+export const signOut = () => dispatch => {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
-  return {type: USER_SIGN_OUT}
+  dispatch({type: USER_SIGN_OUT});
+  dispatch(initApp());
 };
 
 export const checkAuth = () => dispatch => {
