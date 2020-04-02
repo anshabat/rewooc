@@ -12,15 +12,15 @@ const UserNav = props => {
       {userId ? (
         <>
           <li className="rw-user-nav__item">
-            <Link className="rw-user-nav__link" to="/sign_in">My Account ({userId}) </Link>
+            <Link className="rw-user-nav__link" to="/my-account">My Account ({userId}) </Link>
           </li>
           <li className="rw-user-nav__item">
-            <Link className="rw-user-nav__link" to="/sign_out">Log out</Link>
+            <Link className="rw-user-nav__link" to="/sign-out">Log out</Link>
           </li>
         </>
       ) : (
         <li className="rw-user-nav__item">
-          <Link className="rw-user-nav__link" to="/sign_in">Sign in</Link>
+          <Link className="rw-user-nav__link" to="/sign-in">Sign in</Link>
         </li>
       )}
     </ul>

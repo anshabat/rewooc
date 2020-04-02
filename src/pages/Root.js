@@ -7,6 +7,7 @@ import Page404 from "./Page404/Page404";
 import Cart from "./Cart/Cart";
 import SignIn from "./SignIn/SignIn";
 import SignOut from "./SignOut/SignOut";
+import Account from "./Account/Account";
 
 class Root extends Component {
   render() {
@@ -16,8 +17,9 @@ class Root extends Component {
           <Route path="/" exact component={Home}/>
           <Route path={["/shop", "/product-category/:slug"]} component={Catalog}/>
           <Route path="/cart" component={Cart}/>
-          <Route path="/sign_in" component={SignIn}/>
-          <Route path="/sign_out" component={SignOut}/>
+          <Route path="/sign-in" component={SignIn}/>
+          <Route path="/my-account" component={Account}/>
+          <Route path="/sign-out" component={SignOut}/>
           <Route component={Page404}/>
         </Switch>
       </Layout>
