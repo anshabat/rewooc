@@ -1,31 +1,13 @@
 import React, {Component} from "react";
-import axios from "axios";
-import {apiUrl} from "../../../shared/utilities";
-import ContentLoader from "../../../components/UI/loaders/ContentLoader/ContentLoader";
+import withPageData from '../../withPageData';
 
-class Addresses extends Component {
-
-  state = {
-    data: null
-  };
-
-  componentDidMount() {
-    axios.get(apiUrl(window.location.pathname)).then(({data}) => {
-      this.setState({data});
-    })
-  }
+class Orders extends Component {
 
   render() {
-    const {data} = this.state;
-
-    if (!data) {
-      return <ContentLoader/>
-    }
-
     return (
       <div>
         <ul>
-          {data.orders.map(order => {
+          {this.props.orders.map(order => {
             return <li key={order.id}>{order.number}</li>
           })}
         </ul>
@@ -34,4 +16,4 @@ class Addresses extends Component {
   }
 }
 
-export default Addresses;
+export default withPageData(Orders);

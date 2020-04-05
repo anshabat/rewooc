@@ -69,18 +69,14 @@ class Ajax {
 	public static function getCurrentUser() {
 		$username = $_POST['username'];
 		$password = $_POST['password'];
-		$user2    = wp_authenticate( $username, $password );
+		$user     = wp_authenticate( $username, $password );
 
-		if ( is_wp_error( $user2 ) ) {
+		if ( is_wp_error( $user ) ) {
 			View::responseError();
 		}
 
-		$token    = "Basic " . base64_encode( $username . ":" . $password );
-		$response = [
-			"userId" => $user2->get( 'id' ),
-			"token"  => $token
-		];
+		$token = "Basic " . base64_encode( $username . ":" . $password );
 
-		View::responseSuccess( $response );
+		View::responseSuccess( $token );
 	}
 }

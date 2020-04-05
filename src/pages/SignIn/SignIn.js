@@ -15,7 +15,7 @@ class SignIn extends Component {
   }
 
   componentDidMount() {
-    if (this.props.userId) {
+    if (this.props.user) {
       this.props.history.replace("/")
     }
   }
@@ -30,7 +30,7 @@ class SignIn extends Component {
 
 
   render() {
-    const {loading, userId, error} = this.props;
+    const {loading, error} = this.props;
     const loadingClass = loading ? "rw-form--is-loading" : "";
 
     return (
@@ -75,7 +75,7 @@ const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
-    userId: state.auth.userId
+    user: state.account.data
   }
 };
 

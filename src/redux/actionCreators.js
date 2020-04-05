@@ -151,11 +151,11 @@ export const signIn = (username, password) => dispatch => {
   params.append("password", password);
 
   axios.post(ajaxEndpoint("rewooc_get_current_user"), params).then(result => {
-    const {success, data} = result.data;
-    if (success && data) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userId", data.userId);
-      dispatch(signInSuccess(data.userId, data.token));
+    const {success, data: token} = result.data;
+
+    if (success && token) {
+      localStorage.setItem("token", token);
+      dispatch(signInSuccess());
     } else {
       throw new Error(ErrorMessage.USER_FAIL_TO_SIGN_IN);
     }
@@ -164,24 +164,22 @@ export const signIn = (username, password) => dispatch => {
   });
 };
 
-export const signInSuccess = (userId, token) => dispatch => {
-  dispatch({type: USER_SIGN_IN_SUCCESS, payload: {userId, token}});
+export const signInSuccess = () => dispatch => {
+  dispatch({type: USER_SIGN_IN_SUCCESS});
   dispatch(initApp());
 };
 
 export const signOut = () => dispatch => {
   localStorage.removeItem("token");
-  localStorage.removeItem("userId");
   dispatch({type: USER_SIGN_OUT});
   dispatch(initApp());
 };
 
 export const checkAuth = () => dispatch => {
   const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
   if (!token) {
     dispatch(signOut());
   } else {
-    dispatch(signInSuccess(userId, token));
+    dispatch(signInSuccess());
   }
 };

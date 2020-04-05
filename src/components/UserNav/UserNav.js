@@ -5,14 +5,14 @@ import {connect} from "react-redux";
 
 
 const UserNav = props => {
-  const {userId} = props;
+  const {user} = props;
 
   return (
     <ul className="rw-user-nav">
-      {userId ? (
+      {user ? (
         <>
           <li className="rw-user-nav__item">
-            <Link className="rw-user-nav__link" to="/my-account">My Account ({userId}) </Link>
+            <Link className="rw-user-nav__link" to="/my-account">My Account ({user.id}) </Link>
           </li>
           <li className="rw-user-nav__item">
             <Link className="rw-user-nav__link" to="/sign-out">Log out</Link>
@@ -29,7 +29,7 @@ const UserNav = props => {
 
 const mapStateToProps = state => {
   return {
-    userId: state.auth.userId
+    user: state.account.data
   }
 };
 
