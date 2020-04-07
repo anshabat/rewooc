@@ -1,4 +1,4 @@
-import {CATALOG_PAGE_LOAD_FAIL, CATALOG_PAGE_LOAD_START, CATALOG_PAGE_LOAD_SUCCESS} from "../actionTypes";
+import {CATALOG_PAGE_LOAD_FAIL, CATALOG_PAGE_LOAD_START, CATALOG_PAGE_LOAD_SUCCESS} from '../actions/loadCatalogPage';
 
 const initialState = {
   title: '',

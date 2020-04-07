@@ -2,7 +2,7 @@ import "./MiniCart.scss";
 import React from "react";
 import Price from "../../Price/Price";
 import {connect} from "react-redux";
-import {getCartTotalPrice, getCartTotalQuantity} from "../../../../redux/selectors";
+import {getCartTotalPrice, getCartTotalQuantity} from "../../../../selectors";
 
 const MiniCart = (props) => {
   return (

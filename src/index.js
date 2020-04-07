@@ -7,7 +7,7 @@ import {Provider} from "react-redux";
 import {composeWithDevTools} from "redux-devtools-extension"
 import axios from "axios";
 import App from "./App";
-import {rootReducer} from "./redux/reducer";
+import {rootReducer} from "./reducers";
 
 axios.interceptors.request.use(
   config => {
