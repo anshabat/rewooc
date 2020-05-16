@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {apiUrl} from "../shared/utilities";
 import {connect} from "react-redux";
+import {withRouter} from 'react-router';
 
 const connectPage = (mapStateToProps, mapDispatchToProps) => {
   return (InnerComponent) => {

@@ -1,3 +1,3 @@
 export const Config = {
-    apiUrl: 'http://rewooc.loc/server/wp'
+    apiUrl: 'http://localhost/rewooc/server/wp'
 };

@@ -15,7 +15,7 @@ class Root extends Component {
       <Layout>
         <Switch>
           <Route path="/" exact component={Home}/>
-          <Route path={["/shop", "/product-category/:slug"]} component={Catalog}/>
+          <Route path={["/shop", "/product-category/:slug"]} render={() => <Catalog />}/>
           <Route path="/cart" component={Cart}/>
           <Route path="/sign-in" component={SignIn}/>
           <Route path="/my-account" component={Account}/>

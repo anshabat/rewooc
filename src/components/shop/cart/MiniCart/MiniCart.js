@@ -5,8 +5,9 @@ import {connect} from "react-redux";
 import {getCartTotalPrice, getCartTotalQuantity} from "../../../../selectors";
 
 const MiniCart = (props) => {
+  console.log('cart');
   return (
-    <div className="rw-mini-cart" onClick={props.onLoad}>
+    <div className="rw-mini-cart">
       Cart: {props.quantity} - <Price value={props.total}/>
     </div>
   );
