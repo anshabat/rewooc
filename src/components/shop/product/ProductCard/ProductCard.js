@@ -3,11 +3,11 @@ import React, {useState} from "react";
 import Image from "../../../UI/Image/Image";
 import Price from "../../Price/Price";
 import {connect} from "react-redux";
-import {addToCart} from "../../../../redux/actionCreators";
+import {addToCart} from "../../../../actions/addToCart";
 import {siteUrl} from "../../../../shared/utilities";
 import {Link} from "react-router-dom";
 import FormField from "../../../UI/Form/FormField/FormField";
-import {isProductInCart, addingProductToCart} from "../../../../redux/selectors";
+import {isProductInCart, addingProductToCart} from "../../../../selectors";
 
 const ProductCard = (props) => {
 

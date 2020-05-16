@@ -4,6 +4,7 @@ namespace Rewooc\Core;
 
 use Rewooc\Common\Media;
 use Rewooc\Common\Navigation;
+use Rewooc\Common\User;
 use Rewooc\Shop\Cart;
 
 class View {
@@ -14,6 +15,7 @@ class View {
 	 * @return array
 	 */
 	private static function getCommonData() {
+
 		return [
 			'headerNavigation' => self::getHeaderNavigation(),
 			'logo'             => self::getLogo(),
@@ -23,8 +25,8 @@ class View {
 			'baseUrl'          => self::baseUrl(),
 			'ajaxUrl'          => self::ajaxUrl(),
 			'siteMeta'         => self::getSiteMeta(),
-			'user'             => self::getUser(),
-			'cart'             => Cart::getCartItems( WC()->cart->get_cart_contents() )
+			'cart'             => Cart::getCartItems( WC()->cart->get_cart_contents() ),
+			'user'             => self::getUserData()
 		];
 	}
 
@@ -35,7 +37,6 @@ class View {
 	 *
 	 */
 	public static function renderPage( $data ) {
-		send_origin_headers();
 		wp_send_json( $data );
 	}
 
@@ -103,11 +104,19 @@ class View {
 		return $headerNav->getNav( [ 'ID', 'title', 'menu_item_parent', 'url' ] );
 	}
 
-	private static function getUser() {
-		return is_user_logged_in();
-	}
-
 	private static function getFavicon() {
 		return get_site_icon_url();
+	}
+
+	private static function getUserData() {
+		$wpUser = get_user_by( 'id', get_current_user_id() );
+		if ( ! $wpUser ) {
+			return false;
+		}
+
+		$user = new User( $wpUser );
+
+		return $user->getData();
+
 	}
 }

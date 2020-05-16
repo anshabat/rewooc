@@ -3,13 +3,15 @@ import connectPage from "../connectPage";
 import ProductCard from "../../components/shop/product/ProductCard/ProductCard";
 import Content from "../../components/Layout/Content/Content";
 import Grid from "../../components/UI/Grid/Grid"
-import {loadCatalogPage} from "../../redux/actionCreators";
+import {loadCatalogPage} from "../../actions/loadCatalogPage";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
 
 class Catalog extends Component {
 
   render() {
     const {loading, title, products} = this.props;
+
+    console.log('catalog');
 
     if (loading) return <ContentLoader/>;
 

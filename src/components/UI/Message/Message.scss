@@ -1,0 +1,24 @@
+.rw-message {
+  --error-color: #ff8c7a;
+  --success-color: #3cff67;
+
+  padding: 15px 20px;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 0.9rem;
+
+  &--success {
+    border-color: var(--success-color);
+    background-color: var(--success-color);
+  }
+
+  &--error {
+    border-color: var(--error-color);
+    background-color: var(--error-color);
+  }
+
+  &--default {
+    border-color: lightyellow;
+    background-color: lightyellow;
+  }
+}

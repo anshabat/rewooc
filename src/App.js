@@ -1,15 +1,17 @@
 import React, {Component} from "react";
-import {BrowserRouter} from "react-router-dom";
+import { ConnectedRouter } from 'connected-react-router'
+import {history} from './index';
 import Root from "./pages/Root";
 import {connect} from "react-redux";
-import {initApp} from "./redux/actionCreators";
+import {initApp} from "./actions/initApp";
+import {checkAuth} from "./actions/checkAuth";
 import PageLoader from "./components/UI/loaders/PageLoader/PageLoader";
 import {AppProvider} from "./context/appContext";
 
 class App extends Component {
 
   componentDidMount() {
-    this.props.initApp()
+    this.props.checkAuth();
   }
 
   render() {
@@ -19,15 +21,15 @@ class App extends Component {
 
     return (
       <AppProvider value={data}>
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
           <Root/>
-        </BrowserRouter>
+        </ConnectedRouter>
       </AppProvider>
     )
   }
 }
 
 const mapStateToProps = ({app}) => ({app});
-const mapDispatchToProps = {initApp};
+const mapDispatchToProps = {initApp, checkAuth};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

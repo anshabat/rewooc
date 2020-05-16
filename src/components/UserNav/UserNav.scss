@@ -1,0 +1,11 @@
+.rw-user-nav {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-gap: 10px 30px;
+
+  &__link {
+    font-size: 1.2rem;
+    color: #fff;
+    text-decoration: none;
+  }
+}
