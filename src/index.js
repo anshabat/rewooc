@@ -5,6 +5,8 @@ import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 import {composeWithDevTools} from "redux-devtools-extension"
+import { createBrowserHistory } from 'history';
+import { routerMiddleware } from 'connected-react-router'
 import axios from "axios";
 import App from "./App";
 import {rootReducer} from "./reducers";
@@ -20,7 +22,8 @@ axios.interceptors.request.use(
   error => Promise.reject(error)
 );
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+export const history = createBrowserHistory()
+const store = createStore(rootReducer(history), composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk)));
 
 ReactDOM.render(
   <Provider store={store}><App/></Provider>,
