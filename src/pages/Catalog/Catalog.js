@@ -11,7 +11,9 @@ class Catalog extends Component {
   render() {
     const {loading, title, products} = this.props;
 
-    console.log('catalog');
+    products.map(item => {
+      console.log(item)
+    })
 
     if (loading) return <ContentLoader/>;
 
@@ -27,9 +29,9 @@ class Catalog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.catalog.loading,
-    title: state.catalog.title,
-    products: state.catalog.products
+    loading: state.catalog.get('loading'),
+    title: state.catalog.get('title'),
+    products: state.catalog.get('products')
   }
 };
 const mapDispatchToProps = dispatch => {
