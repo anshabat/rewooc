@@ -11,31 +11,32 @@ import {
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS
 } from '../actions/setCartProductQuantity';
+import {fromJS, List, Record, Map} from "immutable";
 
-export const initialState = {
+export const initialState = Record({
   title: null,
   loading: false,
   error: false,
-  products: [],
-  items: [],
+  products: List([]),
+  items: List([]),
   addingProductId: null,
   deletingProductKey: null,
   changingQuantityKey: null
-};
+});
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = new initialState(), action) {
   const {type, payload, error} = action;
   let items, products;
 
   switch (type) {
     case INIT_APP_SUCCESS:
-      items = getCartItems(state, payload.cart);
-      products = getCartProducts(state, payload.cart);
-      return {...state, items, products};
+      items = getCartItems(state, fromJS(payload.cart));
+      products = getCartProducts(state, fromJS(payload.cart));
+      return state.set('items', items).set('products', products);
     case CART_PAGE_LOAD_START:
-      return {...state, loading: true};
+      return state.set('loading', true)
     case CART_PAGE_LOAD_SUCCESS:
-      return {...state, loading: false, title: payload.title};
+      return state.set('loading', false).set('title', payload.title)
     case CART_PAGE_LOAD_FAIL:
       return {...state, loading: false, error: error};
     case CART_ADD_PRODUCT_START:
@@ -68,20 +69,18 @@ export default function reducer(state = initialState, action) {
 };
 
 const getCartItems = (state, cart) => {
-  return Object.values(cart).map(item => {
-    return cartItemAdapter(item);
-  });
+  return cart.toList().map(item => cartItemAdapter(item));
 };
 
 const getCartProducts = (state, cartItems) => {
-  return Object.values(cartItems).reduce((products, item) => {
-    const exist = products.find(p => p.id === item.data.id);
+  return cartItems.toList().reduce((products, item) => {
+    const exist = products.find(p => p.get('id') === item.get(['data', 'id']));
     if (!exist) {
-      products.push(item.data);
+      return products.push(item.get('data'));
     }
 
     return products;
-  }, []);
+  }, List([]));
 
 };
 
@@ -138,10 +137,10 @@ const changeQuantity = (state, serverItem) => {
 };
 
 const cartItemAdapter = (item) => {
-  return {
-    key: item.key,
-    productId: item.product_id,
-    quantity: item.quantity,
-    totalPrice: item.line_total
-  }
+  return Map({
+    key: item.get('key'),
+    productId: item.get('product_id'),
+    quantity: item.get('quantity'),
+    totalPrice: item.get('line_total')
+  })
 };
