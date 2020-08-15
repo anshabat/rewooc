@@ -5,9 +5,14 @@ import {connect} from "react-redux";
 import {getCartTotalPrice, getCartTotalQuantity} from "../../../../selectors";
 
 const MiniCart = (props) => {
+  const {testAction} = props
   return (
     <div className="rw-mini-cart">
       Cart: {props.quantity} - <Price value={props.total}/>
+      <button onClick={() => {
+        testAction()
+      }}>test
+      </button>
     </div>
   );
 };
@@ -17,4 +22,8 @@ const mapStateToProps = state => ({
   total: getCartTotalPrice(state)
 });
 
-export default connect(mapStateToProps)(MiniCart);
+export default connect(mapStateToProps, {
+  testAction: () => {
+    return {type: 'TEST'}
+  }
+})(MiniCart);

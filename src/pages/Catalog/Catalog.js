@@ -5,15 +5,14 @@ import Content from "../../components/Layout/Content/Content";
 import Grid from "../../components/UI/Grid/Grid"
 import {loadCatalogPage} from "../../actions/loadCatalogPage";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
+import {selectProducts} from "../../selectors/catalog/selectProducts";
 
 class Catalog extends Component {
 
   render() {
     const {loading, title, products} = this.props;
 
-    products.map(item => {
-      console.log(item)
-    })
+    console.log(products)
 
     if (loading) return <ContentLoader/>;
 
@@ -29,9 +28,9 @@ class Catalog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.catalog.get('loading'),
-    title: state.catalog.get('title'),
-    products: state.catalog.get('products')
+    loading: state.catalog.loading,
+    title: state.catalog.title,
+    products: selectProducts(state)
   }
 };
 const mapDispatchToProps = dispatch => {

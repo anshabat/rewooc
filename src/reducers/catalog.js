@@ -1,15 +1,15 @@
-import {Record, Map, OrderedMap, List} from 'immutable';
+import {Record, Map, OrderedMap, List, fromJS} from 'immutable';
 import {CATALOG_PAGE_LOAD_FAIL, CATALOG_PAGE_LOAD_START, CATALOG_PAGE_LOAD_SUCCESS} from '../actions/loadCatalogPage';
 
 
-const initialState = Map({
+const initialState = Record({
   title: '',
   loading: true,
   error: false,
   products: List([])
 });
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = new initialState(), action) => {
   const {type, error, payload} = action;
 
   switch (type) {
