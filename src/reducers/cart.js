@@ -30,39 +30,41 @@ export default function reducer(state = new initialState(), action) {
 
   switch (type) {
     case INIT_APP_SUCCESS:
-      items = getCartItems(state, fromJS(payload.cart));
-      products = getCartProducts(state, fromJS(payload.cart));
+      const cart = fromJS(payload.cart)
+      items = getCartItems(state, cart);
+      products = getCartProducts(state, cart);
       return state.set('items', items).set('products', products);
     case CART_PAGE_LOAD_START:
       return state.set('loading', true)
     case CART_PAGE_LOAD_SUCCESS:
       return state.set('loading', false).set('title', payload.title)
     case CART_PAGE_LOAD_FAIL:
-      return {...state, loading: false, error: error};
+      return state.set('loading', false).set('error', error);
     case CART_ADD_PRODUCT_START:
-      return {...state, addingProductId: payload.productId};
+      return state.set('addingProductId', payload.productId);
     case CART_ADD_PRODUCT_SUCCESS:
-      items = addItem(state, payload.cartItem);
-      products = addProduct(state, payload.cartItem);
-      return {...state, items, products, addingProductId: null};
+      const cartItem = fromJS(payload.cartItem)
+      items = addItem(state, cartItem);
+      products = addProduct(state, cartItem);
+      return state.set('items', items).set('products', products).set('addingProductId', null);
     case CART_ADD_PRODUCT_FAIL:
-      return {...state, addingProductId: null, error: error};
+      return state.set('addingProductId', null).set('error', error);
     case CART_DELETE_PRODUCT_START:
-      return {...state, deletingProductKey: payload.productKey};
+      return state.set('deletingProductKey', payload.productKey);
     case CART_DELETE_PRODUCT_SUCCESS:
       items = deleteItem(state, payload.productKey);
       products = deleteProduct(state, payload.productKey);
-      return {...state, items, products, deletingProductKey: null};
+      return state.set('items', items).set('products', products).set('deletingProductKey', null);
     case CART_DELETE_PRODUCT_FAIL:
-      return {...state, deletingProductKey: null, error: error};
+      return state.set('deletingProductKey', null).set('error', error);
     case CART_SET_PRODUCT_QUANTITY_START:
-      const product = state.items.find(item => item.key === payload.productKey);
-      return {...state, changingQuantityKey: payload.productKey, addingProductId: product.productId};
+      const product = state.items.find(item => item.get('key') === payload.productKey);
+      return state.set('changingQuantityKey', payload.productKey).set('addingProductId', product.productId);
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
-      items = changeQuantity(state, payload.cartItem);
-      return {...state, items, changingQuantityKey: null, addingProductId: null};
+      items = changeQuantity(state, fromJS(payload.cartItem));
+      return state.set('items', items).set('changingQuantityKey', null).set('addingProductId', null);
     case CART_SET_PRODUCT_QUANTITY_FAIL:
-      return {...state, changingQuantityKey: null, error: error};
+      return state.set('changingQuantityKey', null).set('error', error);
     default:
       return state;
   }
@@ -87,14 +89,14 @@ const getCartProducts = (state, cartItems) => {
 const addItem = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem);
 
-  return state.items.concat(newItem);
+  return state.items.push(newItem);
 };
 
 const addProduct = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem);
-  const newProduct = serverItem.data;
-  const products = [...state.products];
-  const exist = products.find(product => product.id === newItem.productId);
+  const newProduct = serverItem.get('data');
+  const products = state.get('products');
+  const exist = products.find(product => product.get('id') === newItem.get('productId'));
   if (!exist) {
     products.push(newProduct);
   }
@@ -124,16 +126,16 @@ const deleteProduct = (state, key) => {
 
 const changeQuantity = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem);
-  let items = [...state.items];
-  const itemIndex = items.findIndex(item => item.key === newItem.key);
+  let items = state.get('items');
+  const itemIndex = items.findIndex(item => item.get('key') === newItem.get('key'));
 
-  items.splice(itemIndex, 1, {
+  const newItems = items.splice(itemIndex, 1, Map({
     ...items[itemIndex],
-    quantity: newItem.quantity,
-    totalPrice: newItem.totalPrice
-  });
+    quantity: newItem.get('quantity'),
+    totalPrice: newItem.get('totalPrice')
+  }));
 
-  return items;
+  return newItems;
 };
 
 const cartItemAdapter = (item) => {

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {ajaxEndpoint} from '../shared/utilities';
 import {ErrorMessage} from '../shared/errorMessages';
 import {setCartProductQuantity} from './setCartProductQuantity';
+import {selectCartItems} from "../selectors";
 
 export const CART_ADD_PRODUCT_START = "CART_ADD_PRODUCT_START";
 export const CART_ADD_PRODUCT_SUCCESS = "CART_ADD_PRODUCT_SUCCESS";
@@ -10,7 +11,7 @@ export const CART_ADD_PRODUCT_FAIL = "CART_ADD_PRODUCT_FAIL";
 export const addToCart = (productId, quantity) => {
   return (dispatch, getState) => {
 
-    const itemInCart = getState().cart.items.find(item => item.productId === productId);
+    const itemInCart = selectCartItems(getState()).find(item => item.productId === productId);
     if (itemInCart) {
       const totalQuantity = parseInt(quantity) + parseInt(itemInCart.quantity);
       dispatch(setCartProductQuantity(itemInCart.key, totalQuantity));
