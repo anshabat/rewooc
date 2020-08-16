@@ -2,7 +2,7 @@ import "./MiniCart.scss";
 import React from "react";
 import Price from "../../Price/Price";
 import {connect} from "react-redux";
-import {getCartTotalPrice, getCartTotalQuantity} from "../../../../selectors";
+import {selectCartTotalPrice, selectCartTotalQuantity} from "../../../../selectors";
 
 const MiniCart = (props) => {
   const {testAction} = props
@@ -18,8 +18,8 @@ const MiniCart = (props) => {
 };
 
 const mapStateToProps = state => ({
-  quantity: getCartTotalQuantity(state),
-  total: getCartTotalPrice(state)
+  quantity: selectCartTotalQuantity(state),
+  total: selectCartTotalPrice(state)
 });
 
 export default connect(mapStateToProps, {

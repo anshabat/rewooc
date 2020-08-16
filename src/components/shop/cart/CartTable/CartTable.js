@@ -3,7 +3,7 @@ import React, {Fragment} from "react";
 import Icon from "../../../UI/Icon/Icon";
 import CartProduct from "../CartProduct/CartProduct";
 import QuantityField from "../QuantityField/QuantityField";
-import {getCartTotalPrice} from "../../../../selectors";
+import {selectCartTotalPrice} from "../../../../selectors";
 import {connect} from "react-redux";
 import {deleteFromCart} from "../../../../actions/deleteFromCart";
 import {setCartProductQuantity} from "../../../../actions/setCartProductQuantity";
@@ -64,7 +64,7 @@ function CartTable(props) {
 const mapStateToProps = (state) => ({
   deletingProduct: state.cart.deletingProductKey,
   changingQuantity: state.cart.changingQuantityKey,
-  total: getCartTotalPrice(state)
+  total: selectCartTotalPrice(state)
 });
 
 const mapDispatchToProps = {deleteFromCart, setCartProductQuantity};
