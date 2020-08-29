@@ -11,7 +11,7 @@ const reducer = (state = initialState, action) => {
     case INIT_APP_SUCCESS:
       return {...state, data: payload.user};
     default:
-      return state;
+      return {...state};
   }
 
 };

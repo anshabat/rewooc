@@ -12,7 +12,7 @@ class Catalog extends Component {
   render() {
     const {loading, title, products} = this.props;
 
-    //console.log(products)
+    console.log('catalog rerender')
 
     if (loading) return <ContentLoader/>;
 

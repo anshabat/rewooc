@@ -18,7 +18,7 @@ const reducer = (state = initialState, action) => {
     case INIT_APP_FAIL:
       return {...state, loading: false, error: error};
     default:
-      return {...state}
+      return state
   }
 };
 

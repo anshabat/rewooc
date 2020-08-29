@@ -13,7 +13,7 @@ class Cart extends React.Component {
 
     if (loading) return <ContentLoader/>;
 
-    //console.log(cartData)
+    console.log('cart rendered')
 
     return (
       <Content title={title}>

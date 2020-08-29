@@ -12,6 +12,8 @@ class Account extends Component {
   render() {
     const {match} = this.props;
 
+    console.log('account renderer')
+
     return (
       <Content title="My Account">
         <div className="rw-account">

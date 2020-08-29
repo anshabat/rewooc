@@ -6,6 +6,7 @@ import {selectCartTotalPrice, selectCartTotalQuantity} from "../../../../selecto
 
 const MiniCart = (props) => {
   const {testAction} = props
+  console.log('mini cart rerender')
   return (
     <div className="rw-mini-cart">
       Cart: {props.quantity} - <Price value={props.total}/>

@@ -9,16 +9,10 @@ import Phone from "../Phone/Phone";
 import Image from "../UI/Image/Image";
 import Autocomplete from "../Autocomplete/Autocomplete";
 import MiniCart from "../shop/cart/MiniCart/MiniCart";
-import {connect} from 'react-redux';
 
 const Layout = props => {
   const {headerNavigation, phone, logo} = useContext(AppContext);
-  const {children, logoAction} = props;
-  
-  const logoClick = (e) => {
-    e.preventDefault();
-    logoAction();
-  }
+  const {children} = props;
 
   return (
     <div className={`rw-page`}>
@@ -26,7 +20,7 @@ const Layout = props => {
         <Header
           headlineLeft={<Nav items={headerNavigation} navs={[ListNav, Dropdown]}/>}
           headlineRight={<Phone phoneNumber={phone}/>}
-          mainLeft={<a onClick={logoClick}><Image image={logo.full}/></a>}
+          mainLeft={<a><Image image={logo.full}/></a>}
           mainCenter={<Autocomplete delay="500" minChars="3" limit="6"/>}
           mainRight={<MiniCart/>}
         />
@@ -41,8 +35,4 @@ const Layout = props => {
   );
 };
 
-export default connect(null, dispatch => {
-  return {
-    logoAction: () => dispatch({type: 'TEST'})
-  }
-})(Layout);
+export default Layout;
