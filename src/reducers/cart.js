@@ -105,17 +105,17 @@ const addProduct = (state, serverItem) => {
 };
 
 const deleteItem = (state, key) => {
-  return state.items.filter(item => item.key !== key);
+  return state.items.filter(item => item.get('key') !== key);
 };
 
 const deleteProduct = (state, key) => {
-  const productId = state.items.find(item => item.key === key).productId;
-  const cartItems = state.items.filter(item => item.key !== key);
-  const exist = cartItems.some(cartItem => cartItem.productId === productId);
+  const productId = state.items.find(item => item.get('key') === key).get('productId');
+  const cartItems = state.items.filter(item => item.get('key') !== key);
+  const exist = cartItems.some(cartItem => cartItem.get('productId') === productId);
 
   let items;
   if (!exist) {
-    items = state.products.filter(product => product.id !== productId);
+    items = state.products.filter(product => product.get('id') !== productId);
   } else {
     items = state.products
   }
