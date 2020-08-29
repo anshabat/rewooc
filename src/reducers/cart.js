@@ -59,7 +59,7 @@ export default function reducer(state = new initialState(), action) {
       return state.set('deletingProductKey', null).set('error', error);
     case CART_SET_PRODUCT_QUANTITY_START:
       const product = state.items.find(item => item.get('key') === payload.productKey);
-      return state.set('changingQuantityKey', payload.productKey).set('addingProductId', product.productId);
+      return state.set('changingQuantityKey', payload.productKey).set('addingProductId', product.get('productId'));
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
       items = changeQuantity(state, fromJS(payload.cartItem));
       return state.set('items', items).set('changingQuantityKey', null).set('addingProductId', null);
@@ -126,14 +126,13 @@ const deleteProduct = (state, key) => {
 
 const changeQuantity = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem);
-  let items = state.get('items');
+  const items = state.get('items');
   const itemIndex = items.findIndex(item => item.get('key') === newItem.get('key'));
 
-  const newItems = items.splice(itemIndex, 1, Map({
-    ...items[itemIndex],
-    quantity: newItem.get('quantity'),
-    totalPrice: newItem.get('totalPrice')
-  }));
+  const newItems = items
+    .setIn([itemIndex, 'quantity'], newItem.get('quantity'))
+    .setIn([itemIndex, 'totalPrice'], newItem.get('totalPrice'))
+
 
   return newItems;
 };
