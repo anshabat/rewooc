@@ -98,7 +98,7 @@ const addProduct = (state, serverItem) => {
   const products = state.get('products');
   const exist = products.find(product => product.get('id') === newItem.get('productId'));
   if (!exist) {
-    products.push(newProduct);
+    return products.push(newProduct);
   }
 
   return products;
