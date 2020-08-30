@@ -1,6 +1,6 @@
 import {INIT_APP_SUCCESS} from '../actions/initApp';
 import {CART_PAGE_LOAD, CART_PAGE_LOAD_FAIL, CART_PAGE_LOAD_SUCCESS} from '../actions/loadCartPage';
-import {CART_ADD_PRODUCT_FAIL, CART_ADD_PRODUCT_START, CART_ADD_PRODUCT_SUCCESS} from '../actions/addToCart';
+import {CART_ADD_PRODUCT, CART_ADD_PRODUCT_FAIL, CART_ADD_PRODUCT_SUCCESS} from '../actions/addToCart';
 import {
   CART_DELETE_PRODUCT_FAIL,
   CART_DELETE_PRODUCT_START,
@@ -40,7 +40,7 @@ export default function reducer(state = new initialState(), action) {
       return state.set('loading', false).set('title', payload.title)
     case CART_PAGE_LOAD_FAIL:
       return state.set('loading', false).set('error', error);
-    case CART_ADD_PRODUCT_START:
+    case CART_ADD_PRODUCT:
       return state.set('addingProductId', payload.productId);
     case CART_ADD_PRODUCT_SUCCESS:
       const cartItem = fromJS(payload.cartItem)
