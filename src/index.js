@@ -1,15 +1,18 @@
+import 'regenerator-runtime/runtime'
 import "./index.scss";
 import React from "react";
 import ReactDOM from "react-dom";
 import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
+import createSagaMiddleware from 'redux-saga'
+import axios from "axios";
 import {Provider} from "react-redux";
 import {composeWithDevTools} from "redux-devtools-extension"
-import { createBrowserHistory } from 'history';
-import { routerMiddleware } from 'connected-react-router'
-import axios from "axios";
+import {createBrowserHistory} from 'history';
+import {routerMiddleware} from 'connected-react-router'
 import App from "./App";
 import {rootReducer} from "./reducers";
+import {rootSaga} from "./sagas";
 
 axios.interceptors.request.use(
   config => {
@@ -23,7 +26,9 @@ axios.interceptors.request.use(
 );
 
 export const history = createBrowserHistory()
-const store = createStore(rootReducer(history), composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk)));
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(rootReducer(history), composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk, sagaMiddleware)));
+sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
   <Provider store={store}><App/></Provider>,
