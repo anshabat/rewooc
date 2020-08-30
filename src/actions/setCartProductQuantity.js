@@ -3,6 +3,7 @@ import {ajaxEndpoint} from '../shared/utilities';
 import {ErrorMessage} from '../shared/errorMessages';
 import {deleteFromCart} from './deleteFromCart';
 
+export const CART_SET_PRODUCT_QUANTITY = "CART_SET_PRODUCT_QUANTITY";
 export const CART_SET_PRODUCT_QUANTITY_START = "CART_SET_PRODUCT_QUANTITY_START";
 export const CART_SET_PRODUCT_QUANTITY_SUCCESS = "CART_SET_PRODUCT_QUANTITY_SUCCESS";
 export const CART_SET_PRODUCT_QUANTITY_FAIL = "CART_SET_PRODUCT_QUANTITY_FAIL";

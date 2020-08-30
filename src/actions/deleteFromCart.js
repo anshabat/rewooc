@@ -2,6 +2,7 @@ import axios from 'axios';
 import {ajaxEndpoint} from '../shared/utilities';
 import {ErrorMessage} from '../shared/errorMessages';
 
+export const CART_DELETE_PRODUCT = "CART_DELETE_PRODUCT";
 export const CART_DELETE_PRODUCT_START = "CART_DELETE_PRODUCT_START";
 export const CART_DELETE_PRODUCT_SUCCESS = "CART_DELETE_PRODUCT_SUCCESS";
 export const CART_DELETE_PRODUCT_FAIL = "CART_DELETE_PRODUCT_FAIL";

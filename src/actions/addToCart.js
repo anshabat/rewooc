@@ -4,6 +4,7 @@ import {ErrorMessage} from '../shared/errorMessages';
 import {setCartProductQuantity} from './setCartProductQuantity';
 import {selectCartItems} from "../selectors";
 
+export const CART_ADD_PRODUCT = "CART_ADD_PRODUCT";
 export const CART_ADD_PRODUCT_START = "CART_ADD_PRODUCT_START";
 export const CART_ADD_PRODUCT_SUCCESS = "CART_ADD_PRODUCT_SUCCESS";
 export const CART_ADD_PRODUCT_FAIL = "CART_ADD_PRODUCT_FAIL";
