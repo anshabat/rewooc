@@ -1,23 +1,10 @@
-import axios from 'axios';
-
-export const CATALOG_PAGE_LOAD_START = 'CATALOG_PAGE_LOAD_START';
+export const CATALOG_PAGE_LOAD = 'CATALOG_PAGE_LOAD';
 export const CATALOG_PAGE_LOAD_SUCCESS = 'CATALOG_PAGE_LOAD_SUCCESS';
 export const CATALOG_PAGE_LOAD_FAIL = 'CATALOG_PAGE_LOAD_FAIL';
 
 export const loadCatalogPage = (url) => {
-  return dispatch => {
-    dispatch(loadCatalogPageStart());
-    axios.get(url).then(({data}) => {
-      dispatch(loadCatalogPageSuccess(data));
-    }).catch(error => {
-      dispatch(loadCatalogPageFail(error))
-    })
-  }
-};
-
-export const loadCatalogPageStart = () => {
-  return {type: CATALOG_PAGE_LOAD_START};
-};
+  return {type: CATALOG_PAGE_LOAD, payload: {url}}
+}
 
 export const loadCatalogPageSuccess = (data) => {
   return {

@@ -1,7 +1,8 @@
 import {appSaga} from "./appSagas";
 import {cartSagas} from "./cartSagas";
 import {all} from 'redux-saga/effects'
+import {catalogSagas} from "./catalogSagas";
 
 export const rootSaga = function* () {
-  yield all([appSaga(), cartSagas()])
+  yield all([appSaga(), cartSagas(), catalogSagas()])
 }
