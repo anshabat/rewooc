@@ -12,7 +12,7 @@ import {
 } from "../actions/authActions";
 import {ajaxEndpoint} from "../shared/utilities";
 import {ErrorMessage} from "../shared/errorMessages";
-import {appActions} from "../actions/appActions";
+import {initApp} from "../actions/appActions";
 
 export const authSagas = function* () {
   yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
@@ -56,5 +56,5 @@ const signInSaga = function* (action) {
 const signOutSaga = function* () {
   localStorage.removeItem("token");
   yield put(signOutSuccess());
-  yield put(appActions());
+  yield put(initApp());
 }

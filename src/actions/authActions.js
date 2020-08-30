@@ -1,4 +1,4 @@
-import {appActions} from './appActions';
+import {initApp} from './appActions';
 
 export const USER_SIGN = 'USER_SIGN';
 export const USER_SIGN_IN_START = 'USER_SIGN_IN_START';
@@ -33,7 +33,7 @@ export const signInStart = () => {
 export const signInSuccess = () => dispatch => {
   console.log('thunk')
   dispatch({type: USER_SIGN_IN_SUCCESS});
-  dispatch(appActions());
+  dispatch(initApp());
 };
 
 export const signInFail = (error) => {
