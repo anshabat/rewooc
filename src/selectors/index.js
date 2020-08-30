@@ -1,3 +1,10 @@
-export {selectCartTotalPrice, selectCartTotalQuantity, selectCartData, selectCartItems} from './cartSelectors';
-export {isProductInCart} from './isProductInCart';
-export {addingProductToCart} from './addingProductToCart';
+export {
+  selectCartTotalPrice,
+  selectCartTotalQuantity,
+  selectCartData,
+  selectCartItems,
+  isProductInCart,
+  addingProductToCart
+} from './cartSelectors';
+
+export {selectProducts} from './catalogSelectors'

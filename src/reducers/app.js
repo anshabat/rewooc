@@ -1,22 +1,23 @@
 import {INIT_APP_FAIL, INIT_APP_START, INIT_APP_SUCCESS} from "../actions/initApp";
+import {Record, Map} from "immutable";
 
-const initialState = {
-  data: {},
+const initialState = Record({
+  data: Map({}),
   loading: true,
   error: false
-};
+});
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = new initialState(), action) => {
   const {type, error, payload} = action;
 
   switch (type) {
     case INIT_APP_START:
-      return {...state, loading: true, error: false};
+      return state.set('loading', true).set('error', false);
     case INIT_APP_SUCCESS:
       const data = filterState(payload);
-      return {...state, loading: false, error: false, data};
+      return state.set('loading', false).set('error', false).set('data', data);
     case INIT_APP_FAIL:
-      return {...state, loading: false, error: error};
+      return state.set('loading', false).set('error', error);
     default:
       return state
   }

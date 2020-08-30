@@ -48,7 +48,7 @@ const ProductCard = (props) => {
 
 const mapStateToProps = (state, ownProps) => ({
   addingToCart: addingProductToCart(state, ownProps.id),
-  isInCart: isProductInCart(state, ownProps.id)
+  isInCart: isProductInCart(state, ownProps.id),
 });
 
 export default connect(mapStateToProps, {addToCart})(ProductCard);

@@ -5,14 +5,12 @@ import Content from "../../components/Layout/Content/Content";
 import Grid from "../../components/UI/Grid/Grid"
 import {loadCatalogPage} from "../../actions/loadCatalogPage";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
-import {selectProducts} from "../../selectors/catalog/selectProducts";
+import {selectProducts} from "../../selectors";
 
 class Catalog extends Component {
 
   render() {
     const {loading, title, products} = this.props;
-
-    console.log('catalog rerender')
 
     if (loading) return <ContentLoader/>;
 
