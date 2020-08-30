@@ -1,18 +1,20 @@
 import axios from "axios";
 import {call, put, takeEvery, select} from "redux-saga/effects";
-import {CART_PAGE_LOAD, loadCartPageFail, loadCartPageSuccess} from "../actions/loadCartPage";
-import {addToCartFail, addToCartSuccess, CART_ADD_PRODUCT} from "../actions/addToCart";
 import {
+  CART_PAGE_LOAD,
+  CART_ADD_PRODUCT,
   CART_SET_PRODUCT_QUANTITY,
-  setCartProductQuantity, setCartProductQuantityFail, setCartProductQuantityStart,
-  setCartProductQuantitySuccess
-} from "../actions/setCartProductQuantity";
-import {
   CART_DELETE_PRODUCT,
+  loadCartPageFail,
+  loadCartPageSuccess,
+  addToCartFail,
+  addToCartSuccess,
+  setCartProductQuantity, setCartProductQuantityFail, setCartProductQuantityStart,
+  setCartProductQuantitySuccess,
   deleteFromCart,
   deleteFromCartFail,
   deleteFromCartSuccess
-} from "../actions/deleteFromCart";
+} from "../actions/cartActions";
 import {ajaxEndpoint} from "../shared/utilities";
 import {selectCartItems} from "../selectors";
 import {ErrorMessage} from "../shared/errorMessages";

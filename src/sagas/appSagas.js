@@ -1,6 +1,6 @@
 import axios from "axios";
 import {ajaxEndpoint} from "../shared/utilities";
-import {INIT_APP, initAppFail, initAppSuccess} from "../actions/initApp";
+import {INIT_APP, initAppFail, initAppSuccess} from "../actions/appActions";
 import {call, put, takeEvery} from "redux-saga/effects";
 
 export const appSaga = function* () {

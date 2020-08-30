@@ -1,16 +1,18 @@
-import {INIT_APP_SUCCESS} from '../actions/initApp';
-import {CART_PAGE_LOAD, CART_PAGE_LOAD_FAIL, CART_PAGE_LOAD_SUCCESS} from '../actions/loadCartPage';
-import {CART_ADD_PRODUCT, CART_ADD_PRODUCT_FAIL, CART_ADD_PRODUCT_SUCCESS} from '../actions/addToCart';
+import {INIT_APP_SUCCESS} from '../actions/appActions';
 import {
+  CART_ADD_PRODUCT,
+  CART_ADD_PRODUCT_FAIL,
+  CART_ADD_PRODUCT_SUCCESS,
+  CART_PAGE_LOAD,
+  CART_PAGE_LOAD_FAIL,
+  CART_PAGE_LOAD_SUCCESS,
   CART_DELETE_PRODUCT,
   CART_DELETE_PRODUCT_FAIL,
-  CART_DELETE_PRODUCT_SUCCESS
-} from '../actions/deleteFromCart';
-import {
+  CART_DELETE_PRODUCT_SUCCESS,
   CART_SET_PRODUCT_QUANTITY_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS
-} from '../actions/setCartProductQuantity';
+} from '../actions/cartActions';
 import {fromJS, List, Record, Map} from "immutable";
 
 export const initialState = Record({

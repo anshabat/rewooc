@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {ajaxEndpoint} from '../shared/utilities';
 import {ErrorMessage} from '../shared/errorMessages';
-import {initApp} from './initApp';
+import {appActions} from './appActions';
 
 export const USER_SIGN_IN_START = 'USER_SIGN_IN_START';
 export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS';
@@ -34,7 +34,7 @@ export const signInStart = () => {
 
 export const signInSuccess = () => dispatch => {
   dispatch({type: USER_SIGN_IN_SUCCESS});
-  dispatch(initApp());
+  dispatch(appActions());
 };
 
 export const signInFail = (error) => {

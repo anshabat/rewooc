@@ -1,4 +1,4 @@
-import {INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS} from "../actions/initApp";
+import {INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS} from "../actions/appActions";
 import {Record, Map} from "immutable";
 
 const initialState = Record({

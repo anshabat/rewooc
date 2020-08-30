@@ -1,4 +1,4 @@
-import {INIT_APP_SUCCESS} from "../actions/initApp";
+import {INIT_APP_SUCCESS} from "../actions/appActions";
 
 const initialState = {
   data: null

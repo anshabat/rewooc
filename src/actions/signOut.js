@@ -1,11 +1,11 @@
-import {initApp} from './initApp';
+import {appActions} from './appActions';
 
 export const USER_SIGN_OUT_SUCCESS = 'USER_SIGN_OUT_SUCCESS';
 
 export const signOut = () => dispatch => {
   localStorage.removeItem("token");
   dispatch(signOutSuccess());
-  dispatch(initApp());
+  dispatch(appActions());
 };
 
 
