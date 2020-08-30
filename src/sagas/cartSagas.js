@@ -2,8 +2,12 @@ import axios from "axios";
 import {call, put, takeEvery, select} from "redux-saga/effects";
 import {CART_PAGE_LOAD, loadCartPageFail, loadCartPageSuccess} from "../actions/loadCartPage";
 import {addToCartFail, addToCartSuccess, CART_ADD_PRODUCT} from "../actions/addToCart";
-import {CART_SET_PRODUCT_QUANTITY, setCartProductQuantity} from "../actions/setCartProductQuantity";
-import {CART_DELETE_PRODUCT} from "../actions/deleteFromCart";
+import {
+  CART_SET_PRODUCT_QUANTITY,
+  setCartProductQuantity, setCartProductQuantityFail, setCartProductQuantityStart,
+  setCartProductQuantitySuccess
+} from "../actions/setCartProductQuantity";
+import {CART_DELETE_PRODUCT, deleteFromCart} from "../actions/deleteFromCart";
 import {ajaxEndpoint} from "../shared/utilities";
 import {selectCartItems} from "../selectors";
 import {ErrorMessage} from "../shared/errorMessages";
@@ -11,8 +15,8 @@ import {ErrorMessage} from "../shared/errorMessages";
 export const cartSagas = function* () {
   yield takeEvery(CART_PAGE_LOAD, loadCartPageSaga);
   yield takeEvery(CART_ADD_PRODUCT, addToCartSaga);
-  /*yield takeEvery(CART_SET_PRODUCT_QUANTITY, setCartProductQuantity);
-  yield takeEvery(CART_DELETE_PRODUCT, deleteFromCart);*/
+  yield takeEvery(CART_SET_PRODUCT_QUANTITY, setCartProductQuantitySaga);
+  /*yield takeEvery(CART_DELETE_PRODUCT, deleteFromCart);*/
 }
 
 const loadCartPageSaga = function* (action) {
@@ -24,6 +28,7 @@ const loadCartPageSaga = function* (action) {
     yield put(loadCartPageFail(error))
   }
 }
+
 const addToCartSaga = function* (action) {
   const {payload: {productId, quantity}} = action
   const cartItems = yield select(selectCartItems)
@@ -50,7 +55,31 @@ const addToCartSaga = function* (action) {
     yield put(addToCartFail(error));
   }
 }
-const setCartProductQuantitySaga = function* () {
+
+const setCartProductQuantitySaga = function* (action) {
+  const {payload: {productKey, quantity}} = action
+
+  if (parseInt(quantity) === 0) {
+    yield put(deleteFromCart(productKey));
+    return;
+  }
+
+  const data = new FormData();
+  data.set("productKey", productKey);
+  data.set("quantity", quantity);
+
+  yield put(setCartProductQuantityStart(productKey));
+  const response = yield call(axios.post, ajaxEndpoint("rewooc_set_cat_product_quantity"), data)
+  try {
+    const {success, data} = response.data;
+    if (success && data) {
+      yield put(setCartProductQuantitySuccess(data));
+    } else {
+      throw new Error(ErrorMessage.CART_FAIL_TO_CHANGE_QUANTITY)
+    }
+  } catch (error) {
+    yield put(setCartProductQuantityFail(error));
+  }
 }
 const deleteFromCartSaga = function* () {
 }

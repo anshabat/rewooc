@@ -40,6 +40,7 @@ function CartTable(props) {
                 {item.product && <CartProduct product={item.product}/>}
               </div>
               <div className="rw-cart-table__quantity">
+                {changingQuantity && <span>changing</span>}
                 <QuantityField
                   value={item.quantity}
                   onBlur={(e) => setCartProductQuantity(item.key, e.target.value)}
