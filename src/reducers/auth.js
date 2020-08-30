@@ -1,7 +1,7 @@
 import {Record} from "immutable";
 import {
   USER_SIGN_IN_FAIL,
-  USER_SIGN_IN_START,
+  USER_SIGN_IN,
   USER_SIGN_IN_SUCCESS,
   USER_SIGN_OUT_SUCCESS
 } from '../actions/authActions';
@@ -15,7 +15,7 @@ const reducer = (state = new initialState(), action) => {
   const {type, error} = action;
 
   switch (type) {
-    case USER_SIGN_IN_START:
+    case USER_SIGN_IN:
       return state.set('loading', true).set('error', false);
     case USER_SIGN_IN_SUCCESS:
       return state.set('loading', false).set('error', false);

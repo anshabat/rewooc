@@ -2,12 +2,13 @@ import axios from 'axios'
 import {put, call, takeEvery} from 'redux-saga/effects'
 import {
   AUTH_CHECK_AUTH,
-  USER_SIGN,
+  USER_SIGN_IN,
+  USER_SIGN_IN_SUCCESS,
   USER_SIGN_OUT,
+  USER_SIGN_OUT_SUCCESS,
   signOut,
   signOutSuccess,
   signInFail,
-  signInStart,
   signInSuccess
 } from "../actions/authActions";
 import {ajaxEndpoint} from "../shared/utilities";
@@ -16,8 +17,9 @@ import {initApp} from "../actions/appActions";
 
 export const authSagas = function* () {
   yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
-  yield takeEvery(USER_SIGN, signInSaga)
+  yield takeEvery(USER_SIGN_IN, signInSaga)
   yield takeEvery(USER_SIGN_OUT, signOutSaga)
+  yield takeEvery([USER_SIGN_IN_SUCCESS, USER_SIGN_OUT_SUCCESS], reloadAppSaga)
 }
 
 const checkAuthSaga = function* () {
@@ -31,8 +33,6 @@ const checkAuthSaga = function* () {
 
 const signInSaga = function* (action) {
   const {payload: {username, password}} = action
-
-  yield put(signInStart());
 
   const params = new URLSearchParams();
   params.append("username", username);
@@ -56,5 +56,8 @@ const signInSaga = function* (action) {
 const signOutSaga = function* () {
   localStorage.removeItem("token");
   yield put(signOutSuccess());
+}
+
+const reloadAppSaga = function* () {
   yield put(initApp());
 }
