@@ -2,8 +2,8 @@ import {INIT_APP_SUCCESS} from '../actions/initApp';
 import {CART_PAGE_LOAD, CART_PAGE_LOAD_FAIL, CART_PAGE_LOAD_SUCCESS} from '../actions/loadCartPage';
 import {CART_ADD_PRODUCT, CART_ADD_PRODUCT_FAIL, CART_ADD_PRODUCT_SUCCESS} from '../actions/addToCart';
 import {
+  CART_DELETE_PRODUCT,
   CART_DELETE_PRODUCT_FAIL,
-  CART_DELETE_PRODUCT_START,
   CART_DELETE_PRODUCT_SUCCESS
 } from '../actions/deleteFromCart';
 import {
@@ -15,7 +15,7 @@ import {fromJS, List, Record, Map} from "immutable";
 
 export const initialState = Record({
   title: null,
-  loading: false,
+  loading: true,
   error: false,
   products: List([]),
   items: List([]),
@@ -49,7 +49,7 @@ export default function reducer(state = new initialState(), action) {
       return state.set('items', items).set('products', products).set('addingProductId', null);
     case CART_ADD_PRODUCT_FAIL:
       return state.set('addingProductId', null).set('error', error);
-    case CART_DELETE_PRODUCT_START:
+    case CART_DELETE_PRODUCT:
       return state.set('deletingProductKey', payload.productKey);
     case CART_DELETE_PRODUCT_SUCCESS:
       items = deleteItem(state, payload.productKey);
