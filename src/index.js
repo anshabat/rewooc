@@ -3,7 +3,6 @@ import "./index.scss";
 import React from "react";
 import ReactDOM from "react-dom";
 import {applyMiddleware, createStore} from "redux";
-import thunk from "redux-thunk";
 import createSagaMiddleware from 'redux-saga'
 import axios from "axios";
 import {Provider} from "react-redux";
@@ -27,7 +26,7 @@ axios.interceptors.request.use(
 
 export const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware()
-const store = createStore(rootReducer(history), composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk, sagaMiddleware)));
+const store = createStore(rootReducer(history), composeWithDevTools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
 sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
