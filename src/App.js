@@ -3,7 +3,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import {history} from './index';
 import Root from "./pages/Root";
 import {connect} from "react-redux";
-import {checkAuth} from "./actions/checkAuth";
+import {checkAuth} from "./actions/authActions";
 import PageLoader from "./components/UI/loaders/PageLoader/PageLoader";
 import {AppProvider} from "./context/appContext";
 

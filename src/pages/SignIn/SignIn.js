@@ -1,7 +1,7 @@
 import "./Form.scss";
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {signIn} from "../../actions/signIn";
+import {signIn} from "../../actions/authActions";
 import Content from "../../components/Layout/Content/Content";
 import FormField from "../../components/UI/Form/FormField/FormField";
 import Button from "../../components/UI/Button/Button";

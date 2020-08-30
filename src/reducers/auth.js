@@ -1,6 +1,10 @@
 import {Record} from "immutable";
-import {USER_SIGN_IN_FAIL, USER_SIGN_IN_START, USER_SIGN_IN_SUCCESS} from '../actions/signIn';
-import {USER_SIGN_OUT_SUCCESS} from '../actions/signOut';
+import {
+  USER_SIGN_IN_FAIL,
+  USER_SIGN_IN_START,
+  USER_SIGN_IN_SUCCESS,
+  USER_SIGN_OUT_SUCCESS
+} from '../actions/authActions';
 
 const initialState = Record({
   loading: false,
