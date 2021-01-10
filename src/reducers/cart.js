@@ -1,4 +1,4 @@
-import {INIT_APP_SUCCESS} from '../actions/appActions';
+import {INIT_APP_SUCCESS} from '../redux/app/appActions';
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,

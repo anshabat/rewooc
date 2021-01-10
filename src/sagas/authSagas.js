@@ -13,7 +13,7 @@ import {
 } from "../actions/authActions";
 import {ajaxEndpoint} from "../shared/utilities";
 import {ErrorMessage} from "../shared/errorMessages";
-import {initApp} from "../actions/appActions";
+import {initApp} from "../redux/app/appActions";
 
 export const authSagas = function* () {
   yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
