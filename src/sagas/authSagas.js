@@ -2,10 +2,10 @@ import axios from 'axios'
 import {put, call, takeEvery} from 'redux-saga/effects'
 import {
   AUTH_CHECK_AUTH,
-  USER_SIGN_IN,
-  USER_SIGN_IN_SUCCESS,
-  USER_SIGN_OUT,
-  USER_SIGN_OUT_SUCCESS,
+  AUTH_SIGN_IN,
+  AUTH_SIGN_IN_SUCCESS,
+  AUTH_SIGN_OUT,
+  AUTH_SIGN_OUT_SUCCESS,
   signOut,
   signOutSuccess,
   signInFail,
@@ -17,9 +17,9 @@ import {initApp} from "../actions/appActions";
 
 export const authSagas = function* () {
   yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
-  yield takeEvery(USER_SIGN_IN, signInSaga)
-  yield takeEvery(USER_SIGN_OUT, signOutSaga)
-  yield takeEvery([USER_SIGN_IN_SUCCESS, USER_SIGN_OUT_SUCCESS], reloadAppSaga)
+  yield takeEvery(AUTH_SIGN_IN, signInSaga)
+  yield takeEvery(AUTH_SIGN_OUT, signOutSaga)
+  yield takeEvery([AUTH_SIGN_IN_SUCCESS, AUTH_SIGN_OUT_SUCCESS], reloadAppSaga)
 }
 
 const checkAuthSaga = function* () {

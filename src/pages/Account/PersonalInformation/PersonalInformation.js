@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
+import {selectAccountUser} from "../../../selectors/accountSelector";
 
 class PersonalInformation extends Component {
 
@@ -17,7 +18,7 @@ class PersonalInformation extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.account.data
+    user: selectAccountUser(state)
   }
 };
 

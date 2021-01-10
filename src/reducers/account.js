@@ -1,17 +1,18 @@
+import {Record} from "immutable";
 import {INIT_APP_SUCCESS} from "../actions/appActions";
 
-const initialState = {
-  data: null
-};
+const initialState = Record({
+  user: null
+});
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = new initialState(), action) => {
   const {type, payload} = action;
 
   switch (type) {
     case INIT_APP_SUCCESS:
-      return {...state, data: payload.user};
+      return state.set('user', payload.user);
     default:
-      return {...state};
+      return state;
   }
 
 };

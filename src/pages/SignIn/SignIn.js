@@ -6,6 +6,7 @@ import Content from "../../components/Layout/Content/Content";
 import FormField from "../../components/UI/Form/FormField/FormField";
 import Button from "../../components/UI/Button/Button";
 import Message from "../../components/UI/Message/Message";
+import {selectAccountUser} from "../../selectors/accountSelector";
 
 class SignIn extends Component {
 
@@ -75,7 +76,7 @@ const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
-    user: state.account.data
+    user: selectAccountUser(state)
   }
 };
 

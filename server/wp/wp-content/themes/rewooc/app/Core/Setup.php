@@ -53,7 +53,7 @@ class Setup {
 		@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
 		@header( 'Access-Control-Allow-Headers: Authorization, Content-Type' );
 		// Allow requests from other domains (CORS)
-		$origins[] = 'http://localhost:8081';
+		$origins[] = 'http://localhost:8080';
 
 		return $origins;
 	}
