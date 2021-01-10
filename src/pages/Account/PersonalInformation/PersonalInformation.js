@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
-import {selectAccountUser} from "../../../selectors/accountSelector";
+import {selectAccountUser} from "../../../redux/account/accountSelector";
 
 class PersonalInformation extends Component {
 

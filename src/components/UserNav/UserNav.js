@@ -2,7 +2,7 @@ import "./UserNav.scss";
 import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import {selectAccountUser} from "../../selectors/accountSelector";
+import {selectAccountUser} from "../../redux/account/accountSelector";
 
 
 const UserNav = props => {

@@ -2,19 +2,19 @@ import "./MiniCart.scss";
 import React from "react";
 import Price from "../../Price/Price";
 import {connect} from "react-redux";
-import {selectCartTotalPrice, selectCartTotalQuantity} from "../../../../selectors";
+import {selectCartTotalPrice, selectCartTotalQuantity} from "../../../../redux/cart/cartSelectors";
 
 const MiniCart = (props) => {
   const {testAction} = props
   console.log('mini cart rerender')
   return (
-    <div className="rw-mini-cart">
-      Cart: {props.quantity} - <Price value={props.total}/>
-      <button onClick={() => {
-        testAction()
-      }}>test
-      </button>
-    </div>
+      <div className="rw-mini-cart">
+        Cart: {props.quantity} - <Price value={props.total}/>
+        <button onClick={() => {
+          testAction()
+        }}>test
+        </button>
+      </div>
   );
 };
 

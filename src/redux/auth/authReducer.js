@@ -4,7 +4,7 @@ import {
   AUTH_SIGN_IN,
   AUTH_SIGN_IN_SUCCESS,
   AUTH_SIGN_OUT_SUCCESS
-} from '../actions/authActions';
+} from './authActions';
 
 const initialState = Record({
   loading: false,

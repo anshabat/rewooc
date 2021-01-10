@@ -5,14 +5,14 @@ import createSagaMiddleware from "redux-saga";
 import {all} from "redux-saga/effects";
 import {history} from "../shared/history";
 import app from './app/appReducer'
-import cart from "../reducers/cart";
-import catalog from "../reducers/catalog";
-import auth from "../reducers/auth";
-import account from "../reducers/account";
+import cart from "./cart/cartReducer";
+import catalog from "./catalog/catalogReducer";
+import auth from "./auth/authReducer";
+import account from "./account/accountReducer";
 import {appSaga} from './app/appSagas'
-import {cartSagas} from "../sagas/cartSagas";
-import {catalogSagas} from "../sagas/catalogSagas";
-import {authSagas} from "../sagas/authSagas";
+import {cartSagas} from "./cart/cartSagas";
+import {catalogSagas} from "./catalog/catalogSagas";
+import {authSagas} from "./auth/authSagas";
 
 const rootReducer = (history) => combineReducers({
   router: connectRouter(history), app, cart, catalog, auth, account
