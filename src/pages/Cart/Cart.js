@@ -4,19 +4,21 @@ import CartTable from "../../components/shop/cart/CartTable/CartTable";
 import {loadCartPage} from "../../actions/loadCartPage";
 import Content from "../../components/Layout/Content/Content";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
-import {getCartItems} from "../../selectors";
+import {selectCartData} from "../../selectors";
 
 class Cart extends React.Component {
 
   render() {
-    const {title, loading, cartItems} = this.props;
+    const {title, loading, cartData} = this.props;
 
     if (loading) return <ContentLoader/>;
 
+    console.log('cart rendered')
+
     return (
       <Content title={title}>
-        {cartItems.length > 0 ? (
-          <CartTable items={cartItems}/>
+        {cartData.length > 0 ? (
+          <CartTable items={cartData}/>
         ) : (
           <p>Cart is empty</p>
         )}
@@ -29,7 +31,7 @@ class Cart extends React.Component {
 const mapStateToProps = state => ({
   title: state.cart.title,
   loading: state.cart.loading,
-  cartItems: getCartItems(state)
+  cartData: selectCartData(state)
 });
 
 const mapDispatchToProps = dispatch => {

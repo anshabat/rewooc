@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import {BrowserRouter} from "react-router-dom";
+import { ConnectedRouter } from 'connected-react-router'
+import {history} from './index';
 import Root from "./pages/Root";
 import {connect} from "react-redux";
 import {initApp} from "./actions/initApp";
@@ -20,9 +21,9 @@ class App extends Component {
 
     return (
       <AppProvider value={data}>
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
           <Root/>
-        </BrowserRouter>
+        </ConnectedRouter>
       </AppProvider>
     )
   }

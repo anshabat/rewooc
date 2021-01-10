@@ -5,6 +5,7 @@ import Content from "../../components/Layout/Content/Content";
 import Grid from "../../components/UI/Grid/Grid"
 import {loadCatalogPage} from "../../actions/loadCatalogPage";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
+import {selectProducts} from "../../selectors";
 
 class Catalog extends Component {
 
@@ -27,7 +28,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.catalog.loading,
     title: state.catalog.title,
-    products: state.catalog.products
+    products: selectProducts(state)
   }
 };
 const mapDispatchToProps = dispatch => {

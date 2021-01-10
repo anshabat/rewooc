@@ -1,31 +1,28 @@
-import React, {Component} from "react";
+import React, {useEffect} from "react";
 import {apiUrl} from "../shared/utilities";
 import {connect} from "react-redux";
 
 const connectPage = (mapStateToProps, mapDispatchToProps) => {
-  return (InnerComponent) => {
-    return connect(mapStateToProps, mapDispatchToProps)(class extends Component {
+  return (Component) => {
 
-      componentDidMount() {
-        this.loadData();
-      }
+    const Page = (props) => {
+      const {loadPage, router} = props;
 
-      componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.location.pathname !== this.props.location.pathname) {
-          this.loadData();
-        }
-      }
+      useEffect(() => {
+        loadPage(apiUrl(window.location.pathname))
+      }, [router.location.pathname])
 
-      loadData() {
-        this.props.loadPage(apiUrl(window.location.pathname))
-      }
+      return (
+        <Component {...props} />
+      )
+    }
 
-      render() {
-        return (
-          <InnerComponent {...this.props} />
-        )
+    return connect((state) => {
+      return {
+        router: state.router,
+        ...mapStateToProps(state)
       }
-    })
+    }, mapDispatchToProps)(Page)
   }
 };
 
