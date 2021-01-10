@@ -1,10 +1,10 @@
 import React from "react";
 import connectPage from "../connectPage";
 import CartTable from "../../components/shop/cart/CartTable/CartTable";
-import {loadCartPage} from "../../actions/cartActions";
+import {loadCartPage} from "../../redux/cart/cartActions";
 import Content from "../../components/Layout/Content/Content";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
-import {selectCartData} from "../../selectors";
+import {selectCartData} from "../../redux/cart/cartSelectors";
 
 class Cart extends React.Component {
 

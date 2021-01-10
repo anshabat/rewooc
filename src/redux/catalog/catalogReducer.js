@@ -1,5 +1,5 @@
 import {Record, List} from 'immutable';
-import {CATALOG_PAGE_LOAD_FAIL, CATALOG_PAGE_LOAD, CATALOG_PAGE_LOAD_SUCCESS} from '../actions/catalogActions';
+import {CATALOG_PAGE_LOAD_FAIL, CATALOG_PAGE_LOAD, CATALOG_PAGE_LOAD_SUCCESS} from './catalogActions';
 
 
 const initialState = Record({

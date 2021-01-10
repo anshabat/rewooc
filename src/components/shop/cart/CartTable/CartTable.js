@@ -3,10 +3,10 @@ import React, {Fragment} from "react";
 import Icon from "../../../UI/Icon/Icon";
 import CartProduct from "../CartProduct/CartProduct";
 import QuantityField from "../QuantityField/QuantityField";
-import {selectCartTotalPrice} from "../../../../selectors";
+import {selectCartTotalPrice} from "../../../../redux/cart/cartSelectors";
 import {connect} from "react-redux";
-import {deleteFromCart} from "../../../../actions/cartActions";
-import {setCartProductQuantity} from "../../../../actions/cartActions";
+import {deleteFromCart} from "../../../../redux/cart/cartActions";
+import {setCartProductQuantity} from "../../../../redux/cart/cartActions";
 import Price from "../../Price/Price";
 
 function CartTable(props) {

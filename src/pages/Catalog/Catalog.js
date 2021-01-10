@@ -3,9 +3,9 @@ import connectPage from "../connectPage";
 import ProductCard from "../../components/shop/product/ProductCard/ProductCard";
 import Content from "../../components/Layout/Content/Content";
 import Grid from "../../components/UI/Grid/Grid"
-import {loadCatalogPage} from "../../actions/catalogActions";
+import {loadCatalogPage} from "../../redux/catalog/catalogActions";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
-import {selectProducts} from "../../selectors";
+import {selectProducts} from "../../redux/catalog/catalogSelectors";
 
 class Catalog extends Component {
 

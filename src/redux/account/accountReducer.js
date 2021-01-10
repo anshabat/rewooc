@@ -1,5 +1,5 @@
 import {Record} from "immutable";
-import {INIT_APP_SUCCESS} from "../actions/appActions";
+import {INIT_APP_SUCCESS} from '../app/appActions';
 
 const initialState = Record({
   user: null

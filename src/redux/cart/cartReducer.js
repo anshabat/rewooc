@@ -1,4 +1,4 @@
-import {INIT_APP_SUCCESS} from '../actions/appActions';
+import {INIT_APP_SUCCESS} from '../app/appActions';
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
@@ -12,7 +12,7 @@ import {
   CART_SET_PRODUCT_QUANTITY_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS
-} from '../actions/cartActions';
+} from './cartActions';
 import {fromJS, List, Record, Map} from "immutable";
 
 export const initialState = Record({

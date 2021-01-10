@@ -1,7 +1,6 @@
-import {CATALOG_PAGE_LOAD} from "../actions/catalogActions";
+import {CATALOG_PAGE_LOAD, loadCatalogPageSuccess, loadCatalogPageFail} from "./catalogActions";
 import {call, put, takeEvery} from "redux-saga/effects";
 import axios from "axios";
-import {loadCatalogPageSuccess, loadCatalogPageFail} from "../actions/catalogActions";
 
 export const catalogSagas = function* () {
   yield takeEvery(CATALOG_PAGE_LOAD, loadCatalogPageSaga)
