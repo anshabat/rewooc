@@ -2,6 +2,7 @@ import "./UserNav.scss";
 import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import {selectAccountUser} from "../../selectors/accountSelector";
 
 
 const UserNav = props => {
@@ -29,7 +30,7 @@ const UserNav = props => {
 
 const mapStateToProps = state => {
   return {
-    user: state.account.data
+    user: selectAccountUser(state)
   }
 };
 

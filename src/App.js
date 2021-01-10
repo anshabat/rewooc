@@ -3,8 +3,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import {history} from './index';
 import Root from "./pages/Root";
 import {connect} from "react-redux";
-import {initApp} from "./actions/initApp";
-import {checkAuth} from "./actions/checkAuth";
+import {checkAuth} from "./actions/authActions";
 import PageLoader from "./components/UI/loaders/PageLoader/PageLoader";
 import {AppProvider} from "./context/appContext";
 
@@ -30,6 +29,6 @@ class App extends Component {
 }
 
 const mapStateToProps = ({app}) => ({app});
-const mapDispatchToProps = {initApp, checkAuth};
+const mapDispatchToProps = {checkAuth};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

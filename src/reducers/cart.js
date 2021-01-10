@@ -1,21 +1,23 @@
-import {INIT_APP_SUCCESS} from '../actions/initApp';
-import {CART_PAGE_LOAD_FAIL, CART_PAGE_LOAD_START, CART_PAGE_LOAD_SUCCESS} from '../actions/loadCartPage';
-import {CART_ADD_PRODUCT_FAIL, CART_ADD_PRODUCT_START, CART_ADD_PRODUCT_SUCCESS} from '../actions/addToCart';
+import {INIT_APP_SUCCESS} from '../actions/appActions';
 import {
+  CART_ADD_PRODUCT,
+  CART_ADD_PRODUCT_FAIL,
+  CART_ADD_PRODUCT_SUCCESS,
+  CART_PAGE_LOAD,
+  CART_PAGE_LOAD_FAIL,
+  CART_PAGE_LOAD_SUCCESS,
+  CART_DELETE_PRODUCT,
   CART_DELETE_PRODUCT_FAIL,
-  CART_DELETE_PRODUCT_START,
-  CART_DELETE_PRODUCT_SUCCESS
-} from '../actions/deleteFromCart';
-import {
+  CART_DELETE_PRODUCT_SUCCESS,
   CART_SET_PRODUCT_QUANTITY_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS
-} from '../actions/setCartProductQuantity';
+} from '../actions/cartActions';
 import {fromJS, List, Record, Map} from "immutable";
 
 export const initialState = Record({
   title: null,
-  loading: false,
+  loading: true,
   error: false,
   products: List([]),
   items: List([]),
@@ -34,13 +36,13 @@ export default function reducer(state = new initialState(), action) {
       items = getCartItems(state, cart);
       products = getCartProducts(state, cart);
       return state.set('items', items).set('products', products);
-    case CART_PAGE_LOAD_START:
+    case CART_PAGE_LOAD:
       return state.set('loading', true)
     case CART_PAGE_LOAD_SUCCESS:
       return state.set('loading', false).set('title', payload.title)
     case CART_PAGE_LOAD_FAIL:
       return state.set('loading', false).set('error', error);
-    case CART_ADD_PRODUCT_START:
+    case CART_ADD_PRODUCT:
       return state.set('addingProductId', payload.productId);
     case CART_ADD_PRODUCT_SUCCESS:
       const cartItem = fromJS(payload.cartItem)
@@ -49,7 +51,7 @@ export default function reducer(state = new initialState(), action) {
       return state.set('items', items).set('products', products).set('addingProductId', null);
     case CART_ADD_PRODUCT_FAIL:
       return state.set('addingProductId', null).set('error', error);
-    case CART_DELETE_PRODUCT_START:
+    case CART_DELETE_PRODUCT:
       return state.set('deletingProductKey', payload.productKey);
     case CART_DELETE_PRODUCT_SUCCESS:
       items = deleteItem(state, payload.productKey);

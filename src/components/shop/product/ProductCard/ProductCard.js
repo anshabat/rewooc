@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import Image from "../../../UI/Image/Image";
 import Price from "../../Price/Price";
 import {connect} from "react-redux";
-import {addToCart} from "../../../../actions/addToCart";
+import {addToCart} from "../../../../actions/cartActions";
 import {siteUrl} from "../../../../shared/utilities";
 import {Link} from "react-router-dom";
 import FormField from "../../../UI/Form/FormField/FormField";

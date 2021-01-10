@@ -5,8 +5,8 @@ import CartProduct from "../CartProduct/CartProduct";
 import QuantityField from "../QuantityField/QuantityField";
 import {selectCartTotalPrice} from "../../../../selectors";
 import {connect} from "react-redux";
-import {deleteFromCart} from "../../../../actions/deleteFromCart";
-import {setCartProductQuantity} from "../../../../actions/setCartProductQuantity";
+import {deleteFromCart} from "../../../../actions/cartActions";
+import {setCartProductQuantity} from "../../../../actions/cartActions";
 import Price from "../../Price/Price";
 
 function CartTable(props) {
@@ -40,6 +40,7 @@ function CartTable(props) {
                 {item.product && <CartProduct product={item.product}/>}
               </div>
               <div className="rw-cart-table__quantity">
+                {changingQuantity && <span>changing</span>}
                 <QuantityField
                   value={item.quantity}
                   onBlur={(e) => setCartProductQuantity(item.key, e.target.value)}

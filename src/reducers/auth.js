@@ -1,6 +1,10 @@
 import {Record} from "immutable";
-import {USER_SIGN_IN_FAIL, USER_SIGN_IN_START, USER_SIGN_IN_SUCCESS} from '../actions/signIn';
-import {USER_SIGN_OUT_SUCCESS} from '../actions/signOut';
+import {
+  AUTH_SIGN_IN_FAIL,
+  AUTH_SIGN_IN,
+  AUTH_SIGN_IN_SUCCESS,
+  AUTH_SIGN_OUT_SUCCESS
+} from '../actions/authActions';
 
 const initialState = Record({
   loading: false,
@@ -11,13 +15,13 @@ const reducer = (state = new initialState(), action) => {
   const {type, error} = action;
 
   switch (type) {
-    case USER_SIGN_IN_START:
+    case AUTH_SIGN_IN:
       return state.set('loading', true).set('error', false);
-    case USER_SIGN_IN_SUCCESS:
+    case AUTH_SIGN_IN_SUCCESS:
       return state.set('loading', false).set('error', false);
-    case USER_SIGN_IN_FAIL:
+    case AUTH_SIGN_IN_FAIL:
       return state.set('loading', false).set('error', error);
-    case USER_SIGN_OUT_SUCCESS:
+    case AUTH_SIGN_OUT_SUCCESS:
       return state;
     default:
       return state;
