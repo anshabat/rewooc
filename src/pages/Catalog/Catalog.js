@@ -1,4 +1,5 @@
-import React, {Component} from "react";
+import React from "react";
+import {useSelector} from "react-redux";
 import connectPage from "../connectPage";
 import ProductCard from "../../components/shop/product/ProductCard/ProductCard";
 import Content from "../../components/Layout/Content/Content";
@@ -7,34 +8,24 @@ import {loadCatalogPage} from "../../redux/catalog/catalogActions";
 import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoader";
 import {selectProducts} from "../../redux/catalog/catalogSelectors";
 
-class Catalog extends Component {
+const Catalog = () => {
+  const {loading, title, products} = useSelector(state => {
+    return {
+      loading: state.catalog.loading,
+      title: state.catalog.title,
+      products: selectProducts(state)
+    }
+  });
 
-  render() {
-    const {loading, title, products} = this.props;
+  if (loading) return <ContentLoader/>;
 
-    if (loading) return <ContentLoader/>;
-
-    return (
+  return (
       <Content title={title}>
         <Grid items={products}>
           {product => <ProductCard {...product} />}
         </Grid>
       </Content>
-    )
-  }
+  )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.catalog.loading,
-    title: state.catalog.title,
-    products: selectProducts(state)
-  }
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    loadPage: url => dispatch(loadCatalogPage(url))
-  }
-};
-
-export default connectPage(mapStateToProps, mapDispatchToProps)(Catalog);
+export default connectPage(loadCatalogPage)(Catalog);

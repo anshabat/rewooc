@@ -1,29 +1,16 @@
 import React, {useEffect} from "react";
 import {apiUrl} from "../shared/utilities";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-const connectPage = (mapStateToProps, mapDispatchToProps) => {
-  return (Component) => {
+const connectPage = (action) => (Component) => (props) => {
+  const router = useSelector(state => state.router);
+  const dispatch = useDispatch();
 
-    const Page = (props) => {
-      const {loadPage, router} = props;
+  useEffect(() => {
+    dispatch(action(apiUrl(window.location.pathname)))
+  }, [router.location.pathname])
 
-      useEffect(() => {
-        loadPage(apiUrl(window.location.pathname))
-      }, [router.location.pathname])
-
-      return (
-        <Component {...props} />
-      )
-    }
-
-    return connect((state) => {
-      return {
-        router: state.router,
-        ...mapStateToProps(state)
-      }
-    }, mapDispatchToProps)(Page)
-  }
-};
+  return <Component {...props} />
+}
 
 export default connectPage
