@@ -1,12 +1,11 @@
 import "./UserNav.scss";
 import React from "react";
 import {Link} from "react-router-dom";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import {selectAccountUser} from "../../redux/account/accountSelector";
 
-
-const UserNav = props => {
-  const {user} = props;
+function UserNav() {
+  const user = useSelector(selectAccountUser);
 
   return (
     <ul className="rw-user-nav">
@@ -25,13 +24,7 @@ const UserNav = props => {
         </li>
       )}
     </ul>
-  );
-};
+  )
+}
 
-const mapStateToProps = state => {
-  return {
-    user: selectAccountUser(state)
-  }
-};
-
-export default connect(mapStateToProps)(UserNav);
+export default UserNav;
