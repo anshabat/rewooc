@@ -8,24 +8,20 @@ import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoad
 import {selectCartData} from "../../redux/cart/cartSelectors";
 
 const Cart = () => {
-  const {title, loading, cartData} = useSelector(state => {
-    return {
-      title: state.cart.title,
-      loading: state.cart.loading,
-      cartData: selectCartData(state)
-    }
-  });
+  const title = useSelector(state => state.cart.title)
+  const loading = useSelector(state => state.cart.loading)
+  const cartData = useSelector(selectCartData)
 
   if (loading) return <ContentLoader/>;
 
   return (
-      <Content title={title}>
-        {cartData.length > 0 ? (
-            <CartTable items={cartData}/>
-        ) : (
-            <p>Cart is empty</p>
-        )}
-      </Content>
+    <Content title={title}>
+      {cartData.length > 0 ? (
+        <CartTable items={cartData}/>
+      ) : (
+        <p>Cart is empty</p>
+      )}
+    </Content>
   )
 }
 

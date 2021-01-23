@@ -9,13 +9,9 @@ import ContentLoader from "../../components/UI/loaders/ContentLoader/ContentLoad
 import {selectProducts} from "../../redux/catalog/catalogSelectors";
 
 const Catalog = () => {
-  const {loading, title, products} = useSelector(state => {
-    return {
-      loading: state.catalog.loading,
-      title: state.catalog.title,
-      products: selectProducts(state)
-    }
-  });
+  const loading = useSelector(state => state.catalog.loading)
+  const title = useSelector(state => state.catalog.title)
+  const products = useSelector(selectProducts);
 
   if (loading) return <ContentLoader/>;
 
