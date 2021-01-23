@@ -114,8 +114,8 @@ class Autocomplete extends Component {
           </div>
         ) : null}
       </div>
-    );
-  };
+    )
+  }
 }
 
 Autocomplete.defaultProps = {

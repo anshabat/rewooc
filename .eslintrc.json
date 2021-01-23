@@ -1,10 +1,13 @@
 {
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2018
+  "env": {
+    "browser": true,
+    "es2021": true
   },
-  "extends": "plugin:react/recommended",
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
     "react/prop-types": "off"
   }

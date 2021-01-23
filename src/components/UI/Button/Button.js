@@ -14,7 +14,7 @@ const Button = (props) => {
   return (
     <button
       className={`pc-button pc-button--${size} pc-button--${color} ${className}`.trim()} {...restProps}>
-      <span>{props.children}</span>
+      <span>{children}</span>
     </button>
   );
 };

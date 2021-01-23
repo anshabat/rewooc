@@ -7,19 +7,16 @@ class QuantityField extends Component {
     value: this.props.value
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     if (prevProps.hasChanged) {
       this.setState({value: this.props.value});
     }
   }
 
   render() {
-    const {
-      onChange,
-      value,
-      hasChanged,
-      ...restProps
-    } = this.props;
+    // TODO eslint this
+    // eslint-disable-next-line no-unused-vars
+    const {onChange, value, hasChanged, ...restProps} = this.props;
 
     return (
       <FormField

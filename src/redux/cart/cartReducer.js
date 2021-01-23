@@ -31,11 +31,12 @@ export default function reducer(state = new initialState(), action) {
   let items, products;
 
   switch (type) {
-    case INIT_APP_SUCCESS:
+    case INIT_APP_SUCCESS: {
       const cart = fromJS(payload.cart)
       items = getCartItems(state, cart);
       products = getCartProducts(state, cart);
       return state.set('items', items).set('products', products);
+    }
     case CART_PAGE_LOAD:
       return state.set('loading', true)
     case CART_PAGE_LOAD_SUCCESS:
@@ -44,11 +45,12 @@ export default function reducer(state = new initialState(), action) {
       return state.set('loading', false).set('error', error);
     case CART_ADD_PRODUCT:
       return state.set('addingProductId', payload.productId);
-    case CART_ADD_PRODUCT_SUCCESS:
+    case CART_ADD_PRODUCT_SUCCESS: {
       const cartItem = fromJS(payload.cartItem)
       items = addItem(state, cartItem);
       products = addProduct(state, cartItem);
       return state.set('items', items).set('products', products).set('addingProductId', null);
+    }
     case CART_ADD_PRODUCT_FAIL:
       return state.set('addingProductId', null).set('error', error);
     case CART_DELETE_PRODUCT:
@@ -59,9 +61,10 @@ export default function reducer(state = new initialState(), action) {
       return state.set('items', items).set('products', products).set('deletingProductKey', null);
     case CART_DELETE_PRODUCT_FAIL:
       return state.set('deletingProductKey', null).set('error', error);
-    case CART_SET_PRODUCT_QUANTITY_START:
+    case CART_SET_PRODUCT_QUANTITY_START: {
       const product = state.items.find(item => item.get('key') === payload.productKey);
       return state.set('changingQuantityKey', payload.productKey).set('addingProductId', product.get('productId'));
+    }
     case CART_SET_PRODUCT_QUANTITY_SUCCESS:
       items = changeQuantity(state, fromJS(payload.cartItem));
       return state.set('items', items).set('changingQuantityKey', null).set('addingProductId', null);
@@ -70,7 +73,7 @@ export default function reducer(state = new initialState(), action) {
     default:
       return state;
   }
-};
+}
 
 const getCartItems = (state, cart) => {
   return cart.toList().map(item => cartItemAdapter(item));

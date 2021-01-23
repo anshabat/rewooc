@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {appApi} from "app-data";
 import ContentLoader from "../components/UI/loaders/ContentLoader/ContentLoader";
 
+// TODO remove this
 // eslint-disable-next-line react/display-name
-const withPageData = (InnerComponent, url) => class extends Component {
+const withPageData = (InnerComponent) => class extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +17,7 @@ const withPageData = (InnerComponent, url) => class extends Component {
     this.loadData();
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setState({data: null});
       this.loadData();

@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {apiUrl} from "../shared/utilities";
 import {useDispatch, useSelector} from "react-redux";
 
+// TODO eslint this
 // eslint-disable-next-line react/display-name
 const connectPage = (action) => (Component) => (props) => {
   const router = useSelector(state => state.router);

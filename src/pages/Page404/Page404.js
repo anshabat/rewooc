@@ -1,6 +1,6 @@
 import React from "react";
 
-const Page404 = (props) => {
+const Page404 = () => {
   return (
     <h1>Page 404</h1>
   );

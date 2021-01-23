@@ -35,6 +35,7 @@ const formatPrice = (options, value) => {
   });
 };
 
+// TODO eslint this
 // eslint-disable-next-line react/display-name
 const withPriceFormat = (InitialComponent) => props => {
   const {price} = useContext(AppContext);

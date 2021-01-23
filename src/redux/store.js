@@ -15,7 +15,7 @@ import {catalogSagas} from "./catalog/catalogSagas";
 import {authSagas} from "./auth/authSagas";
 
 const rootReducer = (history) => combineReducers({
-  router: connectRouter(history), app, cart, catalog, auth, account, test: (state = {}, action) => {
+  router: connectRouter(history), app, cart, catalog, auth, account, test: (state = {}) => {
     return {...state}
   }
 })

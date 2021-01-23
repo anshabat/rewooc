@@ -43,7 +43,7 @@ function ProductCard(props) {
       <div className="rw-product-card__row">
         {addingToCart && <span>Adding...</span>}
         {isInCart && <Link to={siteUrl("cart")}>In Cart</Link>}
-        <button onClick={e => dispatch(addToCart(id, quantity))} type="button">Add to Cart</button>
+        <button onClick={() => dispatch(addToCart(id, quantity))} type="button">Add to Cart</button>
       </div>
     </article>
   )
