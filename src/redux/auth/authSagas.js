@@ -1,4 +1,3 @@
-import axios from 'axios'
 import {put, call, takeEvery} from 'redux-saga/effects'
 import {
   AUTH_CHECK_AUTH,
@@ -11,9 +10,9 @@ import {
   signInFail,
   signInSuccess
 } from "./authActions";
-import {ajaxEndpoint} from "../../shared/utilities";
 import {ErrorMessage} from "../../shared/errorMessages";
 import {initApp} from "../app/appActions";
+import {fetchCurrentUser} from "app-data";
 
 export const authSagas = function* () {
   yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
@@ -33,13 +32,8 @@ const checkAuthSaga = function* () {
 
 const signInSaga = function* (action) {
   const {payload: {username, password}} = action
-
-  const params = new URLSearchParams();
-  params.append("username", username);
-  params.append("password", password);
-
   try {
-    const result = yield call(axios.post, ajaxEndpoint("rewooc_get_current_user"), params)
+    const result = yield call(fetchCurrentUser, username, password)
     const {success, data: token} = result.data;
 
     if (success && token) {
