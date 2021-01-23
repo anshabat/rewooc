@@ -1,5 +1,4 @@
-import axios from "axios";
-import {ajaxEndpoint} from "../../shared/utilities";
+import {appApi} from "app-data";
 import {INIT_APP, initAppFail, initAppSuccess} from "./appActions";
 import {call, put, takeEvery} from "redux-saga/effects";
 
@@ -8,7 +7,7 @@ export const appSaga = function* () {
 }
 
 const initAppSaga = function* () {
-  const {data} = yield call(axios.get, ajaxEndpoint("rewooc_get_common_data"))
+  const {data} = yield call(appApi.fetchGeneralData)
   try {
     yield put(initAppSuccess(data))
   } catch (error) {

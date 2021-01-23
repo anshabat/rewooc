@@ -1,23 +1,21 @@
 import "./CartTable.scss";
 import React, {Fragment} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import Icon from "../../../UI/Icon/Icon";
 import CartProduct from "../CartProduct/CartProduct";
 import QuantityField from "../QuantityField/QuantityField";
 import {selectCartTotalPrice} from "../../../../redux/cart/cartSelectors";
-import {connect} from "react-redux";
 import {deleteFromCart} from "../../../../redux/cart/cartActions";
 import {setCartProductQuantity} from "../../../../redux/cart/cartActions";
 import Price from "../../Price/Price";
 
 function CartTable(props) {
-  const {
-    items,
-    deleteFromCart,
-    setCartProductQuantity,
-    deletingProduct,
-    changingQuantity,
-    total
-  } = props;
+  const {items} = props;
+
+  const total = useSelector(selectCartTotalPrice)
+  const deletingProduct = useSelector(state => state.cart.deletingProductKey)
+  const changingQuantity = useSelector(state => state.cart.changingQuantityKey)
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -27,7 +25,7 @@ function CartTable(props) {
             <Fragment key={item.key}>
               <div className="rw-cart-table__delete">
                 <button className="rw-cart-table__delete-btn" onClick={() => {
-                  deleteFromCart(item.key)
+                  dispatch(deleteFromCart(item.key))
                 }}>
                   {deletingProduct === item.key ? (
                     <Icon classes={["fa-circle-o-notch", "fa-spin"]}/>
@@ -43,7 +41,7 @@ function CartTable(props) {
                 {changingQuantity && <span>changing</span>}
                 <QuantityField
                   value={item.quantity}
-                  onBlur={(e) => setCartProductQuantity(item.key, e.target.value)}
+                  onBlur={(e) => dispatch(setCartProductQuantity(item.key, e.target.value))}
                   disabled={changingQuantity}
                   hasChanged={item.key === changingQuantity}
                 />
@@ -62,12 +60,4 @@ function CartTable(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  deletingProduct: state.cart.deletingProductKey,
-  changingQuantity: state.cart.changingQuantityKey,
-  total: selectCartTotalPrice(state)
-});
-
-const mapDispatchToProps = {deleteFromCart, setCartProductQuantity};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartTable);
+export default CartTable;

@@ -1,5 +1,5 @@
-import axios from "axios";
 import {call, put, takeEvery, select} from "redux-saga/effects";
+import {cartApi} from "app-data";
 import {
   CART_PAGE_LOAD,
   CART_ADD_PRODUCT,
@@ -15,7 +15,6 @@ import {
   deleteFromCartFail,
   deleteFromCartSuccess
 } from "./cartActions";
-import {ajaxEndpoint} from "../../shared/utilities";
 import {selectCartItems} from "./cartSelectors";
 import {ErrorMessage} from "../../shared/errorMessages";
 
@@ -35,7 +34,7 @@ export const cartSagas = function* () {
  */
 const loadCartPageSaga = function* (action) {
   const {payload: {url}} = action
-  const {data} = yield call(axios.get, url)
+  const {data} = yield call(cartApi.fetchCartPage, url)
   try {
     yield put(loadCartPageSuccess(data))
   } catch (error) {
@@ -57,12 +56,8 @@ const addToCartSaga = function* (action) {
     return;
   }
 
-  const params = new FormData();
-  params.set("productId", productId);
-  params.set("quantity", quantity);
-
   try {
-    const response = yield call(axios.post, ajaxEndpoint("rewooc_add_to_cart"), params)
+    const response = yield call(cartApi.addToCart, productId, quantity)
     const {success, data} = response.data;
     if (success && data) {
       yield put(addToCartSuccess(data));
@@ -86,12 +81,8 @@ const setCartProductQuantitySaga = function* (action) {
     return;
   }
 
-  const data = new FormData();
-  data.set("productKey", productKey);
-  data.set("quantity", quantity);
-
   yield put(setCartProductQuantityStart(productKey));
-  const response = yield call(axios.post, ajaxEndpoint("rewooc_set_cat_product_quantity"), data)
+  const response = yield call(cartApi.setProductQuantity, productKey, quantity)
   try {
     const {success, data} = response.data;
     if (success && data) {
@@ -111,11 +102,8 @@ const setCartProductQuantitySaga = function* (action) {
 const deleteFromCartSaga = function* (action) {
   const {payload: {productKey}} = action
 
-  const data = new FormData();
-  data.set("productKey", productKey);
-
   try {
-    const response = yield call(axios.post, ajaxEndpoint("rewooc_delete_from_cart"), data)
+    const response = yield call(cartApi.deleteProductFromCart, productKey)
     if (response.data.success) {
       yield put(deleteFromCartSuccess(productKey));
     } else {
