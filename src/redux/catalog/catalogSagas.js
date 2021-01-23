@@ -1,6 +1,6 @@
 import {CATALOG_PAGE_LOAD, loadCatalogPageSuccess, loadCatalogPageFail} from "./catalogActions";
 import {call, put, takeEvery} from "redux-saga/effects";
-import axios from "axios";
+import {fetchCatalogPage} from "app-data";
 
 export const catalogSagas = function* () {
   yield takeEvery(CATALOG_PAGE_LOAD, loadCatalogPageSaga)
@@ -8,7 +8,7 @@ export const catalogSagas = function* () {
 
 const loadCatalogPageSaga = function* (action) {
   const {payload: {url}} = action
-  const {data} = yield call(axios.get, url)
+  const {data} = yield call(fetchCatalogPage, url)
   try {
     yield put(loadCatalogPageSuccess(data))
   } catch (error) {

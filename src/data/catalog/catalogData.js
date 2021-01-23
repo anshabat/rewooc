@@ -6,3 +6,7 @@ export const searchProducts = (term, limit) => {
     params: {term, limit}
   })
 }
+
+export const fetchCatalogPage = (url) => {
+  return instance.get(url)
+}
