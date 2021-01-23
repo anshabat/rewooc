@@ -35,16 +35,15 @@ const formatPrice = (options, value) => {
   });
 };
 
-const withPriceFormat = (InitialComponent) => {
-  return props => {
-    const {price} = useContext(AppContext);
-    return (
-      <InitialComponent
-        {...props}
-        formatPrice={value => formatPrice(price, value)}
-      />
-    )
-  };
-};
+// eslint-disable-next-line react/display-name
+const withPriceFormat = (InitialComponent) => props => {
+  const {price} = useContext(AppContext);
+  return (
+    <InitialComponent
+      {...props}
+      formatPrice={value => formatPrice(price, value)}
+    />
+  )
+}
 
 export default withPriceFormat;
