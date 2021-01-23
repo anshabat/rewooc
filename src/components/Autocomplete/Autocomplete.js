@@ -1,9 +1,8 @@
 import "./Autocomplete.scss";
 import React, {Component} from "react";
-import axios from "axios";
+import {searchProducts} from "app-data";
 import AutocompleteResults from "./AutocompleteResults/AutocompleteResults";
 import AutocompleteField from "./AutocompleteField/AutocompleteField";
-import {ajaxEndpoint} from "../../shared/utilities";
 
 class Autocomplete extends Component {
   constructor(props) {
@@ -27,13 +26,8 @@ class Autocomplete extends Component {
   }
 
   getItems(e) {
-    axios.get(ajaxEndpoint("rewooc_search_products"), {
-      params: {
-        "term": e.target.value,
-        "limit": this.props.limit
-      }
-    }).then(response => {
-      this.setState({posts: response.data});
+    searchProducts(e.target.value, this.props.limit).then(response => {
+      this.setState({posts: response.data})
     })
   }
 

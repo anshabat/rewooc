@@ -1,0 +1,1 @@
+export const wcAjax = (action) => `/?wc-ajax=${action}`
