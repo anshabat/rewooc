@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {fetchPageData} from "app-data";
+import {appApi} from "app-data";
 import ContentLoader from "../components/UI/loaders/ContentLoader/ContentLoader";
 
 const withPageData = (InnerComponent, url) => {
@@ -25,7 +25,7 @@ const withPageData = (InnerComponent, url) => {
 
     loadData() {
       const url = url ? url : window.location.pathname;
-      fetchPageData(url).then(({data}) => {
+      appApi.fetchPageData(url).then(({data}) => {
         this.setState({data});
       })
     }

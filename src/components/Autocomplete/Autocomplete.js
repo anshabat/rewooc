@@ -1,6 +1,6 @@
 import "./Autocomplete.scss";
 import React, {Component} from "react";
-import {searchProducts} from "app-data";
+import {catalogApi} from "app-data";
 import AutocompleteResults from "./AutocompleteResults/AutocompleteResults";
 import AutocompleteField from "./AutocompleteField/AutocompleteField";
 
@@ -26,7 +26,7 @@ class Autocomplete extends Component {
   }
 
   getItems(e) {
-    searchProducts(e.target.value, this.props.limit).then(response => {
+    catalogApi.searchProducts(e.target.value, this.props.limit).then(response => {
       this.setState({posts: response.data})
     })
   }

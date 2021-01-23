@@ -1,5 +1,5 @@
 import {call, put, takeEvery, select} from "redux-saga/effects";
-import {fetchCartPage, addToCart, setProductQuantity, deleteProductFromCart} from "app-data";
+import {cartApi} from "app-data";
 import {
   CART_PAGE_LOAD,
   CART_ADD_PRODUCT,
@@ -34,7 +34,7 @@ export const cartSagas = function* () {
  */
 const loadCartPageSaga = function* (action) {
   const {payload: {url}} = action
-  const {data} = yield call(fetchCartPage, url)
+  const {data} = yield call(cartApi.fetchCartPage, url)
   try {
     yield put(loadCartPageSuccess(data))
   } catch (error) {
@@ -57,7 +57,7 @@ const addToCartSaga = function* (action) {
   }
 
   try {
-    const response = yield call(addToCart, productId, quantity)
+    const response = yield call(cartApi.addToCart, productId, quantity)
     const {success, data} = response.data;
     if (success && data) {
       yield put(addToCartSuccess(data));
@@ -82,7 +82,7 @@ const setCartProductQuantitySaga = function* (action) {
   }
 
   yield put(setCartProductQuantityStart(productKey));
-  const response = yield call(setProductQuantity, productKey, quantity)
+  const response = yield call(cartApi.setProductQuantity, productKey, quantity)
   try {
     const {success, data} = response.data;
     if (success && data) {
@@ -103,7 +103,7 @@ const deleteFromCartSaga = function* (action) {
   const {payload: {productKey}} = action
 
   try {
-    const response = yield call(deleteProductFromCart, productKey)
+    const response = yield call(cartApi.deleteProductFromCart, productKey)
     if (response.data.success) {
       yield put(deleteFromCartSuccess(productKey));
     } else {

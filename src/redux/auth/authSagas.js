@@ -1,4 +1,5 @@
 import {put, call, takeEvery} from 'redux-saga/effects'
+import {authApi} from "app-data";
 import {
   AUTH_CHECK_AUTH,
   AUTH_SIGN_IN,
@@ -12,7 +13,6 @@ import {
 } from "./authActions";
 import {ErrorMessage} from "../../shared/errorMessages";
 import {initApp} from "../app/appActions";
-import {fetchCurrentUser} from "app-data";
 
 export const authSagas = function* () {
   yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
@@ -33,7 +33,7 @@ const checkAuthSaga = function* () {
 const signInSaga = function* (action) {
   const {payload: {username, password}} = action
   try {
-    const result = yield call(fetchCurrentUser, username, password)
+    const result = yield call(authApi.fetchCurrentUser, username, password)
     const {success, data: token} = result.data;
 
     if (success && token) {
