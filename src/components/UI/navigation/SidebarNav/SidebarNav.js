@@ -1,8 +1,8 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-const SidebarNav = props => {
-  const {items} = props;
+const SidebarNav = (props) => {
+  const { items } = props
   return (
     <ul className="rw-sidebar-nav">
       {items.map((item, index) => {
@@ -13,7 +13,7 @@ const SidebarNav = props => {
         )
       })}
     </ul>
-  );
-};
+  )
+}
 
-export default SidebarNav;
+export default SidebarNav

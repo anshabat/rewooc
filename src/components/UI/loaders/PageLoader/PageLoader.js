@@ -1,13 +1,13 @@
-import "./PageLoader.scss";
-import React from "react";
-import Loader from "../Loader/Loader";
+import './PageLoader.scss'
+import React from 'react'
+import Loader from '../Loader/Loader'
 
 const PageLoader = () => {
   return (
     <div className="rw-page-loader">
-      <Loader/>
+      <Loader />
     </div>
-  );
-};
+  )
+}
 
-export default PageLoader;
+export default PageLoader

@@ -1,5 +1,5 @@
-import {instance} from "../instance";
-import {pageUrl, wcAjax} from "../endpoints";
+import { instance } from '../instance'
+import { pageUrl, wcAjax } from '../endpoints'
 
 export default {
   fetchPageData: (url) => {
@@ -7,5 +7,5 @@ export default {
   },
   fetchGeneralData: () => {
     return instance.get(wcAjax('rewooc_get_common_data'))
-  }
+  },
 }

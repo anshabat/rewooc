@@ -1,22 +1,23 @@
-import "./Button.scss";
-import React from "react";
+import './Button.scss'
+import React from 'react'
 
 const Button = (props) => {
-
   const {
-    size = "md",
-    color = "secondary",
-    className = "",
+    size = 'md',
+    color = 'secondary',
+    className = '',
     children,
     ...restProps
-  } = props;
+  } = props
 
   return (
     <button
-      className={`pc-button pc-button--${size} pc-button--${color} ${className}`.trim()} {...restProps}>
+      className={`pc-button pc-button--${size} pc-button--${color} ${className}`.trim()}
+      {...restProps}
+    >
       <span>{children}</span>
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

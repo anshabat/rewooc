@@ -2,7 +2,6 @@
   --active-link-color: #eee;
 
   &__item {
-
   }
 
   &__link {
@@ -23,5 +22,4 @@
   &__item--active &__link {
     background-color: var(--active-link-color);
   }
-
 }

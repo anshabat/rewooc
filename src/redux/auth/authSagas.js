@@ -1,5 +1,5 @@
-import {put, call, takeEvery} from 'redux-saga/effects'
-import {authApi} from "app-data";
+import { put, call, takeEvery } from 'redux-saga/effects'
+import { authApi } from 'app-data'
 import {
   AUTH_CHECK_AUTH,
   AUTH_SIGN_IN,
@@ -9,10 +9,10 @@ import {
   signOut,
   signOutSuccess,
   signInFail,
-  signInSuccess
-} from "./authActions";
-import {ErrorMessage} from "../../shared/errorMessages";
-import {initApp} from "../app/appActions";
+  signInSuccess,
+} from './authActions'
+import { ErrorMessage } from '../../shared/errorMessages'
+import { initApp } from '../app/appActions'
 
 export const authSagas = function* () {
   yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
@@ -22,36 +22,38 @@ export const authSagas = function* () {
 }
 
 const checkAuthSaga = function* () {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token')
   if (!token) {
-    yield put(signOut());
+    yield put(signOut())
   } else {
-    yield put(signInSuccess());
+    yield put(signInSuccess())
   }
 }
 
 const signInSaga = function* (action) {
-  const {payload: {username, password}} = action
+  const {
+    payload: { username, password },
+  } = action
   try {
     const result = yield call(authApi.fetchCurrentUser, username, password)
-    const {success, data: token} = result.data;
+    const { success, data: token } = result.data
 
     if (success && token) {
-      localStorage.setItem("token", token);
-      yield put(signInSuccess());
+      localStorage.setItem('token', token)
+      yield put(signInSuccess())
     } else {
-      throw new Error(ErrorMessage.USER_FAIL_TO_SIGN_IN);
+      throw new Error(ErrorMessage.USER_FAIL_TO_SIGN_IN)
     }
   } catch (error) {
-    yield put(signInFail(error));
+    yield put(signInFail(error))
   }
 }
 
 const signOutSaga = function* () {
-  localStorage.removeItem("token");
-  yield put(signOutSuccess());
+  localStorage.removeItem('token')
+  yield put(signOutSuccess())
 }
 
 const reloadAppSaga = function* () {
-  yield put(initApp());
+  yield put(initApp())
 }

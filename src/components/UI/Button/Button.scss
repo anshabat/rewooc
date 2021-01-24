@@ -14,7 +14,7 @@
   white-space: nowrap;
   transition: background-color 1.5s;
 
-  & > *{
+  & > * {
     position: relative;
   }
 
@@ -43,18 +43,20 @@
 
   /* Sizes modifiers */
   &--lg {
-    padding: calc(var(--button-size-lg)*var(--button-size-ratio)) var(--button-size-lg);
+    padding: calc(var(--button-size-lg) * var(--button-size-ratio))
+      var(--button-size-lg);
     font-size: 1.25rem;
   }
   &--md {
-    padding: calc(var(--button-size-md)*var(--button-size-ratio)) var(--button-size-md);
+    padding: calc(var(--button-size-md) * var(--button-size-ratio))
+      var(--button-size-md);
     font-size: 1rem;
   }
   &--sm {
-    padding: calc(var(--button-size-sm)*var(--button-size-ratio)) var(--button-size-sm);
+    padding: calc(var(--button-size-sm) * var(--button-size-ratio))
+      var(--button-size-sm);
     font-size: 0.875rem;
   }
-
 
   /* Color modifiers */
   &--secondary {

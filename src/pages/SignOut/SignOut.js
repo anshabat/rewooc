@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
-import {Redirect} from "react-router";
-import {useDispatch} from "react-redux";
-import {signOut} from "../../redux/auth/authActions";
+import React, { useEffect } from 'react'
+import { Redirect } from 'react-router'
+import { useDispatch } from 'react-redux'
+import { signOut } from '../../redux/auth/authActions'
 
 const SignOut = () => {
   const dispatch = useDispatch()
@@ -10,7 +10,7 @@ const SignOut = () => {
     dispatch(signOut())
   }, [])
 
-  return <Redirect to="/"/>
+  return <Redirect to="/" />
 }
 
 export default SignOut

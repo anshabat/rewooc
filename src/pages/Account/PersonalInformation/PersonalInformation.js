@@ -1,9 +1,9 @@
-import React from "react";
-import {useSelector} from 'react-redux';
-import {selectAccountUser} from "../../../redux/account/accountSelector";
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { selectAccountUser } from '../../../redux/account/accountSelector'
 
 function PersonalInformation() {
-  const user = useSelector(selectAccountUser);
+  const user = useSelector(selectAccountUser)
 
   return (
     <div>
@@ -13,4 +13,4 @@ function PersonalInformation() {
   )
 }
 
-export default PersonalInformation;
+export default PersonalInformation

@@ -1,6 +1,6 @@
-import "./AutocompleteField.scss";
-import React from "react";
-import Button from "../../UI/Button/Button";
+import './AutocompleteField.scss'
+import React from 'react'
+import Button from '../../UI/Button/Button'
 
 const AutocompleteField = (props) => {
   return (
@@ -16,9 +16,11 @@ const AutocompleteField = (props) => {
         className="rw-autocomplete-field__button"
         size="md"
         color="secondary"
-      >Search</Button>
+      >
+        Search
+      </Button>
     </div>
-  );
-};
+  )
+}
 
-export default AutocompleteField;
+export default AutocompleteField
