@@ -6,10 +6,9 @@ export const initApp = () => {
   return { type: INIT_APP }
 }
 
-export const initAppSuccess = (data) => {
-  return { type: INIT_APP_SUCCESS, payload: data }
-}
+export const initAppSuccess = (data) => ({
+  type: INIT_APP_SUCCESS,
+  payload: data,
+})
 
-export const initAppFail = (error) => {
-  return { type: INIT_APP_FAIL, error }
-}
+export const initAppFail = (error) => ({ type: INIT_APP_FAIL, error })

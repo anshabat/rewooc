@@ -5,14 +5,14 @@ import {
   CATALOG_PAGE_LOAD_SUCCESS,
 } from './catalogActions'
 
-const initialState = Record({
+const InitialState = Record({
   title: '',
   loading: true,
   error: false,
   products: List([]),
 })
 
-const reducer = (state = new initialState(), action) => {
+const reducer = (state = new InitialState(), action) => {
   const { type, error, payload } = action
 
   switch (type) {

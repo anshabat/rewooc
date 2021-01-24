@@ -2,9 +2,7 @@ import { instance } from '../instance'
 import { wcAjax } from '../endpoints'
 
 export default {
-  fetchCartPage: (url) => {
-    return instance.get(url)
-  },
+  fetchCartPage: (url) => instance.get(url),
   addToCart: (productId, quantity) => {
     const params = new FormData()
     params.set('productId', productId)

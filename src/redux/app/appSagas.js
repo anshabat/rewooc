@@ -1,16 +1,16 @@
 import { appApi } from 'app-data'
-import { INIT_APP, initAppFail, initAppSuccess } from './appActions'
 import { call, put, takeEvery } from 'redux-saga/effects'
+import { INIT_APP, initAppFail, initAppSuccess } from './appActions'
 
-export const appSaga = function* () {
-  yield takeEvery(INIT_APP, initAppSaga)
-}
-
-const initAppSaga = function* () {
+function* initAppSaga() {
   const { data } = yield call(appApi.fetchGeneralData)
   try {
     yield put(initAppSuccess(data))
   } catch (error) {
     yield put(initAppFail(error))
   }
+}
+
+export function* appSaga() {
+  yield takeEvery(INIT_APP, initAppSaga)
 }

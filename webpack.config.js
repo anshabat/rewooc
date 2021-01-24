@@ -1,23 +1,23 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
-    publicPath: '/',
+    publicPath: '/'
   },
   stats: {
     entrypoints: false,
-    children: false,
+    children: false
   },
   module: {
     rules: [
       {
-        test: /\.js?$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: 'babel-loader'
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -25,8 +25,8 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
-          'postcss-loader',
-        ],
+          'postcss-loader'
+        ]
       },
       {
         test: /\.html$/,
@@ -34,37 +34,38 @@ module.exports = {
         use: [
           {
             loader: 'html-loader',
-            options: { minimize: false },
-          },
-        ],
+            options: { minimize: false }
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/,
         use: [
           {
             loader: 'file-loader',
-            options: { outputPath: 'fonts/', name: '[name].[ext]' },
-          },
-        ],
-      },
-    ],
+            options: { outputPath: 'fonts/', name: '[name].[ext]' }
+          }
+        ]
+      }
+    ]
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      favicon: './src/favicon.ico',
+      favicon: './src/favicon.ico'
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles.css',
+      filename: 'styles.css'
     }),
-    new CopyPlugin([{ from: './src/.htaccess' }]),
+    new CopyPlugin([{ from: './src/.htaccess' }])
   ],
   resolve: {
+    extensions: ['.js', '.jsx'],
     alias: {
-      'app-data': path.resolve(__dirname, 'src/data'),
-    },
-  },
-}
+      'app-data': path.resolve(__dirname, 'src/data')
+    }
+  }
+};

@@ -1,16 +1,12 @@
+import { call, put, takeEvery } from 'redux-saga/effects'
+import { catalogApi } from 'app-data'
 import {
   CATALOG_PAGE_LOAD,
   loadCatalogPageSuccess,
   loadCatalogPageFail,
 } from './catalogActions'
-import { call, put, takeEvery } from 'redux-saga/effects'
-import { catalogApi } from 'app-data'
 
-export const catalogSagas = function* () {
-  yield takeEvery(CATALOG_PAGE_LOAD, loadCatalogPageSaga)
-}
-
-const loadCatalogPageSaga = function* (action) {
+function* loadCatalogPageSaga(action) {
   const {
     payload: { url },
   } = action
@@ -20,4 +16,8 @@ const loadCatalogPageSaga = function* (action) {
   } catch (error) {
     yield put(loadCatalogPageFail(error))
   }
+}
+
+export function* catalogSagas() {
+  yield takeEvery(CATALOG_PAGE_LOAD, loadCatalogPageSaga)
 }

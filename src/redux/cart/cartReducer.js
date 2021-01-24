@@ -1,3 +1,4 @@
+import { fromJS, List, Record, Map } from 'immutable'
 import { INIT_APP_SUCCESS } from '../app/appActions'
 import {
   CART_ADD_PRODUCT,
@@ -13,87 +14,20 @@ import {
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
 } from './cartActions'
-import { fromJS, List, Record, Map } from 'immutable'
 
-export const initialState = Record({
-  title: null,
-  loading: true,
-  error: false,
-  products: List([]),
-  items: List([]),
-  addingProductId: null,
-  deletingProductKey: null,
-  changingQuantityKey: null,
-})
+const cartItemAdapter = (item) =>
+  Map({
+    key: item.get('key'),
+    productId: item.get('product_id'),
+    quantity: item.get('quantity'),
+    totalPrice: item.get('line_total'),
+  })
 
-export default function reducer(state = new initialState(), action) {
-  const { type, payload, error } = action
-  let items, products
+const getCartItems = (state, cart) =>
+  cart.toList().map((item) => cartItemAdapter(item))
 
-  switch (type) {
-    case INIT_APP_SUCCESS: {
-      const cart = fromJS(payload.cart)
-      items = getCartItems(state, cart)
-      products = getCartProducts(state, cart)
-      return state.set('items', items).set('products', products)
-    }
-    case CART_PAGE_LOAD:
-      return state.set('loading', true)
-    case CART_PAGE_LOAD_SUCCESS:
-      return state.set('loading', false).set('title', payload.title)
-    case CART_PAGE_LOAD_FAIL:
-      return state.set('loading', false).set('error', error)
-    case CART_ADD_PRODUCT:
-      return state.set('addingProductId', payload.productId)
-    case CART_ADD_PRODUCT_SUCCESS: {
-      const cartItem = fromJS(payload.cartItem)
-      items = addItem(state, cartItem)
-      products = addProduct(state, cartItem)
-      return state
-        .set('items', items)
-        .set('products', products)
-        .set('addingProductId', null)
-    }
-    case CART_ADD_PRODUCT_FAIL:
-      return state.set('addingProductId', null).set('error', error)
-    case CART_DELETE_PRODUCT:
-      return state.set('deletingProductKey', payload.productKey)
-    case CART_DELETE_PRODUCT_SUCCESS:
-      items = deleteItem(state, payload.productKey)
-      products = deleteProduct(state, payload.productKey)
-      return state
-        .set('items', items)
-        .set('products', products)
-        .set('deletingProductKey', null)
-    case CART_DELETE_PRODUCT_FAIL:
-      return state.set('deletingProductKey', null).set('error', error)
-    case CART_SET_PRODUCT_QUANTITY_START: {
-      const product = state.items.find(
-        (item) => item.get('key') === payload.productKey
-      )
-      return state
-        .set('changingQuantityKey', payload.productKey)
-        .set('addingProductId', product.get('productId'))
-    }
-    case CART_SET_PRODUCT_QUANTITY_SUCCESS:
-      items = changeQuantity(state, fromJS(payload.cartItem))
-      return state
-        .set('items', items)
-        .set('changingQuantityKey', null)
-        .set('addingProductId', null)
-    case CART_SET_PRODUCT_QUANTITY_FAIL:
-      return state.set('changingQuantityKey', null).set('error', error)
-    default:
-      return state
-  }
-}
-
-const getCartItems = (state, cart) => {
-  return cart.toList().map((item) => cartItemAdapter(item))
-}
-
-const getCartProducts = (state, cartItems) => {
-  return cartItems.toList().reduce((products, item) => {
+const getCartProducts = (state, cartItems) =>
+  cartItems.toList().reduce((products, item) => {
     const exist = products.find((p) => p.get('id') === item.get(['data', 'id']))
     if (!exist) {
       return products.push(item.get('data'))
@@ -101,7 +35,6 @@ const getCartProducts = (state, cartItems) => {
 
     return products
   }, List([]))
-}
 
 const addItem = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem)
@@ -123,9 +56,8 @@ const addProduct = (state, serverItem) => {
   return products
 }
 
-const deleteItem = (state, key) => {
-  return state.items.filter((item) => item.get('key') !== key)
-}
+const deleteItem = (state, key) =>
+  state.items.filter((item) => item.get('key') !== key)
 
 const deleteProduct = (state, key) => {
   const productId = state.items
@@ -153,18 +85,81 @@ const changeQuantity = (state, serverItem) => {
     (item) => item.get('key') === newItem.get('key')
   )
 
-  const newItems = items
+  return items
     .setIn([itemIndex, 'quantity'], newItem.get('quantity'))
     .setIn([itemIndex, 'totalPrice'], newItem.get('totalPrice'))
-
-  return newItems
 }
 
-const cartItemAdapter = (item) => {
-  return Map({
-    key: item.get('key'),
-    productId: item.get('product_id'),
-    quantity: item.get('quantity'),
-    totalPrice: item.get('line_total'),
-  })
+export const InitialState = Record({
+  title: null,
+  loading: true,
+  error: false,
+  products: List([]),
+  items: List([]),
+  addingProductId: null,
+  deletingProductKey: null,
+  changingQuantityKey: null,
+})
+
+export default function reducer(state = new InitialState(), action) {
+  const { type, payload, error } = action
+
+  switch (type) {
+    case INIT_APP_SUCCESS: {
+      const cart = fromJS(payload.cart)
+      const items = getCartItems(state, cart)
+      const products = getCartProducts(state, cart)
+      return state.set('items', items).set('products', products)
+    }
+    case CART_PAGE_LOAD:
+      return state.set('loading', true)
+    case CART_PAGE_LOAD_SUCCESS:
+      return state.set('loading', false).set('title', payload.title)
+    case CART_PAGE_LOAD_FAIL:
+      return state.set('loading', false).set('error', error)
+    case CART_ADD_PRODUCT:
+      return state.set('addingProductId', payload.productId)
+    case CART_ADD_PRODUCT_SUCCESS: {
+      const cartItem = fromJS(payload.cartItem)
+      const items = addItem(state, cartItem)
+      const products = addProduct(state, cartItem)
+      return state
+        .set('items', items)
+        .set('products', products)
+        .set('addingProductId', null)
+    }
+    case CART_ADD_PRODUCT_FAIL:
+      return state.set('addingProductId', null).set('error', error)
+    case CART_DELETE_PRODUCT:
+      return state.set('deletingProductKey', payload.productKey)
+    case CART_DELETE_PRODUCT_SUCCESS: {
+      const items = deleteItem(state, payload.productKey)
+      const products = deleteProduct(state, payload.productKey)
+      return state
+        .set('items', items)
+        .set('products', products)
+        .set('deletingProductKey', null)
+    }
+    case CART_DELETE_PRODUCT_FAIL:
+      return state.set('deletingProductKey', null).set('error', error)
+    case CART_SET_PRODUCT_QUANTITY_START: {
+      const product = state.items.find(
+        (item) => item.get('key') === payload.productKey
+      )
+      return state
+        .set('changingQuantityKey', payload.productKey)
+        .set('addingProductId', product.get('productId'))
+    }
+    case CART_SET_PRODUCT_QUANTITY_SUCCESS: {
+      const items = changeQuantity(state, fromJS(payload.cartItem))
+      return state
+        .set('items', items)
+        .set('changingQuantityKey', null)
+        .set('addingProductId', null)
+    }
+    case CART_SET_PRODUCT_QUANTITY_FAIL:
+      return state.set('changingQuantityKey', null).set('error', error)
+    default:
+      return state
+  }
 }

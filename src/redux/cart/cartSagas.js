@@ -21,20 +21,10 @@ import { selectCartItems } from './cartSelectors'
 import { ErrorMessage } from '../../shared/errorMessages'
 
 /**
- * All Cart Sagas
- */
-export const cartSagas = function* () {
-  yield takeEvery(CART_PAGE_LOAD, loadCartPageSaga)
-  yield takeEvery(CART_ADD_PRODUCT, addToCartSaga)
-  yield takeEvery(CART_SET_PRODUCT_QUANTITY, setCartProductQuantitySaga)
-  yield takeEvery(CART_DELETE_PRODUCT, deleteFromCartSaga)
-}
-
-/**
  * Load Cart Page Saga
  * @param action
  */
-const loadCartPageSaga = function* (action) {
+function* loadCartPageSaga(action) {
   const {
     payload: { url },
   } = action
@@ -50,14 +40,15 @@ const loadCartPageSaga = function* (action) {
  * Add To Cart Saga
  * @param action
  */
-const addToCartSaga = function* (action) {
+function* addToCartSaga(action) {
   const {
     payload: { productId, quantity },
   } = action
   const cartItems = yield select(selectCartItems)
   const itemInCart = cartItems.find((item) => item.productId === productId)
   if (itemInCart) {
-    const totalQuantity = parseInt(quantity) + parseInt(itemInCart.quantity)
+    const totalQuantity =
+      parseInt(quantity, 10) + parseInt(itemInCart.quantity, 10)
     yield put(setCartProductQuantity(itemInCart.key, totalQuantity))
     return
   }
@@ -79,12 +70,12 @@ const addToCartSaga = function* (action) {
  * Set Cart Product Quantity Saga
  * @param action
  */
-const setCartProductQuantitySaga = function* (action) {
+function* setCartProductQuantitySaga(action) {
   const {
     payload: { productKey, quantity },
   } = action
 
-  if (parseInt(quantity) === 0) {
+  if (parseInt(quantity, 10) === 0) {
     yield put(deleteFromCart(productKey))
     return
   }
@@ -107,7 +98,7 @@ const setCartProductQuantitySaga = function* (action) {
  * Delete From Cart Saga
  * @param action
  */
-const deleteFromCartSaga = function* (action) {
+function* deleteFromCartSaga(action) {
   const {
     payload: { productKey },
   } = action
@@ -122,4 +113,14 @@ const deleteFromCartSaga = function* (action) {
   } catch (error) {
     yield put(deleteFromCartFail(error))
   }
+}
+
+/**
+ * All Cart Sagas
+ */
+export function* cartSagas() {
+  yield takeEvery(CART_PAGE_LOAD, loadCartPageSaga)
+  yield takeEvery(CART_ADD_PRODUCT, addToCartSaga)
+  yield takeEvery(CART_SET_PRODUCT_QUANTITY, setCartProductQuantitySaga)
+  yield takeEvery(CART_DELETE_PRODUCT, deleteFromCartSaga)
 }

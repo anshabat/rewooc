@@ -14,14 +14,7 @@ import {
 import { ErrorMessage } from '../../shared/errorMessages'
 import { initApp } from '../app/appActions'
 
-export const authSagas = function* () {
-  yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
-  yield takeEvery(AUTH_SIGN_IN, signInSaga)
-  yield takeEvery(AUTH_SIGN_OUT, signOutSaga)
-  yield takeEvery([AUTH_SIGN_IN_SUCCESS, AUTH_SIGN_OUT_SUCCESS], reloadAppSaga)
-}
-
-const checkAuthSaga = function* () {
+function* checkAuthSaga() {
   const token = localStorage.getItem('token')
   if (!token) {
     yield put(signOut())
@@ -30,7 +23,7 @@ const checkAuthSaga = function* () {
   }
 }
 
-const signInSaga = function* (action) {
+function* signInSaga(action) {
   const {
     payload: { username, password },
   } = action
@@ -49,11 +42,18 @@ const signInSaga = function* (action) {
   }
 }
 
-const signOutSaga = function* () {
+function* signOutSaga() {
   localStorage.removeItem('token')
   yield put(signOutSuccess())
 }
 
-const reloadAppSaga = function* () {
+function* reloadAppSaga() {
   yield put(initApp())
+}
+
+export function* authSagas() {
+  yield takeEvery(AUTH_CHECK_AUTH, checkAuthSaga)
+  yield takeEvery(AUTH_SIGN_IN, signInSaga)
+  yield takeEvery(AUTH_SIGN_OUT, signOutSaga)
+  yield takeEvery([AUTH_SIGN_IN_SUCCESS, AUTH_SIGN_OUT_SUCCESS], reloadAppSaga)
 }

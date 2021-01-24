@@ -6,12 +6,12 @@ import {
   AUTH_SIGN_OUT_SUCCESS,
 } from './authActions'
 
-const initialState = Record({
+const InitialState = Record({
   loading: false,
   error: false,
 })
 
-const reducer = (state = new initialState(), action) => {
+const reducer = (state = new InitialState(), action) => {
   const { type, error } = action
 
   switch (type) {

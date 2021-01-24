@@ -18,22 +18,18 @@ export const debounce = (callback, delay = 300) => {
   }
 }
 
-export const removeTrailingSlash = (str) => {
-  return str.endsWith('/') ? removeTrailingSlash(str.slice(0, -1)) : str
-}
+export const removeTrailingSlash = (str) =>
+  str.endsWith('/') ? removeTrailingSlash(str.slice(0, -1)) : str
 
 export const siteUrl = (url) => {
-  let urlPath = url.replace(Config.apiUrl, '')
+  const urlPath = url.replace(Config.apiUrl, '')
 
   return urlPath[0] === '/' || urlPath.startsWith('http')
     ? urlPath
-    : '/' + urlPath
+    : `/${urlPath}`
 }
 
-export const apiUrl = (url = '') => {
-  return removeTrailingSlash(Config.apiUrl + url) + '/'
-}
+export const apiUrl = (url = '') =>
+  `${removeTrailingSlash(Config.apiUrl + url)}/`
 
-export const ajaxEndpoint = (action) => {
-  return `${Config.apiUrl}/?wc-ajax=${action}`
-}
+export const ajaxEndpoint = (action) => `${Config.apiUrl}/?wc-ajax=${action}`

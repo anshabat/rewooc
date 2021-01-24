@@ -9,6 +9,7 @@ instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
     if (token) {
+      // eslint-disable-next-line no-param-reassign
       config.headers.Authorization = localStorage.getItem('token')
     }
     return config

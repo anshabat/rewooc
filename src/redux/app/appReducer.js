@@ -1,13 +1,20 @@
-import { INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS } from './appActions'
 import { Record, Map } from 'immutable'
+import { INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS } from './appActions'
 
-const initialState = Record({
+const InitialState = Record({
   data: Map({}),
   loading: true,
   error: false,
 })
 
-const reducer = (state = new initialState(), action) => {
+const filterState = (data) => {
+  // TODO eslint this
+  // eslint-disable-next-line no-unused-vars
+  const { cart, user, ...rest } = data
+  return rest
+}
+
+const reducer = (state = new InitialState(), action) => {
   const { type, error, payload } = action
 
   switch (type) {
@@ -22,13 +29,6 @@ const reducer = (state = new initialState(), action) => {
     default:
       return state
   }
-}
-
-const filterState = (data) => {
-  // TODO eslint this
-  // eslint-disable-next-line no-unused-vars
-  const { cart, user, ...rest } = data
-  return rest
 }
 
 export default reducer

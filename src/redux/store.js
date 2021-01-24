@@ -14,26 +14,23 @@ import { cartSagas } from './cart/cartSagas'
 import { catalogSagas } from './catalog/catalogSagas'
 import { authSagas } from './auth/authSagas'
 
-const rootReducer = (history) =>
-  combineReducers({
-    router: connectRouter(history),
-    app,
-    cart,
-    catalog,
-    auth,
-    account,
-    test: (state = {}) => {
-      return { ...state }
-    },
-  })
+const rootReducer = combineReducers({
+  router: connectRouter(history),
+  app,
+  cart,
+  catalog,
+  auth,
+  account,
+  test: (state = {}) => ({ ...state }),
+})
 
-const rootSaga = function* () {
+function* rootSaga() {
   yield all([appSaga(), cartSagas(), catalogSagas(), authSagas()])
 }
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
-  rootReducer(history),
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(routerMiddleware(history), sagaMiddleware)
   )

@@ -1,11 +1,11 @@
 import { Record } from 'immutable'
 import { INIT_APP_SUCCESS } from '../app/appActions'
 
-const initialState = Record({
+const InitialState = Record({
   user: null,
 })
 
-const reducer = (state = new initialState(), action) => {
+const reducer = (state = new InitialState(), action) => {
   const { type, payload } = action
 
   switch (type) {
