@@ -6,6 +6,7 @@
     "watch": "webpack --watch --mode=development",
     "start": "webpack-dev-server",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/ --color",
+    "lint:css": "stylelint src/**/*.scss --color",
     "format": "prettier src/ --write",
     "format:check": "prettier src/ --list-different"
   },
@@ -53,6 +54,8 @@
     "postcss-loader": "^4.1.0",
     "prettier": "^2.2.1",
     "sass-loader": "^10.1.0",
+    "stylelint": "^13.9.0",
+    "stylelint-config-sass-guidelines": "^7.1.0",
     "webpack": "^5.12.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
