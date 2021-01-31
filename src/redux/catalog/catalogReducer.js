@@ -1,30 +1,33 @@
-import {Record, List} from 'immutable';
-import {CATALOG_PAGE_LOAD_FAIL, CATALOG_PAGE_LOAD, CATALOG_PAGE_LOAD_SUCCESS} from './catalogActions';
+import { Record, List } from 'immutable'
+import {
+  CATALOG_PAGE_LOAD_FAIL,
+  CATALOG_PAGE_LOAD,
+  CATALOG_PAGE_LOAD_SUCCESS,
+} from './catalogActions'
 
-
-const initialState = Record({
+const InitialState = Record({
   title: '',
   loading: true,
   error: false,
-  products: List([])
-});
+  products: List([]),
+})
 
-const reducer = (state = new initialState(), action) => {
-  const {type, error, payload} = action;
+const reducer = (state = new InitialState(), action) => {
+  const { type, error, payload } = action
 
   switch (type) {
     case CATALOG_PAGE_LOAD:
-      return state.set('loading', true).set('error', false);
+      return state.set('loading', true).set('error', false)
     case CATALOG_PAGE_LOAD_SUCCESS:
       return state
         .set('loading', false)
         .set('error', false)
         .set('products', List(payload.products))
-        .set('title', payload.title);
+        .set('title', payload.title)
     case CATALOG_PAGE_LOAD_FAIL:
-      return state.set('loading', false).set('error', error);
+      return state.set('loading', false).set('error', error)
     default:
-      return state;
+      return state
   }
-};
+}
 export default reducer
