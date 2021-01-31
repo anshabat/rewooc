@@ -5,20 +5,14 @@
     box-shadow: 0 -2px 8px var(--color-gray);
   }
 
-  &__header {
-  }
-
   &__main-banner {
-    background-color: lightgreen;
+    background-color: #90ee90;
     padding: 10px 0;
     text-align: center;
   }
 
-  &__main {
-  }
-
   &__footer {
     height: 300px;
-    background-color: lightblue;
+    background-color: #add8e6;
   }
 }

@@ -24,6 +24,8 @@
     &.pc-button {
       border-radius: var(--search-form-border-radius);
 
+      // TODO fix lint
+      /* stylelint-disable-next-line max-nesting-depth */
       &::before {
         border-radius: var(--search-form-border-radius);
       }

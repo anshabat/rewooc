@@ -1,9 +1,6 @@
 .rw-autocomplete-results {
   --active-link-color: #eee;
 
-  &__item {
-  }
-
   &__link {
     display: block;
     padding: 15px;
@@ -15,7 +12,7 @@
     }
 
     &:focus {
-      background-color: red;
+      background-color: #f00;
     }
   }
 

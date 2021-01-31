@@ -14,7 +14,7 @@
   white-space: nowrap;
   transition: background-color 1.5s;
 
-  & > * {
+  > * {
     position: relative;
   }
 
@@ -47,11 +47,13 @@
       var(--button-size-lg);
     font-size: 1.25rem;
   }
+
   &--md {
     padding: calc(var(--button-size-md) * var(--button-size-ratio))
       var(--button-size-md);
     font-size: 1rem;
   }
+
   &--sm {
     padding: calc(var(--button-size-sm) * var(--button-size-ratio))
       var(--button-size-sm);
