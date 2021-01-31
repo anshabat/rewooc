@@ -1,20 +1,25 @@
-import { Record, Map } from 'immutable'
+import { Record, Map, List } from 'immutable'
 import { INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS } from './appActions'
 
-const InitialState = Record({
+const filterState = (data) => {
+  // TODO eslint this
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { cart, user, ...rest } = data
+  return rest
+}
+
+export interface IAppState {
+  data: Map<string, any>
+  loading: boolean
+  error: boolean
+}
+const InitialState = Record<IAppState>({
   data: Map({}),
   loading: true,
   error: false,
 })
 
-const filterState = (data) => {
-  // TODO eslint this
-  // eslint-disable-next-line no-unused-vars
-  const { cart, user, ...rest } = data
-  return rest
-}
-
-const reducer = (state = new InitialState(), action) => {
+const reducer = (state = new InitialState(), action): IAppState => {
   const { type, error, payload } = action
 
   switch (type) {

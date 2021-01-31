@@ -23,6 +23,7 @@ const rootReducer = combineReducers({
   account,
   test: (state: any = {}) => ({ ...state }),
 })
+export type AppStateType = ReturnType<typeof rootReducer>
 
 function* rootSaga() {
   yield all([appSaga(), cartSagas(), catalogSagas(), authSagas()])

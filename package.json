@@ -9,7 +9,7 @@
     "lint:css": "stylelint src/**/*.scss --color",
     "format": "prettier src/ --write",
     "format:check": "prettier src/ --list-different",
-    "ts": "tsc --pretty"
+    "ts": "tsc --pretty --noEmit"
   },
   "browserslist": [
     "last 2 versions"

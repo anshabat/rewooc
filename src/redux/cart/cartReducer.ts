@@ -90,7 +90,36 @@ const changeQuantity = (state, serverItem) => {
     .setIn([itemIndex, 'totalPrice'], newItem.get('totalPrice'))
 }
 
-export const InitialState = Record({
+interface IProduct extends Map<string, any> {
+  addToCartUrl: string
+  getStockQuantity: null | number
+  id: number
+  images: any
+  isSoldIndividually: boolean
+  link: string
+  price: number
+  title: string
+}
+
+interface ICartItem extends Map<string, any> {
+  key: string
+  productId: number
+  quantity: number
+  totalPrice: number
+}
+
+interface IInitialState {
+  title: null | string
+  loading: boolean
+  error: boolean
+  products: List<IProduct>
+  items: List<ICartItem>
+  addingProductId: null | number
+  deletingProductKey: null | string
+  changingQuantityKey: null | string
+}
+
+export const InitialState = Record<IInitialState>({
   title: null,
   loading: true,
   error: false,
@@ -101,7 +130,10 @@ export const InitialState = Record({
   changingQuantityKey: null,
 })
 
-export default function reducer(state = new InitialState(), action) {
+export default function reducer(
+  state = new InitialState(),
+  action
+): IInitialState {
   const { type, payload, error } = action
 
   switch (type) {
@@ -143,12 +175,14 @@ export default function reducer(state = new InitialState(), action) {
     case CART_DELETE_PRODUCT_FAIL:
       return state.set('deletingProductKey', null).set('error', error)
     case CART_SET_PRODUCT_QUANTITY_START: {
-      const product = state.items.find(
+      const currentItem = state.items.find(
         (item) => item.get('key') === payload.productKey
       )
-      return state
-        .set('changingQuantityKey', payload.productKey)
-        .set('addingProductId', product.get('productId'))
+      return currentItem
+        ? state
+            .set('changingQuantityKey', payload.productKey)
+            .set('addingProductId', currentItem.get('productId'))
+        : state
     }
     case CART_SET_PRODUCT_QUANTITY_SUCCESS: {
       const items = changeQuantity(state, fromJS(payload.cartItem))

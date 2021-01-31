@@ -6,9 +6,15 @@ import Root from './pages/Root'
 import { checkAuth } from './redux/auth/authActions'
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader'
 import { AppProvider } from './context/appContext'
+import { AppStateType } from './redux/store'
+import { IAppState } from './redux/app/appReducer'
 
-interface StateProps {app: any}
-interface DispatchProps {checkAuthAction: () => any}
+interface StateProps {
+  app: IAppState
+}
+interface DispatchProps {
+  checkAuthAction: () => any
+}
 type Props = StateProps & DispatchProps
 
 class App extends Component<Props> {
@@ -34,7 +40,10 @@ class App extends Component<Props> {
   }
 }
 
-const mapStateToProps = ({ app }) => ({ app })
+const mapStateToProps = (state: AppStateType) => ({ app: state.app })
 const mapDispatchToProps = { checkAuthAction: checkAuth }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect<StateProps, DispatchProps, any, AppStateType>(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
