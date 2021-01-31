@@ -1,8 +1,9 @@
 {
   "include": ["src/**/*"],
   "compilerOptions": {
-    "jsx": "preserve",
-    "noEmit": true,
+    "jsx": "react",
+    "target": "es5",
+    "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
     // TODO remove after renaming all to .ts
