@@ -4,6 +4,8 @@
     "jsx": "preserve",
     "noEmit": true,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    // TODO remove after renaming all to .ts
+    "noImplicitAny": false
   }
 }
