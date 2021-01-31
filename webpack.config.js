@@ -57,6 +57,7 @@ module.exports = {
       template: './src/index.html',
       favicon: './src/favicon.ico'
     }),
+    // TODO fix autoprefixer 10-th version compile bug
     new MiniCssExtractPlugin({
       filename: 'styles.css'
     }),

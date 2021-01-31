@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   catalog,
   auth,
   account,
-  test: (state = {}) => ({ ...state }),
+  test: (state: any = {}) => ({ ...state }),
 })
 
 function* rootSaga() {

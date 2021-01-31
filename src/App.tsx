@@ -7,7 +7,11 @@ import { checkAuth } from './redux/auth/authActions'
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader'
 import { AppProvider } from './context/appContext'
 
-class App extends Component {
+interface StateProps {app: any}
+interface DispatchProps {checkAuthAction: () => any}
+type Props = StateProps & DispatchProps
+
+class App extends Component<Props> {
   componentDidMount() {
     const { checkAuthAction } = this.props
     checkAuthAction()
