@@ -1,18 +1,28 @@
-import { Record, List } from 'immutable'
+import { Record, List, Map } from 'immutable'
+import { IProduct } from 'app-types'
 import {
   CATALOG_PAGE_LOAD_FAIL,
   CATALOG_PAGE_LOAD,
   CATALOG_PAGE_LOAD_SUCCESS,
 } from './catalogActions'
 
-const InitialState = Record({
+interface IImmutableProduct extends IProduct, Map<string, any> {}
+
+interface ICatalogState {
+  title: string
+  loading: boolean
+  error: boolean
+  products: List<IImmutableProduct>
+}
+
+const InitialState = Record<ICatalogState>({
   title: '',
   loading: true,
   error: false,
   products: List([]),
 })
 
-const reducer = (state = new InitialState(), action) => {
+const reducer = (state = new InitialState(), action): ICatalogState => {
   const { type, error, payload } = action
 
   switch (type) {

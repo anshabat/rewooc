@@ -6,12 +6,17 @@ import {
   AUTH_SIGN_OUT_SUCCESS,
 } from './authActions'
 
-const InitialState = Record({
+interface IAuthState {
+  loading: boolean
+  error: boolean
+}
+
+const InitialState = Record<IAuthState>({
   loading: false,
   error: false,
 })
 
-const reducer = (state = new InitialState(), action) => {
+const reducer = (state = new InitialState(), action): IAuthState => {
   const { type, error } = action
 
   switch (type) {

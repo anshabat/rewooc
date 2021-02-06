@@ -1,4 +1,5 @@
 import { fromJS, List, Record, Map } from 'immutable'
+import { IProduct } from "app-types";
 import { INIT_APP_SUCCESS } from '../app/appActions'
 import {
   CART_ADD_PRODUCT,
@@ -23,11 +24,12 @@ const cartItemAdapter = (item) =>
     totalPrice: item.get('line_total'),
   })
 
-const getCartItems = (state, cart) =>
-  cart.toList().map((item) => cartItemAdapter(item))
+const getCartItems = (state, cart) => {
+  return cart.toList().map((item) => cartItemAdapter(item))
+}
 
-const getCartProducts = (state, cartItems) =>
-  cartItems.toList().reduce((products, item) => {
+const getCartProducts = (state, cartItems) => {
+  return cartItems.toList().reduce((products, item) => {
     const exist = products.find((p) => p.get('id') === item.get(['data', 'id']))
     if (!exist) {
       return products.push(item.get('data'))
@@ -35,6 +37,7 @@ const getCartProducts = (state, cartItems) =>
 
     return products
   }, List([]))
+}
 
 const addItem = (state, serverItem) => {
   const newItem = cartItemAdapter(serverItem)
@@ -90,16 +93,7 @@ const changeQuantity = (state, serverItem) => {
     .setIn([itemIndex, 'totalPrice'], newItem.get('totalPrice'))
 }
 
-interface IProduct extends Map<string, any> {
-  addToCartUrl: string
-  getStockQuantity: null | number
-  id: number
-  images: any
-  isSoldIndividually: boolean
-  link: string
-  price: number
-  title: string
-}
+interface IImmutableProduct extends IProduct, Map<string, any> {}
 
 interface ICartItem extends Map<string, any> {
   key: string
@@ -108,18 +102,18 @@ interface ICartItem extends Map<string, any> {
   totalPrice: number
 }
 
-interface IInitialState {
+export interface ICartState {
   title: null | string
   loading: boolean
   error: boolean
-  products: List<IProduct>
+  products: List<IImmutableProduct>
   items: List<ICartItem>
   addingProductId: null | number
   deletingProductKey: null | string
   changingQuantityKey: null | string
 }
 
-export const InitialState = Record<IInitialState>({
+export const InitialState = Record<ICartState>({
   title: null,
   loading: true,
   error: false,
@@ -133,7 +127,7 @@ export const InitialState = Record<IInitialState>({
 export default function reducer(
   state = new InitialState(),
   action
-): IInitialState {
+): ICartState {
   const { type, payload, error } = action
 
   switch (type) {

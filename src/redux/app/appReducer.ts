@@ -1,4 +1,4 @@
-import { Record, Map, List } from 'immutable'
+import { Record, Map } from 'immutable'
 import { INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS } from './appActions'
 
 const filterState = (data) => {
@@ -13,6 +13,7 @@ export interface IAppState {
   loading: boolean
   error: boolean
 }
+
 const InitialState = Record<IAppState>({
   data: Map({}),
   loading: true,
