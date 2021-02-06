@@ -2,11 +2,11 @@ import {
   CATALOG_PAGE_LOAD,
   CATALOG_PAGE_LOAD_FAIL,
   CATALOG_PAGE_LOAD_SUCCESS,
-  CatalogActionType,
+  CatalogActionTypes,
   ICatalogPage,
 } from './catalogTypes'
 
-export const loadCatalogPage = (url: string): CatalogActionType => {
+export const loadCatalogPage = (url: string): CatalogActionTypes => {
   return {
     type: CATALOG_PAGE_LOAD,
     payload: { url },
@@ -15,7 +15,7 @@ export const loadCatalogPage = (url: string): CatalogActionType => {
 
 export const loadCatalogPageSuccess = (
   data: ICatalogPage
-): CatalogActionType => {
+): CatalogActionTypes => {
   return {
     type: CATALOG_PAGE_LOAD_SUCCESS,
     payload: {
@@ -25,7 +25,7 @@ export const loadCatalogPageSuccess = (
   }
 }
 
-export const loadCatalogPageFail = (error: Error): CatalogActionType => ({
+export const loadCatalogPageFail = (error: Error): CatalogActionTypes => ({
   type: CATALOG_PAGE_LOAD_FAIL,
   error,
 })

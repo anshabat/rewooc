@@ -1,17 +1,15 @@
 import { IProduct } from 'app-types'
-import { List, Map } from 'immutable'
+import { List } from 'immutable'
 
 export const CATALOG_PAGE_LOAD = 'CATALOG_PAGE_LOAD'
 export const CATALOG_PAGE_LOAD_SUCCESS = 'CATALOG_PAGE_LOAD_SUCCESS'
 export const CATALOG_PAGE_LOAD_FAIL = 'CATALOG_PAGE_LOAD_FAIL'
 
-interface IImmutableProduct extends IProduct, Map<string, any> {}
-
 export interface ICatalogState {
   title: string
   loading: boolean
-  error: boolean
-  products: List<IImmutableProduct>
+  error: boolean | Error
+  products: List<IProduct>
 }
 
 export interface ICatalogPage {
@@ -34,7 +32,7 @@ interface ILoadCatalogPageFail {
   error: Error
 }
 
-export type CatalogActionType =
+export type CatalogActionTypes =
   | ILoadCatalogPageAction
   | ILoadCatalogPageSuccessAction
   | ILoadCatalogPageFail
