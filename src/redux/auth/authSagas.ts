@@ -13,6 +13,7 @@ import {
 } from './authActions'
 import { ErrorMessage } from '../../shared/errorMessages'
 import { initApp } from '../app/appActions'
+import { ISignInAction } from './authTypes'
 
 function* checkAuthSaga() {
   const token = localStorage.getItem('token')
@@ -23,12 +24,13 @@ function* checkAuthSaga() {
   }
 }
 
-function* signInSaga(action) {
-  const {
-    payload: { username, password },
-  } = action
+function* signInSaga(action: ISignInAction) {
   try {
-    const result = yield call(authApi.fetchCurrentUser, username, password)
+    const result = yield call(
+      authApi.fetchCurrentUser,
+      action.payload.username,
+      action.payload.password
+    )
     const { success, data: token } = result.data
 
     if (success && token) {

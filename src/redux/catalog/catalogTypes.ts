@@ -18,7 +18,7 @@ export interface ICatalogPage {
   products: Array<IProduct>
 }
 
-interface ILoadCatalogPageAction {
+export interface ILoadCatalogPageAction {
   type: typeof CATALOG_PAGE_LOAD
   payload: { url: string }
 }

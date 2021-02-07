@@ -12,7 +12,7 @@ export interface IAuthState {
   error: boolean | Error
 }
 
-interface ISignInAction {
+export interface ISignInAction {
   type: typeof AUTH_SIGN_IN
   payload: { username: string; password: string }
 }

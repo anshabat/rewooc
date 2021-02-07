@@ -41,7 +41,7 @@ export interface ICartState {
   changingQuantityKey: null | string
 }
 
-interface ILoadCartPageAction {
+export interface ILoadCartPageAction {
   type: typeof CART_PAGE_LOAD
   payload: { url: string }
 }
@@ -56,7 +56,7 @@ interface ILoadCartPageFailAction {
   error: Error
 }
 
-interface IAddToCartAction {
+export interface IAddToCartAction {
   type: typeof CART_ADD_PRODUCT
   payload: { productId: number; quantity: number }
 }
@@ -71,7 +71,7 @@ interface IAddToCartFailAction {
   error: Error
 }
 
-interface ISetCartProductQuantityAction {
+export interface ISetCartProductQuantityAction {
   type: typeof CART_SET_PRODUCT_QUANTITY
   payload: { productKey: string; quantity: number }
 }
@@ -91,7 +91,7 @@ interface ISetCartProductQuantityFailAction {
   error: Error
 }
 
-interface IDeleteFromCartAction {
+export interface IDeleteFromCartAction {
   type: typeof CART_DELETE_PRODUCT
   payload: { productKey: string }
 }

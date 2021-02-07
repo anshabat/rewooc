@@ -5,12 +5,10 @@ import {
   loadCatalogPageSuccess,
   loadCatalogPageFail,
 } from './catalogActions'
+import { ILoadCatalogPageAction } from './catalogTypes'
 
-function* loadCatalogPageSaga(action) {
-  const {
-    payload: { url },
-  } = action
-  const { data } = yield call(catalogApi.fetchCatalogPage, url)
+function* loadCatalogPageSaga(action: ILoadCatalogPageAction) {
+  const { data } = yield call(catalogApi.fetchCatalogPage, action.payload.url)
   try {
     yield put(loadCatalogPageSuccess(data))
   } catch (error) {

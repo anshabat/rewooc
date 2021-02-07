@@ -1,5 +1,5 @@
-import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { cartApi } from 'app-data'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
 import {
   CART_PAGE_LOAD,
   CART_ADD_PRODUCT,
@@ -19,16 +19,19 @@ import {
 } from './cartActions'
 import { selectCartItems } from './cartSelectors'
 import { ErrorMessage } from '../../shared/errorMessages'
+import {
+  IAddToCartAction,
+  IDeleteFromCartAction,
+  ILoadCartPageAction,
+  ISetCartProductQuantityAction,
+} from './cartTypes'
 
 /**
  * Load Cart Page Saga
  * @param action
  */
-function* loadCartPageSaga(action) {
-  const {
-    payload: { url },
-  } = action
-  const { data } = yield call(cartApi.fetchCartPage, url)
+function* loadCartPageSaga(action: ILoadCartPageAction) {
+  const { data } = yield call(cartApi.fetchCartPage, action.payload.url)
   try {
     yield put(loadCartPageSuccess(data))
   } catch (error) {
@@ -40,15 +43,14 @@ function* loadCartPageSaga(action) {
  * Add To Cart Saga
  * @param action
  */
-function* addToCartSaga(action) {
+function* addToCartSaga(action: IAddToCartAction) {
   const {
     payload: { productId, quantity },
   } = action
   const cartItems = yield select(selectCartItems)
   const itemInCart = cartItems.find((item) => item.productId === productId)
   if (itemInCart) {
-    const totalQuantity =
-      parseInt(quantity, 10) + parseInt(itemInCart.quantity, 10)
+    const totalQuantity = quantity + parseInt(itemInCart.quantity, 10)
     yield put(setCartProductQuantity(itemInCart.key, totalQuantity))
     return
   }
@@ -70,12 +72,12 @@ function* addToCartSaga(action) {
  * Set Cart Product Quantity Saga
  * @param action
  */
-function* setCartProductQuantitySaga(action) {
+function* setCartProductQuantitySaga(action: ISetCartProductQuantityAction) {
   const {
     payload: { productKey, quantity },
   } = action
 
-  if (parseInt(quantity, 10) === 0) {
+  if (quantity === 0) {
     yield put(deleteFromCart(productKey))
     return
   }
@@ -98,7 +100,7 @@ function* setCartProductQuantitySaga(action) {
  * Delete From Cart Saga
  * @param action
  */
-function* deleteFromCartSaga(action) {
+function* deleteFromCartSaga(action: IDeleteFromCartAction) {
   const {
     payload: { productKey },
   } = action
