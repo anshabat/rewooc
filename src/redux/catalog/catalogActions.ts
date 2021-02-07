@@ -1,10 +1,8 @@
-import {
-  CATALOG_PAGE_LOAD,
-  CATALOG_PAGE_LOAD_FAIL,
-  CATALOG_PAGE_LOAD_SUCCESS,
-  CatalogActionTypes,
-  ICatalogPage,
-} from './catalogTypes'
+import { CatalogActionTypes, ICatalogPage } from './catalogTypes'
+
+export const CATALOG_PAGE_LOAD = 'CATALOG_PAGE_LOAD'
+export const CATALOG_PAGE_LOAD_SUCCESS = 'CATALOG_PAGE_LOAD_SUCCESS'
+export const CATALOG_PAGE_LOAD_FAIL = 'CATALOG_PAGE_LOAD_FAIL'
 
 export const loadCatalogPage = (url: string): CatalogActionTypes => {
   return {

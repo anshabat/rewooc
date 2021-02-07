@@ -1,6 +1,6 @@
 import { fromJS, List, Record, Map } from 'immutable'
-import { IProduct } from "app-types";
 import { INIT_APP_SUCCESS } from '../app/appActions'
+import { ICartState, CartActionTypes } from './cartTypes'
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
@@ -15,14 +15,16 @@ import {
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
 } from './cartActions'
+import { AppActionTypes } from '../app/appTypes'
 
-const cartItemAdapter = (item) =>
-  Map({
+const cartItemAdapter = (item) => {
+  return Map({
     key: item.get('key'),
     productId: item.get('product_id'),
     quantity: item.get('quantity'),
     totalPrice: item.get('line_total'),
   })
+}
 
 const getCartItems = (state, cart) => {
   return cart.toList().map((item) => cartItemAdapter(item))
@@ -59,8 +61,9 @@ const addProduct = (state, serverItem) => {
   return products
 }
 
-const deleteItem = (state, key) =>
-  state.items.filter((item) => item.get('key') !== key)
+const deleteItem = (state, key) => {
+  return state.items.filter((item) => item.get('key') !== key)
+}
 
 const deleteProduct = (state, key) => {
   const productId = state.items
@@ -93,26 +96,6 @@ const changeQuantity = (state, serverItem) => {
     .setIn([itemIndex, 'totalPrice'], newItem.get('totalPrice'))
 }
 
-interface IImmutableProduct extends IProduct, Map<string, any> {}
-
-interface ICartItem extends Map<string, any> {
-  key: string
-  productId: number
-  quantity: number
-  totalPrice: number
-}
-
-export interface ICartState {
-  title: null | string
-  loading: boolean
-  error: boolean
-  products: List<IImmutableProduct>
-  items: List<ICartItem>
-  addingProductId: null | number
-  deletingProductKey: null | string
-  changingQuantityKey: null | string
-}
-
 export const InitialState = Record<ICartState>({
   title: null,
   loading: true,
@@ -126,13 +109,11 @@ export const InitialState = Record<ICartState>({
 
 export default function reducer(
   state = new InitialState(),
-  action
+  action: CartActionTypes | AppActionTypes
 ): ICartState {
-  const { type, payload, error } = action
-
-  switch (type) {
+  switch (action.type) {
     case INIT_APP_SUCCESS: {
-      const cart = fromJS(payload.cart)
+      const cart = fromJS(action.payload.cart)
       const items = getCartItems(state, cart)
       const products = getCartProducts(state, cart)
       return state.set('items', items).set('products', products)
@@ -140,13 +121,13 @@ export default function reducer(
     case CART_PAGE_LOAD:
       return state.set('loading', true)
     case CART_PAGE_LOAD_SUCCESS:
-      return state.set('loading', false).set('title', payload.title)
+      return state.set('loading', false).set('title', action.payload.title)
     case CART_PAGE_LOAD_FAIL:
-      return state.set('loading', false).set('error', error)
+      return state.set('loading', false).set('error', action.error)
     case CART_ADD_PRODUCT:
-      return state.set('addingProductId', payload.productId)
+      return state.set('addingProductId', action.payload.productId)
     case CART_ADD_PRODUCT_SUCCESS: {
-      const cartItem = fromJS(payload.cartItem)
+      const cartItem = fromJS(action.payload.cartItem)
       const items = addItem(state, cartItem)
       const products = addProduct(state, cartItem)
       return state
@@ -155,38 +136,38 @@ export default function reducer(
         .set('addingProductId', null)
     }
     case CART_ADD_PRODUCT_FAIL:
-      return state.set('addingProductId', null).set('error', error)
+      return state.set('addingProductId', null).set('error', action.error)
     case CART_DELETE_PRODUCT:
-      return state.set('deletingProductKey', payload.productKey)
+      return state.set('deletingProductKey', action.payload.productKey)
     case CART_DELETE_PRODUCT_SUCCESS: {
-      const items = deleteItem(state, payload.productKey)
-      const products = deleteProduct(state, payload.productKey)
+      const items = deleteItem(state, action.payload.productKey)
+      const products = deleteProduct(state, action.payload.productKey)
       return state
         .set('items', items)
         .set('products', products)
         .set('deletingProductKey', null)
     }
     case CART_DELETE_PRODUCT_FAIL:
-      return state.set('deletingProductKey', null).set('error', error)
+      return state.set('deletingProductKey', null).set('error', action.error)
     case CART_SET_PRODUCT_QUANTITY_START: {
       const currentItem = state.items.find(
-        (item) => item.get('key') === payload.productKey
+        (item) => item.get('key') === action.payload.productKey
       )
       return currentItem
         ? state
-            .set('changingQuantityKey', payload.productKey)
+            .set('changingQuantityKey', action.payload.productKey)
             .set('addingProductId', currentItem.get('productId'))
         : state
     }
     case CART_SET_PRODUCT_QUANTITY_SUCCESS: {
-      const items = changeQuantity(state, fromJS(payload.cartItem))
+      const items = changeQuantity(state, fromJS(action.payload.cartItem))
       return state
         .set('items', items)
         .set('changingQuantityKey', null)
         .set('addingProductId', null)
     }
     case CART_SET_PRODUCT_QUANTITY_FAIL:
-      return state.set('changingQuantityKey', null).set('error', error)
+      return state.set('changingQuantityKey', null).set('error', action.error)
     default:
       return state
   }

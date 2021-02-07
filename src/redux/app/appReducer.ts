@@ -1,5 +1,6 @@
 import { Record, Map } from 'immutable'
 import { INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS } from './appActions'
+import { AppActionTypes, IAppState } from "./appTypes";
 
 const filterState = (data) => {
   // TODO eslint this
@@ -8,30 +9,22 @@ const filterState = (data) => {
   return rest
 }
 
-export interface IAppState {
-  data: Map<string, any>
-  loading: boolean
-  error: boolean
-}
-
 const InitialState = Record<IAppState>({
   data: Map({}),
   loading: true,
   error: false,
 })
 
-const reducer = (state = new InitialState(), action): IAppState => {
-  const { type, error, payload } = action
-
-  switch (type) {
+const reducer = (state = new InitialState(), action: AppActionTypes): IAppState => {
+  switch (action.type) {
     case INIT_APP:
       return state.set('loading', true).set('error', false)
     case INIT_APP_SUCCESS: {
-      const data = filterState(payload)
+      const data = filterState(action.payload)
       return state.set('loading', false).set('error', false).set('data', data)
     }
     case INIT_APP_FAIL:
-      return state.set('loading', false).set('error', error)
+      return state.set('loading', false).set('error', action.error)
     default:
       return state
   }

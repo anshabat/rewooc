@@ -7,7 +7,7 @@ import { checkAuth } from './redux/auth/authActions'
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader'
 import { AppProvider } from './context/appContext'
 import { AppStateType } from './redux/store'
-import { IAppState } from './redux/app/appReducer'
+import { IAppState } from './redux/app/appTypes'
 
 interface StateProps {
   app: IAppState

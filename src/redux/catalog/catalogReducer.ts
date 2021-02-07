@@ -1,11 +1,10 @@
 import { Record, List } from 'immutable'
+import { ICatalogState, CatalogActionTypes } from './catalogTypes'
 import {
   CATALOG_PAGE_LOAD_FAIL,
   CATALOG_PAGE_LOAD,
   CATALOG_PAGE_LOAD_SUCCESS,
-  ICatalogState,
-  CatalogActionTypes,
-} from './catalogTypes'
+} from './catalogActions'
 
 const InitialState = Record<ICatalogState>({
   title: '',
