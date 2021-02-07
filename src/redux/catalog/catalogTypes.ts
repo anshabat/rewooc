@@ -1,4 +1,4 @@
-import { IProduct } from 'app-types'
+import { IProduct, ImmutableProductType } from 'app-types'
 import { List } from 'immutable'
 import {
   CATALOG_PAGE_LOAD,
@@ -10,7 +10,7 @@ export interface ICatalogState {
   title: string
   loading: boolean
   error: boolean | Error
-  products: List<IProduct>
+  products: List<ImmutableProductType>
 }
 
 export interface ICatalogPage {

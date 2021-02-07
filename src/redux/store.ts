@@ -13,6 +13,12 @@ import { appSaga } from './app/appSagas'
 import { cartSagas } from './cart/cartSagas'
 import { catalogSagas } from './catalog/catalogSagas'
 import { authSagas } from './auth/authSagas'
+import { IAppState } from './app/appTypes'
+import { ICartState } from './cart/cartTypes'
+import { ICatalogState } from './catalog/catalogTypes'
+import { IAuthState } from './auth/authTypes'
+import { IAccountState } from './account/accountTypes'
+import { Record } from 'immutable'
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
@@ -23,7 +29,18 @@ const rootReducer = combineReducers({
   account,
   test: (state: any = {}) => ({ ...state }),
 })
-export type AppStateType = ReturnType<typeof rootReducer>
+
+export type AppStateType = {
+  router: any
+  app: Record<IAppState>
+  cart: Record<ICartState>
+  catalog: Record<ICatalogState>
+  auth: Record<IAuthState>
+  account: Record<IAccountState>
+  test: any
+}
+// Todo fix this after migrating to immer
+//export type AppStateType = ReturnType<typeof rootReducer>
 
 function* rootSaga() {
   yield all([appSaga(), cartSagas(), catalogSagas(), authSagas()])

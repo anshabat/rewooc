@@ -1,5 +1,5 @@
-import { IProduct } from 'app-types'
 import { List, Map } from 'immutable'
+import { ImmutableProductType } from "app-types"
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
@@ -22,13 +22,11 @@ export interface ICartItem {
   quantity: number
   totalPrice: number
 }
+export type ImmutableCartItemType = ICartItem & Map<string, any>
 
 export interface ICartPage {
   title: string
 }
-
-type ImmutableCartItemType = ICartItem & Map<string, any>
-type ImmutableProductType = IProduct & Map<string, any>
 
 export interface ICartState {
   title: null | string

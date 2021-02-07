@@ -1,1 +1,1 @@
-export { IProduct } from './Product'
+export { IProduct, ImmutableProductType } from './Product'

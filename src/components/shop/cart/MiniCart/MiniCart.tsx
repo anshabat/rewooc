@@ -6,10 +6,11 @@ import {
   selectCartTotalPrice,
   selectCartTotalQuantity,
 } from '../../../../redux/cart/cartSelectors'
+import { AppStateType } from '../../../../redux/store'
 
 function MiniCart() {
-  const quantity = useSelector(selectCartTotalQuantity)
-  const total = useSelector(selectCartTotalPrice)
+  const quantity = useSelector<AppStateType, number>(selectCartTotalQuantity)
+  const total = useSelector<AppStateType, number>(selectCartTotalPrice)
   const dispatch = useDispatch()
 
   return (

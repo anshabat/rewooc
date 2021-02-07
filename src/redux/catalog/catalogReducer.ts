@@ -1,4 +1,4 @@
-import { Record, List } from 'immutable'
+import { Record, List, fromJS } from 'immutable'
 import { ICatalogState, CatalogActionTypes } from './catalogTypes'
 import {
   CATALOG_PAGE_LOAD_FAIL,
@@ -24,7 +24,7 @@ const reducer = (
       return state
         .set('loading', false)
         .set('error', false)
-        .set('products', List(action.payload.products))
+        .set('products', fromJS(action.payload.products))
         .set('title', action.payload.title)
     case CATALOG_PAGE_LOAD_FAIL:
       return state.set('loading', false).set('error', action.error)

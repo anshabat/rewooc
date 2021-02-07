@@ -1,4 +1,7 @@
 import { createSelector } from 'reselect'
+import { AppStateType } from '../store'
+import { ICartItem, ImmutableCartItemType } from './cartTypes'
+import { List } from 'immutable'
 
 export const selectCartData = createSelector(
   (state) => state.cart.items,
@@ -14,9 +17,15 @@ export const selectCartData = createSelector(
       .toJS()
 )
 
-export const selectCartItems = createSelector(
-  (state) => state.cart.items,
-  (items) => items.toJS()
+export const selectCartItems = createSelector<
+  AppStateType,
+  List<ImmutableCartItemType>,
+  Array<ICartItem>
+>(
+  (state) => state.cart.get('items'),
+  (items) => {
+    return items.toJS()
+  }
 )
 
 export const selectCartTotalPrice = createSelector(
