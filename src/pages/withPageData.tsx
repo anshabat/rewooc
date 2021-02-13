@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { appApi } from 'app-data'
 import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader'
 
-const withPageData = (InnerComponent) =>
+function withPageData(InnerComponent) {
   // TODO remove this
   // eslint-disable-next-line react/display-name
-  class extends Component {
+  return class extends Component<any, any> {
     constructor(props) {
       super(props)
       this.state = {
@@ -41,5 +41,6 @@ const withPageData = (InnerComponent) =>
       )
     }
   }
+}
 
 export default withPageData

@@ -1,6 +1,6 @@
 import './Account.scss'
 import React from 'react'
-import { Route, Switch } from 'react-router'
+import { Route, Switch } from 'react-router-dom'
 import Content from '../../components/Layout/Content/Content'
 import SidebarNav from '../../components/UI/navigation/SidebarNav/SidebarNav'
 import PersonalInformation from './PersonalInformation/PersonalInformation'
