@@ -7,6 +7,11 @@ export interface IAppState {
   error: boolean | Error
 }
 
+export interface IApp {
+  loading: boolean
+  data: any
+}
+
 interface IInitAppAction {
   type: typeof INIT_APP
 }

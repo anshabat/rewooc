@@ -1,5 +1,5 @@
 import { List, Map } from 'immutable'
-import { ImmutableProductType } from "app-types"
+import { ImmutableProductType, IProduct } from 'app-types'
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
@@ -26,6 +26,10 @@ export type ImmutableCartItemType = ICartItem & Map<string, any>
 
 export interface ICartPage {
   title: string
+}
+
+export interface ICartData extends ICartItem {
+  product: IProduct
 }
 
 export interface ICartState {
