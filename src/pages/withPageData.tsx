@@ -3,7 +3,7 @@ import { appApi } from 'app-data'
 import { RouteComponentProps } from 'react-router-dom'
 import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader'
 
-function withPageData<P>(InnerComponent: ComponentType<P & RouteComponentProps>) {
+function withPageData<P>(InnerComponent: ComponentType<P>) {
   // TODO remove this
   // eslint-disable-next-line react/display-name
   return class extends Component<RouteComponentProps, { data: null | P }> {
@@ -36,7 +36,7 @@ function withPageData<P>(InnerComponent: ComponentType<P & RouteComponentProps>)
     render() {
       const { data } = this.state
       return data ? (
-        <InnerComponent {...this.props} {...data} />
+        <InnerComponent {...data} />
       ) : (
         <ContentLoader />
       )
