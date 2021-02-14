@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-const SidebarNav = (props) => {
+interface PropsType {
+  items: Array<{ url: string; name: string }>
+}
+
+const SidebarNav: FC<PropsType> = (props) => {
   const { items } = props
   return (
     <ul className="rw-sidebar-nav">

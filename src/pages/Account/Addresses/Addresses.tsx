@@ -3,10 +3,8 @@ import { RouteComponentProps } from 'react-router-dom'
 import withPageData from '../../withPageData'
 import { UserAddress } from '../../../types/Account'
 
-type PropsType = RouteComponentProps & UserAddress
-
-const Addresses: FC<PropsType> = (props) => {
+const Addresses: FC<UserAddress & RouteComponentProps> = (props) => {
   return <div>{props.address}</div>
 }
 
-export default withPageData(Addresses)
+export default withPageData<UserAddress>(Addresses)

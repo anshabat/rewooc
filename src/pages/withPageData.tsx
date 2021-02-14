@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, ComponentType } from 'react'
 import { appApi } from 'app-data'
+import { RouteComponentProps } from 'react-router-dom'
 import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader'
 
-function withPageData(InnerComponent) {
+function withPageData<P>(InnerComponent: ComponentType<P & RouteComponentProps>) {
   // TODO remove this
   // eslint-disable-next-line react/display-name
-  return class extends Component<any, any> {
-    constructor(props) {
+  return class extends Component<RouteComponentProps, { data: null | P }> {
+    constructor(props: RouteComponentProps) {
       super(props)
       this.state = {
         data: null,
@@ -18,7 +19,7 @@ function withPageData(InnerComponent) {
       this.loadData()
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: RouteComponentProps) {
       const { location } = this.props
       if (prevProps.location.pathname !== location.pathname) {
         this.setState({ data: null })
@@ -35,7 +36,7 @@ function withPageData(InnerComponent) {
     render() {
       const { data } = this.state
       return data ? (
-        <InnerComponent {...this.props} {...this.state.data} />
+        <InnerComponent {...this.props} {...data} />
       ) : (
         <ContentLoader />
       )

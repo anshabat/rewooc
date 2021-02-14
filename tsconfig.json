@@ -6,12 +6,11 @@
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
-    // TODO remove after renaming all to .ts
-    "noImplicitAny": false,
     "baseUrl": "./",
     "paths": {
       "app-data": ["src/data"],
       "app-types": ["src/types"]
-    }
+    },
+    "lib": ["dom", "es2020"]
   }
 }
