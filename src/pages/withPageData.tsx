@@ -28,7 +28,7 @@ function withPageData<P>(InnerComponent: ComponentType<P>) {
     }
 
     loadData() {
-      appApi.fetchPageData(window.location.pathname).then(({ data }) => {
+      appApi.fetchPageData<P>(window.location.pathname).then(({ data }) => {
         this.setState({ data })
       })
     }
