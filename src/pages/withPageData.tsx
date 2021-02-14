@@ -1,46 +1,20 @@
-import React, { Component, ComponentType } from 'react'
+import React, { ComponentType, useEffect, useState } from "react";
 import { appApi } from 'app-data'
-import { RouteComponentProps } from 'react-router-dom'
 import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader'
 
 function withPageData<P>(InnerComponent: ComponentType<P>) {
   // TODO remove this
   // eslint-disable-next-line react/display-name
-  return class extends Component<RouteComponentProps, { data: null | P }> {
-    constructor(props: RouteComponentProps) {
-      super(props)
-      this.state = {
-        data: null,
-      }
-      this.loadData = this.loadData.bind(this)
-    }
+  return function (): JSX.Element {
+    const [data, setData] = useState<null | P>(null)
 
-    componentDidMount() {
-      this.loadData()
-    }
-
-    componentDidUpdate(prevProps: RouteComponentProps) {
-      const { location } = this.props
-      if (prevProps.location.pathname !== location.pathname) {
-        this.setState({ data: null })
-        this.loadData()
-      }
-    }
-
-    loadData() {
+    useEffect(() => {
       appApi.fetchPageData<P>(window.location.pathname).then(({ data }) => {
-        this.setState({ data })
+        setData(data)
       })
-    }
+    }, [])
 
-    render() {
-      const { data } = this.state
-      return data ? (
-        <InnerComponent {...data} />
-      ) : (
-        <ContentLoader />
-      )
-    }
+    return data ? <InnerComponent {...data} /> : <ContentLoader />
   }
 }
 

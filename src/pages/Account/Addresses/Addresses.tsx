@@ -6,4 +6,4 @@ const Addresses: FC<UserAddress> = (props) => {
   return <div>{props.address}</div>
 }
 
-export default withPageData<UserAddress>(Addresses)
+export default withPageData(Addresses)

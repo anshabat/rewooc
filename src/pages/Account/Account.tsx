@@ -27,18 +27,15 @@ const Account: FC<RouteComponentProps> = (props) => {
         </div>
         <div className="rw-account__body">
           <Switch>
-            <Route
-              path={`${match.path}`}
-              exact
-              component={PersonalInformation}
-            />
-            <Route path={`${match.path}/orders`} component={Orders} />
-            <Route
-              path={`${match.path}/edit-address`}
-              render={(props) => {
-                return <Addresses {...props} />
-              }}
-            />
+            <Route path={`${match.path}`} exact>
+              <PersonalInformation />
+            </Route>
+            <Route path={`${match.path}/orders`}>
+              <Orders />
+            </Route>
+            <Route path={`${match.path}/edit-address`}>
+              <Addresses />
+            </Route>
           </Switch>
         </div>
       </div>
