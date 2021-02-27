@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { catalogApi } from 'app-data'
+import { Await, catalogApi } from 'app-data'
 import {
   CATALOG_PAGE_LOAD,
   loadCatalogPageSuccess,
@@ -8,9 +8,11 @@ import {
 import { ILoadCatalogPageAction } from './catalogTypes'
 
 function* loadCatalogPageSaga(action: ILoadCatalogPageAction) {
-  const { data } = yield call(catalogApi.fetchCatalogPage, action.payload.url)
   try {
-    yield put(loadCatalogPageSuccess(data))
+    const pageData: Await<
+      ReturnType<typeof catalogApi.fetchCatalogPage>
+    > = yield call(catalogApi.fetchCatalogPage, action.payload.url)
+    yield put(loadCatalogPageSuccess(pageData))
   } catch (error) {
     yield put(loadCatalogPageFail(error))
   }

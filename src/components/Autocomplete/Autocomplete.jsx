@@ -47,8 +47,8 @@ class Autocomplete extends Component {
 
   getItems(e) {
     const { limit } = this.props
-    catalogApi.searchProducts(e.target.value, limit).then((response) => {
-      this.setState({ posts: response.data })
+    catalogApi.searchProducts(e.target.value, limit).then((products) => {
+      this.setState({ posts: products })
     })
   }
 

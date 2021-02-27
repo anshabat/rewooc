@@ -1,4 +1,4 @@
-import React, { ComponentType, useEffect, useState } from "react";
+import React, { ComponentType, useEffect, useState } from 'react'
 import { appApi } from 'app-data'
 import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader'
 
@@ -9,7 +9,7 @@ function withPageData<P>(InnerComponent: ComponentType<P>) {
     const [data, setData] = useState<null | P>(null)
 
     useEffect(() => {
-      appApi.fetchPageData<P>(window.location.pathname).then(({ data }) => {
+      appApi.fetchPageData<P>(window.location.pathname).then((data) => {
         setData(data)
       })
     }, [])

@@ -1,20 +1,24 @@
 import { instance } from '../instance'
 import { wcAjax } from '../endpoints'
-import { AxiosResponse } from 'axios'
 import { ICatalogPage } from './catalogTypes'
 import { IProduct } from 'app-types'
 
-function searchProducts(
+async function searchProducts(
   term: string,
   limit: number
-): Promise<AxiosResponse<Array<IProduct>>> {
-  return instance.get<Array<IProduct>>(wcAjax('rewooc_search_products'), {
-    params: { term, limit },
-  })
+): Promise<Array<IProduct>> {
+  const response = await instance.get<Array<IProduct>>(
+    wcAjax('rewooc_search_products'),
+    {
+      params: { term, limit },
+    }
+  )
+  return response.data
 }
 
-function fetchCatalogPage(url: string): Promise<AxiosResponse<ICatalogPage>> {
-  return instance.get<ICatalogPage>(url)
+async function fetchCatalogPage(url: string): Promise<ICatalogPage> {
+  const response = await instance.get<ICatalogPage>(url)
+  return response.data
 }
 
 export default {

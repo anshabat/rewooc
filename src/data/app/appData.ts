@@ -1,12 +1,12 @@
 import { instance } from '../instance'
 import { pageUrl, wcAjax } from '../endpoints'
-import { AxiosResponse } from 'axios'
-import { IGeneralData, IGeneralResponseData } from "./appTypes";
+import { IGeneralData, IGeneralResponseData } from './appTypes'
 import { ErrorMessage } from '../../shared/errorMessages'
 import { cartHashToItems } from '../cart/cartHelpers'
 
-function fetchPageData<P>(url: string): Promise<AxiosResponse<P>> {
-  return instance.get<P>(pageUrl(url))
+async function fetchPageData<P>(url: string): Promise<P> {
+  const response = await instance.get<P>(pageUrl(url))
+  return response.data
 }
 
 async function fetchGeneralData(): Promise<IGeneralData> {

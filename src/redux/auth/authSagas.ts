@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects'
-import { authApi } from 'app-data'
+import { authApi, Await } from 'app-data'
 import {
   AUTH_CHECK_AUTH,
   AUTH_SIGN_IN,
@@ -11,7 +11,6 @@ import {
   signInFail,
   signInSuccess,
 } from './authActions'
-import { ErrorMessage } from '../../shared/errorMessages'
 import { initApp } from '../app/appActions'
 import { ISignInAction } from './authTypes'
 
@@ -26,19 +25,15 @@ function* checkAuthSaga() {
 
 function* signInSaga(action: ISignInAction) {
   try {
-    const result = yield call(
+    const token: Await<
+      ReturnType<typeof authApi.fetchCurrentUser>
+    > = yield call(
       authApi.fetchCurrentUser,
       action.payload.username,
       action.payload.password
     )
-    const { success, data: token } = result.data
-
-    if (success && token) {
-      localStorage.setItem('token', token)
-      yield put(signInSuccess())
-    } else {
-      throw new Error(ErrorMessage.USER_FAIL_TO_SIGN_IN)
-    }
+    localStorage.setItem('token', token)
+    yield put(signInSuccess())
   } catch (error) {
     yield put(signInFail(error))
   }

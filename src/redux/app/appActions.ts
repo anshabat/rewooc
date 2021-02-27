@@ -1,4 +1,5 @@
 import { AppActionTypes } from './appTypes'
+import { IGeneralData } from "../../data/app/appTypes";
 
 export const INIT_APP = 'INIT_APP'
 export const INIT_APP_SUCCESS = 'INIT_APP_SUCCESS'
@@ -8,7 +9,7 @@ export const initApp = (): AppActionTypes => {
   return { type: INIT_APP }
 }
 
-export const initAppSuccess = (data: any): AppActionTypes => {
+export const initAppSuccess = (data: IGeneralData): AppActionTypes => {
   return {
     type: INIT_APP_SUCCESS,
     payload: data,
