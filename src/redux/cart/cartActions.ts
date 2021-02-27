@@ -1,5 +1,5 @@
-import { CartActionTypes, ICartPage } from './cartTypes'
-import { ICartItem } from "app-types";
+import { CartActionTypes } from './cartTypes'
+import { ICartItem, ICartPage } from "app-data";
 
 export const CART_PAGE_LOAD = 'CART_PAGE_LOAD'
 export const CART_PAGE_LOAD_SUCCESS = 'CART_LOAD_SUCCESS'

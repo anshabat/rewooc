@@ -2,7 +2,7 @@ import { instance } from '../instance'
 import { wcAjax } from '../endpoints'
 import { IAddToCart, ICartPage, IDeleteProductFromCart } from './cartTypes'
 import { ErrorMessage } from '../../shared/errorMessages'
-import { ICartItem } from 'app-types'
+import { ICartItem } from './cartTypes'
 import { cartItemFacade } from './cartHelpers'
 
 async function fetchCartPage(url: string): Promise<ICartPage> {

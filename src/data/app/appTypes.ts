@@ -1,5 +1,4 @@
-import { ICartItem } from 'app-types'
-import { ICartHash } from '../../types/cartModel'
+import { ICartItem, ICartHash } from '../cart/cartTypes'
 
 export interface IGeneralResponseData {
   ajaxUrl: string

@@ -1,14 +1,15 @@
 import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
-import { ICartData, ImmutableCartItemType } from './cartTypes'
+import { ImmutableCartItemType } from './cartTypes'
 import { List } from 'immutable'
-import { ICartItem, ImmutableProductType } from "app-types";
+import { ImmutableProductType } from "app-types";
+import { ICartItem } from "app-data";
 
 export const selectCartData = createSelector<
   AppStateType,
   List<ImmutableCartItemType>,
   List<ImmutableProductType>,
-  Array<ICartData>
+  Array<ICartItem>
 >(
   (state) => state.cart.get('items'),
   (state) => state.cart.get('products'),
