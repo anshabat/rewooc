@@ -1,11 +1,40 @@
 import './Autocomplete.scss'
 import React, { Component } from 'react'
 import { catalogApi } from 'app-data'
+import { IProduct } from 'app-types'
 import AutocompleteResults from './AutocompleteResults/AutocompleteResults'
 import AutocompleteField from './AutocompleteField/AutocompleteField'
 
-class Autocomplete extends Component {
-  constructor(props) {
+const KEY_CODE = {
+  esc: 27,
+  enter: 13,
+  up: 38,
+  down: 40
+}
+
+interface IProps {
+  delay: number
+  minChars: number
+  limit: number
+}
+
+interface IState {
+  posts: IProduct[]
+  cursor: number
+}
+
+class Autocomplete extends Component<IProps, IState> {
+  private timerId: NodeJS.Timeout | null
+  private containerRef: HTMLElement | null
+  private activeItemRef: HTMLAnchorElement | null
+
+  static defaultProps = {
+    delay: 500,
+    minChars: 3,
+    limit: 10,
+  }
+
+  constructor(props: IProps) {
     super(props)
     this.state = {
       posts: [],
@@ -25,69 +54,77 @@ class Autocomplete extends Component {
     this.onLinkHover = this.onLinkHover.bind(this)
   }
 
-  onKeyDown(e) {
+  onKeyDown(e: React.KeyboardEvent): void {
     switch (e.keyCode) {
-      case 38:
-      case 40:
+      case KEY_CODE.up:
+      case KEY_CODE.down:
         this.iterateResults(e)
         break
-      case 13:
-        this.activeItemRef.click()
+      case KEY_CODE.enter:
+        if (this.activeItemRef) {
+          this.activeItemRef.click()
+        }
         break
-      case 27:
+      case KEY_CODE.esc:
         this.closeResults(e)
         break
       default:
     }
   }
 
-  onLinkHover(e, index) {
+  onLinkHover(e: React.MouseEvent, index: number): void {
     this.setState({ cursor: index })
   }
 
-  getItems(e) {
+  getItems(value: string): void {
     const { limit } = this.props
-    catalogApi.searchProducts(e.target.value, limit).then((products) => {
+    catalogApi.searchProducts(value, limit).then((products) => {
       this.setState({ posts: products })
     })
   }
 
-  getActiveItemRef(elem) {
+  getActiveItemRef(elem: HTMLAnchorElement): void {
     this.activeItemRef = elem
   }
 
-  delay(ms) {
+  delay(ms: number): Promise<void> {
     return new Promise((resolve) => {
-      clearTimeout(this.timerId)
+      if (this.timerId) {
+        clearTimeout(this.timerId)
+      }
       this.timerId = setTimeout(() => {
         resolve()
       }, ms)
     })
   }
 
-  searchItems(event) {
+  searchItems(event: React.ChangeEvent<HTMLInputElement>): void {
     const { delay, minChars } = this.props
+    const { value } = event.target
     event.persist()
-    this.delay(Number(delay)).then(() => {
-      if (event.target.value.length >= minChars) {
-        this.getItems(event)
+    this.delay(delay).then(() => {
+      if (value.length >= minChars) {
+        this.getItems(value)
       }
     })
   }
 
-  iterateResults(e) {
+  iterateResults(e: React.KeyboardEvent): void {
     e.persist()
     e.preventDefault()
-    const shift = e.keyCode === 38 ? -1 : +1
+    const shift = e.keyCode === KEY_CODE.up ? -1 : +1
     this.setState((prev) => {
       const cursor =
-        prev.cursor <= 0 && e.keyCode === 38 ? prev.posts.length : prev.cursor
+        prev.cursor <= 0 && e.keyCode === KEY_CODE.up ? prev.posts.length : prev.cursor
       return { cursor: (cursor + shift) % prev.posts.length }
     })
   }
 
-  closeResults(e) {
-    if (!this.containerRef.contains(e.target) || e.keyCode === 27) {
+  closeResults(e: any): void {
+    if (!this.containerRef) {
+      return
+    }
+    if (!this.containerRef.contains(e.target) || e.keyCode === KEY_CODE.esc) {
       this.setState({
         posts: [],
         cursor: -1,
@@ -95,7 +132,7 @@ class Autocomplete extends Component {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     const { posts, cursor } = this.state
 
     return (
@@ -125,12 +162,6 @@ class Autocomplete extends Component {
       </div>
     )
   }
-}
-
-Autocomplete.defaultProps = {
-  delay: 500,
-  minChars: 3,
-  limit: 10,
 }
 
 export default Autocomplete

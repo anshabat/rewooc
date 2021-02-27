@@ -2,7 +2,12 @@ import './AutocompleteField.scss'
 import React from 'react'
 import Button from '../../UI/Button/Button'
 
-const AutocompleteField = (props) => {
+interface IProps {
+  onFieldInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onKeyDown: (e: React.KeyboardEvent) => void
+}
+
+const AutocompleteField: React.FC<IProps> = (props) => {
   const { onFieldInput, onKeyDown } = props
 
   return (

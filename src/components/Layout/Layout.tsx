@@ -27,7 +27,7 @@ const Layout = (props) => {
               <Image image={logo.full} />
             </a>
           }
-          mainCenter={<Autocomplete delay="500" minChars="3" limit="6" />}
+          mainCenter={<Autocomplete delay={500} minChars={3} limit={6} />}
           mainRight={<MiniCart />}
         />
       </header>
