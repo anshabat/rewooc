@@ -18,21 +18,24 @@ import {
   deleteFromCartSuccess,
 } from './cartActions'
 import { selectCartItems } from './cartSelectors'
-import { ErrorMessage } from '../../shared/errorMessages'
 import {
   IAddToCartAction,
   IDeleteFromCartAction,
   ILoadCartPageAction,
   ISetCartProductQuantityAction,
 } from './cartTypes'
+import { Await } from 'app-data'
 
 /**
  * Load Cart Page Saga
  * @param action
  */
 function* loadCartPageSaga(action: ILoadCartPageAction) {
-  const { data } = yield call(cartApi.fetchCartPage, action.payload.url)
   try {
+    const data: Await<ReturnType<typeof cartApi.fetchCartPage>> = yield call(
+      cartApi.fetchCartPage,
+      action.payload.url
+    )
     yield put(loadCartPageSuccess(data))
   } catch (error) {
     yield put(loadCartPageFail(error))
@@ -47,22 +50,26 @@ function* addToCartSaga(action: IAddToCartAction) {
   const {
     payload: { productId, quantity },
   } = action
-  const cartItems = yield select(selectCartItems)
+
+  /* Increment quantity if items is already in the cart */
+  const cartItems: ReturnType<typeof selectCartItems> = yield select(
+    selectCartItems
+  )
   const itemInCart = cartItems.find((item) => item.productId === productId)
   if (itemInCart) {
-    const totalQuantity = quantity + parseInt(itemInCart.quantity, 10)
+    const totalQuantity = quantity + itemInCart.quantity
     yield put(setCartProductQuantity(itemInCart.key, totalQuantity))
     return
   }
 
+  /* Add new item to the cart */
   try {
-    const response = yield call(cartApi.addToCart, productId, quantity)
-    const { success, data } = response.data
-    if (success && data) {
-      yield put(addToCartSuccess(data))
-    } else {
-      throw new Error(ErrorMessage.CART_FAIL_TO_ADD_PRODUCT)
-    }
+    const cartData: Await<ReturnType<typeof cartApi.addToCart>> = yield call(
+      cartApi.addToCart,
+      productId,
+      quantity
+    )
+    yield put(addToCartSuccess(cartData))
   } catch (error) {
     yield put(addToCartFail(error))
   }
@@ -83,14 +90,12 @@ function* setCartProductQuantitySaga(action: ISetCartProductQuantityAction) {
   }
 
   yield put(setCartProductQuantityStart(productKey))
-  const response = yield call(cartApi.setProductQuantity, productKey, quantity)
+
   try {
-    const { success, data } = response.data
-    if (success && data) {
-      yield put(setCartProductQuantitySuccess(data))
-    } else {
-      throw new Error(ErrorMessage.CART_FAIL_TO_CHANGE_QUANTITY)
-    }
+    const cartData: Await<
+      ReturnType<typeof cartApi.setProductQuantity>
+    > = yield call(cartApi.setProductQuantity, productKey, quantity)
+    yield put(setCartProductQuantitySuccess(cartData))
   } catch (error) {
     yield put(setCartProductQuantityFail(error))
   }
@@ -106,12 +111,8 @@ function* deleteFromCartSaga(action: IDeleteFromCartAction) {
   } = action
 
   try {
-    const response = yield call(cartApi.deleteProductFromCart, productKey)
-    if (response.data.success) {
-      yield put(deleteFromCartSuccess(productKey))
-    } else {
-      throw new Error(ErrorMessage.CART_FAIL_TO_DELETE_PRODUCT)
-    }
+    yield call(cartApi.deleteProductFromCart, productKey)
+    yield put(deleteFromCartSuccess(productKey))
   } catch (error) {
     yield put(deleteFromCartFail(error))
   }

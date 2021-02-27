@@ -1,5 +1,5 @@
-import { List, Map } from 'immutable'
-import { ImmutableProductType, IProduct } from 'app-types'
+import { List, Map, Record } from 'immutable'
+import { ICartItem, ImmutableProductType, IProduct } from 'app-types'
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
@@ -16,12 +16,6 @@ import {
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
 } from './cartActions'
 
-export interface ICartItem {
-  key: string
-  productId: number
-  quantity: number
-  totalPrice: number
-}
 export type ImmutableCartItemType = ICartItem & Map<string, any>
 
 export interface ICartPage {
@@ -42,6 +36,8 @@ export interface ICartState {
   deletingProductKey: null | string
   changingQuantityKey: null | string
 }
+
+export type ImmutableCartState = Record<ICartState>
 
 export interface ILoadCartPageAction {
   type: typeof CART_PAGE_LOAD

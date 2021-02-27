@@ -1,6 +1,11 @@
-import { fromJS, List, Record, Map } from 'immutable'
+import { fromJS, List, Record } from 'immutable'
 import { INIT_APP_SUCCESS } from '../app/appActions'
-import { ICartState, CartActionTypes } from './cartTypes'
+import {
+  ICartState,
+  CartActionTypes,
+  ImmutableCartItemType,
+  ImmutableCartState,
+} from './cartTypes'
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
@@ -16,40 +21,35 @@ import {
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
 } from './cartActions'
 import { AppActionTypes } from '../app/appTypes'
+import { ImmutableProductType } from 'app-types'
 
-const cartItemAdapter = (item) => {
-  return Map({
-    key: item.get('key'),
-    productId: item.get('product_id'),
-    quantity: item.get('quantity'),
-    totalPrice: item.get('line_total'),
-  })
-}
-
-const getCartItems = (state, cart) => {
-  return cart.toList().map((item) => cartItemAdapter(item))
-}
-
-const getCartProducts = (state, cartItems) => {
-  return cartItems.toList().reduce((products, item) => {
-    const exist = products.find((p) => p.get('id') === item.get(['data', 'id']))
+const getCartProducts = (
+  cartItems: ImmutableCartItemType[]
+): List<ImmutableProductType> => {
+  return cartItems.reduce<List<ImmutableProductType>>((products, item) => {
+    const exist = products.find(
+      (p) => p.get('id') === item.getIn(['product', 'id'])
+    )
     if (!exist) {
-      return products.push(item.get('data'))
+      return products.push(item.get('product'))
     }
 
     return products
   }, List([]))
 }
 
-const addItem = (state, serverItem) => {
-  const newItem = cartItemAdapter(serverItem)
-
-  return state.items.push(newItem)
+const addItem = (
+  state: ImmutableCartState,
+  newItem: ImmutableCartItemType
+): List<ImmutableCartItemType> => {
+  return state.get('items').push(newItem)
 }
 
-const addProduct = (state, serverItem) => {
-  const newItem = cartItemAdapter(serverItem)
-  const newProduct = serverItem.get('data')
+const addProduct = (
+  state: ImmutableCartState,
+  newItem: ImmutableCartItemType
+): List<ImmutableProductType> => {
+  const newProduct = newItem.get('product')
   const products = state.get('products')
   const exist = products.find(
     (product) => product.get('id') === newItem.get('productId')
@@ -61,31 +61,41 @@ const addProduct = (state, serverItem) => {
   return products
 }
 
-const deleteItem = (state, key) => {
-  return state.items.filter((item) => item.get('key') !== key)
+const deleteItem = (
+  state: ImmutableCartState,
+  key: string
+): List<ImmutableCartItemType> => {
+  return state.get('items').filter((item) => item.get('key') !== key)
 }
 
-const deleteProduct = (state, key) => {
-  const productId = state.items
+const deleteProduct = (
+  state: ImmutableCartState,
+  key: string
+): List<ImmutableProductType> => {
+  const products = state.get('products')
+  const itemToDelete = state
+    .get('items')
     .find((item) => item.get('key') === key)
-    .get('productId')
-  const cartItems = state.items.filter((item) => item.get('key') !== key)
-  const exist = cartItems.some(
-    (cartItem) => cartItem.get('productId') === productId
-  )
 
-  let items
-  if (!exist) {
-    items = state.products.filter((product) => product.get('id') !== productId)
-  } else {
-    items = state.products
+  if (!itemToDelete) {
+    return products
   }
 
-  return items
+  const productId = itemToDelete.get('productId')
+  const cartItems = state.get('items').filter((item) => item.get('key') !== key)
+  const exist = cartItems.some((item) => item.get('productId') === productId)
+
+  if (exist) {
+    return products
+  }
+
+  return products.filter((product) => product.get('id') !== productId)
 }
 
-const changeQuantity = (state, serverItem) => {
-  const newItem = cartItemAdapter(serverItem)
+const changeQuantity = (
+  state: ImmutableCartState,
+  newItem: ImmutableCartItemType
+): List<ImmutableCartItemType> => {
   const items = state.get('items')
   const itemIndex = items.findIndex(
     (item) => item.get('key') === newItem.get('key')
@@ -114,8 +124,8 @@ export default function reducer(
   switch (action.type) {
     case INIT_APP_SUCCESS: {
       const cart = fromJS(action.payload.cart)
-      const items = getCartItems(state, cart)
-      const products = getCartProducts(state, cart)
+      const items = cart.toList()
+      const products = getCartProducts(items)
       return state.set('items', items).set('products', products)
     }
     case CART_PAGE_LOAD:
@@ -127,7 +137,7 @@ export default function reducer(
     case CART_ADD_PRODUCT:
       return state.set('addingProductId', action.payload.productId)
     case CART_ADD_PRODUCT_SUCCESS: {
-      const cartItem = fromJS(action.payload.cartItem)
+      const cartItem: ImmutableCartItemType = fromJS(action.payload.cartItem)
       const items = addItem(state, cartItem)
       const products = addProduct(state, cartItem)
       return state
