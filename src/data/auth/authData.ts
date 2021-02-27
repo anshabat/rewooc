@@ -1,6 +1,7 @@
 import { instance } from '../instance'
 import { wcAjax } from '../endpoints'
 import { ErrorMessage } from '../../shared/errorMessages'
+import { IUserToken } from "./authTypes";
 
 async function fetchCurrentUser(
   username: string,
@@ -10,7 +11,7 @@ async function fetchCurrentUser(
   params.append('username', username)
   params.append('password', password)
 
-  const response = await instance.post<ICurrentUser>(
+  const response = await instance.post<IUserToken>(
     wcAjax('rewooc_get_current_user'),
     params
   )

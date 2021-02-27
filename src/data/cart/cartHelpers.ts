@@ -1,5 +1,4 @@
-import { ICartItem, ICartItemResponse } from 'app-types'
-import { ICartHash } from "../../types/cartModel";
+import { ICartHash, ICartItem, ICartItemResponse } from './cartTypes'
 
 export function cartItemFacade(originItems: ICartItemResponse): ICartItem {
   return {

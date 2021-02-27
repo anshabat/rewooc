@@ -1,4 +1,4 @@
-import { Record } from 'immutable'
+import { fromJS, Record } from 'immutable'
 import { INIT_APP_SUCCESS } from '../app/appActions'
 import { IAccountState } from './accountTypes'
 import { AppActionTypes } from '../app/appTypes'
@@ -13,7 +13,7 @@ const reducer = (
 ): IAccountState => {
   switch (action.type) {
     case INIT_APP_SUCCESS:
-      return state.set('user', action.payload.user)
+      return state.set('user', fromJS(action.payload.user))
     default:
       return state
   }

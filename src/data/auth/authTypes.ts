@@ -1,4 +1,4 @@
-interface ICurrentUser {
+export interface IUserToken {
   data: string
   success: boolean
 }

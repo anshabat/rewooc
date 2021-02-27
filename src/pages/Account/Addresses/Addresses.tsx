@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
+import { IUserAddress } from 'app-types'
 import withPageData from '../../withPageData'
-import { UserAddress } from '../../../types/Account'
 
-const Addresses: FC<UserAddress> = (props) => {
+const Addresses: FC<IUserAddress> = (props) => {
   return <div>{props.address}</div>
 }
 
