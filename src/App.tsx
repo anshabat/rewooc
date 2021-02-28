@@ -7,11 +7,11 @@ import { checkAuth } from './redux/auth/authActions'
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader'
 import { AppProvider } from './context/appContext'
 import { AppStateType } from './redux/store'
-import { IApp } from './redux/app/appTypes'
-import { selectApp } from "./redux/app/appSelectors";
+import { IAppState } from './redux/app/appTypes'
+import { selectApp } from './redux/app/appSelectors'
 
 interface StateProps {
-  app: IApp
+  app: IAppState
 }
 interface DispatchProps {
   checkAuthAction: () => any

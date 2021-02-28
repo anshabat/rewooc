@@ -13,12 +13,12 @@ import { appSaga } from './app/appSagas'
 import { cartSagas } from './cart/cartSagas'
 import { catalogSagas } from './catalog/catalogSagas'
 import { authSagas } from './auth/authSagas'
-import { IAppState } from './app/appTypes'
+import { ImmutableAppState } from "./app/appTypes";
 import { ICartState } from './cart/cartTypes'
 import { ICatalogState } from './catalog/catalogTypes'
 import { IAuthState } from './auth/authTypes'
 import { IAccountState } from './account/accountTypes'
-import { Record } from 'immutable'
+import { Record } from "immutable";
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
 
 export type AppStateType = {
   router: any
-  app: Record<IAppState>
+  app: Record<ImmutableAppState>
   cart: Record<ICartState>
   catalog: Record<ICatalogState>
   auth: Record<IAuthState>

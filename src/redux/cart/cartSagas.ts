@@ -24,7 +24,7 @@ import {
   ILoadCartPageAction,
   ISetCartProductQuantityAction,
 } from './cartTypes'
-import { Await } from 'app-data'
+import { Await } from "../../shared/utilityTypes";
 
 /**
  * Load Cart Page Saga

@@ -1,11 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { Await, catalogApi } from 'app-data'
+import { catalogApi } from 'app-data'
 import {
   CATALOG_PAGE_LOAD,
   loadCatalogPageSuccess,
   loadCatalogPageFail,
 } from './catalogActions'
 import { ILoadCatalogPageAction } from './catalogTypes'
+import { Await } from "../../shared/utilityTypes";
 
 function* loadCatalogPageSaga(action: ILoadCatalogPageAction) {
   try {

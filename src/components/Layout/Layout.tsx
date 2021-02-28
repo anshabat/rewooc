@@ -10,7 +10,7 @@ import Image from '../UI/Image/Image'
 import Autocomplete from '../Autocomplete/Autocomplete'
 import MiniCart from '../shop/cart/MiniCart/MiniCart'
 
-const Layout = (props) => {
+const Layout: React.FC = (props) => {
   const { headerNavigation, phone, logo } = useContext(AppContext)
   const { children } = props
 

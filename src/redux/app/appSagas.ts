@@ -1,6 +1,7 @@
-import { appApi, Await } from 'app-data'
+import { appApi } from 'app-data'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { INIT_APP, initAppFail, initAppSuccess } from './appActions'
+import { Await } from "../../shared/utilityTypes";
 
 function* initAppSaga() {
   try {

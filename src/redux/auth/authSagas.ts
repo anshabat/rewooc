@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects'
-import { authApi, Await } from 'app-data'
+import { authApi } from 'app-data'
 import {
   AUTH_CHECK_AUTH,
   AUTH_SIGN_IN,
@@ -13,6 +13,7 @@ import {
 } from './authActions'
 import { initApp } from '../app/appActions'
 import { ISignInAction } from './authTypes'
+import { Await } from "../../shared/utilityTypes";
 
 function* checkAuthSaga() {
   const token = localStorage.getItem('token')
