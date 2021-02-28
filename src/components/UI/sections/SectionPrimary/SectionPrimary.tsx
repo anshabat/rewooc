@@ -2,8 +2,15 @@ import './SectionPrimary.scss'
 import React from 'react'
 import Arrow from '../../Arrow/Arrow'
 import { withCarousel } from '../../../carousel'
+import { ICarouselContext } from '../../../carousel/context'
 
-const SectionPrimary = (props) => {
+interface IOwnProps {
+  title?: string
+}
+
+type IProps = ICarouselContext & IOwnProps
+
+const SectionPrimary: React.FC<IProps> = (props) => {
   const { title, carousel, children } = props
 
   return (
@@ -28,4 +35,4 @@ const SectionPrimary = (props) => {
   )
 }
 
-export default withCarousel(SectionPrimary)
+export default withCarousel<IOwnProps>(SectionPrimary)

@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import Context from './context'
+import Context, { ICarouselContext } from './context'
 
-const withCarousel = (WrappedComponent) =>
+function withCarousel<P>(
+  WrappedComponent: React.ComponentType<ICarouselContext & P>
+) {
   // TODO remove this
   // eslint-disable-next-line react/display-name
-  class extends Component {
+  return class extends Component<P> {
     static contextType = Context
 
     render() {
       return <WrappedComponent {...this.context} {...this.props} />
     }
   }
+}
 
 export default withCarousel

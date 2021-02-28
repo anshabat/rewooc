@@ -1,10 +1,27 @@
 import './Slider.scss'
-import React, { Component, Children } from 'react'
+import React, { Component, Children, ReactNode } from 'react'
 import * as utils from '../../../shared/utilities'
 import withCarousel from '../withCarousel'
+import { ICarouselContext } from '../context'
 
-class Slider extends Component {
-  constructor(props) {
+interface IState {
+  offset: number
+  startIndex: number
+  innerSlidesCount: number
+  lastLoadedIndex: number
+}
+
+interface IOwnProps {
+  children: ReactNode
+}
+
+type IProps = ICarouselContext & IOwnProps
+
+class Slider extends Component<IProps, IState> {
+  debouncedFitSlides: (event: Event) => void
+  $carousel: HTMLElement | null
+
+  constructor(props: IProps) {
     super(props)
 
     this.state = {
@@ -16,6 +33,7 @@ class Slider extends Component {
 
     this.fitSlides = this.fitSlides.bind(this)
     this.debouncedFitSlides = utils.debounce(this.fitSlides)
+    this.$carousel = null
   }
 
   componentDidMount() {
@@ -31,7 +49,9 @@ class Slider extends Component {
 
   componentDidUpdate() {
     const { offset } = this.state
-    this.$carousel.style.setProperty('--offset', offset)
+    if (this.$carousel) {
+      this.$carousel.style.setProperty('--offset', String(offset))
+    }
   }
 
   componentWillUnmount() {
@@ -39,10 +59,12 @@ class Slider extends Component {
   }
 
   getInnerSlidesCount() {
-    return Number(getComputedStyle(this.$carousel).getPropertyValue('--slides'))
+    return this.$carousel
+      ? Number(getComputedStyle(this.$carousel).getPropertyValue('--slides'))
+      : 0
   }
 
-  moveSlider(operator) {
+  moveSlider(operator: number) {
     this.setState((prev) => {
       const startIndex = Math.max(prev.startIndex + operator, 0)
       return {
@@ -114,4 +136,6 @@ class Slider extends Component {
   }
 }
 
-export default withCarousel(Slider)
+export type SliderComponentType = Slider
+
+export default withCarousel<IOwnProps>(Slider)

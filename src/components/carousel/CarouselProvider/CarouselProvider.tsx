@@ -1,8 +1,16 @@
-import React, { Component } from 'react'
-import Context from '../context'
+import React, { Component, ReactNode } from "react";
+import Context, { CarouselType } from "../context";
 
-class CarouselProvider extends Component {
-  constructor(props) {
+interface IProps {
+  children: ReactNode
+}
+
+interface IState {
+  carousel: CarouselType
+}
+
+class CarouselProvider extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props)
 
     this.state = {
@@ -12,11 +20,11 @@ class CarouselProvider extends Component {
     this.getSlider = this.getSlider.bind(this)
   }
 
-  getSlider(carousel) {
+  getSlider(carousel: CarouselType): void {
     this.setState({ carousel })
   }
 
-  render() {
+  render(): ReactNode {
     const { children } = this.props
     const { carousel } = this.state
     return (

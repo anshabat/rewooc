@@ -13,7 +13,9 @@ function Root() {
   return (
     <Layout>
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact>
+          <Home />
+        </Route>
         <Route
           path={['/shop', '/product-category/:slug']}
           render={() => <Catalog />}
