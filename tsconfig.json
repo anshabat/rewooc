@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*"],
+  "include": ["./src"],
   "compilerOptions": {
     "jsx": "react",
     "target": "es5",

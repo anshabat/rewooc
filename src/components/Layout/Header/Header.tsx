@@ -1,8 +1,16 @@
 import './Header.scss'
-import React from 'react'
+import React, { FC, ReactNode } from 'react'
 import UserNav from '../../UserNav/UserNav'
 
-const Header = (props) => {
+interface IProps {
+  headlineRight: ReactNode
+  headlineLeft: ReactNode
+  mainLeft: ReactNode
+  mainCenter: ReactNode
+  mainRight: ReactNode
+}
+
+const Header: FC<IProps> = (props) => {
   const { headlineRight, headlineLeft, mainLeft, mainCenter, mainRight } = props
 
   return (

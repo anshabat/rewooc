@@ -1,11 +1,12 @@
 import { ICartItem, ICartHash } from '../cart/cartTypes'
+import { INavItem } from '../../types/navigationModel'
 
 export interface IGeneralResponseData {
   ajaxUrl: string
   baseUrl: string
   cart: ICartHash
   favicon: string
-  headerNavigation: Array<any>
+  headerNavigation: INavItem[]
   logo: any
   phone: string
   price: any

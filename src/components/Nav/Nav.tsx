@@ -1,11 +1,33 @@
 import './Nav.scss'
-import React, { Component } from 'react'
+import React, { Component, ReactNode } from 'react'
+import { INavItem } from '../../types/navigationModel'
 
-let allItems = []
-let allNavs = []
+interface IProps {
+  items?: INavItem[]
+  navs: ReactNode[]
+  parentId: number,
+  depth: number,
+  opened: boolean,
+}
 
-class Nav extends Component {
-  constructor(props) {
+interface IState {
+  openedItems: number[]
+}
+
+let allItems: INavItem[] = []
+let allNavs: ReactNode[] = []
+
+class Nav extends Component<IProps, IState> {
+  childItems: INavItem[]
+  ChildNav: ReactNode
+
+  static defaultProps = {
+    parentId: 0,
+    depth: 1,
+    opened: true,
+  }
+
+  constructor(props: IProps) {
     super(props)
     /* Save origins in closure for reusing in component recursion */
     allItems = props.items || allItems
@@ -61,12 +83,6 @@ class Nav extends Component {
       />
     ) : null
   }
-}
-
-Nav.defaultProps = {
-  parentId: 0,
-  depth: 1,
-  opened: true,
 }
 
 export default Nav
