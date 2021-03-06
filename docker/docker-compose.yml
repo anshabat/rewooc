@@ -1,0 +1,28 @@
+version: "3.6"
+
+services:
+  php:
+    build:
+      context: php
+    ports:
+      - 80:80
+    volumes:
+      - ../:/var/www/html
+
+  mariadb:
+    image: mariadb:10.4
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./database/mariadb:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
