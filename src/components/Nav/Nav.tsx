@@ -1,10 +1,19 @@
 import './Nav.scss'
-import React, { Component, ReactNode } from 'react'
+import React, { Component, FC, ReactNode } from 'react'
 import { INavItem } from '../../types/navigationModel'
+
+export interface IChildNav {
+  items: INavItem[]
+  depth: number
+  openedItems: number[]
+  showItem: (item: INavItem) => void
+  hideItem: (item: INavItem) => void
+  hasChildItems: (item: INavItem) => boolean
+}
 
 interface IProps {
   items?: INavItem[]
-  navs: ReactNode[]
+  navs?: FC<IChildNav>[]
   parentId: number,
   depth: number,
   opened: boolean,
@@ -15,11 +24,11 @@ interface IState {
 }
 
 let allItems: INavItem[] = []
-let allNavs: ReactNode[] = []
+let allNavs: FC<IChildNav>[] = []
 
 class Nav extends Component<IProps, IState> {
   childItems: INavItem[]
-  ChildNav: ReactNode
+  ChildNav: FC<IChildNav>
 
   static defaultProps = {
     parentId: 0,
@@ -42,11 +51,11 @@ class Nav extends Component<IProps, IState> {
     }
   }
 
-  hasChildItems(item) {
+  hasChildItems(item: INavItem): boolean {
     return allItems.some((i) => Number(i.menu_item_parent) === item.ID)
   }
 
-  showItem(item) {
+  showItem(item: INavItem): void {
     if (!this.hasChildItems(item)) {
       return
     }
@@ -56,7 +65,7 @@ class Nav extends Component<IProps, IState> {
     })
   }
 
-  hideItem(item) {
+  hideItem(item: INavItem): void {
     if (!this.hasChildItems(item)) {
       return
     }
@@ -67,14 +76,13 @@ class Nav extends Component<IProps, IState> {
     })
   }
 
-  render() {
-    const { opened, parentId, depth } = this.props
+  render(): ReactNode {
+    const { opened, depth } = this.props
     const { openedItems } = this.state
 
     return this.childItems.length && opened ? (
       <this.ChildNav
         items={this.childItems}
-        parentId={parentId}
         depth={depth}
         showItem={this.showItem.bind(this)}
         hideItem={this.hideItem.bind(this)}
