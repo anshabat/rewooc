@@ -1,10 +1,16 @@
 import './CartProduct.scss'
-import React from 'react'
+import React, { FC } from 'react'
 import Image from '../../../UI/Image/Image'
 import Price from '../../Price/Price'
+import { IProduct } from 'app-types'
 
-function CartProduct(props) {
+interface IProps {
+  product: IProduct
+}
+
+const CartProduct: FC<IProps> = (props) => {
   const { product } = props
+
   return (
     <div className="rw-cart-product">
       <div className="rw-cart-product__left">

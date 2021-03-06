@@ -1,8 +1,14 @@
 import './CardPost.scss'
-import React from 'react'
+import React, { FC } from 'react'
 import Image from '../../UI/Image/Image'
 
-const CardPost = (props) => {
+interface IProps {
+  title: string
+  dateCreated: string
+  images: any
+}
+
+const CardPost: FC<IProps> = (props) => {
   const { images, dateCreated, title } = props
 
   return (

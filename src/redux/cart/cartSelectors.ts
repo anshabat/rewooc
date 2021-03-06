@@ -57,6 +57,9 @@ export const selectCartTotalQuantity = createSelector<
   }
 )
 
+export const selectDeletingProductKey = (state: AppStateType): string | null => state.cart.get('deletingProductKey')
+export const selectQuantityKey = (state: AppStateType): string | null => state.cart.get('changingQuantityKey')
+
 export const addingProductToCart = (
   state: AppStateType,
   productId: number

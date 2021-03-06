@@ -1,7 +1,11 @@
 import './FormField.scss'
-import React from 'react'
+import React, { FC, InputHTMLAttributes } from 'react'
 
-const FormField = (props) => {
+interface IProps extends InputHTMLAttributes<HTMLInputElement>{
+  className?: string
+}
+
+const FormField: FC<IProps> = (props) => {
   const { className = '', ...restProps } = props
 
   return (
