@@ -1,6 +1,6 @@
 import './Nav.scss'
 import React, { Component, FC, ReactNode } from 'react'
-import { INavItem } from '../../types/navigationModel'
+import { INavItem } from 'app-types'
 
 export interface IChildNav {
   items: INavItem[]

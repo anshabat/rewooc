@@ -1,5 +1,5 @@
 import { ICartItem, ICartHash } from '../cart/cartTypes'
-import { INavItem } from '../../types/navigationModel'
+import { INavItem, IPriceFormat } from 'app-types'
 
 export interface IGeneralResponseData {
   ajaxUrl: string
@@ -9,7 +9,7 @@ export interface IGeneralResponseData {
   headerNavigation: INavItem[]
   logo: any
   phone: string
-  price: any
+  price: IPriceFormat
   siteMeta: {
     title: string
     description: string
