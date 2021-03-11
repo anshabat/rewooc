@@ -1,3 +1,3 @@
 export const Config = {
-  apiUrl: 'http://localhost/server/wp',
+  apiUrl: process.env.API_URL,
 }
