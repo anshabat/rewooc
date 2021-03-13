@@ -1,22 +1,20 @@
 import './ProductCard.scss'
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { ChangeEvent, FC, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Image from '../../../UI/Image/Image'
 import Price from '../../Price/Price'
 import { addToCart } from '../../../../redux/cart/cartActions'
 import { siteUrl } from '../../../../shared/utilities'
 import FormField from '../../../UI/Form/FormField/FormField'
-import {
-  isProductInCart,
-  addingProductToCart,
-} from '../../../../redux/cart/cartSelectors'
+import { IProduct } from 'app-types'
+import { useCartInfo } from '../../../../hooks/useCartInfo'
 
-function ProductCard(props) {
+const ProductCard: FC<IProduct> = (props) => {
   const { id, images, title, price, link } = props
+
   const [quantity, changeQuantity] = useState(1)
-  const addingToCart = useSelector((state) => addingProductToCart(state, id))
-  const isInCart = useSelector((state) => isProductInCart(state, id))
+  const { isProductInCart, isProductAddingToCart } = useCartInfo(id)
   const dispatch = useDispatch()
 
   return (
@@ -37,15 +35,15 @@ function ProductCard(props) {
           <FormField
             type="number"
             value={quantity}
-            onChange={(e) => {
-              changeQuantity(e.target.value)
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              changeQuantity(Number(e.target.value))
             }}
           />
         </div>
       </div>
       <div className="rw-product-card__row">
-        {addingToCart && <span>Adding...</span>}
-        {isInCart && <Link to={siteUrl('cart')}>In Cart</Link>}
+        {isProductAddingToCart && <span>Adding...</span>}
+        {isProductInCart && <Link to={siteUrl('cart')}>In Cart</Link>}
         <button onClick={() => dispatch(addToCart(id, quantity))} type="button">
           Add to Cart
         </button>

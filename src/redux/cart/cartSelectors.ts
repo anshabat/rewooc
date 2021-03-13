@@ -2,8 +2,8 @@ import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
 import { ImmutableCartItemType } from './cartTypes'
 import { List } from 'immutable'
-import { ImmutableProductType } from "app-types";
-import { ICartItem } from "app-data";
+import { ImmutableProductType } from 'app-types'
+import { ICartItem } from 'app-data'
 
 export const selectCartData = createSelector<
   AppStateType,
@@ -57,21 +57,11 @@ export const selectCartTotalQuantity = createSelector<
   }
 )
 
-export const selectDeletingProductKey = (state: AppStateType): string | null => state.cart.get('deletingProductKey')
-export const selectQuantityKey = (state: AppStateType): string | null => state.cart.get('changingQuantityKey')
+export const selectDeletingProductKey = (state: AppStateType): string | null =>
+  state.cart.get('deletingProductKey')
+export const selectQuantityKey = (state: AppStateType): string | null =>
+  state.cart.get('changingQuantityKey')
 
-export const addingProductToCart = (
-  state: AppStateType,
-  productId: number
-): boolean => {
-  return state.cart.get('addingProductId') === productId
-}
-
-export const isProductInCart = (
-  state: AppStateType,
-  productId: number
-): boolean => {
-  return state.cart
-    .get('items')
-    .some((item) => item.get('productId') === productId)
+export const selectAddingToCartId = (state: AppStateType): number | null => {
+  return state.cart.get('addingProductId')
 }
