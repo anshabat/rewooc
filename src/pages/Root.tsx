@@ -21,7 +21,9 @@ function Root() {
           render={() => <Catalog />}
         />
         <Route path="/cart" component={Cart} />
-        <Route path="/sign-in" component={SignIn} />
+        <Route path="/sign-in">
+          <SignIn />
+        </Route>
         <Route path="/my-account" component={Account} />
         <Route path="/sign-out" component={SignOut} />
         <Route component={Page404} />

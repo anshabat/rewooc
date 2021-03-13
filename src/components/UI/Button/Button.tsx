@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes, FC } from 'react'
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: string
   color: string
-  className: string
+  className?: string
 }
 
 const Button: FC<IProps> = (props) => {

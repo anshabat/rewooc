@@ -1,27 +1,33 @@
 import './Form.scss'
-import React, { useEffect } from 'react'
+import React, { FC, FormEvent, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { signIn } from '../../redux/auth/authActions'
 import Content from '../../components/Layout/Content/Content'
 import FormField from '../../components/UI/Form/FormField/FormField'
 import Button from '../../components/UI/Button/Button'
 import Message from '../../components/UI/Message/Message'
 import { selectAccountUser } from '../../redux/account/accountSelector'
+import { selectAuthProcess } from '../../redux/auth/authSelectors'
 
-const SignIn = (props) => {
-  const { history } = props
-  const loading = useSelector((state) => state.auth.loading)
-  const error = useSelector((state) => state.auth.error)
+interface IFormElements extends HTMLFormControlsCollection {
+  username: HTMLInputElement
+  password: HTMLInputElement
+}
+
+type FormEventType = FormEvent<HTMLFormElement> & { target: HTMLFormElement }
+
+const SignIn: FC = () => {
+  const history = useHistory()
+  const { loading, error } = useSelector(selectAuthProcess)
   const user = useSelector(selectAccountUser)
   const dispatch = useDispatch()
   const loadingClass = loading ? 'rw-form--is-loading' : ''
 
-  const submitHandler = (event) => {
-    event.preventDefault()
-    const formElement = event.target
-    const formData = new FormData(formElement)
-    const { username, password } = Object.fromEntries(formData.entries())
-    dispatch(signIn(username, password))
+  const submitHandler = (e: FormEventType) => {
+    e.preventDefault()
+    const elements = e.target.elements as IFormElements
+    dispatch(signIn(elements.username.value, elements.password.value))
   }
 
   useEffect(() => {
