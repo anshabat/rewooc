@@ -1,9 +1,6 @@
-export interface IPriceFormat extends IPriceValueFormat {
+export interface IPriceFormat {
   currencySymbol: string
   priceFormat: string
-}
-
-export interface IPriceValueFormat {
   decimalSeparator: string
   decimals: number
   thousandSeparator: string

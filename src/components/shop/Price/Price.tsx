@@ -8,7 +8,6 @@ interface IProps {
 
 const Price: FC<IProps & IWithPriceFormat> = (props) => {
   const { formatPrice, value } = props
-  //console.log(typeof value)
 
   return (
     <div className="rw-price">
