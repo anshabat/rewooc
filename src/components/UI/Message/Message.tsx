@@ -1,7 +1,11 @@
 import './Message.scss'
-import React from 'react'
+import React, { FC } from 'react'
 
-const Message = (props) => {
+interface IProps {
+  type?: string
+}
+
+const Message: FC<IProps> = (props) => {
   const { children, type = 'default' } = props
 
   return <div className={`rw-message rw-message--${type}`}>{children}</div>

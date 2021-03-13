@@ -1,8 +1,8 @@
 import './PageLoader.scss'
-import React from 'react'
+import React, { FC } from 'react'
 import Loader from '../Loader/Loader'
 
-const PageLoader = () => (
+const PageLoader: FC= () => (
   <div className="rw-page-loader">
     <Loader />
   </div>

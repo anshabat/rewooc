@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const Image = (props) => {
+interface IProps {
+  image: HTMLImageElement
+}
+
+const Image: FC<IProps> = (props) => {
   const { image } = props
   return image ? (
     <img

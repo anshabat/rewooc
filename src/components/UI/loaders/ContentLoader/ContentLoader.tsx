@@ -1,8 +1,8 @@
 import './ContentLoader.scss'
-import React from 'react'
+import React, { FC } from 'react'
 import Loader from '../Loader/Loader'
 
-const ContentLoader = () => (
+const ContentLoader: FC = () => (
   <div className="rw-content-loader">
     <Loader />
   </div>

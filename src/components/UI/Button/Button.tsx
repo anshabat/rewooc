@@ -1,7 +1,13 @@
 import './Button.scss'
-import React from 'react'
+import React, { ButtonHTMLAttributes, FC } from 'react'
 
-const Button = (props) => {
+interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  size: string
+  color: string
+  className: string
+}
+
+const Button: FC<IProps> = (props) => {
   const {
     size = 'md',
     color = 'secondary',
