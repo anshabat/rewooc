@@ -7,7 +7,7 @@ import { AnyAction } from 'redux'
 function connectPage<P>(action: (url: string) => AnyAction) {
   // TODO eslint this
   // eslint-disable-next-line react/display-name
-  return (Component: React.ComponentType<P>) => (props: P): ReactNode => {
+  return (Component: React.ComponentType<P>) => (props: P): JSX.Element => {
     const location = useLocation()
     const dispatch = useDispatch()
 

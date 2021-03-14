@@ -28,7 +28,7 @@ export const removeTrailingSlash = (str: string): string => {
 }
 
 export const siteUrl = (url: string): string => {
-  const urlPath = url.replace(Config.apiUrl, '')
+  const urlPath = Config.apiUrl ? url.replace(Config.apiUrl, '') : '/'
 
   return urlPath[0] === '/' || urlPath.startsWith('http')
     ? urlPath
