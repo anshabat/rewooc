@@ -1,14 +1,14 @@
 import './Account.scss'
 import React, { FC } from 'react'
-import { Route, RouteComponentProps, Switch } from 'react-router-dom'
+import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import Content from '../../components/Layout/Content/Content'
 import SidebarNav from '../../components/UI/navigation/SidebarNav/SidebarNav'
 import PersonalInformation from './PersonalInformation/PersonalInformation'
 import Orders from './Orders/Orders'
 import Addresses from './Addresses/Addresses'
 
-const Account: FC<RouteComponentProps> = (props) => {
-  const { match } = props
+const Account: FC = () => {
+  const match = useRouteMatch()
 
   return (
     <Content title="My Account">

@@ -2,10 +2,10 @@ import React, { ComponentType, useEffect, useState } from 'react'
 import { appApi } from 'app-data'
 import ContentLoader from '../components/UI/loaders/ContentLoader/ContentLoader'
 
-function withPageData<P>(InnerComponent: ComponentType<P>) {
+function withPageData<P, T = unknown>(InnerComponent: ComponentType<P & T>) {
   // TODO remove this
   // eslint-disable-next-line react/display-name
-  return function (): JSX.Element {
+  return function (props: T): JSX.Element {
     const [data, setData] = useState<null | P>(null)
 
     useEffect(() => {
@@ -14,7 +14,7 @@ function withPageData<P>(InnerComponent: ComponentType<P>) {
       })
     }, [])
 
-    return data ? <InnerComponent {...data} /> : <ContentLoader />
+    return data ? <InnerComponent {...data} {...props} /> : <ContentLoader />
   }
 }
 

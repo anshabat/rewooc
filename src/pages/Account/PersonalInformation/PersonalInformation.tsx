@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAccountUser } from '../../../redux/account/accountSelector'
 
-function PersonalInformation() {
+const PersonalInformation: FC = () => {
   const user = useSelector(selectAccountUser)
 
   return (

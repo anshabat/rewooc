@@ -44,4 +44,4 @@ const Home: React.FC<IProps> = (props) => {
   )
 }
 
-export default withPageData(Home)
+export default withPageData<IProps>(Home)

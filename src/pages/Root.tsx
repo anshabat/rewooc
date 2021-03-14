@@ -14,7 +14,7 @@ function Root() {
     <Layout>
       <Switch>
         <Route path="/" exact>
-          <Home />
+          <Home  />
         </Route>
         <Route
           path={['/shop', '/product-category/:slug']}
@@ -24,7 +24,9 @@ function Root() {
         <Route path="/sign-in">
           <SignIn />
         </Route>
-        <Route path="/my-account" component={Account} />
+        <Route path="/my-account">
+          <Account />
+        </Route>
         <Route path="/sign-out" component={SignOut} />
         <Route component={Page404} />
       </Switch>
