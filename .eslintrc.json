@@ -3,8 +3,17 @@
     "browser": true,
     "es2021": true
   },
-  "parser": "babel-eslint",
-  "extends": ["airbnb", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "rules": {
     "react/prop-types": "off",
     "import/prefer-default-export": "off"

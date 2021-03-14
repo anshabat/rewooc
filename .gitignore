@@ -1,6 +1,8 @@
 node_modules/
 .idea/
 dist/
+docker/database
+.env
 
 # Ignore Wordpress Server
 /server/wp/*.*

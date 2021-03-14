@@ -1,0 +1,16 @@
+{
+  "include": ["./src"],
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "es5",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "app-data": ["src/data"],
+      "app-types": ["src/types"]
+    },
+    "lib": ["dom", "es2020"]
+  }
+}
