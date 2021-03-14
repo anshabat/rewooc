@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
-import { ImmutableCartItemType } from './cartTypes'
-import { List } from 'immutable'
+import { ICartState, ImmutableCartItemType } from './cartTypes'
+import { List, Record } from 'immutable'
 import { ImmutableProductType } from 'app-types'
 import { ICartItem } from 'app-data'
 
@@ -33,6 +33,15 @@ export const selectCartItems = createSelector<
   (items) => {
     return items.toJS()
   }
+)
+
+export const selectCartProcess = createSelector<
+  AppStateType,
+  Record<ICartState>,
+  { loading: boolean; title: null | string }
+>(
+  (state) => state.cart,
+  (result) => ({ loading: result.get('loading'), title: result.get('title') })
 )
 
 export const selectCartTotalPrice = createSelector<

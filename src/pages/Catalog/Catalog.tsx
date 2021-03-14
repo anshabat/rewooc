@@ -6,11 +6,10 @@ import Content from '../../components/Layout/Content/Content'
 import Grid from '../../components/UI/Grid/Grid'
 import { loadCatalogPage } from '../../redux/catalog/catalogActions'
 import ContentLoader from '../../components/UI/loaders/ContentLoader/ContentLoader'
-import { selectProducts } from '../../redux/catalog/catalogSelectors'
+import { selectCatalogProcess, selectProducts } from '../../redux/catalog/catalogSelectors'
 
 const Catalog = () => {
-  const loading = useSelector((state) => state.catalog.loading)
-  const title = useSelector((state) => state.catalog.title)
+  const {title, loading} = useSelector(selectCatalogProcess)
   const products = useSelector(selectProducts)
 
   if (loading) return <ContentLoader />

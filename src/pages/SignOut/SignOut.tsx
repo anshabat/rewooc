@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signOut } from '../../redux/auth/authActions'
 
-const SignOut = () => {
+const SignOut: FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {

@@ -5,11 +5,13 @@ import CartTable from '../../components/shop/cart/CartTable/CartTable'
 import { loadCartPage } from '../../redux/cart/cartActions'
 import Content from '../../components/Layout/Content/Content'
 import ContentLoader from '../../components/UI/loaders/ContentLoader/ContentLoader'
-import { selectCartData } from '../../redux/cart/cartSelectors'
+import {
+  selectCartData,
+  selectCartProcess,
+} from '../../redux/cart/cartSelectors'
 
 const Cart = () => {
-  const title = useSelector((state) => state.cart.title)
-  const loading = useSelector((state) => state.cart.loading)
+  const { title, loading } = useSelector(selectCartProcess)
   const cartData = useSelector(selectCartData)
 
   if (loading) return <ContentLoader />
