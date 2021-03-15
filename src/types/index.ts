@@ -1,4 +1,4 @@
-export { IProduct, ImmutableProductType } from './productModel'
+export { IProduct } from './productModel'
 export { IBlogPost } from './blogPostModel'
 export { IUserAddress, IUser } from './userModel'
 export { INavItem } from './navigationModel'

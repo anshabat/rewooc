@@ -1,4 +1,3 @@
-import { Record, List, fromJS } from 'immutable'
 import { ICatalogState, CatalogActionTypes } from './catalogTypes'
 import {
   CATALOG_PAGE_LOAD_FAIL,
@@ -6,28 +5,30 @@ import {
   CATALOG_PAGE_LOAD_SUCCESS,
 } from './catalogActions'
 
-const InitialState = Record<ICatalogState>({
+const InitialState: ICatalogState = {
   title: '',
   loading: true,
   error: false,
-  products: List([]),
-})
+  products: [],
+}
 
 const reducer = (
-  state = new InitialState(),
+  state = InitialState,
   action: CatalogActionTypes
 ): ICatalogState => {
   switch (action.type) {
     case CATALOG_PAGE_LOAD:
-      return state.set('loading', true).set('error', false)
+      return { ...state, loading: true, error: false }
     case CATALOG_PAGE_LOAD_SUCCESS:
-      return state
-        .set('loading', false)
-        .set('error', false)
-        .set('products', fromJS(action.payload.products))
-        .set('title', action.payload.title)
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        products: action.payload.products,
+        title: action.payload.title,
+      }
     case CATALOG_PAGE_LOAD_FAIL:
-      return state.set('loading', false).set('error', action.error)
+      return { ...state, loading: false, error: action.error }
     default:
       return state
   }

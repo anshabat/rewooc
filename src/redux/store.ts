@@ -34,7 +34,7 @@ export type AppStateType = {
   router: any
   app: IAppState
   cart: Record<ICartState>
-  catalog: Record<ICatalogState>
+  catalog: ICatalogState
   auth: IAuthState
   account: IAccountState
   test: any
