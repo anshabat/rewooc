@@ -1,9 +1,12 @@
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAccountUser } from '../../../redux/account/accountSelector'
+import Loader from '../../../components/UI/loaders/Loader/Loader'
 
 const PersonalInformation: FC = () => {
   const user = useSelector(selectAccountUser)
+
+  if (!user) return <Loader />
 
   return (
     <div>

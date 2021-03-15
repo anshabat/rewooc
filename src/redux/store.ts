@@ -36,7 +36,7 @@ export type AppStateType = {
   cart: Record<ICartState>
   catalog: Record<ICatalogState>
   auth: Record<IAuthState>
-  account: Record<IAccountState>
+  account: IAccountState
   test: any
 }
 // Todo fix this after migrating to immer

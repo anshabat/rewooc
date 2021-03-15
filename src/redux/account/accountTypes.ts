@@ -1,8 +1,5 @@
-import { ImmutableUserType, IUser } from 'app-types'
-import { ImmutableMap } from '../../shared/utilityTypes'
+import { IUser } from 'app-types'
 
 export interface IAccountState {
-  user: ImmutableUserType | null
+  user: IUser | null
 }
-
-export type ImmutableUserType = ImmutableMap<IUser>
