@@ -1,4 +1,4 @@
 import { AppStateType } from '../store'
-import { IAppState } from "./appTypes";
+import { IAppState } from './appTypes'
 
-export const selectApp = (state: AppStateType): IAppState => state.app.toJS()
+export const selectApp = (state: AppStateType): IAppState => state.app

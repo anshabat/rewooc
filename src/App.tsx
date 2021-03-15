@@ -29,7 +29,9 @@ class App extends Component<Props> {
       app: { data, loading },
     } = this.props
 
-    if (loading) return <PageLoader />
+    if (loading || !data) return <PageLoader />
+
+    //TODO add if (!data) - return Error page component instead of Loading state
 
     return (
       <AppProvider value={data}>
