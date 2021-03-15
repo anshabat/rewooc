@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
-import { IUser } from 'app-types'
+import { ImmutableUserType, IUser } from 'app-types'
 
-export const selectAccountUser = createSelector<AppStateType, any, IUser>(
+export const selectAccountUser = createSelector<AppStateType, ImmutableUserType, IUser>(
   (state) => state.account.get('user'),
   (user) => (user ? user.toJS() : null)
 )
