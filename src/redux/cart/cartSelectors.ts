@@ -1,76 +1,72 @@
 import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
-import { ICartState, ImmutableCartItemType } from './cartTypes'
-import { List, Record } from 'immutable'
-import { ImmutableProductType } from 'app-types'
+import { ICartState } from './cartTypes'
 import { ICartItem } from 'app-data'
+import { IProduct } from 'app-types'
 
 export const selectCartData = createSelector<
   AppStateType,
-  List<ImmutableCartItemType>,
-  List<ImmutableProductType>,
-  Array<ICartItem>
+  ICartItem[],
+  IProduct[],
+  ICartItem[]
 >(
-  (state) => state.cart.get('items'),
-  (state) => state.cart.get('products'),
+  (state) => state.cart.items,
+  (state) => state.cart.products,
   (items, products) =>
-    items
-      .map((item) => {
-        const product = products.find(
-          (p) => p.get('id') === item.get('productId')
-        )
-        return item.set('product', product)
-      })
-      .toJS()
+    items.map((item) => {
+      //log item
+      const product = products.find((p) => p.id === item.productId)
+      if (product) {
+        item.product = product
+      }
+      return item
+    })
 )
 
-export const selectCartItems = createSelector<
-  AppStateType,
-  List<ImmutableCartItemType>,
-  Array<ICartItem>
->(
-  (state) => state.cart.get('items'),
-  (items) => {
-    return items.toJS()
-  }
-)
+export const selectCartItems = (state: AppStateType): ICartItem[] => {
+  return state.cart.items
+}
 
 export const selectCartProcess = createSelector<
   AppStateType,
-  Record<ICartState>,
+  ICartState,
   { loading: boolean; title: null | string }
 >(
   (state) => state.cart,
-  (result) => ({ loading: result.get('loading'), title: result.get('title') })
+  (result) => ({ loading: result.loading, title: result.title })
 )
 
 export const selectCartTotalPrice = createSelector<
   AppStateType,
-  List<ImmutableCartItemType>,
+  ICartItem[],
   number
 >(
-  (state) => state.cart.get('items'),
+  (state) => state.cart.items,
   (items) => {
-    return items.reduce((total, item) => total + item.get('totalPrice'), 0)
+    return items.reduce((total, item) => total + item.totalPrice, 0)
   }
 )
 
 export const selectCartTotalQuantity = createSelector<
   AppStateType,
-  List<ImmutableCartItemType>,
+  ICartItem[],
   number
 >(
-  (state) => state.cart.get('items'),
+  (state) => state.cart.items,
   (items) => {
-    return items.reduce((total, item) => total + item.get('quantity'), 0)
+    return items.reduce((total, item) => total + item.quantity, 0)
   }
 )
 
-export const selectDeletingProductKey = (state: AppStateType): string | null =>
-  state.cart.get('deletingProductKey')
-export const selectQuantityKey = (state: AppStateType): string | null =>
-  state.cart.get('changingQuantityKey')
+export const selectDeletingProductKey = (
+  state: AppStateType
+): string | null => {
+  return state.cart.deletingProductKey
+}
+export const selectQuantityKey = (state: AppStateType): string | null => {
+  return state.cart.changingQuantityKey
+}
 
 export const selectAddingToCartId = (state: AppStateType): number | null => {
-  return state.cart.get('addingProductId')
+  return state.cart.addingProductId
 }
