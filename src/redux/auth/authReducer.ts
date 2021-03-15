@@ -1,4 +1,3 @@
-import { Record } from 'immutable'
 import { AuthActionTypes, IAuthState } from './authTypes'
 import {
   AUTH_SIGN_IN_FAIL,
@@ -7,24 +6,20 @@ import {
   AUTH_SIGN_OUT_SUCCESS,
 } from './authActions'
 
-const InitialState = Record<IAuthState>({
+const InitialState = {
   loading: false,
   error: false,
-})
+}
 
-const reducer = (
-  state = new InitialState(),
-  action: AuthActionTypes
-): IAuthState => {
+const reducer = (state = InitialState, action: AuthActionTypes): IAuthState => {
   switch (action.type) {
     case AUTH_SIGN_IN:
-      return state.set('loading', true).set('error', false)
+      return { ...state, loading: true, error: false }
     case AUTH_SIGN_IN_SUCCESS:
-      return state.set('loading', false).set('error', false)
+      return { ...state, loading: false, error: false }
     case AUTH_SIGN_IN_FAIL:
-      return state.set('loading', false).set('error', action.error)
+      return { ...state, loading: false, error: action.error }
     case AUTH_SIGN_OUT_SUCCESS:
-      return state
     default:
       return state
   }

@@ -17,7 +17,7 @@ import { ICartState } from './cart/cartTypes'
 import { ICatalogState } from './catalog/catalogTypes'
 import { IAuthState } from './auth/authTypes'
 import { IAccountState } from './account/accountTypes'
-import { Record } from "immutable";
+import { Record } from 'immutable'
 import { IAppState } from './app/appTypes'
 
 const rootReducer = combineReducers({
@@ -35,7 +35,7 @@ export type AppStateType = {
   app: IAppState
   cart: Record<ICartState>
   catalog: Record<ICatalogState>
-  auth: Record<IAuthState>
+  auth: IAuthState
   account: IAccountState
   test: any
 }
