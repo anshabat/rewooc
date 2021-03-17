@@ -108,6 +108,7 @@ export default function reducer(
     case CART_ADD_PRODUCT_SUCCESS: {
       const cartItem = action.payload.cartItem
       const items = addItem(state, cartItem)
+      console.log(items)
       const products = addProduct(state, cartItem)
 
       return {

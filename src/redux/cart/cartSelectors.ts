@@ -2,26 +2,6 @@ import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
 import { ICartState } from './cartTypes'
 import { ICartItem } from 'app-data'
-import { IProduct } from 'app-types'
-
-export const selectCartData = createSelector<
-  AppStateType,
-  ICartItem[],
-  IProduct[],
-  ICartItem[]
->(
-  (state) => state.cart.items,
-  (state) => state.cart.products,
-  (items, products) =>
-    items.map((item) => {
-      //log item
-      const product = products.find((p) => p.id === item.productId)
-      if (product) {
-        item.product = product
-      }
-      return item
-    })
-)
 
 export const selectCartItems = (state: AppStateType): ICartItem[] => {
   return state.cart.items
