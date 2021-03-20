@@ -15,66 +15,15 @@ import {
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
 } from './cartActions'
 import { AppActionTypes } from '../app/appTypes'
-import { ICartItem } from 'app-data'
-import { IProduct } from 'app-types'
-
-const getCartProducts = (cartItems: ICartItem[]): IProduct[] => {
-  return cartItems.reduce<IProduct[]>((products, item) => {
-    const exist = products.find((p) => p.id === item.product.id)
-    if (!exist) {
-      return products.concat(item.product)
-    }
-
-    return products
-  }, [])
-}
-
-const addItem = (state: ICartState, newItem: ICartItem): ICartItem[] => {
-  return state.items.concat(newItem)
-}
-
-const addProduct = (state: ICartState, newItem: ICartItem): IProduct[] => {
-  const newProduct = newItem.product
-  const products = state.products
-  const exist = products.find((product) => product.id === newItem.productId)
-  if (!exist) {
-    return products.concat(newProduct)
-  }
-
-  return products
-}
-
-const deleteItem = (state: ICartState, key: string): ICartItem[] => {
-  return state.items.filter((item) => item.key !== key)
-}
-
-const deleteProduct = (state: ICartState, key: string): IProduct[] => {
-  const products = state.products
-  const itemToDelete = state.items.find((item) => item.key === key)
-
-  if (!itemToDelete) {
-    return products
-  }
-
-  const productId = itemToDelete.productId
-  const cartItems = state.items.filter((item) => item.key !== key)
-  const exist = cartItems.some((item) => item.productId === productId)
-
-  if (exist) {
-    return products
-  }
-
-  return products.filter((product) => product.id !== productId)
-}
-
-const changeQuantity = (state: ICartState, newItem: ICartItem): ICartItem[] => {
-  const items = [...state.items]
-  const itemIndex = items.findIndex((item) => item.key === newItem.key)
-  items[itemIndex].quantity = newItem.quantity
-  items[itemIndex].totalPrice = newItem.totalPrice
-
-  return items
-}
+import {
+  addItem,
+  addProduct,
+  changeQuantity,
+  deleteItem,
+  deleteProduct,
+  getCartItems,
+  getCartProducts,
+} from './cartRepository'
 
 export const InitialState: ICartState = {
   title: null,
@@ -93,8 +42,8 @@ export default function reducer(
 ): ICartState {
   switch (action.type) {
     case INIT_APP_SUCCESS: {
-      const items = action.payload.cart
-      const products = getCartProducts(items)
+      const items = getCartItems(action.payload.cart)
+      const products = getCartProducts(action.payload.cart)
       return { ...state, items: items, products: products }
     }
     case CART_PAGE_LOAD:
@@ -108,7 +57,6 @@ export default function reducer(
     case CART_ADD_PRODUCT_SUCCESS: {
       const cartItem = action.payload.cartItem
       const items = addItem(state, cartItem)
-      console.log(items)
       const products = addProduct(state, cartItem)
 
       return {

@@ -1,11 +1,19 @@
 import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
-import { ICartState } from './cartTypes'
+import { ICartState, INormalizedCartItem } from './cartTypes'
 import { ICartItem } from 'app-data'
+import { denormalizeCartItem } from './cartRepository'
 
-export const selectCartItems = (state: AppStateType): ICartItem[] => {
-  return state.cart.items
-}
+export const selectCartItems = createSelector<
+  AppStateType,
+  ICartState,
+  ICartItem[]
+>(
+  (state) => state.cart,
+  (cart) => {
+    return cart.items.map((item) => denormalizeCartItem(item, cart.products))
+  }
+)
 
 export const selectCartProcess = createSelector<
   AppStateType,
@@ -18,7 +26,7 @@ export const selectCartProcess = createSelector<
 
 export const selectCartTotalPrice = createSelector<
   AppStateType,
-  ICartItem[],
+  INormalizedCartItem[],
   number
 >(
   (state) => state.cart.items,
@@ -29,7 +37,7 @@ export const selectCartTotalPrice = createSelector<
 
 export const selectCartTotalQuantity = createSelector<
   AppStateType,
-  ICartItem[],
+  INormalizedCartItem[],
   number
 >(
   (state) => state.cart.items,

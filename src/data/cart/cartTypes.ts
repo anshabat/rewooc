@@ -34,10 +34,9 @@ export interface ICartItemResponse {
 
 export interface ICartItem {
   key: string
-  productId: number
   quantity: number
   totalPrice: number
-  product: IProduct
+  product: IProduct | undefined
 }
 
 export interface ICartHash {

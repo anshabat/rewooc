@@ -16,12 +16,16 @@ import {
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
 } from './cartActions'
 
+export interface INormalizedCartItem extends Omit<ICartItem, 'product'> {
+  productId: number
+}
+
 export interface ICartState {
   title: null | string
   loading: boolean
   error: boolean | Error
   products: IProduct[]
-  items: ICartItem[]
+  items: INormalizedCartItem[]
   addingProductId: null | number
   deletingProductKey: null | string
   changingQuantityKey: null | string
