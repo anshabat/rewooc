@@ -20,12 +20,15 @@ export interface INormalizedCartItem extends Omit<ICartItem, 'product'> {
   productId: number
 }
 
-export interface ICartState {
+export interface ICartData {
+  items: INormalizedCartItem[]
+  products: IProduct[]
+}
+
+export interface ICartState extends ICartData {
   title: null | string
   loading: boolean
   error: boolean | Error
-  products: IProduct[]
-  items: INormalizedCartItem[]
   addingProductId: null | number
   deletingProductKey: null | string
   changingQuantityKey: null | string

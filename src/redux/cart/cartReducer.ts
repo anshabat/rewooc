@@ -16,13 +16,10 @@ import {
 } from './cartActions'
 import { AppActionTypes } from '../app/appTypes'
 import {
-  addItem,
-  addProduct,
-  changeQuantity,
-  deleteItem,
-  deleteProduct,
-  getCartItems,
-  getCartProducts,
+  addData,
+  updateItemQuantity,
+  deleteData,
+  createData,
 } from './cartRepository'
 
 export const InitialState: ICartState = {
@@ -42,8 +39,7 @@ export default function reducer(
 ): ICartState {
   switch (action.type) {
     case INIT_APP_SUCCESS: {
-      const items = getCartItems(action.payload.cart)
-      const products = getCartProducts(action.payload.cart)
+      const { items, products } = createData(action.payload.cart)
       return { ...state, items: items, products: products }
     }
     case CART_PAGE_LOAD:
@@ -55,9 +51,7 @@ export default function reducer(
     case CART_ADD_PRODUCT:
       return { ...state, addingProductId: action.payload.productId }
     case CART_ADD_PRODUCT_SUCCESS: {
-      const cartItem = action.payload.cartItem
-      const items = addItem(state, cartItem)
-      const products = addProduct(state, cartItem)
+      const { items, products } = addData(state, action.payload.cartItem)
 
       return {
         ...state,
@@ -71,8 +65,7 @@ export default function reducer(
     case CART_DELETE_PRODUCT:
       return { ...state, deletingProductKey: action.payload.productKey }
     case CART_DELETE_PRODUCT_SUCCESS: {
-      const items = deleteItem(state, action.payload.productKey)
-      const products = deleteProduct(state, action.payload.productKey)
+      const { items, products } = deleteData(state, action.payload.productKey)
 
       return {
         ...state,
@@ -84,22 +77,10 @@ export default function reducer(
     case CART_DELETE_PRODUCT_FAIL:
       return { ...state, deletingProductKey: null, error: action.error }
     case CART_SET_PRODUCT_QUANTITY_START: {
-      const currentItem = state.items.find(
-        (item) => item.key === action.payload.productKey
-      )
-
-      if (currentItem) {
-        return {
-          ...state,
-          changingQuantityKey: action.payload.productKey,
-          addingProductId: currentItem.productId,
-        }
-      } else {
-        return state
-      }
+      return { ...state, changingQuantityKey: action.payload.productKey }
     }
     case CART_SET_PRODUCT_QUANTITY_SUCCESS: {
-      const items = changeQuantity(state, action.payload.cartItem)
+      const items = updateItemQuantity(state, action.payload.cartItem)
 
       return {
         ...state,

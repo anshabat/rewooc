@@ -1,5 +1,5 @@
 import { ICartItem } from 'app-data'
-import { ICartState, INormalizedCartItem } from './cartTypes'
+import { ICartData, ICartState, INormalizedCartItem } from './cartTypes'
 import { IProduct } from 'app-types'
 
 export const normalizeCartItem = (item: ICartItem): INormalizedCartItem => {
@@ -23,12 +23,9 @@ export const denormalizeCartItem = (
   }
 }
 
-export const getCartItems = (cartItems: ICartItem[]): INormalizedCartItem[] => {
-  return cartItems.map((item) => normalizeCartItem(item))
-}
-
-export const getCartProducts = (cartItems: ICartItem[]): IProduct[] => {
-  return cartItems.reduce<IProduct[]>((products, item) => {
+export const createData = (cartItems: ICartItem[]): ICartData => {
+  const items = cartItems.map((item) => normalizeCartItem(item))
+  const products = cartItems.reduce<IProduct[]>((products, item) => {
     const exist = products.find((p) => p.id === item.product?.id)
     if (!exist && item.product) {
       return products.concat(item.product)
@@ -36,51 +33,36 @@ export const getCartProducts = (cartItems: ICartItem[]): IProduct[] => {
 
     return products
   }, [])
+
+  return { items, products }
 }
 
-export const addItem = (
+export const addData = (state: ICartState, newItem: ICartItem): ICartData => {
+  const normalizedItem = normalizeCartItem(newItem)
+  const items = state.items.concat(normalizedItem)
+
+  const newProduct = newItem.product
+  const products = [...state.products]
+  const exist = products.find((product) => product.id === newItem.product?.id)
+  if (!exist && newProduct) {
+    products.push(newProduct)
+  }
+
+  return { items, products }
+}
+
+export const deleteData = (state: ICartState, key: string): ICartData => {
+  const items = state.items.filter((item) => item.key !== key)
+  const products = state.products.filter((product) =>
+    items.find((i) => i.productId === product.id)
+  )
+  return { items, products }
+}
+
+export const updateItemQuantity = (
   state: ICartState,
   newItem: ICartItem
 ): INormalizedCartItem[] => {
-  const normalizedItem = normalizeCartItem(newItem)
-  return state.items.concat(normalizedItem)
-}
-
-export const addProduct = (state: ICartState, newItem: ICartItem): IProduct[] => {
-  const newProduct = newItem.product
-  const products = state.products
-  const exist = products.find((product) => product.id === newItem.product?.id)
-  if (!exist && newProduct) {
-    return products.concat(newProduct)
-  }
-
-  return products
-}
-
-export const deleteItem = (state: ICartState, key: string): INormalizedCartItem[] => {
-  return state.items.filter((item) => item.key !== key)
-}
-
-export const deleteProduct = (state: ICartState, key: string): IProduct[] => {
-  const products = state.products
-  const itemToDelete = state.items.find((item) => item.key === key)
-
-  if (!itemToDelete) {
-    return products
-  }
-
-  const productId = itemToDelete.productId
-  const cartItems = state.items.filter((item) => item.key !== key)
-  const exist = cartItems.some((item) => item.productId === productId)
-
-  if (exist) {
-    return products
-  }
-
-  return products.filter((product) => product.id !== productId)
-}
-
-export const changeQuantity = (state: ICartState, newItem: ICartItem): INormalizedCartItem[] => {
   const items = [...state.items]
   const itemIndex = items.findIndex((item) => item.key === newItem.key)
   items[itemIndex].quantity = newItem.quantity
