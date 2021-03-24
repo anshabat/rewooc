@@ -65,8 +65,11 @@ export const updateItemQuantity = (
 ): INormalizedCartItem[] => {
   const items = [...state.items]
   const itemIndex = items.findIndex((item) => item.key === newItem.key)
-  items[itemIndex].quantity = newItem.quantity
-  items[itemIndex].totalPrice = newItem.totalPrice
+  items[itemIndex] = {
+    ...items[itemIndex],
+    quantity: newItem.quantity,
+    totalPrice: newItem.totalPrice,
+  }
 
   return items
 }

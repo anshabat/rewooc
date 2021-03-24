@@ -30,6 +30,7 @@ const reducer = (
         draft.title = action.payload.title
         break
       case CATALOG_PAGE_LOAD_FAIL:
+        console.error(action.error)
         draft.loading = false
         draft.error = action.error
     }

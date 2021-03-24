@@ -30,6 +30,7 @@ const reducer = (state = initialState, action: AppActionTypes): IAppState => {
         draft.data = separateStateFromContext(action.payload)
         break
       case INIT_APP_FAIL:
+        console.error(action.error)
         draft.loading = false
         draft.error = action.error
     }
