@@ -1,3 +1,4 @@
+import produce from 'immer'
 import { ICatalogState, CatalogActionTypes } from './catalogTypes'
 import {
   CATALOG_PAGE_LOAD_FAIL,
@@ -5,7 +6,7 @@ import {
   CATALOG_PAGE_LOAD_SUCCESS,
 } from './catalogActions'
 
-const InitialState: ICatalogState = {
+const initialState: ICatalogState = {
   title: '',
   loading: true,
   error: false,
@@ -13,24 +14,26 @@ const InitialState: ICatalogState = {
 }
 
 const reducer = (
-  state = InitialState,
+  state = initialState,
   action: CatalogActionTypes
 ): ICatalogState => {
-  switch (action.type) {
-    case CATALOG_PAGE_LOAD:
-      return { ...state, loading: true, error: false }
-    case CATALOG_PAGE_LOAD_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        error: false,
-        products: action.payload.products,
-        title: action.payload.title,
-      }
-    case CATALOG_PAGE_LOAD_FAIL:
-      return { ...state, loading: false, error: action.error }
-    default:
-      return state
-  }
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case CATALOG_PAGE_LOAD:
+        draft.loading = true
+        draft.error = false
+        break
+      case CATALOG_PAGE_LOAD_SUCCESS:
+        draft.loading = false
+        draft.error = false
+        draft.products = action.payload.products
+        draft.title = action.payload.title
+        break
+      case CATALOG_PAGE_LOAD_FAIL:
+        draft.loading = false
+        draft.error = action.error
+    }
+  })
 }
+
 export default reducer

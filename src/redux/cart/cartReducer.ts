@@ -22,7 +22,7 @@ import {
   createData,
 } from './cartRepository'
 
-export const InitialState: ICartState = {
+const initialState: ICartState = {
   title: null,
   loading: true,
   error: false,
@@ -34,7 +34,7 @@ export const InitialState: ICartState = {
 }
 
 export default function reducer(
-  state = InitialState,
+  state = initialState,
   action: CartActionTypes | AppActionTypes
 ): ICartState {
   switch (action.type) {
