@@ -37,25 +37,15 @@ const Nav: FC<IProps> = (props) => {
   }
 
   const showItem = (item: INavItem): void => {
-    if (!hasChildItems(item)) {
-      return
+    if (hasChildItems(item)) {
+      setOpenItems(openedItems.concat(item.ID))
     }
-    setOpenItems((items) => {
-      items.push(item.ID)
-      console.log(items)
-      return items
-    })
   }
 
   const hideItem = (item: INavItem): void => {
-    if (!hasChildItems(item)) {
-      return
+    if (hasChildItems(item)) {
+      setOpenItems(openedItems.filter((i) => i !== item.ID))
     }
-    setOpenItems((items) => {
-      const index = items.indexOf(item.ID)
-      items.splice(index, 1)
-      return items
-    })
   }
 
   return childItems.length && opened ? (
