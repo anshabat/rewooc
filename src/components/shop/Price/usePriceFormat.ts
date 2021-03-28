@@ -1,6 +1,5 @@
-import React from 'react'
-import { useAppContext } from '../../../context/appContext'
 import { IPriceFormat } from 'app-types'
+import { useAppContext } from '../../../context/appContext'
 
 const formatPrice = (options: IPriceFormat, value: number) => {
   const {
@@ -34,27 +33,7 @@ const formatPrice = (options: IPriceFormat, value: number) => {
     .replace('%1$s', currencySymbol)
 }
 
-export interface IWithPriceFormat {
-  formatPrice: (value: number) => string
+export function usePriceFormat(value: number): string {
+  const { price: priceOptions } = useAppContext()
+  return formatPrice(priceOptions, value)
 }
-
-function withPriceFormat<T>(
-  InitialComponent: React.ComponentType<T & IWithPriceFormat>
-) {
-  // TODO eslint this
-  // eslint-disable-next-line react/display-name
-  return (props: T): JSX.Element => {
-    const { price } = useAppContext()
-
-    return (
-      <InitialComponent
-        {...props}
-        formatPrice={(value: number) => {
-          return formatPrice(price, value)
-        }}
-      />
-    )
-  }
-}
-
-export default withPriceFormat
