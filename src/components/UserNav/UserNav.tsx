@@ -1,10 +1,10 @@
 import './UserNav.scss'
-import React from 'react'
+import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectAccountUser } from '../../redux/account/accountSelector'
 
-function UserNav() {
+const UserNav: FC = () => {
   const user = useSelector(selectAccountUser)
 
   return (

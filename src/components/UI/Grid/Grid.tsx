@@ -1,12 +1,12 @@
 import './Grid.scss'
-import React from 'react'
+import React, { ReactElement } from 'react'
 
 interface IProps<T> {
   items: T[]
   children: (item: T) => JSX.Element
 }
 
-function Grid<P extends { id: number }>(props: IProps<P>): JSX.Element {
+function Grid<P extends { id: number }>(props: IProps<P>): ReactElement {
   const { items, children } = props
 
   return (
