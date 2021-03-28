@@ -1,4 +1,4 @@
-import { Record, List, fromJS } from 'immutable'
+import produce from 'immer'
 import { ICatalogState, CatalogActionTypes } from './catalogTypes'
 import {
   CATALOG_PAGE_LOAD_FAIL,
@@ -6,30 +6,35 @@ import {
   CATALOG_PAGE_LOAD_SUCCESS,
 } from './catalogActions'
 
-const InitialState = Record<ICatalogState>({
+const initialState: ICatalogState = {
   title: '',
   loading: true,
   error: false,
-  products: List([]),
-})
+  products: [],
+}
 
 const reducer = (
-  state = new InitialState(),
+  state = initialState,
   action: CatalogActionTypes
 ): ICatalogState => {
-  switch (action.type) {
-    case CATALOG_PAGE_LOAD:
-      return state.set('loading', true).set('error', false)
-    case CATALOG_PAGE_LOAD_SUCCESS:
-      return state
-        .set('loading', false)
-        .set('error', false)
-        .set('products', fromJS(action.payload.products))
-        .set('title', action.payload.title)
-    case CATALOG_PAGE_LOAD_FAIL:
-      return state.set('loading', false).set('error', action.error)
-    default:
-      return state
-  }
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case CATALOG_PAGE_LOAD:
+        draft.loading = true
+        draft.error = false
+        break
+      case CATALOG_PAGE_LOAD_SUCCESS:
+        draft.loading = false
+        draft.error = false
+        draft.products = action.payload.products
+        draft.title = action.payload.title
+        break
+      case CATALOG_PAGE_LOAD_FAIL:
+        console.error(action.error)
+        draft.loading = false
+        draft.error = action.error
+    }
+  })
 }
+
 export default reducer

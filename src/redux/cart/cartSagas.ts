@@ -55,7 +55,7 @@ function* addToCartSaga(action: IAddToCartAction) {
   const cartItems: ReturnType<typeof selectCartItems> = yield select(
     selectCartItems
   )
-  const itemInCart = cartItems.find((item) => item.productId === productId)
+  const itemInCart = cartItems.find((item) => item.product?.id === productId)
   if (itemInCart) {
     const totalQuantity = quantity + itemInCart.quantity
     yield put(setCartProductQuantity(itemInCart.key, totalQuantity))

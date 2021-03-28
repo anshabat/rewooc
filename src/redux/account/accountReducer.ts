@@ -1,22 +1,22 @@
-import { fromJS, Record } from 'immutable'
+import produce from 'immer'
 import { INIT_APP_SUCCESS } from '../app/appActions'
 import { IAccountState } from './accountTypes'
 import { AppActionTypes } from '../app/appTypes'
 
-const InitialState = Record<IAccountState>({
+const initialState: IAccountState = {
   user: null,
-})
+}
 
 const reducer = (
-  state = new InitialState(),
+  state = initialState,
   action: AppActionTypes
 ): IAccountState => {
-  switch (action.type) {
-    case INIT_APP_SUCCESS:
-      return state.set('user', fromJS(action.payload.user))
-    default:
-      return state
-  }
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case INIT_APP_SUCCESS:
+        draft.user = action.payload.user
+    }
+  })
 }
 
 export default reducer

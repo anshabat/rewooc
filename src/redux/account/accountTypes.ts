@@ -1,5 +1,5 @@
-import { ImmutableUserType } from 'app-types'
+import { IUser } from 'app-types'
 
 export interface IAccountState {
-  user: ImmutableUserType | null
+  user: IUser | null
 }

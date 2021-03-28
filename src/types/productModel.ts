@@ -1,5 +1,3 @@
-import { Map } from "immutable";
-
 export interface IProduct {
   addToCartUrl: string
   getStockQuantity: null | number
@@ -10,5 +8,3 @@ export interface IProduct {
   price: number
   title: string
 }
-
-export type ImmutableProductType = IProduct & Map<string, any>

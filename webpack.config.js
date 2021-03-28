@@ -67,8 +67,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'styles.css',
     }),
-    new CopyPlugin([{ from: './src/.htaccess' }]),
-    new Dotenv()
+    new CopyPlugin({ patterns: [{ from: './src/.htaccess' }] }),
+    new Dotenv(),
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
