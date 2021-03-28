@@ -21,7 +21,7 @@ import {
   updateItemQuantity,
   deleteData,
   createData,
-} from './cartRepository'
+} from './cartUtils'
 
 const initialState: ICartState = {
   title: null,
@@ -42,60 +42,61 @@ export default function reducer(
     switch (action.type) {
       case INIT_APP_SUCCESS: {
         const { items, products } = createData(action.payload.cart)
-        return { ...state, items: items, products: products }
+        draft.items = items
+        draft.products = products
+        break
       }
       case CART_PAGE_LOAD:
-        return { ...state, loading: true }
+        draft.loading = true
+        break
       case CART_PAGE_LOAD_SUCCESS:
-        return { ...state, loading: false, title: action.payload.title }
+        draft.loading = false
+        draft.title = action.payload.title
+        break
       case CART_PAGE_LOAD_FAIL:
-        return { ...state, loading: false, error: action.error }
+        draft.loading = false
+        draft.error = action.error
+        break
       case CART_ADD_PRODUCT:
-        return { ...state, addingProductId: action.payload.productId }
+        draft.addingProductId = action.payload.productId
+        break
       case CART_ADD_PRODUCT_SUCCESS: {
-        const { items, products } = addData(state, action.payload.cartItem)
-
-        return {
-          ...state,
-          items: items,
-          products: products,
-          addingProductId: null,
-        }
+        const { items, products } = addData(draft, action.payload.cartItem)
+        draft.items = items
+        draft.products = products
+        draft.addingProductId = null
+        break
       }
       case CART_ADD_PRODUCT_FAIL:
-        return { ...state, addingProductId: null, error: action.error }
+        draft.addingProductId = null
+        draft.error = action.error
+        break
       case CART_DELETE_PRODUCT:
-        return { ...state, deletingProductKey: action.payload.productKey }
+        draft.deletingProductKey = action.payload.productKey
+        break
       case CART_DELETE_PRODUCT_SUCCESS: {
-        const { items, products } = deleteData(state, action.payload.productKey)
-
-        return {
-          ...state,
-          items: items,
-          products: products,
-          deletingProductKey: null,
-        }
+        const { items, products } = deleteData(draft, action.payload.productKey)
+        draft.items = items
+        draft.products = products
+        draft.deletingProductKey = null
+        break
       }
       case CART_DELETE_PRODUCT_FAIL:
-        return { ...state, deletingProductKey: null, error: action.error }
-      case CART_SET_PRODUCT_QUANTITY_START: {
-        return { ...state, changingQuantityKey: action.payload.productKey }
-      }
-      case CART_SET_PRODUCT_QUANTITY_SUCCESS: {
-        const items = updateItemQuantity(state, action.payload.cartItem)
-
-        return {
-          ...state,
-          items: items,
-          changingQuantityKey: null,
-          addingProductId: null,
-        }
-      }
+        draft.deletingProductKey = null
+        draft.error = action.error
+        break
+      case CART_SET_PRODUCT_QUANTITY_START:
+        draft.changingQuantityKey = action.payload.productKey
+        break
+      case CART_SET_PRODUCT_QUANTITY_SUCCESS:
+        updateItemQuantity(draft.items, action.payload.cartItem)
+        draft.changingQuantityKey = null
+        draft.addingProductId = null
+        break
       case CART_SET_PRODUCT_QUANTITY_FAIL:
         console.error(action.error)
-        return { ...state, changingQuantityKey: null, error: action.error }
-      default:
-        return state
+        draft.changingQuantityKey = null
+        draft.error = action.error
     }
   })
 }

@@ -60,16 +60,12 @@ export const deleteData = (state: ICartState, key: string): ICartData => {
 }
 
 export const updateItemQuantity = (
-  state: ICartState,
+  items: INormalizedCartItem[],
   newItem: ICartItem
-): INormalizedCartItem[] => {
-  const items = [...state.items]
-  const itemIndex = items.findIndex((item) => item.key === newItem.key)
-  items[itemIndex] = {
-    ...items[itemIndex],
-    quantity: newItem.quantity,
-    totalPrice: newItem.totalPrice,
+): void => {
+  const index = items.findIndex((item) => item.key === newItem.key)
+  if (index !== -1) {
+    items[index].quantity = newItem.quantity
+    items[index].totalPrice = newItem.totalPrice
   }
-
-  return items
 }

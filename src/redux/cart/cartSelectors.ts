@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
 import { ICartState, INormalizedCartItem } from './cartTypes'
 import { ICartItem } from 'app-data'
-import { denormalizeCartItem } from './cartRepository'
+import { denormalizeCartItem } from './cartUtils'
 
 export const selectCartItems = createSelector<
   AppStateType,
