@@ -8,4 +8,9 @@ export interface ICarouselContext {
   carousel: CarouselType
 }
 
-export default React.createContext<Partial<ICarouselContext>>({})
+export default React.createContext<ICarouselContext>({
+  getSlider: () => {
+    return
+  },
+  carousel: null,
+})
