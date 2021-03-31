@@ -9,13 +9,13 @@ import { Slider, CarouselProvider } from '../../components/carousel'
 import { usePageData } from '../../hooks/usePageData'
 import ContentLoader from '../../components/UI/loaders/ContentLoader/ContentLoader'
 
-interface IProps {
+interface IPageData {
   featuredProducts: IProduct[]
   blogPosts: IBlogPost[]
 }
 
 const Home: React.FC = () => {
-  const data = usePageData<IProps>()
+  const data = usePageData<IPageData>()
 
   if (!data) return <ContentLoader />
 
