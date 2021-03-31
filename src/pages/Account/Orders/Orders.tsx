@@ -1,13 +1,18 @@
 import React, { FC } from 'react'
-import withPageData from '../../withPageData'
+import { usePageData } from '../../../hooks/usePageData'
 import { IOrder } from 'app-types'
+import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
 
 interface IPageData {
   orders: IOrder[]
 }
 
-const Orders: FC<IPageData> = (props) => {
-  const { orders } = props
+const Orders: FC = () => {
+  const data = usePageData<IPageData>()
+
+  if (!data) return <ContentLoader />
+
+  const { orders } = data
 
   return (
     <div>
@@ -20,4 +25,4 @@ const Orders: FC<IPageData> = (props) => {
   )
 }
 
-export default withPageData<IPageData>(Orders)
+export default Orders
