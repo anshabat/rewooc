@@ -29,6 +29,11 @@ const UserNav: FC = () => {
           </Link>
         </li>
       )}
+      <li className="rw-user-nav__item">
+        <Link className="rw-user-nav__link" to="/checkout">
+          Checkout
+        </Link>
+      </li>
     </ul>
   )
 }

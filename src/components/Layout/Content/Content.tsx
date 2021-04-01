@@ -1,7 +1,12 @@
 import './Content.scss'
-import React from 'react'
+import React, { FC } from 'react'
 
-function Content(props) {
+interface IProps {
+  title: string
+  size?: 'sm' | 'md'
+}
+
+const Content: FC<IProps> = (props) => {
   const { title, children, size } = props
   const bodySize = size ? `${size}` : 'md'
 

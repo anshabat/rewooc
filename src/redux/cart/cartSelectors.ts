@@ -18,7 +18,7 @@ export const selectCartItems = createSelector<
 export const selectCartProcess = createSelector<
   AppStateType,
   ICartState,
-  { loading: boolean; title: null | string }
+  { loading: boolean; title: string }
 >(
   (state) => state.cart,
   (result) => ({ loading: result.loading, title: result.title })

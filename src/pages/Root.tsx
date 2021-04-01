@@ -8,6 +8,7 @@ import Cart from './Cart/Cart'
 import SignIn from './SignIn/SignIn'
 import SignOut from './SignOut/SignOut'
 import Account from './Account/Account'
+import Checkout from './Checkout/Checkout'
 
 const Root: FC = () => {
   return (
@@ -30,6 +31,9 @@ const Root: FC = () => {
         </Route>
         <Route path="/sign-out">
           <SignOut />
+        </Route>
+        <Route path="/checkout">
+          <Checkout />
         </Route>
         <Route>
           <Page404 />

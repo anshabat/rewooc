@@ -24,7 +24,7 @@ import {
 } from './cartUtils'
 
 const initialState: ICartState = {
-  title: null,
+  title: '',
   loading: true,
   error: false,
   products: [],

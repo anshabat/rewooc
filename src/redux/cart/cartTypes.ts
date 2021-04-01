@@ -26,7 +26,7 @@ export interface ICartData {
 }
 
 export interface ICartState extends ICartData {
-  title: null | string
+  title: string
   loading: boolean
   error: boolean | Error
   addingProductId: null | number
