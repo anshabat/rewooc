@@ -6,15 +6,20 @@ import ProductCard from '../../components/shop/product/ProductCard/ProductCard'
 import CardPost from '../../components/posts/CardPost/CardPost'
 import Grid from '../../components/UI/Grid/Grid'
 import { Slider, CarouselProvider } from '../../components/carousel'
-import withPageData from '../withPageData'
+import { usePageData } from '../../hooks/usePageData'
+import ContentLoader from '../../components/UI/loaders/ContentLoader/ContentLoader'
 
-interface IProps {
+interface IPageData {
   featuredProducts: IProduct[]
   blogPosts: IBlogPost[]
 }
 
-const Home: React.FC<IProps> = (props) => {
-  const { featuredProducts, blogPosts } = props
+const Home: React.FC = () => {
+  const data = usePageData<IPageData>()
+
+  if (!data) return <ContentLoader />
+
+  const { featuredProducts, blogPosts } = data
 
   return (
     <div className="rw-home">
@@ -44,4 +49,4 @@ const Home: React.FC<IProps> = (props) => {
   )
 }
 
-export default withPageData<IProps>(Home)
+export default Home

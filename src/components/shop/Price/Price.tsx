@@ -1,19 +1,20 @@
 import './Price.scss'
 import React, { FC } from 'react'
-import withPriceFormat, { IWithPriceFormat } from './withPriceFormat'
+import { usePriceFormat } from './usePriceFormat'
 
 interface IProps {
   value: number
 }
 
-const Price: FC<IProps & IWithPriceFormat> = (props) => {
-  const { formatPrice, value } = props
+const Price: FC<IProps> = (props) => {
+  const { value } = props
+  const formattedValue = usePriceFormat(value)
 
   return (
     <div className="rw-price">
-      <div className="rw-price__value">{formatPrice(value)}</div>
+      <div className="rw-price__value">{formattedValue}</div>
     </div>
   )
 }
 
-export default withPriceFormat<IProps>(Price)
+export default Price

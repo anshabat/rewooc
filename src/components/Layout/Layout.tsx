@@ -1,5 +1,6 @@
 import './Layout.scss'
 import React, { FC } from 'react'
+import { Link } from 'react-router-dom'
 import { useAppContext } from '../../context/appContext'
 import Header from './Header/Header'
 import Nav from '../Nav/Nav'
@@ -23,9 +24,9 @@ const Layout: FC = (props) => {
           }
           headlineRight={<Phone phoneNumber={phone} />}
           mainLeft={
-            <a href="/">
+            <Link to="/">
               <Image image={logo.full} />
-            </a>
+            </Link>
           }
           mainCenter={<Autocomplete delay={500} minChars={3} limit={6} />}
           mainRight={<MiniCart />}

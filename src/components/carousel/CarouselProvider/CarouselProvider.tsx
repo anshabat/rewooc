@@ -1,43 +1,19 @@
-import React, { Component, ReactNode } from "react";
-import Context, { CarouselType } from "../context";
+import React, { FC, useState } from 'react'
+import Context, { CarouselType } from '../context'
 
-interface IProps {
-  children: ReactNode
-}
+const CarouselProvider: FC = (props) => {
+  const { children } = props
+  const [carousel, setCarousel] = useState<CarouselType>(null)
 
-interface IState {
-  carousel: CarouselType
-}
-
-class CarouselProvider extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props)
-
-    this.state = {
-      carousel: null,
-    }
-
-    this.getSlider = this.getSlider.bind(this)
+  const getSlider = (carousel: CarouselType): void => {
+    setCarousel(carousel)
   }
 
-  getSlider(carousel: CarouselType): void {
-    this.setState({ carousel })
-  }
-
-  render(): ReactNode {
-    const { children } = this.props
-    const { carousel } = this.state
-    return (
-      <Context.Provider
-        value={{
-          getSlider: this.getSlider,
-          carousel,
-        }}
-      >
-        {children}
-      </Context.Provider>
-    )
-  }
+  return (
+    <Context.Provider value={{ getSlider, carousel }}>
+      {children}
+    </Context.Provider>
+  )
 }
 
 export default CarouselProvider

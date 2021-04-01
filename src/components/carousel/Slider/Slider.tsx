@@ -1,5 +1,5 @@
 import './Slider.scss'
-import React, { Component, Children, ReactNode } from 'react'
+import React, { Component, Children, ReactNode, ReactElement } from 'react'
 import * as utils from '../../../shared/utilities'
 import withCarousel from '../withCarousel'
 import { ICarouselContext } from '../context'
@@ -36,7 +36,7 @@ class Slider extends Component<IProps, IState> {
     this.$carousel = null
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const { getSlider } = this.props
     const innerSlidesCount = this.getInnerSlidesCount()
     this.setState({
@@ -47,24 +47,24 @@ class Slider extends Component<IProps, IState> {
     getSlider(this)
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     const { offset } = this.state
     if (this.$carousel) {
       this.$carousel.style.setProperty('--offset', String(offset))
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     window.removeEventListener('resize', this.debouncedFitSlides)
   }
 
-  getInnerSlidesCount() {
+  getInnerSlidesCount(): number {
     return this.$carousel
       ? Number(getComputedStyle(this.$carousel).getPropertyValue('--slides'))
       : 0
   }
 
-  moveSlider(operator: number) {
+  moveSlider(operator: number): void {
     this.setState((prev) => {
       const startIndex = Math.max(prev.startIndex + operator, 0)
       return {
@@ -78,7 +78,7 @@ class Slider extends Component<IProps, IState> {
     })
   }
 
-  prev() {
+  prev(): void {
     const { startIndex } = this.state
     if (startIndex <= 0) {
       return
@@ -86,7 +86,7 @@ class Slider extends Component<IProps, IState> {
     this.moveSlider(-1)
   }
 
-  next() {
+  next(): void {
     const { startIndex, innerSlidesCount } = this.state
     const { children } = this.props
     if (startIndex + innerSlidesCount >= Children.count(children)) {
@@ -95,7 +95,7 @@ class Slider extends Component<IProps, IState> {
     this.moveSlider(1)
   }
 
-  fitSlides() {
+  fitSlides(): void {
     const innerSlidesCount = this.getInnerSlidesCount()
     this.setState((prev) => ({
       innerSlidesCount,
@@ -109,7 +109,7 @@ class Slider extends Component<IProps, IState> {
     }))
   }
 
-  render() {
+  render(): ReactElement {
     const { children } = this.props
     const { innerSlidesCount, lastLoadedIndex } = this.state
 

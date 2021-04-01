@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import Context, { ICarouselContext } from './context'
 
 function withCarousel<P>(
@@ -6,12 +6,10 @@ function withCarousel<P>(
 ) {
   // TODO remove this
   // eslint-disable-next-line react/display-name
-  return class extends Component<P> {
-    static contextType = Context
+  return (props: P): ReactElement => {
+    const context = useContext<ICarouselContext>(Context)
 
-    render() {
-      return <WrappedComponent {...this.context} {...this.props} />
-    }
+    return <WrappedComponent {...context} {...props} />
   }
 }
 

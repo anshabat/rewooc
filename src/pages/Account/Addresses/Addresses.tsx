@@ -1,9 +1,16 @@
 import React, { FC } from 'react'
 import { IUserAddress } from 'app-types'
-import withPageData from '../../withPageData'
+import { usePageData } from '../../../hooks/usePageData'
+import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
 
-const Addresses: FC<IUserAddress> = (props) => {
-  return <div>{props.address}</div>
+const Addresses: FC = () => {
+  const data = usePageData<IUserAddress>()
+
+  if (!data) return <ContentLoader />
+
+  const { address } = data
+
+  return <div>{address}</div>
 }
 
-export default withPageData<IUserAddress>(Addresses)
+export default Addresses

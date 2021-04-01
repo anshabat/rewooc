@@ -1,17 +1,15 @@
 import './SectionPrimary.scss'
 import React from 'react'
 import Arrow from '../../Arrow/Arrow'
-import { withCarousel } from '../../../carousel'
-import { ICarouselContext } from '../../../carousel/context'
+import { useCarousel } from '../../../carousel'
 
-interface IOwnProps {
+interface IProps {
   title?: string
 }
 
-type IProps = ICarouselContext & IOwnProps
-
 const SectionPrimary: React.FC<IProps> = (props) => {
-  const { title, carousel, children } = props
+  const { title, children } = props
+  const carousel = useCarousel()
 
   return (
     <section className="rw-section-primary">
@@ -35,4 +33,4 @@ const SectionPrimary: React.FC<IProps> = (props) => {
   )
 }
 
-export default withCarousel<IOwnProps>(SectionPrimary)
+export default SectionPrimary
