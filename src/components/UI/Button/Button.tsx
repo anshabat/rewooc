@@ -2,8 +2,8 @@ import './Button.scss'
 import React, { ButtonHTMLAttributes, FC } from 'react'
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size: string
-  color: string
+  size: 'sm' | 'md' | 'lg'
+  color: 'secondary'
   className?: string
 }
 
