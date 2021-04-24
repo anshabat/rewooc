@@ -15,7 +15,7 @@ class Ajax
         'wc_ajax_rewooc_set_cat_product_quantity' => [self::class, 'setCartProductQuantity'],
         'wc_ajax_rewooc_get_common_data' => [View::class, 'renderCommonData'],
         'wc_ajax_rewooc_get_current_user' => [self::class, 'getCurrentUser'],
-        'wc_ajax_rewooc_fetch_checkout_data' => [CheckoutAPI::class, 'fetchCheckoutData']
+        'wc_ajax_rewooc_fetch_delivery_methods' => [CheckoutAPI::class, 'fetchDeliveryMethods']
     ];
 
     public function __construct()

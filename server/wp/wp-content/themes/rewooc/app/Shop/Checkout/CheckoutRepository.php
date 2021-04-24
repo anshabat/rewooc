@@ -6,14 +6,9 @@ class CheckoutRepository
 {
     public static function getDeliveryMethods()
     {
-        $packages = WC()->shipping()->get_packages();
-        $result = [];
-        dump($packages);
-        foreach ($packages as $i => $package) {
-            foreach ($package['rates'] as $method) {
-                $result[] = ['id' => $method->id];
-            }
-        }
-        return $result;
+        $zone = new \WC_Shipping_Zone(1);
+        $shipping = $zone->get_shipping_methods(false, 'json');
+
+        return $shipping;
     }
 }

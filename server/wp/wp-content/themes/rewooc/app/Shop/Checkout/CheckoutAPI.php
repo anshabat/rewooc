@@ -6,9 +6,9 @@ use Rewooc\Core\View;
 
 class CheckoutAPI
 {
-    public static function fetchCheckoutData()
+    public static function fetchDeliveryMethods()
     {
         $deliveryMethods = CheckoutRepository::getDeliveryMethods();
-        View::responseSuccess(['delivery' => $deliveryMethods]);
+        View::responseSuccess($deliveryMethods);
     }
 }
