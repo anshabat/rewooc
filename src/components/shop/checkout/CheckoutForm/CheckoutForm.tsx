@@ -3,7 +3,10 @@ import Button from '../../../UI/Button/Button'
 import { ICartItem, orderApi } from 'app-data'
 import { Simulate } from 'react-dom/test-utils'
 import input = Simulate.input
-import { IDeliveryMethod } from '../../../../data/order/orderTypes'
+import {
+  IDeliveryMethod,
+  IPaymentMethod,
+} from '../../../../data/order/orderTypes'
 
 interface IProps {
   cartItems: ICartItem[]
@@ -12,15 +15,20 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { cartItems } = props
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
-  const [paymentMethods, setPaymentMethods] = useState<any[]>([])
-
+  const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
 
   useEffect(() => {
     Promise.all([
-      orderApi.fetchDeliveryMethods()
-    ]).then(([delivery]) => {
-      setDeliveryMethods(delivery)
-    })
+      orderApi.fetchDeliveryMethods(),
+      orderApi.fetchPaymentMethods(),
+    ])
+      .then(([delivery, payment]) => {
+        setDeliveryMethods(delivery)
+        setPaymentMethods(payment)
+      })
+      .catch((error) => {
+        console.error(error.message)
+      })
   }, [])
 
   const submitForm = (e: any) => {
@@ -33,7 +41,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   }
 
   return (
-    <form action='' onSubmit={submitForm}>
+    <form action="" onSubmit={submitForm}>
       <fieldset>
         <legend>Billing & Shipping</legend>
         <br />
@@ -41,10 +49,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         <div>
           <span>billing_first_name</span>
           <input
-            type='text'
-            name='billing_first_name'
-            placeholder='First name'
-            value='Andriy'
+            type="text"
+            name="billing_first_name"
+            placeholder="First name"
+            value="Andriy"
             onChange={setValue}
           />
         </div>
@@ -52,10 +60,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         <div>
           <span>billing_last_name</span>
           <input
-            type='text'
-            name='billing_last_name'
-            placeholder='Last name'
-            value='Shabat'
+            type="text"
+            name="billing_last_name"
+            placeholder="Last name"
+            value="Shabat"
             onChange={setValue}
           />
         </div>
@@ -63,10 +71,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         <div>
           <span>billing_country</span>
           <input
-            type='text'
-            name='billing_country'
-            placeholder='Country'
-            value='UA'
+            type="text"
+            name="billing_country"
+            placeholder="Country"
+            value="UA"
             onChange={setValue}
           />
         </div>
@@ -74,10 +82,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         <div>
           <span>billing_city</span>
           <input
-            type='text'
-            name='billing_city'
-            placeholder='Address'
-            value='Lviv'
+            type="text"
+            name="billing_city"
+            placeholder="Address"
+            value="Lviv"
             onChange={setValue}
           />
         </div>
@@ -85,10 +93,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         <div>
           <span>billing_address_1</span>
           <input
-            type='text'
-            name='billing_address_1'
-            placeholder='Address'
-            value='Antonycha'
+            type="text"
+            name="billing_address_1"
+            placeholder="Address"
+            value="Antonycha"
             onChange={setValue}
           />
         </div>
@@ -96,10 +104,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         <div>
           <span>billing_phone</span>
           <input
-            type='text'
-            name='billing_phone'
-            placeholder='Address'
-            value='0988165441'
+            type="text"
+            name="billing_phone"
+            placeholder="Address"
+            value="0988165441"
             onChange={setValue}
           />
         </div>
@@ -107,10 +115,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         <div>
           <span>billing_email</span>
           <input
-            type='text'
-            name='billing_email'
-            placeholder='Address'
-            value='ad1@min.com'
+            type="text"
+            name="billing_email"
+            placeholder="Address"
+            value="ad1@min.com"
             onChange={setValue}
           />
         </div>
@@ -122,7 +130,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               <div key={method.id}>
                 <label>
                   <span>{method.title}</span>
-                  <input type='radio' name='delivery' />
+                  <input type="radio" name="delivery" />
                 </label>
               </div>
             )
@@ -135,8 +143,8 @@ const CheckoutForm: FC<IProps> = (props) => {
             return (
               <div key={method.id}>
                 <label>
-                  <span>{method.method_title}</span>
-                  <input type='radio' name='payment_method' value={method.id} />
+                  <span>{method.title}</span>
+                  <input type="radio" name="payment_method" value={method.id} />
                 </label>
               </div>
             )
@@ -144,7 +152,7 @@ const CheckoutForm: FC<IProps> = (props) => {
         </div>
       </fieldset>
       <div>
-        <Button size='lg' color='secondary'>
+        <Button size="lg" color="secondary">
           Submit
         </Button>
       </div>

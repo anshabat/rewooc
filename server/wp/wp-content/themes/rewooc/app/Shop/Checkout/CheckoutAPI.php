@@ -11,4 +11,10 @@ class CheckoutAPI
         $deliveryMethods = CheckoutRepository::getDeliveryMethods();
         View::responseSuccess($deliveryMethods);
     }
+
+    public static function fetchPaymentGateways()
+    {
+        $paymentGateways = CheckoutRepository::getPaymentGateways();
+        View::responseSuccess($paymentGateways);
+    }
 }

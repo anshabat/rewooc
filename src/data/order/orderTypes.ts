@@ -1,11 +1,4 @@
-export interface IDeliveryMethodsResponse {
-  success: boolean
-  data: {
-    [key: number]: IDeliveryMethodRaw
-  }
-}
-
-export interface IDeliveryMethodRaw {
+export interface IDeliveryMethodResponse {
   availability: any //null
   cost: string
   countries: []
@@ -35,4 +28,22 @@ export interface IDeliveryMethod {
   cost: number
   order: number
   enabled: string
+}
+
+export interface IPaymentMethodResponse {
+  id: string
+  title: string
+  enabled: boolean
+  method_title: string
+  description: string
+  method_description: string
+  order: number
+}
+
+export interface IPaymentMethod {
+  id: string
+  title: string
+  enabled: boolean
+  description: string
+  order: number
 }

@@ -1,7 +1,13 @@
 import { instance } from '../instance'
 import { wcAjax, wcRest } from '../endpoints'
 import { ICartItem } from '../cart/cartTypes'
-import { IDeliveryMethod, IDeliveryMethodsResponse } from './orderTypes'
+import {
+  IDeliveryMethod,
+  IDeliveryMethodResponse,
+  IPaymentMethod,
+  IPaymentMethodResponse,
+} from './orderTypes'
+import { IResponseData } from '../types'
 
 async function createOrder(form: any, cartItems: ICartItem[]): Promise<void> {
   const products = cartItems.map((item) => {
@@ -39,11 +45,13 @@ async function createOrder(form: any, cartItems: ICartItem[]): Promise<void> {
 }
 
 async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
-  const response = await instance.get<IDeliveryMethodsResponse>(
-    wcAjax('rewooc_fetch_delivery_methods')
-  )
+  const response = await instance.get<
+    IResponseData<{
+      [key: number]: IDeliveryMethodResponse
+    }>
+  >(wcAjax('rewooc_fetch_delivery_methods'))
   if (!response?.data?.success) {
-    throw new Error('fetch delivery methods error')
+    throw new Error('Fail to fetch delivery methods')
   }
 
   const delivery = response.data.data
@@ -61,9 +69,26 @@ async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
   return methods
 }
 
-async function fetchPaymentMethods(): Promise<any> {
-  const response = await instance.get(wcRest('payment_gateways'))
-  return response
+async function fetchPaymentMethods(): Promise<IPaymentMethod[]> {
+  const { data } = await instance.get<IResponseData<IPaymentMethodResponse[]>>(
+    wcAjax('rewooc_fetch_payment_gatewayss')
+  )
+
+  if (!data?.success) {
+    throw new Error('Fail to fetch payment methods')
+  }
+
+  const methods = data.data.map<IPaymentMethod>((method) => {
+    return {
+      id: method.id,
+      title: method.title,
+      description: method.description,
+      order: method.order,
+      enabled: method.enabled,
+    }
+  })
+
+  return methods
 }
 
 export default {
