@@ -1,0 +1,29 @@
+.rw-form {
+  &--is-loading {
+    opacity: 0.5;
+  }
+
+  &__group {
+    border: 1px solid var(--border-light-color);
+    padding: 20px;
+
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__group-title {
+    font-weight: bold;
+  }
+
+  &__field {
+    &:not(:last-child) {
+      margin-bottom: 25px;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 5px;
+  }
+}

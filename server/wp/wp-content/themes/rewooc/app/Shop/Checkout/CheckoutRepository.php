@@ -4,7 +4,7 @@ namespace Rewooc\Shop\Checkout;
 
 class CheckoutRepository
 {
-    public static function getDeliveryMethods($zoneId = 1)
+    public static function getDeliveryMethods($zoneId = 0)
     {
         $zone = new \WC_Shipping_Zone($zoneId);
         $shipping = $zone->get_shipping_methods(false, 'json');
@@ -12,7 +12,7 @@ class CheckoutRepository
         return $shipping;
     }
 
-    public static function getDeliveryMethodById($zoneId, $methodId)
+    public static function getDeliveryMethodById($methodId, $zoneId = 0)
     {
         $shippingMethods = self::getDeliveryMethods($zoneId);
         foreach ($shippingMethods as $method) {
@@ -49,15 +49,19 @@ class CheckoutRepository
         $order = new \WC_Order();
         $order->set_customer_id($data->customer_id);
         $order->set_billing_first_name($data->billing->first_name);
+        $order->set_billing_last_name($data->billing->last_name);
+        $order->set_billing_email($data->billing->email);
+        $order->set_billing_phone($data->billing->phone);
+        $order->set_payment_method($data->payment);
 
         /* Add products to Order */
-        foreach ($data->line_items as $item) {
+        foreach ($data->products as $item) {
             $product = wc_get_product($item->product_id);
             $order->add_product($product, $item->quantity);
         }
 
         /* Add Shipping Method to Order */
-        $shippingMethod = CheckoutRepository::getDeliveryMethodById($data->shipping_zone, $data->shipping_method);
+        $shippingMethod = CheckoutRepository::getDeliveryMethodById($data->delivery);
         $item = new \WC_Order_Item_Shipping();
         $item->set_props(
             array(

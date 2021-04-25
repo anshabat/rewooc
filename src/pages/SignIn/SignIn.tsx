@@ -1,4 +1,3 @@
-import './Form.scss'
 import React, { FC, FormEvent, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'

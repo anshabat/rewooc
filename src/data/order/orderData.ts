@@ -9,7 +9,10 @@ import {
 } from './orderTypes'
 import { IResponseData } from '../types'
 
-async function createOrder(form: any, cartItems: ICartItem[]): Promise<void> {
+/**
+ * Submit new order
+ */
+async function createOrder(form: any, cartItems: ICartItem[]): Promise<number> {
   const products = cartItems.map((item) => {
     return {
       product_id: item.product?.id,
@@ -18,40 +21,50 @@ async function createOrder(form: any, cartItems: ICartItem[]): Promise<void> {
   })
 
   const options = {
-    status: 'processing',
-    payment_method: form.elements['payment_method'].value,
-    set_paid: false,
-    customer_id: 1,
     billing: {
       first_name: form.elements['billing_first_name'].value,
       last_name: form.elements['billing_last_name'].value,
-      country: form.elements['billing_country'].value,
-      city: form.elements['billing_city'].value,
-      address_1: form.elements['billing_address_1'].value,
       phone: form.elements['billing_phone'].value,
       email: form.elements['billing_email'].value,
     },
-    line_items: products,
-    shipping_zone: 1,
-    shipping_method: 1,
+    products: products,
+    delivery: form.elements['delivery'].value,
+    payment: form.elements['payment'].value,
+    status: 'processing',
+    customer_id: 1,
   }
-  // console.log(options)
-  const response = await instance.post(wcAjax('rewooc_post_order'), options)
+
+  const {
+    data: { success, data },
+  } = await instance.post<IResponseData<number>>(
+    wcAjax('rewooc_post_order'),
+    options
+  )
+
+  if (!success) {
+    throw new Error('Fail to create new Order')
+  }
+
+  return data
 }
 
+/**
+ * Fetch delivery methods
+ */
 async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
-  const response = await instance.get<
+  const {
+    data: { data, success },
+  } = await instance.get<
     IResponseData<{
       [key: number]: IDeliveryMethodResponse
     }>
   >(wcAjax('rewooc_fetch_delivery_methods'))
-  if (!response?.data?.success) {
+
+  if (!success) {
     throw new Error('Fail to fetch delivery methods')
   }
 
-  const delivery = response.data.data
-
-  const methods = Object.values(delivery).map<IDeliveryMethod>((method) => {
+  const methods = Object.values(data).map<IDeliveryMethod>((method) => {
     return {
       id: method.instance_id,
       title: method.title,
@@ -64,16 +77,21 @@ async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
   return methods
 }
 
+/**
+ * Fetch payment methods
+ */
 async function fetchPaymentMethods(): Promise<IPaymentMethod[]> {
-  const { data } = await instance.get<IResponseData<IPaymentMethodResponse[]>>(
+  const {
+    data: { success, data },
+  } = await instance.get<IResponseData<IPaymentMethodResponse[]>>(
     wcAjax('rewooc_fetch_payment_gateways')
   )
 
-  if (!data?.success) {
+  if (!success) {
     throw new Error('Fail to fetch payment methods')
   }
 
-  const methods = data.data.map<IPaymentMethod>((method) => {
+  const methods = data.map<IPaymentMethod>((method) => {
     return {
       id: method.id,
       title: method.title,
