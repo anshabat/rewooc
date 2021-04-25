@@ -9,13 +9,13 @@ import {
 } from './orderTypes'
 import { IResponseData } from '../types'
 import { IOrderRequest } from 'app-data'
-import { IFormState } from '../../components/shop/checkout/CheckoutForm/CheckoutForm'
+import { ICheckoutForm } from '../../components/shop/checkout/CheckoutForm/CheckoutForm'
 
 /**
  * Submit new order
  */
 async function createOrder(
-  formData: IFormState,
+  formData: ICheckoutForm,
   cartItems: ICartItem[]
 ): Promise<number> {
   const products = cartItems.map((item) => {

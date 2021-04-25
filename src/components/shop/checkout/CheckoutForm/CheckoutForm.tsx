@@ -7,7 +7,7 @@ interface IProps {
   cartItems: ICartItem[]
 }
 
-export interface IFormState {
+export interface ICheckoutForm {
   billing_first_name: string,
   billing_last_name: string,
   billing_phone: string,
@@ -24,7 +24,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
 
   /* Form state */
-  const [formData, setFormData] = useState<IFormState>({
+  const [formData, setFormData] = useState<ICheckoutForm>({
     billing_first_name: '',
     billing_last_name: '',
     billing_phone: '',

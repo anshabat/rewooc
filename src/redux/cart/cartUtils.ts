@@ -19,7 +19,7 @@ export const denormalizeCartItem = (
     key: item.key,
     totalPrice: item.totalPrice,
     quantity: item.quantity,
-    product: products.find((product) => product.id === item.productId),
+    product: products.find((product) => product.id === item.productId)!,
   }
 }
 
