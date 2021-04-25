@@ -8,28 +8,33 @@ import {
   IPaymentMethodResponse,
 } from './orderTypes'
 import { IResponseData } from '../types'
+import { IOrderRequest } from 'app-data'
+import { IFormState } from '../../components/shop/checkout/CheckoutForm/CheckoutForm'
 
 /**
  * Submit new order
  */
-async function createOrder(form: any, cartItems: ICartItem[]): Promise<number> {
+async function createOrder(
+  formData: IFormState,
+  cartItems: ICartItem[]
+): Promise<number> {
   const products = cartItems.map((item) => {
     return {
-      product_id: item.product?.id,
+      product_id: item.product.id,
       quantity: item.quantity,
     }
   })
 
-  const options = {
+  const options: IOrderRequest = {
     billing: {
-      first_name: form.elements['billing_first_name'].value,
-      last_name: form.elements['billing_last_name'].value,
-      phone: form.elements['billing_phone'].value,
-      email: form.elements['billing_email'].value,
+      first_name: formData.billing_first_name,
+      last_name: formData.billing_last_name,
+      phone: formData.billing_phone,
+      email: formData.billing_email,
     },
+    delivery: formData.delivery,
+    payment: formData.payment,
     products: products,
-    delivery: form.elements['delivery'].value,
-    payment: form.elements['payment'].value,
     status: 'processing',
     customer_id: 1,
   }

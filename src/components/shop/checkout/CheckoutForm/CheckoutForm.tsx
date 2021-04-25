@@ -7,10 +7,31 @@ interface IProps {
   cartItems: ICartItem[]
 }
 
+export interface IFormState {
+  billing_first_name: string,
+  billing_last_name: string,
+  billing_phone: string,
+  billing_email: string,
+  delivery: string,
+  payment: string,
+}
+
 const CheckoutForm: FC<IProps> = (props) => {
   const { cartItems } = props
+
+  /* Checkout page data */
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
   const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
+
+  /* Form state */
+  const [formData, setFormData] = useState<IFormState>({
+    billing_first_name: '',
+    billing_last_name: '',
+    billing_phone: '',
+    billing_email: '',
+    delivery: '',
+    payment: '',
+  })
 
   useEffect(() => {
     Promise.all([
@@ -28,13 +49,11 @@ const CheckoutForm: FC<IProps> = (props) => {
 
   const submitForm = (e: any) => {
     e.preventDefault()
-    orderApi.createOrder(e.target, cartItems).then((orderId) => {
-      console.log(orderId)
-    })
+    return orderApi.createOrder(formData, cartItems)
   }
 
-  const setValue = () => {
-    console.log('value')
+  const setValue = (e: any) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
@@ -51,7 +70,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               name="billing_first_name"
               id="billing_first_name"
               type="text"
-              value="Andriy"
+              value={formData.billing_first_name}
               onChange={setValue}
             />
           </div>
@@ -66,7 +85,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               name="billing_last_name"
               id="billing_last_name"
               type="text"
-              value="Shabat"
+              value={formData.billing_last_name}
               onChange={setValue}
             />
           </div>
@@ -81,7 +100,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               name="billing_phone"
               id="billing_phone"
               type="text"
-              value="0988165441"
+              value={formData.billing_phone}
               onChange={setValue}
             />
           </div>
@@ -96,7 +115,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               name="billing_email"
               id="billing_email"
               type="text"
-              value="ad1@min.com"
+              value={formData.billing_email}
               onChange={setValue}
             />
           </div>
@@ -107,9 +126,7 @@ const CheckoutForm: FC<IProps> = (props) => {
         <legend className="rw-form__group-title">Shipping & Payment</legend>
 
         <div className="rw-form__field">
-          <label htmlFor="delivery" className="rw-form__label">
-            Delivery
-          </label>
+          <div className="rw-form__label">Delivery</div>
           <div className="rw-form__control">
             {deliveryMethods.map((method) => {
               return (
@@ -119,8 +136,9 @@ const CheckoutForm: FC<IProps> = (props) => {
                     <input
                       type="radio"
                       name="delivery"
-                      id="delivery"
                       value={method.id}
+                      checked={Number(formData.delivery) === method.id}
+                      onChange={setValue}
                     />{' '}
                     ({method.cost})
                   </label>
@@ -131,9 +149,7 @@ const CheckoutForm: FC<IProps> = (props) => {
         </div>
 
         <div className="rw-form__field">
-          <label htmlFor="payment" className="rw-form__label">
-            Payment
-          </label>
+          <div className="rw-form__label">Payment</div>
           <div className="rw-form__control">
             {paymentMethods.map((method) => {
               return (
@@ -143,8 +159,9 @@ const CheckoutForm: FC<IProps> = (props) => {
                     <input
                       type="radio"
                       name="payment"
-                      id="payment"
                       value={method.id}
+                      checked={formData.payment === method.id}
+                      onChange={setValue}
                     />
                   </label>
                 </div>
