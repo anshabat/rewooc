@@ -17,4 +17,12 @@ class CheckoutAPI
         $paymentGateways = CheckoutRepository::getPaymentGateways();
         View::responseSuccess($paymentGateways);
     }
+
+    public static function postOrder()
+    {
+        $request_body = file_get_contents('php://input');
+        $request = json_decode($request_body);
+        $orderId = CheckoutRepository::createOrder($request);
+        View::responseSuccess($orderId);
+    }
 }

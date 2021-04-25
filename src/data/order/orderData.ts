@@ -1,5 +1,5 @@
 import { instance } from '../instance'
-import { wcAjax, wcRest } from '../endpoints'
+import { wcAjax } from '../endpoints'
 import { ICartItem } from '../cart/cartTypes'
 import {
   IDeliveryMethod,
@@ -32,16 +32,11 @@ async function createOrder(form: any, cartItems: ICartItem[]): Promise<void> {
       email: form.elements['billing_email'].value,
     },
     line_items: products,
-    shipping_lines: [
-      {
-        method_id: 'flat_rate',
-        method_title: 'Укрпошта',
-        total: '10.00',
-      },
-    ],
+    shipping_zone: 1,
+    shipping_method: 1,
   }
-  console.log(options)
-  const response = await instance.post(wcRest('orders'), options)
+  // console.log(options)
+  const response = await instance.post(wcAjax('rewooc_post_order'), options)
 }
 
 async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
@@ -71,7 +66,7 @@ async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
 
 async function fetchPaymentMethods(): Promise<IPaymentMethod[]> {
   const { data } = await instance.get<IResponseData<IPaymentMethodResponse[]>>(
-    wcAjax('rewooc_fetch_payment_gatewayss')
+    wcAjax('rewooc_fetch_payment_gateways')
   )
 
   if (!data?.success) {
