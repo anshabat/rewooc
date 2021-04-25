@@ -109,8 +109,35 @@ async function fetchPaymentMethods(): Promise<IPaymentMethod[]> {
   return methods
 }
 
+async function fetchTotals(cartItems: ICartItem[]): Promise<number> {
+  const products = cartItems.map((item) => {
+    return {
+      product_id: item.product.id,
+      quantity: item.quantity,
+    }
+  })
+
+  const {
+    data: { data, success },
+  } = await instance.get<IResponseData<string>>(
+    wcAjax('rewooc_calculate_totals'),
+    {
+      params: {
+        products: JSON.stringify(products),
+      },
+    }
+  )
+
+  if (!success) {
+    throw new Error('Fail to calculate totals')
+  }
+
+  return Number(data)
+}
+
 export default {
   createOrder,
   fetchDeliveryMethods,
   fetchPaymentMethods,
+  fetchTotals,
 }

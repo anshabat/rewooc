@@ -25,4 +25,16 @@ class CheckoutAPI
         $orderId = CheckoutRepository::createOrder($request);
         View::responseSuccess($orderId);
     }
+
+    public static function calculateTotals()
+    {
+        $order = new \WC_Order();
+        $products = json_decode(stripslashes($_GET['products']));
+        foreach ($products as $item) {
+            $product = wc_get_product($item->product_id);
+            $order->add_product($product, $item->quantity);
+        }
+        $total = $order->calculate_totals(false);
+        View::responseSuccess($total);
+    }
 }

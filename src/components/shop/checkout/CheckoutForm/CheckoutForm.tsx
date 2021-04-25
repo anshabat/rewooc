@@ -1,23 +1,21 @@
 import React, { FC, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
 import FormField from '../../../UI/Form/FormField/FormField'
-import { orderApi, ICartItem, IDeliveryMethod, IPaymentMethod } from 'app-data'
-
-interface IProps {
-  cartItems: ICartItem[]
-}
+import { orderApi, IDeliveryMethod, IPaymentMethod } from 'app-data'
+import { useSelector } from 'react-redux'
+import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 
 export interface ICheckoutForm {
-  billing_first_name: string,
-  billing_last_name: string,
-  billing_phone: string,
-  billing_email: string,
-  delivery: string,
-  payment: string,
+  billing_first_name: string
+  billing_last_name: string
+  billing_phone: string
+  billing_email: string
+  delivery: string
+  payment: string
 }
 
-const CheckoutForm: FC<IProps> = (props) => {
-  const { cartItems } = props
+const CheckoutForm: FC = () => {
+  const cartItems = useSelector(selectCartItems)
 
   /* Checkout page data */
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])

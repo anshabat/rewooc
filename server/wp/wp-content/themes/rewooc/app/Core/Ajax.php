@@ -17,7 +17,8 @@ class Ajax
         'wc_ajax_rewooc_get_current_user' => [self::class, 'getCurrentUser'],
         'wc_ajax_rewooc_fetch_delivery_methods' => [CheckoutAPI::class, 'fetchDeliveryMethods'],
         'wc_ajax_rewooc_fetch_payment_gateways' => [CheckoutAPI::class, 'fetchPaymentGateways'],
-        'wc_ajax_rewooc_post_order' => [CheckoutAPI::class, 'postOrder']
+        'wc_ajax_rewooc_post_order' => [CheckoutAPI::class, 'postOrder'],
+        'wc_ajax_rewooc_calculate_totals' => [CheckoutAPI::class, 'calculateTotals']
     ];
 
     public function __construct()
