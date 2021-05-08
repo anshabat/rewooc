@@ -5,16 +5,24 @@ import { orderApi, IDeliveryMethod, IPaymentMethod } from 'app-data'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 
-export interface ICheckoutForm {
-  billing_first_name: string
-  billing_last_name: string
-  billing_phone: string
-  billing_email: string
-  delivery: string
-  payment: string
+const initialFormState = {
+  billing_first_name: '',
+  billing_last_name: '',
+  billing_phone: '',
+  billing_email: '',
+  deliveryMethodId: '',
+  payment: '',
 }
 
-const CheckoutForm: FC = () => {
+export type CheckoutFormType = typeof initialFormState
+
+interface IProps {
+  onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
+  onCreateOrder?: (orderData: CheckoutFormType) => void
+}
+
+const CheckoutForm: FC<IProps> = (props) => {
+  const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
 
   /* Checkout page data */
@@ -22,14 +30,7 @@ const CheckoutForm: FC = () => {
   const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
 
   /* Form state */
-  const [formData, setFormData] = useState<ICheckoutForm>({
-    billing_first_name: '',
-    billing_last_name: '',
-    billing_phone: '',
-    billing_email: '',
-    delivery: '',
-    payment: '',
-  })
+  const [formData, setFormData] = useState<CheckoutFormType>(initialFormState)
 
   useEffect(() => {
     Promise.all([
@@ -44,6 +45,22 @@ const CheckoutForm: FC = () => {
         console.error(error.message)
       })
   }, [])
+
+  /* Update delivery */
+  if (typeof onUpdateDelivery === 'function') {
+    useEffect(() => {
+      if (formData.deliveryMethodId !== initialFormState.deliveryMethodId) {
+        const currentDeliveryMethod = getDeliveryByMethodId(formData.deliveryMethodId)
+        if (currentDeliveryMethod) {
+          onUpdateDelivery(currentDeliveryMethod)
+        }
+      }
+    }, [formData.deliveryMethodId])
+  }
+
+  const getDeliveryByMethodId = (id: string): IDeliveryMethod | undefined => {
+    return deliveryMethods.find((method) => String(method.id) === id)
+  }
 
   const submitForm = (e: any) => {
     e.preventDefault()
@@ -133,9 +150,9 @@ const CheckoutForm: FC = () => {
                     <span>{method.title}</span>
                     <input
                       type="radio"
-                      name="delivery"
+                      name="deliveryMethodId"
                       value={method.id}
-                      checked={Number(formData.delivery) === method.id}
+                      checked={Number(formData.deliveryMethodId) === method.id}
                       onChange={setValue}
                     />{' '}
                     ({method.cost})

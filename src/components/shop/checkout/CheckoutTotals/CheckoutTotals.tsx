@@ -1,16 +1,21 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
-import { selectCartItems } from '../../../../redux/cart/cartSelectors'
-import { orderApi } from 'app-data'
+import {
+  selectCartItems,
+  selectCartTotalPrice,
+} from '../../../../redux/cart/cartSelectors'
+import Price from '../../Price/Price'
+import { IDeliveryMethod } from 'app-data'
 
-const CheckoutTotals: FC = () => {
+interface IProps {
+  total: number | null
+  delivery: IDeliveryMethod | null
+}
+
+const CheckoutTotals: FC<IProps> = (props) => {
+  const { total, delivery } = props
   const cartItems = useSelector(selectCartItems)
-
-  useEffect(() => {
-    orderApi.fetchTotals(cartItems).then((total) => {
-      console.log(total)
-    })
-  }, [])
+  const subtotal = useSelector(selectCartTotalPrice)
 
   return (
     <div className="rw-cart-totals">
@@ -27,15 +32,22 @@ const CheckoutTotals: FC = () => {
       <br />
       <dl className="rw-cart-totals__list">
         <dt>Subtotal</dt>
-        <dd>-</dd>
-        <dt>Delivery</dt>
-        <dd>-</dd>
+        <dd>
+          <Price value={subtotal} />
+        </dd>
+        {delivery && (
+          <>
+            <dt>Delivery</dt>
+            <dd>{delivery.cost}</dd>
+          </>
+        )}
       </dl>
       <br />
       <br />
+
       <dl className="rw-cart-totals__result">
         <dt>Total</dt>
-        <dd>-</dd>
+        <dd>{total ? <Price value={total} /> : '...'}</dd>
       </dl>
     </div>
   )

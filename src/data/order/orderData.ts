@@ -9,13 +9,13 @@ import {
 } from './orderTypes'
 import { IResponseData } from '../types'
 import { IOrderRequest } from 'app-data'
-import { ICheckoutForm } from '../../components/shop/checkout/CheckoutForm/CheckoutForm'
+import { CheckoutFormType } from '../../components/shop/checkout/CheckoutForm/CheckoutForm'
 
 /**
  * Submit new order
  */
 async function createOrder(
-  formData: ICheckoutForm,
+  formData: CheckoutFormType,
   cartItems: ICartItem[]
 ): Promise<number> {
   const products = cartItems.map((item) => {
@@ -32,7 +32,7 @@ async function createOrder(
       phone: formData.billing_phone,
       email: formData.billing_email,
     },
-    delivery: formData.delivery,
+    delivery: formData.deliveryMethodId,
     payment: formData.payment,
     products: products,
     status: 'processing',
@@ -109,7 +109,10 @@ async function fetchPaymentMethods(): Promise<IPaymentMethod[]> {
   return methods
 }
 
-async function fetchTotals(cartItems: ICartItem[]): Promise<number> {
+async function fetchTotals(
+  cartItems: ICartItem[],
+  deliveryMethodId = ''
+): Promise<number> {
   const products = cartItems.map((item) => {
     return {
       product_id: item.product.id,
@@ -124,6 +127,7 @@ async function fetchTotals(cartItems: ICartItem[]): Promise<number> {
     {
       params: {
         products: JSON.stringify(products),
+        delivery: deliveryMethodId,
       },
     }
   )
