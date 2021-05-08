@@ -140,3 +140,9 @@ table {
 [hidden] {
   display: none !important;
 }
+
+/* Reseter https://github.com/krishdevdb/reseter.css */
+b,
+strong {
+  font-weight: 700;
+}

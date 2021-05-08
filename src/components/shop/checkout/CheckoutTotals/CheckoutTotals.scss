@@ -1,0 +1,24 @@
+.rw-cart-totals {
+  display: grid;
+
+  & > * {
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--border-light-color);
+      padding-bottom: 20px;
+    }
+    &:not(:first-child) {
+      padding-top: 20px;
+    }
+  }
+
+  &__products-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  &__fees {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    grid-gap: 10px;
+  }
+}
