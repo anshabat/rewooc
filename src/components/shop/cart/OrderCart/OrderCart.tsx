@@ -59,6 +59,7 @@ const OrderCart: FC<IProps> = (props) => {
                     )
                   }}
                   disabled={Boolean(changingQuantity)}
+                  hasChanged={item.key === changingQuantity}
                 />
               </div>
               <span>x</span>

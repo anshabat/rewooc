@@ -62,6 +62,7 @@ const CartTable: FC<IProps> = (props) => {
                     )
                   }}
                   disabled={Boolean(changingQuantity)}
+                  hasChanged={item.key === changingQuantity}
                 />
               </div>
               <div className="rw-cart-table__price">
