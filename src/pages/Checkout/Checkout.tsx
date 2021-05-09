@@ -6,13 +6,13 @@ import CheckoutTotals from '../../components/shop/checkout/CheckoutTotals/Checko
 import { useCheckout } from '../../hooks/useCheckout'
 
 const Checkout: React.FC = () => {
-  const { total, delivery, setDeliveryMethod } = useCheckout()
+  const { total, delivery, setDeliveryMethod, loading } = useCheckout()
 
   return (
     <Content title="Checkout">
       <div className="rw-checkout">
         <CheckoutForm onUpdateDelivery={setDeliveryMethod} />
-        <CheckoutTotals total={total} delivery={delivery} />
+        <CheckoutTotals total={total} delivery={delivery} loading={loading} />
       </div>
     </Content>
   )

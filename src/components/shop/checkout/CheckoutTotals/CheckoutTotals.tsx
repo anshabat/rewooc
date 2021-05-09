@@ -8,14 +8,17 @@ import {
 } from '../../../../redux/cart/cartSelectors'
 import Price from '../../Price/Price'
 import { IDeliveryMethod } from 'app-data'
+import OrderCart from '../../cart/OrderCart/OrderCart'
+import Loader from '../../../UI/loaders/Loader/Loader'
 
 interface IProps {
   total: number | null
   delivery: IDeliveryMethod | null
+  loading: boolean
 }
 
 const CheckoutTotals: FC<IProps> = (props) => {
-  const { total, delivery } = props
+  const { total, delivery, loading } = props
   const cartItems = useSelector(selectCartItems)
   const subtotal = useSelector(selectCartTotalPrice)
   const count = useSelector(selectCartTotalQuantity)
@@ -26,13 +29,7 @@ const CheckoutTotals: FC<IProps> = (props) => {
         <h3 className="rw-cart-totals__products-title">
           You have {count} products in the cart
         </h3>
-        {cartItems.map((item) => {
-          return (
-            <li key={item.key}>
-              {item.product.title} - {item.quantity} - {item.totalPrice}
-            </li>
-          )
-        })}
+        <OrderCart items={cartItems} />
       </ul>
       <dl className="rw-cart-totals__fees">
         <dt>Subtotal</dt>
@@ -42,12 +39,16 @@ const CheckoutTotals: FC<IProps> = (props) => {
         <dt>Delivery</dt>
         <dd>{delivery?.cost ?? 'Unknown'}</dd>
       </dl>
-      <dl className="rw-cart-totals__fees">
-        <dt>Total</dt>
-        <dd>
-          <strong>{total ? <Price value={total} /> : '...'}</strong>
-        </dd>
-      </dl>
+      {loading ? (
+        <Loader />
+      ) : (
+        <dl className="rw-cart-totals__fees">
+          <dt>Total</dt>
+          <dd>
+            <strong>{total ? <Price value={total} /> : '...'}</strong>
+          </dd>
+        </dl>
+      )}
     </div>
   )
 }
