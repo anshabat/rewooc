@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
 import FormField from '../../../UI/Form/FormField/FormField'
-import { orderApi, IDeliveryMethod, IPaymentMethod } from 'app-data'
+import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-data'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 
@@ -34,8 +34,8 @@ const CheckoutForm: FC<IProps> = (props) => {
 
   useEffect(() => {
     Promise.all([
-      orderApi.fetchDeliveryMethods(),
-      orderApi.fetchPaymentMethods(),
+      checkoutApi.fetchDeliveryMethods(),
+      checkoutApi.fetchPaymentMethods(),
     ])
       .then(([delivery, payment]) => {
         setDeliveryMethods(delivery)

@@ -9,16 +9,14 @@ import {
 import Price from '../../Price/Price'
 import { IDeliveryMethod } from 'app-data'
 import OrderCart from '../../cart/OrderCart/OrderCart'
-import Loader from '../../../UI/loaders/Loader/Loader'
 
 interface IProps {
   total: number | null
   delivery: IDeliveryMethod | null
-  loading: boolean
 }
 
 const CheckoutTotals: FC<IProps> = (props) => {
-  const { total, delivery, loading } = props
+  const { total, delivery } = props
   const cartItems = useSelector(selectCartItems)
   const subtotal = useSelector(selectCartTotalPrice)
   const count = useSelector(selectCartTotalQuantity)
@@ -39,16 +37,12 @@ const CheckoutTotals: FC<IProps> = (props) => {
         <dt>Delivery</dt>
         <dd>{delivery?.cost ?? 'Unknown'}</dd>
       </dl>
-      {loading ? (
-        <Loader />
-      ) : (
-        <dl className="rw-cart-totals__fees">
-          <dt>Total</dt>
-          <dd>
-            <strong>{total ? <Price value={total} /> : '...'}</strong>
-          </dd>
-        </dl>
-      )}
+      <dl className="rw-cart-totals__fees">
+        <dt>Total</dt>
+        <dd>
+          <strong>{total ? <Price value={total} /> : '...'}</strong>
+        </dd>
+      </dl>
     </div>
   )
 }
