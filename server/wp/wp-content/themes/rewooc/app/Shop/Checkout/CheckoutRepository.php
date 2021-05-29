@@ -73,11 +73,9 @@ class CheckoutRepository
         );
         $order->add_item($item);
 
-        /* Calculate Order totals */
+        /* Calculate and Save Order */
         $order->calculate_totals(false);
 
-        //dump($order);
-
-        return $order->save();
+        return $order->get_id();
     }
 }
