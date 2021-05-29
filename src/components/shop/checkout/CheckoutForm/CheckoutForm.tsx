@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
 import FormField from '../../../UI/Form/FormField/FormField'
-import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-data'
+import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 

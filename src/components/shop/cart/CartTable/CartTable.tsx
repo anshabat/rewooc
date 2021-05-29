@@ -14,7 +14,7 @@ import {
   setCartProductQuantity,
 } from '../../../../redux/cart/cartActions'
 import Price from '../../Price/Price'
-import { ICartItem } from 'app-data'
+import { ICartItem } from 'app-api'
 
 interface IProps {
   items: ICartItem[]

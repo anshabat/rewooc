@@ -1,13 +1,13 @@
 import './CheckoutTotals.scss'
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
+import { IDeliveryMethod } from 'app-api'
 import {
   selectCartItems,
   selectCartTotalPrice,
   selectCartTotalQuantity,
 } from '../../../../redux/cart/cartSelectors'
 import Price from '../../Price/Price'
-import { IDeliveryMethod } from 'app-data'
 import OrderCart from '../../cart/OrderCart/OrderCart'
 
 interface IProps {

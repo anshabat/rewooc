@@ -1,4 +1,4 @@
-import { ICartItem } from 'app-data'
+import { ICartItem } from 'app-api'
 import { ICartData, ICartState, INormalizedCartItem } from './cartTypes'
 import { IProduct } from 'app-types'
 

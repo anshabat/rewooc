@@ -1,6 +1,6 @@
 import './OrderCart.scss'
 import React, { ChangeEvent, FC } from 'react'
-import { ICartItem } from 'app-data'
+import { ICartItem } from 'app-api'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectDeletingProductKey,

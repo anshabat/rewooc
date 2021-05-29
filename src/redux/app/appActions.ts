@@ -1,5 +1,5 @@
 import { AppActionTypes } from './appTypes'
-import { IGeneralData } from 'app-data';
+import { IGeneralData } from 'app-api';
 
 export const INIT_APP = 'INIT_APP'
 export const INIT_APP_SUCCESS = 'INIT_APP_SUCCESS'

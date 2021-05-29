@@ -1,4 +1,4 @@
-import { ICartItem, IDeliveryMethod, IPaymentMethod } from 'app-data'
+import { ICartItem, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { instance } from '../instance'
 import { IResponseData } from '../types'
 import {
