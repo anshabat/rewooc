@@ -30,13 +30,13 @@
   }
 
   &:hover {
-    &::before {
+    &:not([disabled])::before {
       background-color: rgba(0, 0, 0, 0.1);
     }
   }
 
   &:active {
-    &::before {
+    &:not([disabled])::before {
       background-color: rgba(0, 0, 0, 0.2);
     }
   }
@@ -64,5 +64,10 @@
   &--secondary {
     color: #fff;
     background-color: var(--secondary-color);
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: default;
   }
 }

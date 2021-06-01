@@ -24,6 +24,7 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
+  const [isOrderLoading, setOrderLoading] = useState(false)
 
   /* Checkout page data */
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
@@ -50,7 +51,9 @@ const CheckoutForm: FC<IProps> = (props) => {
   if (typeof onUpdateDelivery === 'function') {
     useEffect(() => {
       if (formData.deliveryMethodId !== initialFormState.deliveryMethodId) {
-        const currentDeliveryMethod = getDeliveryByMethodId(formData.deliveryMethodId)
+        const currentDeliveryMethod = getDeliveryByMethodId(
+          formData.deliveryMethodId
+        )
         if (currentDeliveryMethod) {
           onUpdateDelivery(currentDeliveryMethod)
         }
@@ -64,7 +67,10 @@ const CheckoutForm: FC<IProps> = (props) => {
 
   const submitForm = (e: any) => {
     e.preventDefault()
-    return orderApi.createOrder(formData, cartItems)
+    setOrderLoading(true)
+    return orderApi.createOrder(formData, cartItems).finally(() => {
+      setOrderLoading(false)
+    })
   }
 
   const setValue = (e: any) => {
@@ -186,7 +192,7 @@ const CheckoutForm: FC<IProps> = (props) => {
         </div>
       </fieldset>
       <div>
-        <Button size="lg" color="secondary">
+        <Button size="lg" color="secondary" disabled={isOrderLoading}>
           Submit
         </Button>
       </div>
