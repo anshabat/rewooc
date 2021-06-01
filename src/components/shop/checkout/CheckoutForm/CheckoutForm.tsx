@@ -12,6 +12,8 @@ const initialFormState = {
   billing_email: '',
   deliveryMethodId: '',
   payment: '',
+  ship_to_different_address: 0,
+  shipping_first_name: '',
 }
 
 export type CheckoutFormType = typeof initialFormState
@@ -75,6 +77,10 @@ const CheckoutForm: FC<IProps> = (props) => {
 
   const setValue = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const setCheckValue = (e: any) => {
+    setFormData({ ...formData, [e.target.name]: Number(e.target.checked) })
   }
 
   return (
@@ -141,13 +147,45 @@ const CheckoutForm: FC<IProps> = (props) => {
             />
           </div>
         </div>
+
+        <div className="rw-form__field">
+          <label htmlFor="ship_to_different_address" className="rw-form__label">
+            Ship to another person
+          </label>
+          <div className="rw-form__control">
+            <FormField
+              name="ship_to_different_address"
+              id="ship_to_different_address"
+              type="checkbox"
+              value={formData.ship_to_different_address}
+              onChange={setCheckValue}
+              checked={Boolean(formData.ship_to_different_address)}
+            />
+          </div>
+        </div>
+
+        {formData.ship_to_different_address ? (
+          <div className="rw-form__field">
+            <label htmlFor="shipping_first_name" className="rw-form__label">
+              First Name
+            </label>
+            <div className="rw-form__control">
+              <FormField
+                name="shipping_first_name"
+                id="shipping_first_name"
+                type="text"
+                value={formData.shipping_first_name}
+                onChange={setValue}
+              />
+            </div>
+          </div>
+        ) : null}
       </fieldset>
 
       <fieldset className="rw-form__group">
-        <legend className="rw-form__group-title">Shipping & Payment</legend>
+        <legend className="rw-form__group-title">Delivery</legend>
 
         <div className="rw-form__field">
-          <div className="rw-form__label">Delivery</div>
           <div className="rw-form__control">
             {deliveryMethods.map((method) => {
               return (
@@ -168,9 +206,11 @@ const CheckoutForm: FC<IProps> = (props) => {
             })}
           </div>
         </div>
+      </fieldset>
 
+      <fieldset className="rw-form__group">
+        <legend className="rw-form__group-title">Payment</legend>
         <div className="rw-form__field">
-          <div className="rw-form__label">Payment</div>
           <div className="rw-form__control">
             {paymentMethods.map((method) => {
               return (

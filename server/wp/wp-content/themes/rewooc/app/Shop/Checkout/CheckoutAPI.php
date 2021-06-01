@@ -53,7 +53,7 @@ class CheckoutAPI
             $order->add_item($item);
         }
 
-        $total = $order->calculate_totals(false);
-        View::responseSuccess($total);
+        //$total = $order->calculate_totals(false);
+        View::responseSuccess(1);
     }
 }
