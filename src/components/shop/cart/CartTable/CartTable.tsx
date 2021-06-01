@@ -1,7 +1,6 @@
 import './CartTable.scss'
 import React, { ChangeEvent, FC, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Icon from '../../../UI/Icon/Icon'
 import CartProduct from '../CartProduct/CartProduct'
 import QuantityField from '../QuantityField/QuantityField'
 import {
@@ -15,6 +14,7 @@ import {
 } from '../../../../redux/cart/cartActions'
 import Price from '../../Price/Price'
 import { ICartItem } from 'app-api'
+import DeleteButton from '../../../UI/DeleteButton/DeleteButton'
 
 interface IProps {
   items: ICartItem[]
@@ -35,19 +35,12 @@ const CartTable: FC<IProps> = (props) => {
           return (
             <Fragment key={item.key}>
               <div className="rw-cart-table__delete">
-                <button
-                  className="rw-cart-table__delete-btn"
-                  type="button"
-                  onClick={() => {
+                <DeleteButton
+                  isLoading={deletingProduct === item.key}
+                  onDelete={() => {
                     dispatch(deleteFromCart(item.key))
                   }}
-                >
-                  {deletingProduct === item.key ? (
-                    <Icon classes={['fa-circle-o-notch', 'fa-spin']} />
-                  ) : (
-                    <Icon classes={['fa-times']} />
-                  )}
-                </button>
+                />
               </div>
               <div className="rw-cart-table__product">
                 {item.product && <CartProduct product={item.product} />}

@@ -11,9 +11,9 @@ import {
   deleteFromCart,
   setCartProductQuantity,
 } from '../../../../redux/cart/cartActions'
-import Icon from '../../../UI/Icon/Icon'
 import QuantityField from '../QuantityField/QuantityField'
 import Price from '../../Price/Price'
+import DeleteButton from '../../../UI/DeleteButton/DeleteButton'
 
 interface IProps {
   items: ICartItem[]
@@ -35,19 +35,12 @@ const OrderCart: FC<IProps> = (props) => {
             </div>
             <h3 className="rw-order-cart__title">{item.product.title}</h3>
             <div className="rw-order-cart__delete">
-              <button
-                className="rw-order-cart__delete-btn"
-                type="button"
-                onClick={() => {
+              <DeleteButton
+                isLoading={deletingProduct === item.key}
+                onDelete={() => {
                   dispatch(deleteFromCart(item.key))
                 }}
-              >
-                {deletingProduct === item.key ? (
-                  <Icon classes={['fa-circle-o-notch', 'fa-spin']} />
-                ) : (
-                  <Icon classes={['fa-times']} />
-                )}
-              </button>
+              />
             </div>
             <div className="rw-order-cart__quantity">
               <div className="rw-order-cart__quantity-control">
