@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import FormField from '../../../UI/Form/FormField/FormField'
+import FormElement from '../../../UI/Form/FormElement/FormElement'
 import { trimObject } from '../../../../shared/utilities'
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -31,7 +31,7 @@ const QuantityField: FC<IProps> = (props) => {
   }, [hasChanged])
 
   return (
-    <FormField
+    <FormElement
       type="number"
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
         setValue(Number(e.target.value))

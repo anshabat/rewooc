@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
-import FormField from '../../../UI/Form/FormField/FormField'
+import FormElement from '../../../UI/Form/FormElement/FormElement'
 import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
+import FormField from '../../../UI/Form/FormField/FormField'
 
 const initialFormState = {
   billing_first_name: '',
@@ -87,73 +88,56 @@ const CheckoutForm: FC<IProps> = (props) => {
     <form className="rw-form" action="" onSubmit={submitForm}>
       <fieldset className="rw-form__group">
         <legend className="rw-form__group-title">Contact info</legend>
-
         <div className="rw-form__field">
-          <label htmlFor="billing_first_name" className="rw-form__label">
-            First name
-          </label>
-          <div className="rw-form__control">
-            <FormField
+          <FormField label="First name">
+            <FormElement
               name="billing_first_name"
               id="billing_first_name"
               type="text"
               value={formData.billing_first_name}
               onChange={setValue}
             />
-          </div>
+          </FormField>
         </div>
-
         <div className="rw-form__field">
-          <label htmlFor="billing_last_name" className="rw-form__label">
-            Last name
-          </label>
-          <div className="rw-form__control">
-            <FormField
+          <FormField label="Last name">
+            <FormElement
               name="billing_last_name"
               id="billing_last_name"
               type="text"
               value={formData.billing_last_name}
               onChange={setValue}
             />
-          </div>
+          </FormField>
         </div>
 
         <div className="rw-form__field">
-          <label htmlFor="billing_phone" className="rw-form__label">
-            Phone
-          </label>
-          <div className="rw-form__control">
-            <FormField
+          <FormField label="Phone">
+            <FormElement
               name="billing_phone"
               id="billing_phone"
               type="text"
               value={formData.billing_phone}
               onChange={setValue}
             />
-          </div>
+          </FormField>
         </div>
 
         <div className="rw-form__field">
-          <label htmlFor="billing_email" className="rw-form__label">
-            Email
-          </label>
-          <div className="rw-form__control">
-            <FormField
+          <FormField label="Email">
+            <FormElement
               name="billing_email"
               id="billing_email"
               type="text"
               value={formData.billing_email}
               onChange={setValue}
             />
-          </div>
+          </FormField>
         </div>
 
         <div className="rw-form__field">
-          <label htmlFor="ship_to_different_address" className="rw-form__label">
-            Ship to another person
-          </label>
-          <div className="rw-form__control">
-            <FormField
+          <FormField label="Ship to another person" direction="horizontal">
+            <FormElement
               name="ship_to_different_address"
               id="ship_to_different_address"
               type="checkbox"
@@ -161,23 +145,20 @@ const CheckoutForm: FC<IProps> = (props) => {
               onChange={setCheckValue}
               checked={Boolean(formData.ship_to_different_address)}
             />
-          </div>
+          </FormField>
         </div>
 
         {formData.ship_to_different_address ? (
           <div className="rw-form__field">
-            <label htmlFor="shipping_first_name" className="rw-form__label">
-              First Name
-            </label>
-            <div className="rw-form__control">
-              <FormField
+            <FormField label="First Name">
+              <FormElement
                 name="shipping_first_name"
                 id="shipping_first_name"
                 type="text"
                 value={formData.shipping_first_name}
                 onChange={setValue}
               />
-            </div>
+            </FormField>
           </div>
         ) : null}
       </fieldset>

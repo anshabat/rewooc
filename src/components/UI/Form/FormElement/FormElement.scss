@@ -1,0 +1,18 @@
+.rw-form-element {
+  &__control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-gray);
+    border: 1px solid var(--form-field-border-color);
+    background-color: #fff;
+    background-clip: padding-box;
+
+    &[type="checkbox"] {
+      display: inline-block;
+      width: auto;
+    }
+  }
+}

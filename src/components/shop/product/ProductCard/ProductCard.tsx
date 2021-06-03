@@ -6,7 +6,7 @@ import Image from '../../../UI/Image/Image'
 import Price from '../../Price/Price'
 import { addToCart } from '../../../../redux/cart/cartActions'
 import { siteUrl } from '../../../../shared/utilities'
-import FormField from '../../../UI/Form/FormField/FormField'
+import FormElement from '../../../UI/Form/FormElement/FormElement'
 import { IProduct } from 'app-types'
 import { useCartInfo } from '../../../../hooks/useCartInfo'
 
@@ -32,7 +32,7 @@ const ProductCard: FC<IProduct> = (props) => {
       </div>
       <div className="rw-product-card__row">
         <div className="rw-product-card__quantity">
-          <FormField
+          <FormElement
             type="number"
             value={quantity}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {

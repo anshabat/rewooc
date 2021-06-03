@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { signIn } from '../../redux/auth/authActions'
 import Content from '../../components/Layout/Content/Content'
-import FormField from '../../components/UI/Form/FormField/FormField'
+import FormElement from '../../components/UI/Form/FormElement/FormElement'
 import Button from '../../components/UI/Button/Button'
 import Message from '../../components/UI/Message/Message'
 import { selectAccountUser } from '../../redux/account/accountSelector'
@@ -53,7 +53,7 @@ const SignIn: FC = () => {
             Username or email
           </label>
           <div className="rw-form__control">
-            <FormField name="username" id="sign-in-username" type="text" />
+            <FormElement name="username" id="sign-in-username" type="text" />
           </div>
         </div>
         <div className="rw-form__field">
@@ -61,7 +61,7 @@ const SignIn: FC = () => {
             Password
           </label>
           <div className="rw-form__control">
-            <FormField name="password" id="sign-in-password" type="password" />
+            <FormElement name="password" id="sign-in-password" type="password" />
           </div>
         </div>
         <div className="rw-form__field">
