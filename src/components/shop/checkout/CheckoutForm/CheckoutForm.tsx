@@ -5,6 +5,7 @@ import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
+import Space from '../../../UI/Space/Space'
 
 const initialFormState = {
   billing_first_name: '',
@@ -167,49 +168,52 @@ const CheckoutForm: FC<IProps> = (props) => {
         <legend className="rw-form__group-title">Delivery</legend>
 
         <div className="rw-form__field">
-          <div className="rw-form__control">
+          <Space size="sm">
             {deliveryMethods.map((method) => {
               return (
-                <div key={method.id}>
-                  <label>
-                    <span>{method.title}</span>
-                    <input
-                      type="radio"
-                      name="deliveryMethodId"
-                      value={method.id}
-                      checked={Number(formData.deliveryMethodId) === method.id}
-                      onChange={setValue}
-                    />{' '}
-                    ({method.cost})
-                  </label>
-                </div>
+                <FormField
+                  key={method.id}
+                  label={`${method.title} ${method.cost}`}
+                  direction="horizontal"
+                >
+                  <FormElement
+                    name="deliveryMethodId"
+                    id="deliveryMethodId"
+                    type="radio"
+                    value={method.id}
+                    onChange={setValue}
+                    checked={Number(formData.deliveryMethodId) === method.id}
+                  />
+                </FormField>
               )
             })}
-          </div>
+          </Space>
         </div>
       </fieldset>
 
       <fieldset className="rw-form__group">
         <legend className="rw-form__group-title">Payment</legend>
         <div className="rw-form__field">
-          <div className="rw-form__control">
+          <Space size="sm">
             {paymentMethods.map((method) => {
               return (
-                <div key={method.id}>
-                  <label>
-                    <span>{method.title}</span>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value={method.id}
-                      checked={formData.payment === method.id}
-                      onChange={setValue}
-                    />
-                  </label>
-                </div>
+                <FormField
+                  key={method.id}
+                  label={method.title}
+                  direction="horizontal"
+                >
+                  <FormElement
+                    name="payment"
+                    id="payment"
+                    type="radio"
+                    value={method.id}
+                    onChange={setValue}
+                    checked={formData.payment === method.id}
+                  />
+                </FormField>
               )
             })}
-          </div>
+          </Space>
         </div>
       </fieldset>
       <div>

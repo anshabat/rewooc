@@ -1,0 +1,24 @@
+.rw-space {
+  display: grid;
+  align-items: center;
+
+  &--xs {
+    grid-gap: 5px;
+  }
+
+  &--sm {
+    grid-gap: 10px;
+  }
+
+  &--md {
+    grid-gap: 15px;
+  }
+
+  &--lg {
+    grid-gap: 20px;
+  }
+
+  &--xl {
+    grid-gap: 40px;
+  }
+}
