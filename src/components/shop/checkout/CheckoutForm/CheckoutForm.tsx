@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
-import FormElement from '../../../UI/Form/FormElement/FormElement'
 import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
@@ -90,76 +89,71 @@ const CheckoutForm: FC<IProps> = (props) => {
       <fieldset className="rw-form__group">
         <legend className="rw-form__group-title">Contact info</legend>
         <div className="rw-form__field">
-          <FormField label="First name">
-            <FormElement
-              name="billing_first_name"
-              id="billing_first_name"
-              type="text"
-              value={formData.billing_first_name}
-              onChange={setValue}
-            />
-          </FormField>
+          <FormField
+            label="First name"
+            name="billing_first_name"
+            id="billing_first_name"
+            type="text"
+            value={formData.billing_first_name}
+            onChange={setValue}
+          />
         </div>
         <div className="rw-form__field">
-          <FormField label="Last name">
-            <FormElement
-              name="billing_last_name"
-              id="billing_last_name"
-              type="text"
-              value={formData.billing_last_name}
-              onChange={setValue}
-            />
-          </FormField>
+          <FormField
+            label="Last name"
+            name="billing_last_name"
+            id="billing_last_name"
+            type="text"
+            value={formData.billing_last_name}
+            onChange={setValue}
+          />
         </div>
 
         <div className="rw-form__field">
-          <FormField label="Phone">
-            <FormElement
-              name="billing_phone"
-              id="billing_phone"
-              type="text"
-              value={formData.billing_phone}
-              onChange={setValue}
-            />
-          </FormField>
+          <FormField
+            label="Phone"
+            name="billing_phone"
+            id="billing_phone"
+            type="text"
+            value={formData.billing_phone}
+            onChange={setValue}
+          />
         </div>
 
         <div className="rw-form__field">
-          <FormField label="Email">
-            <FormElement
-              name="billing_email"
-              id="billing_email"
-              type="text"
-              value={formData.billing_email}
-              onChange={setValue}
-            />
-          </FormField>
+          <FormField
+            label="Email"
+            name="billing_email"
+            id="billing_email"
+            type="text"
+            value={formData.billing_email}
+            onChange={setValue}
+          />
         </div>
 
         <div className="rw-form__field">
-          <FormField label="Ship to another person" direction="horizontal">
-            <FormElement
-              name="ship_to_different_address"
-              id="ship_to_different_address"
-              type="checkbox"
-              value={formData.ship_to_different_address}
-              onChange={setCheckValue}
-              checked={Boolean(formData.ship_to_different_address)}
-            />
-          </FormField>
+          <FormField
+            label="Ship to another person"
+            horizontal
+            name="ship_to_different_address"
+            id="ship_to_different_address"
+            type="checkbox"
+            value={formData.ship_to_different_address}
+            onChange={setCheckValue}
+            checked={Boolean(formData.ship_to_different_address)}
+          />
         </div>
 
         {formData.ship_to_different_address ? (
           <div className="rw-form__field">
-            <FormField label="First Name">
-              <FormElement
-                name="shipping_first_name"
-                id="shipping_first_name"
-                type="text"
-                value={formData.shipping_first_name}
-                onChange={setValue}
-              />
-            </FormField>
+            <FormField
+              label="First Name"
+              name="shipping_first_name"
+              id="shipping_first_name"
+              type="text"
+              value={formData.shipping_first_name}
+              onChange={setValue}
+            />
           </div>
         ) : null}
       </fieldset>
@@ -174,17 +168,14 @@ const CheckoutForm: FC<IProps> = (props) => {
                 <FormField
                   key={method.id}
                   label={`${method.title} ${method.cost}`}
-                  direction="horizontal"
-                >
-                  <FormElement
-                    name="deliveryMethodId"
-                    id="deliveryMethodId"
-                    type="radio"
-                    value={method.id}
-                    onChange={setValue}
-                    checked={Number(formData.deliveryMethodId) === method.id}
-                  />
-                </FormField>
+                  horizontal
+                  name="deliveryMethodId"
+                  id={`deliveryMethodId-${method.id}`}
+                  type="radio"
+                  value={method.id}
+                  onChange={setValue}
+                  checked={Number(formData.deliveryMethodId) === method.id}
+                />
               )
             })}
           </Space>
@@ -200,17 +191,14 @@ const CheckoutForm: FC<IProps> = (props) => {
                 <FormField
                   key={method.id}
                   label={method.title}
-                  direction="horizontal"
-                >
-                  <FormElement
-                    name="payment"
-                    id="payment"
-                    type="radio"
-                    value={method.id}
-                    onChange={setValue}
-                    checked={formData.payment === method.id}
-                  />
-                </FormField>
+                  horizontal
+                  name="payment"
+                  id={`payment-${method.id}`}
+                  type="radio"
+                  value={method.id}
+                  onChange={setValue}
+                  checked={formData.payment === method.id}
+                />
               )
             })}
           </Space>

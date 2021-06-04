@@ -1,24 +1,36 @@
 import './FormField.scss'
-import React, { FC } from 'react'
-import css from 'classnames'
+import React, { FC, InputHTMLAttributes } from 'react'
+import classNames from 'classnames'
 
-interface IProps {
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
   hideLabel?: boolean
-  direction?: 'horizontal' | 'vertical'
+  horizontal?: boolean
 }
 
 const FormField: FC<IProps> = (props) => {
-  const { direction = 'vertical', label, hideLabel = false, children } = props
+  const {
+    horizontal = false,
+    label,
+    hideLabel = false,
+    id,
+    ...restProps
+  } = props
 
-  const screenReaderClass = css({ 'h-screen-reader-text': hideLabel })
+  const screenReaderClass = classNames({ 'h-screen-reader-text': hideLabel })
+  const fieldClass = classNames({
+    'rw-form-field': true,
+    'rw-form-field--horizontal': horizontal,
+  })
 
   return (
-    <div className={`rw-form-field rw-form-field--${direction}`}>
-      <label className={screenReaderClass} htmlFor="billing_first_name">
+    <div className={fieldClass}>
+      <label className={screenReaderClass} htmlFor={id}>
         {label}
       </label>
-      <div className="rw-form-field__element">{children}</div>
+      <div className="rw-form-field__element">
+        <input className="rw-form-field__control" id={id} {...restProps} />
+      </div>
     </div>
   )
 }
