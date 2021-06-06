@@ -1,10 +1,11 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, FormEvent, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
 import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
 import Space from '../../../UI/Space/Space'
+import Form from '../../../UI/Form/Form'
 
 const initialFormState = {
   billing_first_name: '',
@@ -68,7 +69,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     return deliveryMethods.find((method) => String(method.id) === id)
   }
 
-  const submitForm = (e: any) => {
+  const submitForm = (e: FormEvent) => {
     e.preventDefault()
     setOrderLoading(true)
     return orderApi.createOrder(formData, cartItems).finally(() => {
@@ -85,10 +86,10 @@ const CheckoutForm: FC<IProps> = (props) => {
   }
 
   return (
-    <form className="rw-form" action="" onSubmit={submitForm}>
-      <fieldset className="rw-form__group">
-        <legend className="rw-form__group-title">Contact info</legend>
-        <div className="rw-form__field">
+    <Form onSubmit={submitForm} loading={isOrderLoading}>
+      <Form.Fieldset>
+        <Form.Legend>Contact info</Form.Legend>
+        <Form.Fields>
           <FormField
             label="First name"
             name="billing_first_name"
@@ -97,8 +98,6 @@ const CheckoutForm: FC<IProps> = (props) => {
             value={formData.billing_first_name}
             onChange={setValue}
           />
-        </div>
-        <div className="rw-form__field">
           <FormField
             label="Last name"
             name="billing_last_name"
@@ -107,9 +106,6 @@ const CheckoutForm: FC<IProps> = (props) => {
             value={formData.billing_last_name}
             onChange={setValue}
           />
-        </div>
-
-        <div className="rw-form__field">
           <FormField
             label="Phone"
             name="billing_phone"
@@ -118,9 +114,6 @@ const CheckoutForm: FC<IProps> = (props) => {
             value={formData.billing_phone}
             onChange={setValue}
           />
-        </div>
-
-        <div className="rw-form__field">
           <FormField
             label="Email"
             name="billing_email"
@@ -129,9 +122,6 @@ const CheckoutForm: FC<IProps> = (props) => {
             value={formData.billing_email}
             onChange={setValue}
           />
-        </div>
-
-        <div className="rw-form__field">
           <FormField
             label="Ship to another person"
             horizontal
@@ -142,10 +132,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             onChange={setCheckValue}
             checked={Boolean(formData.ship_to_different_address)}
           />
-        </div>
-
-        {formData.ship_to_different_address ? (
-          <div className="rw-form__field">
+          {formData.ship_to_different_address ? (
             <FormField
               label="First Name"
               name="shipping_first_name"
@@ -154,14 +141,13 @@ const CheckoutForm: FC<IProps> = (props) => {
               value={formData.shipping_first_name}
               onChange={setValue}
             />
-          </div>
-        ) : null}
-      </fieldset>
+          ) : null}
+        </Form.Fields>
+      </Form.Fieldset>
 
-      <fieldset className="rw-form__group">
-        <legend className="rw-form__group-title">Delivery</legend>
-
-        <div className="rw-form__field">
+      <Form.Fieldset>
+        <Form.Legend>Delivery</Form.Legend>
+        <Form.Fields>
           <Space size="sm">
             {deliveryMethods.map((method) => {
               return (
@@ -179,12 +165,12 @@ const CheckoutForm: FC<IProps> = (props) => {
               )
             })}
           </Space>
-        </div>
-      </fieldset>
+        </Form.Fields>
+      </Form.Fieldset>
 
-      <fieldset className="rw-form__group">
-        <legend className="rw-form__group-title">Payment</legend>
-        <div className="rw-form__field">
+      <Form.Fieldset>
+        <Form.Legend>Payment</Form.Legend>
+        <Form.Fields>
           <Space size="sm">
             {paymentMethods.map((method) => {
               return (
@@ -202,14 +188,14 @@ const CheckoutForm: FC<IProps> = (props) => {
               )
             })}
           </Space>
-        </div>
-      </fieldset>
+        </Form.Fields>
+      </Form.Fieldset>
       <div>
         <Button size="lg" color="secondary" disabled={isOrderLoading}>
           Submit
         </Button>
       </div>
-    </form>
+    </Form>
   )
 }
 

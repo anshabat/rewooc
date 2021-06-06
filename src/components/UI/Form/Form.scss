@@ -3,7 +3,7 @@
     opacity: 0.5;
   }
 
-  &__group {
+  &__fieldset {
     border: 1px solid var(--border-light-color);
     padding: 20px;
 
@@ -12,13 +12,12 @@
     }
   }
 
-  &__group-title {
+  &__legend {
     font-weight: bold;
   }
 
-  &__field {
-    &:not(:last-child) {
-      margin-bottom: 25px;
-    }
+  &__fields {
+    display: grid;
+    grid-gap: 25px;
   }
 }
