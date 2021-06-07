@@ -16,6 +16,7 @@ const initialFormState = {
   payment: '',
   ship_to_different_address: 0,
   shipping_first_name: '',
+  shipping_last_name: '',
 }
 
 export type CheckoutFormType = typeof initialFormState
@@ -133,14 +134,24 @@ const CheckoutForm: FC<IProps> = (props) => {
             checked={Boolean(formData.ship_to_different_address)}
           />
           {formData.ship_to_different_address ? (
-            <FormField
-              label="First Name"
-              name="shipping_first_name"
-              id="shipping_first_name"
-              type="text"
-              value={formData.shipping_first_name}
-              onChange={setValue}
-            />
+            <>
+              <FormField
+                label="First Name"
+                name="shipping_first_name"
+                id="shipping_first_name"
+                type="text"
+                value={formData.shipping_first_name}
+                onChange={setValue}
+              />
+              <FormField
+                label="Phone"
+                name="shipping_last_name"
+                id="shipping_last_name"
+                type="text"
+                value={formData.shipping_last_name}
+                onChange={setValue}
+              />
+            </>
           ) : null}
         </Form.Fields>
       </Form.Fieldset>

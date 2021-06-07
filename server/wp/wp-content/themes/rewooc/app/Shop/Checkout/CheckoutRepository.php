@@ -54,6 +54,11 @@ class CheckoutRepository
         $order->set_billing_phone($data->billing->phone);
         $order->set_payment_method($data->payment);
 
+        if ($data->shipping) {
+            $order->set_shipping_first_name($data->shipping->first_name);
+            $order->set_shipping_last_name($data->shipping->last_name);
+        }
+
         /* Add products to Order */
         foreach ($data->products as $item) {
             $product = wc_get_product($item->product_id);

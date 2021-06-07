@@ -19,6 +19,13 @@ async function createOrder(
     }
   })
 
+  const shipping = formData.ship_to_different_address
+    ? {
+        first_name: formData.shipping_first_name,
+        last_name: formData.shipping_last_name,
+      }
+    : null
+
   const options: IOrderRequest = {
     billing: {
       first_name: formData.billing_first_name,
@@ -31,6 +38,7 @@ async function createOrder(
     products: products,
     status: 'processing',
     customer_id: 1,
+    shipping,
   }
 
   const {
