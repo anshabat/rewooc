@@ -23,7 +23,7 @@ const Form: FC<IFormProps> & ISubComponents = (props) => {
   })
 
   return (
-    <form className={formClass} action="" onSubmit={onSubmit}>
+    <form className={formClass} action="" onSubmit={onSubmit} noValidate>
       {children}
     </form>
   )

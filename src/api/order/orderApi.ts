@@ -19,22 +19,22 @@ async function createOrder(
     }
   })
 
-  const shipping = formData.ship_to_different_address
+  const shipping = formData.ship_to_different_address.value
     ? {
-        first_name: formData.shipping_first_name,
-        last_name: formData.shipping_last_name,
+        first_name: formData.shipping_first_name.value,
+        last_name: formData.shipping_last_name.value,
       }
     : null
 
   const options: IOrderRequest = {
     billing: {
-      first_name: formData.billing_first_name,
-      last_name: formData.billing_last_name,
-      phone: formData.billing_phone,
-      email: formData.billing_email,
+      first_name: formData.billing_first_name.value,
+      last_name: formData.billing_last_name.value,
+      phone: formData.billing_phone.value,
+      email: formData.billing_email.value,
     },
-    delivery: formData.deliveryMethodId,
-    payment: formData.payment,
+    delivery: formData.deliveryMethodId.value,
+    payment: formData.payment.value,
     products: products,
     status: 'processing',
     customer_id: 1,

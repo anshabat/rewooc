@@ -6,6 +6,8 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
   hideLabel?: boolean
   horizontal?: boolean
+  required: boolean
+  valid: boolean
 }
 
 const FormField: FC<IProps> = (props) => {
@@ -14,23 +16,35 @@ const FormField: FC<IProps> = (props) => {
     label,
     hideLabel = false,
     id,
+    required,
+    valid,
     ...restProps
   } = props
 
-  const screenReaderClass = classNames({ 'h-screen-reader-text': hideLabel })
+  const labelClass = classNames({
+    'rw-form-field__label': true,
+    'h-screen-reader-text': hideLabel,
+  })
   const fieldClass = classNames({
     'rw-form-field': true,
     'rw-form-field--horizontal': horizontal,
+    'rw-form-field--required': required,
   })
 
   return (
     <div className={fieldClass}>
-      <label className={screenReaderClass} htmlFor={id}>
+      <label className={labelClass} htmlFor={id}>
         {label}
       </label>
       <div className="rw-form-field__element">
-        <input className="rw-form-field__control" id={id} {...restProps} />
+        <input
+          className="rw-form-field__control"
+          id={id}
+          required={required}
+          {...restProps}
+        />
       </div>
+      {!valid ? <div className="rw-form-field__error">error</div> : null}
     </div>
   )
 }

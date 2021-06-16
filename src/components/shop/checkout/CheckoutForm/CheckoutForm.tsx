@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
 import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useSelector } from 'react-redux'
@@ -7,18 +7,41 @@ import FormField from '../../../UI/Form/FormField/FormField'
 import Space from '../../../UI/Space/Space'
 import Form from '../../../UI/Form/Form'
 
-const initialFormState = {
-  billing_first_name: '',
-  billing_last_name: '',
-  billing_phone: '',
-  billing_email: '',
-  deliveryMethodId: '',
-  payment: '',
-  ship_to_different_address: 0,
-  shipping_first_name: '',
-  shipping_last_name: '',
+interface IFormField<T> {
+  value: T
+  validation: {
+    required: boolean
+    valid: boolean
+  }
 }
 
+function setFormField<T>(
+  value: T,
+  required: boolean,
+  valid: boolean
+): IFormField<T> {
+  return {
+    value,
+    validation: {
+      required,
+      valid,
+    },
+  }
+}
+
+const initialFormState = {
+  billing_first_name: setFormField('', true, true),
+  billing_last_name: setFormField('', true, true),
+  billing_phone: setFormField('', true, true),
+  billing_email: setFormField('', true, true),
+  deliveryMethodId: setFormField('', true, true),
+  payment: setFormField('', true, true),
+  ship_to_different_address: setFormField(0, false, true),
+  shipping_first_name: setFormField('', false, true),
+  shipping_last_name: setFormField('', false, true),
+}
+
+//export type CheckoutFormType = typeof initialFormState
 export type CheckoutFormType = typeof initialFormState
 
 interface IProps {
@@ -57,7 +80,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     useEffect(() => {
       if (formData.deliveryMethodId !== initialFormState.deliveryMethodId) {
         const currentDeliveryMethod = getDeliveryByMethodId(
-          formData.deliveryMethodId
+          formData.deliveryMethodId.value
         )
         if (currentDeliveryMethod) {
           onUpdateDelivery(currentDeliveryMethod)
@@ -72,18 +95,45 @@ const CheckoutForm: FC<IProps> = (props) => {
 
   const submitForm = (e: FormEvent) => {
     e.preventDefault()
-    setOrderLoading(true)
-    return orderApi.createOrder(formData, cartItems).finally(() => {
-      setOrderLoading(false)
+
+    const newFormData = Object.entries(formData).reduce<CheckoutFormType>(
+      (result, field) => {
+        const [key, data] = field as [keyof CheckoutFormType, IFormField<any>]
+        let isValid = true
+
+        if (data.validation.required) {
+          isValid = Boolean(data.value)
+        }
+
+        result[key] = setFormField(
+          data.value,
+          data.validation.required,
+          isValid
+        )
+
+        return result
+      },
+      {} as CheckoutFormType
+    )
+    setFormData(newFormData)
+  }
+
+  const setValue = (e: ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name as keyof CheckoutFormType
+    const value = e.target.value
+    setFormData({
+      ...formData,
+      [name]: { ...formData[name], value },
     })
   }
 
-  const setValue = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
   const setCheckValue = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: Number(e.target.checked) })
+    const name = e.target.name as keyof CheckoutFormType
+    const checked = Number(e.target.checked)
+    setFormData({
+      ...formData,
+      [name]: { ...formData[name], value: checked },
+    })
   }
 
   return (
@@ -96,7 +146,9 @@ const CheckoutForm: FC<IProps> = (props) => {
             name="billing_first_name"
             id="billing_first_name"
             type="text"
-            value={formData.billing_first_name}
+            value={formData.billing_first_name.value}
+            required={formData.billing_first_name.validation.required}
+            valid={formData.billing_first_name.validation.valid}
             onChange={setValue}
           />
           <FormField
@@ -104,7 +156,9 @@ const CheckoutForm: FC<IProps> = (props) => {
             name="billing_last_name"
             id="billing_last_name"
             type="text"
-            value={formData.billing_last_name}
+            value={formData.billing_last_name.value}
+            required={formData.billing_last_name.validation.required}
+            valid={formData.billing_last_name.validation.valid}
             onChange={setValue}
           />
           <FormField
@@ -112,7 +166,9 @@ const CheckoutForm: FC<IProps> = (props) => {
             name="billing_phone"
             id="billing_phone"
             type="text"
-            value={formData.billing_phone}
+            value={formData.billing_phone.value}
+            required={formData.billing_phone.validation.required}
+            valid={formData.billing_phone.validation.valid}
             onChange={setValue}
           />
           <FormField
@@ -120,7 +176,9 @@ const CheckoutForm: FC<IProps> = (props) => {
             name="billing_email"
             id="billing_email"
             type="text"
-            value={formData.billing_email}
+            value={formData.billing_email.value}
+            required={formData.billing_email.validation.required}
+            valid={formData.billing_email.validation.valid}
             onChange={setValue}
           />
           <FormField
@@ -129,18 +187,22 @@ const CheckoutForm: FC<IProps> = (props) => {
             name="ship_to_different_address"
             id="ship_to_different_address"
             type="checkbox"
-            value={formData.ship_to_different_address}
+            value={formData.ship_to_different_address.value}
+            required={formData.ship_to_different_address.validation.required}
+            valid={formData.ship_to_different_address.validation.valid}
             onChange={setCheckValue}
-            checked={Boolean(formData.ship_to_different_address)}
+            checked={Boolean(formData.ship_to_different_address.value)}
           />
-          {formData.ship_to_different_address ? (
+          {formData.ship_to_different_address.value ? (
             <>
               <FormField
                 label="First Name"
                 name="shipping_first_name"
                 id="shipping_first_name"
                 type="text"
-                value={formData.shipping_first_name}
+                value={formData.shipping_first_name.value}
+                required={formData.shipping_first_name.validation.required}
+                valid={formData.shipping_first_name.validation.valid}
                 onChange={setValue}
               />
               <FormField
@@ -148,7 +210,9 @@ const CheckoutForm: FC<IProps> = (props) => {
                 name="shipping_last_name"
                 id="shipping_last_name"
                 type="text"
-                value={formData.shipping_last_name}
+                value={formData.shipping_last_name.value}
+                required={formData.shipping_last_name.validation.required}
+                valid={formData.shipping_last_name.validation.valid}
                 onChange={setValue}
               />
             </>
@@ -171,7 +235,11 @@ const CheckoutForm: FC<IProps> = (props) => {
                   type="radio"
                   value={method.id}
                   onChange={setValue}
-                  checked={Number(formData.deliveryMethodId) === method.id}
+                  required={formData.deliveryMethodId.validation.required}
+                  valid={formData.deliveryMethodId.validation.valid}
+                  checked={
+                    Number(formData.deliveryMethodId.value) === method.id
+                  }
                 />
               )
             })}
@@ -194,7 +262,9 @@ const CheckoutForm: FC<IProps> = (props) => {
                   type="radio"
                   value={method.id}
                   onChange={setValue}
-                  checked={formData.payment === method.id}
+                  required={formData.payment.validation.required}
+                  valid={formData.payment.validation.valid}
+                  checked={formData.payment.value === method.id}
                 />
               )
             })}
