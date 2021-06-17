@@ -42,6 +42,7 @@ const initialFormState = {
   ship_to_different_address: setFormField(0, false, true),
   shipping_first_name: setFormField('', false, true),
   shipping_last_name: setFormField('', false, true),
+  customer_note: setFormField('', false, true),
 }
 
 //export type CheckoutFormType = typeof initialFormState
@@ -99,6 +100,8 @@ const CheckoutForm: FC<IProps> = (props) => {
   const submitForm = (e: FormEvent) => {
     e.preventDefault()
 
+    let isFormValid = true
+
     const newFormData = Object.entries(formData).reduce<CheckoutFormType>(
       (result, field) => {
         const [key, data] = field as [keyof CheckoutFormType, IFormField<any>]
@@ -108,6 +111,10 @@ const CheckoutForm: FC<IProps> = (props) => {
         if (data.validation.required) {
           isValid = Boolean(data.value)
           error = isValid ? '' : 'Field is required'
+        }
+
+        if (!isValid) {
+          isFormValid = false
         }
 
         result[key] = setFormField(
@@ -121,8 +128,15 @@ const CheckoutForm: FC<IProps> = (props) => {
       },
       {} as CheckoutFormType
     )
-    console.log(newFormData)
+
     setFormData(newFormData)
+
+    if (isFormValid) {
+      setOrderLoading(true)
+      return orderApi.createOrder(formData, cartItems).finally(() => {
+        setOrderLoading(false)
+      })
+    }
   }
 
   const setValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -280,6 +294,22 @@ const CheckoutForm: FC<IProps> = (props) => {
               )
             }}
           </FieldsGroup>
+        </Form.Fields>
+      </Form.Fieldset>
+      <Form.Fieldset>
+        <Form.Legend>Customer notes</Form.Legend>
+        <Form.Fields>
+          <FormField
+            label="First name"
+            hideLabel
+            name="customer_note"
+            id="customer_note"
+            type="text"
+            value={formData.customer_note.value}
+            required={formData.customer_note.validation.required}
+            error={formData.customer_note.validation.error}
+            onChange={setValue}
+          />
         </Form.Fields>
       </Form.Fieldset>
       <div>
