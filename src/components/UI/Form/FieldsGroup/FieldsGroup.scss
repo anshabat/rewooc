@@ -1,0 +1,11 @@
+.rw-fields-group {
+  &__items {
+    display: grid;
+    grid-gap: 10px;
+  }
+
+  &__error {
+    margin-top: 10px;
+    color: var(--error-color);
+  }
+}

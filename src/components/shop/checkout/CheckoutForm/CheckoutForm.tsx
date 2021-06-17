@@ -4,27 +4,30 @@ import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
-import Space from '../../../UI/Space/Space'
 import Form from '../../../UI/Form/Form'
+import FieldsGroup from '../../../UI/Form/FieldsGroup/FieldsGroup'
 
 interface IFormField<T> {
   value: T
   validation: {
     required: boolean
     valid: boolean
+    error: string
   }
 }
 
 function setFormField<T>(
   value: T,
   required: boolean,
-  valid: boolean
+  valid: boolean,
+  error = ''
 ): IFormField<T> {
   return {
     value,
     validation: {
       required,
       valid,
+      error,
     },
   }
 }
@@ -100,21 +103,25 @@ const CheckoutForm: FC<IProps> = (props) => {
       (result, field) => {
         const [key, data] = field as [keyof CheckoutFormType, IFormField<any>]
         let isValid = true
+        let error = ''
 
         if (data.validation.required) {
           isValid = Boolean(data.value)
+          error = isValid ? '' : 'Field is required'
         }
 
         result[key] = setFormField(
           data.value,
           data.validation.required,
-          isValid
+          isValid,
+          error
         )
 
         return result
       },
       {} as CheckoutFormType
     )
+    console.log(newFormData)
     setFormData(newFormData)
   }
 
@@ -148,7 +155,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_first_name.value}
             required={formData.billing_first_name.validation.required}
-            valid={formData.billing_first_name.validation.valid}
+            error={formData.billing_first_name.validation.error}
             onChange={setValue}
           />
           <FormField
@@ -158,7 +165,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_last_name.value}
             required={formData.billing_last_name.validation.required}
-            valid={formData.billing_last_name.validation.valid}
+            error={formData.billing_last_name.validation.error}
             onChange={setValue}
           />
           <FormField
@@ -168,7 +175,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_phone.value}
             required={formData.billing_phone.validation.required}
-            valid={formData.billing_phone.validation.valid}
+            error={formData.billing_phone.validation.error}
             onChange={setValue}
           />
           <FormField
@@ -178,7 +185,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_email.value}
             required={formData.billing_email.validation.required}
-            valid={formData.billing_email.validation.valid}
+            error={formData.billing_email.validation.error}
             onChange={setValue}
           />
           <FormField
@@ -189,7 +196,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="checkbox"
             value={formData.ship_to_different_address.value}
             required={formData.ship_to_different_address.validation.required}
-            valid={formData.ship_to_different_address.validation.valid}
+            error={formData.ship_to_different_address.validation.error}
             onChange={setCheckValue}
             checked={Boolean(formData.ship_to_different_address.value)}
           />
@@ -202,7 +209,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 type="text"
                 value={formData.shipping_first_name.value}
                 required={formData.shipping_first_name.validation.required}
-                valid={formData.shipping_first_name.validation.valid}
+                error={formData.shipping_first_name.validation.error}
                 onChange={setValue}
               />
               <FormField
@@ -212,7 +219,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 type="text"
                 value={formData.shipping_last_name.value}
                 required={formData.shipping_last_name.validation.required}
-                valid={formData.shipping_last_name.validation.valid}
+                error={formData.shipping_last_name.validation.error}
                 onChange={setValue}
               />
             </>
@@ -223,8 +230,11 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Delivery</Form.Legend>
         <Form.Fields>
-          <Space size="sm">
-            {deliveryMethods.map((method) => {
+          <FieldsGroup
+            items={deliveryMethods}
+            error={formData.deliveryMethodId.validation.error}
+          >
+            {(method) => {
               return (
                 <FormField
                   key={method.id}
@@ -236,22 +246,24 @@ const CheckoutForm: FC<IProps> = (props) => {
                   value={method.id}
                   onChange={setValue}
                   required={formData.deliveryMethodId.validation.required}
-                  valid={formData.deliveryMethodId.validation.valid}
                   checked={
                     Number(formData.deliveryMethodId.value) === method.id
                   }
                 />
               )
-            })}
-          </Space>
+            }}
+          </FieldsGroup>
         </Form.Fields>
       </Form.Fieldset>
 
       <Form.Fieldset>
         <Form.Legend>Payment</Form.Legend>
         <Form.Fields>
-          <Space size="sm">
-            {paymentMethods.map((method) => {
+          <FieldsGroup
+            items={paymentMethods}
+            error={formData.payment.validation.error}
+          >
+            {(method) => {
               return (
                 <FormField
                   key={method.id}
@@ -263,12 +275,11 @@ const CheckoutForm: FC<IProps> = (props) => {
                   value={method.id}
                   onChange={setValue}
                   required={formData.payment.validation.required}
-                  valid={formData.payment.validation.valid}
                   checked={formData.payment.value === method.id}
                 />
               )
-            })}
-          </Space>
+            }}
+          </FieldsGroup>
         </Form.Fields>
       </Form.Fieldset>
       <div>

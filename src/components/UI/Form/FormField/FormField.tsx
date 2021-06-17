@@ -7,7 +7,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   hideLabel?: boolean
   horizontal?: boolean
   required: boolean
-  valid: boolean
+  error?: string
 }
 
 const FormField: FC<IProps> = (props) => {
@@ -17,7 +17,7 @@ const FormField: FC<IProps> = (props) => {
     hideLabel = false,
     id,
     required,
-    valid,
+    error,
     ...restProps
   } = props
 
@@ -29,6 +29,7 @@ const FormField: FC<IProps> = (props) => {
     'rw-form-field': true,
     'rw-form-field--horizontal': horizontal,
     'rw-form-field--required': required,
+    'rw-form-field--invalid': error,
   })
 
   return (
@@ -44,7 +45,7 @@ const FormField: FC<IProps> = (props) => {
           {...restProps}
         />
       </div>
-      {!valid ? <div className="rw-form-field__error">error</div> : null}
+      {error ? <div className="rw-form-field__error">{error}</div> : null}
     </div>
   )
 }
