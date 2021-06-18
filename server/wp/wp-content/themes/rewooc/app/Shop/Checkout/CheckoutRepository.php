@@ -82,8 +82,8 @@ class CheckoutRepository
         $order->calculate_totals(false);
 
         /* Add Order note */
-        if (sanitize_text_field($data->customer_note)) {
-            $order->add_order_note($data->customer_note, $data->customer_id, true);
+        if (sanitize_text_field($data->order_note)) {
+            $order->add_order_note($data->order_note, $data->customer_id, true);
         }
 
         return $order->get_id();

@@ -31,6 +31,10 @@
       padding: 0;
       margin: 0;
     }
+
+    &:is(textarea) {
+      resize: vertical;
+    }
   }
 
   &--invalid &__control {

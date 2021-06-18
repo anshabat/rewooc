@@ -297,14 +297,15 @@ const CheckoutForm: FC<IProps> = (props) => {
         </Form.Fields>
       </Form.Fieldset>
       <Form.Fieldset>
-        <Form.Legend>Customer notes</Form.Legend>
+        <Form.Legend>Order notes</Form.Legend>
         <Form.Fields>
           <FormField
-            label="First name"
+            label="Order notes"
             hideLabel
-            name="customer_note"
-            id="customer_note"
+            name="order_note"
+            id="order_note"
             type="text"
+            elementType="textarea"
             value={formData.order_note.value}
             required={formData.order_note.validation.required}
             error={formData.order_note.validation.error}

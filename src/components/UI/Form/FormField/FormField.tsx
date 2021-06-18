@@ -1,13 +1,14 @@
 import './FormField.scss'
-import React, { FC, InputHTMLAttributes } from 'react'
+import React, { AllHTMLAttributes, FC } from 'react'
 import classNames from 'classnames'
 
-interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+interface IProps extends AllHTMLAttributes<HTMLElement> {
   label: string
   hideLabel?: boolean
   horizontal?: boolean
   required: boolean
   error?: string
+  elementType?: 'input' | 'textarea' | 'select'
 }
 
 const FormField: FC<IProps> = (props) => {
@@ -18,6 +19,7 @@ const FormField: FC<IProps> = (props) => {
     id,
     required,
     error,
+    elementType = 'input',
     ...restProps
   } = props
 
@@ -32,19 +34,38 @@ const FormField: FC<IProps> = (props) => {
     'rw-form-field--invalid': error,
   })
 
+  const InputControl = (
+    <input
+      className="rw-form-field__control"
+      id={id}
+      required={required}
+      {...restProps}
+    />
+  )
+
+  const TextAreaControl = (
+    <textarea
+      className="rw-form-field__control"
+      id={id}
+      required={required}
+      {...restProps}
+    />
+  )
+
+  const SelectControl = <div>Select placeholder</div>
+
+  const controls = {
+    input: InputControl,
+    textarea: TextAreaControl,
+    select: SelectControl,
+  }
+
   return (
     <div className={fieldClass}>
       <label className={labelClass} htmlFor={id}>
         {label}
       </label>
-      <div className="rw-form-field__element">
-        <input
-          className="rw-form-field__control"
-          id={id}
-          required={required}
-          {...restProps}
-        />
-      </div>
+      <div className="rw-form-field__element">{controls[elementType]}</div>
       {error ? <div className="rw-form-field__error">{error}</div> : null}
     </div>
   )
