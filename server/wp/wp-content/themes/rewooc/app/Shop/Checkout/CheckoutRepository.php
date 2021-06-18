@@ -54,10 +54,6 @@ class CheckoutRepository
         $order->set_billing_phone($data->billing->phone);
         $order->set_payment_method($data->payment);
 
-        if (sanitize_text_field($data->customer_note)) {
-            $order->set_customer_note($data->customer_note);
-        }
-
         if ($data->shipping) {
             $order->set_shipping_first_name($data->shipping->first_name);
             $order->set_shipping_last_name($data->shipping->last_name);
@@ -84,6 +80,11 @@ class CheckoutRepository
 
         /* Calculate and Save Order */
         $order->calculate_totals(false);
+
+        /* Add Order note */
+        if (sanitize_text_field($data->customer_note)) {
+            $order->add_order_note($data->customer_note, $data->customer_id, true);
+        }
 
         return $order->get_id();
     }

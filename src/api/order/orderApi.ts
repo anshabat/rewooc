@@ -35,6 +35,7 @@ async function createOrder(
     },
     delivery: formData.deliveryMethodId.value,
     payment: formData.payment.value,
+    order_note: formData.order_note.value,
     products: products,
     status: 'processing',
     customer_id: 1,

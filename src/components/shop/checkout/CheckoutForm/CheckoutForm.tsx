@@ -42,7 +42,7 @@ const initialFormState = {
   ship_to_different_address: setFormField(0, false, true),
   shipping_first_name: setFormField('', false, true),
   shipping_last_name: setFormField('', false, true),
-  customer_note: setFormField('', false, true),
+  order_note: setFormField('', false, true),
 }
 
 //export type CheckoutFormType = typeof initialFormState
@@ -305,9 +305,9 @@ const CheckoutForm: FC<IProps> = (props) => {
             name="customer_note"
             id="customer_note"
             type="text"
-            value={formData.customer_note.value}
-            required={formData.customer_note.validation.required}
-            error={formData.customer_note.validation.error}
+            value={formData.order_note.value}
+            required={formData.order_note.validation.required}
+            error={formData.order_note.validation.error}
             onChange={setValue}
           />
         </Form.Fields>

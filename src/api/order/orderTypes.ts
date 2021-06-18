@@ -11,6 +11,7 @@ export interface IOrderRequest {
   } | null
   delivery: string
   payment: string
+  order_note: string
   products: { product_id: number; quantity: number }[]
   status: 'processing'
   customer_id: number

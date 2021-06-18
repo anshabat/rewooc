@@ -19,7 +19,7 @@ class Ajax
         'wc_ajax_rewooc_fetch_payment_gateways' => [CheckoutAPI::class, 'fetchPaymentGateways'],
         'wc_ajax_rewooc_post_order' => [CheckoutAPI::class, 'postOrder'],
         //not using due to creating new order while calculating
-        'wc_ajax_rewooc_calculate_totals' => [CheckoutAPI::class, 'calculateTotals']
+        //'wc_ajax_rewooc_calculate_totals' => [CheckoutAPI::class, 'calculateTotals']
     ];
 
     public function __construct()
