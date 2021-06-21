@@ -45,4 +45,9 @@
   &__error {
     color: var(--error-color);
   }
+
+  &__required-star {
+    margin-left: 2px;
+    color: var(--error-color);
+  }
 }

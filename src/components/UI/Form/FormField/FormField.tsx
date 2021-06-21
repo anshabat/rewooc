@@ -62,9 +62,10 @@ const FormField: FC<IProps> = (props) => {
 
   return (
     <div className={fieldClass}>
-      <label className={labelClass} htmlFor={id}>
-        {label}
-      </label>
+      <div className={labelClass}>
+        <label htmlFor={id}>{label}</label>
+        {required ? <span className="rw-form-field__required-star">*</span> : null}
+      </div>
       <div className="rw-form-field__element">{controls[elementType]}</div>
       {error ? <div className="rw-form-field__error">{error}</div> : null}
     </div>

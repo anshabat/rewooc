@@ -1,4 +1,4 @@
-import './FieldsGroup.scss'
+import './ChoiceGroup.scss'
 import React from 'react'
 
 interface IProps<T> {
@@ -7,18 +7,18 @@ interface IProps<T> {
   children: (item: T) => any
 }
 
-function FieldsGroup<T>(props: IProps<T>) {
+function ChoiceGroup<T>(props: IProps<T>) {
   const { items, children, error = '' } = props
   return (
-    <div className="rw-fields-group">
-      <div className="rw-fields-group__items">
+    <div className="rw-choice-group">
+      <div className="rw-choice-group__items">
         {items.map((item) => {
           return children(item)
         })}
       </div>
-      {error ? <div className="rw-fields-group__error">{error}</div> : null}
+      {error ? <div className="rw-choice-group__error">{error}</div> : null}
     </div>
   )
 }
 
-export default FieldsGroup
+export default ChoiceGroup

@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
 import Form from '../../../UI/Form/Form'
-import FieldsGroup from '../../../UI/Form/FieldsGroup/FieldsGroup'
+import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
+import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 
 interface IFormField<T> {
   value: T
@@ -202,15 +203,12 @@ const CheckoutForm: FC<IProps> = (props) => {
             error={formData.billing_email.validation.error}
             onChange={setValue}
           />
-          <FormField
+          <ChoiceField
             label="Ship to another person"
-            horizontal
             name="ship_to_different_address"
-            id="ship_to_different_address"
             type="checkbox"
             value={formData.ship_to_different_address.value}
             required={formData.ship_to_different_address.validation.required}
-            error={formData.ship_to_different_address.validation.error}
             onChange={setCheckValue}
             checked={Boolean(formData.ship_to_different_address.value)}
           />
@@ -227,7 +225,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 onChange={setValue}
               />
               <FormField
-                label="Phone"
+                label="Last Name"
                 name="shipping_last_name"
                 id="shipping_last_name"
                 type="text"
@@ -244,18 +242,16 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Delivery</Form.Legend>
         <Form.Fields>
-          <FieldsGroup
+          <ChoiceGroup
             items={deliveryMethods}
             error={formData.deliveryMethodId.validation.error}
           >
             {(method) => {
               return (
-                <FormField
+                <ChoiceField
                   key={method.id}
                   label={`${method.title} ${method.cost}`}
-                  horizontal
                   name="deliveryMethodId"
-                  id={`deliveryMethodId-${method.id}`}
                   type="radio"
                   value={method.id}
                   onChange={setValue}
@@ -266,25 +262,23 @@ const CheckoutForm: FC<IProps> = (props) => {
                 />
               )
             }}
-          </FieldsGroup>
+          </ChoiceGroup>
         </Form.Fields>
       </Form.Fieldset>
 
       <Form.Fieldset>
         <Form.Legend>Payment</Form.Legend>
         <Form.Fields>
-          <FieldsGroup
+          <ChoiceGroup
             items={paymentMethods}
             error={formData.payment.validation.error}
           >
             {(method) => {
               return (
-                <FormField
+                <ChoiceField
                   key={method.id}
                   label={method.title}
-                  horizontal
                   name="payment"
-                  id={`payment-${method.id}`}
                   type="radio"
                   value={method.id}
                   onChange={setValue}
@@ -293,7 +287,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 />
               )
             }}
-          </FieldsGroup>
+          </ChoiceGroup>
         </Form.Fields>
       </Form.Fieldset>
       <Form.Fieldset>
