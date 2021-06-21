@@ -37,7 +37,7 @@ const initialFormState = {
   billing_first_name: setFormField('', true, true),
   billing_last_name: setFormField('', true, true),
   billing_phone: setFormField('', true, true),
-  billing_email: setFormField('', true, true),
+  billing_email: setFormField('', false, true),
   deliveryMethodId: setFormField('', true, true),
   payment: setFormField('', true, true),
   ship_to_different_address: setFormField(0, false, true),
@@ -98,9 +98,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     return deliveryMethods.find((method) => String(method.id) === id)
   }
 
-  const submitForm = (e: FormEvent) => {
-    e.preventDefault()
-
+  const validate = (formData: CheckoutFormType): boolean => {
     let isFormValid = true
 
     const newFormData = Object.entries(formData).reduce<CheckoutFormType>(
@@ -129,13 +127,21 @@ const CheckoutForm: FC<IProps> = (props) => {
       },
       {} as CheckoutFormType
     )
-
     setFormData(newFormData)
+
+    return isFormValid
+  }
+
+  const submitForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const isFormValid = validate(formData)
 
     if (isFormValid) {
       setOrderLoading(true)
       return orderApi.createOrder(formData, cartItems).finally(() => {
         setOrderLoading(false)
+        setFormData(initialFormState)
       })
     }
   }
