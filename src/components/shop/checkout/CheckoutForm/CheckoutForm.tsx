@@ -35,7 +35,7 @@ const initialFormState = {
   billing_first_name: setFormField('', { required: true }),
   billing_last_name: setFormField('', { required: true }),
   billing_phone: setFormField('', { required: true }),
-  billing_email: setFormField(''),
+  billing_email: setFormField('', { email: true }),
   deliveryMethodId: setFormField('', { required: true }),
   payment: setFormField('', { required: true }),
   ship_to_different_address: setFormField(0),
@@ -103,19 +103,23 @@ const CheckoutForm: FC<IProps> = (props) => {
         const [key, data] = field as [keyof CheckoutFormType, IFormField<any>]
         let error = ''
 
+        /* required validation */
         if (data.validation.required) {
           error = Boolean(data.value) ? '' : 'Field is required'
+        }
+
+        /* email validation */
+        if (data.validation.email && data.value) {
+          error = /^(.+)@(.+)\.([a-z]+)$/.test(data.value)
+            ? ''
+            : 'Enter correct email address'
         }
 
         if (error) {
           isFormValid = false
         }
 
-        result[key] = setFormField(
-          data.value,
-          { required: data.validation.required },
-          error
-        )
+        result[key] = setFormField(data.value, data.validation, error)
 
         return result
       },
