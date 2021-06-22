@@ -8,10 +8,11 @@ import Form from '../../../UI/Form/Form'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 
-interface IValidationRules {
-  required?: boolean
-  email?: boolean
-}
+type IValidationRules = Partial<{
+  required: boolean
+  email: boolean
+  phone: boolean
+}>
 
 interface IFormField<T> {
   value: T
@@ -34,7 +35,7 @@ function setFormField<T>(
 const initialFormState = {
   billing_first_name: setFormField('', { required: true }),
   billing_last_name: setFormField('', { required: true }),
-  billing_phone: setFormField('', { required: true }),
+  billing_phone: setFormField('', { required: true, phone: true }),
   billing_email: setFormField('', { email: true }),
   deliveryMethodId: setFormField('', { required: true }),
   payment: setFormField('', { required: true }),
@@ -113,6 +114,13 @@ const CheckoutForm: FC<IProps> = (props) => {
           error = /^(.+)@(.+)\.([a-z]+)$/.test(data.value)
             ? ''
             : 'Enter correct email address'
+        }
+
+        /* phone validation */
+        if (data.validation.phone && data.value) {
+          error = /[0-9]/.test(data.value)
+            ? ''
+            : 'Enter correct phone number address'
         }
 
         if (error) {
