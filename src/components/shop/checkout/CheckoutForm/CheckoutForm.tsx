@@ -8,42 +8,42 @@ import Form from '../../../UI/Form/Form'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 
+interface IValidationRules {
+  required?: boolean
+  email?: boolean
+}
+
 interface IFormField<T> {
   value: T
-  validation: {
-    required: boolean
-  }
+  validation: IValidationRules
   error: string
 }
 
 function setFormField<T>(
   value: T,
-  required: boolean,
+  validation: IValidationRules = {},
   error = ''
 ): IFormField<T> {
   return {
     value,
-    validation: {
-      required,
-    },
+    validation,
     error,
   }
 }
 
 const initialFormState = {
-  billing_first_name: setFormField('', true),
-  billing_last_name: setFormField('', true),
-  billing_phone: setFormField('', true),
-  billing_email: setFormField('', false),
-  deliveryMethodId: setFormField('', true),
-  payment: setFormField('', true),
-  ship_to_different_address: setFormField(0, false),
-  shipping_first_name: setFormField('', false),
-  shipping_last_name: setFormField('', false),
-  order_note: setFormField('', false),
+  billing_first_name: setFormField('', { required: true }),
+  billing_last_name: setFormField('', { required: true }),
+  billing_phone: setFormField('', { required: true }),
+  billing_email: setFormField(''),
+  deliveryMethodId: setFormField('', { required: true }),
+  payment: setFormField('', { required: true }),
+  ship_to_different_address: setFormField(0),
+  shipping_first_name: setFormField(''),
+  shipping_last_name: setFormField(''),
+  order_note: setFormField(''),
 }
 
-//export type CheckoutFormType = typeof initialFormState
 export type CheckoutFormType = typeof initialFormState
 
 interface IProps {
@@ -111,7 +111,11 @@ const CheckoutForm: FC<IProps> = (props) => {
           isFormValid = false
         }
 
-        result[key] = setFormField(data.value, data.validation.required, error)
+        result[key] = setFormField(
+          data.value,
+          { required: data.validation.required },
+          error
+        )
 
         return result
       },
@@ -265,10 +269,7 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Payment</Form.Legend>
         <Form.Fields>
-          <ChoiceGroup
-            items={paymentMethods}
-            error={formData.payment.error}
-          >
+          <ChoiceGroup items={paymentMethods} error={formData.payment.error}>
             {(method) => {
               return (
                 <ChoiceField

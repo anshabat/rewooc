@@ -6,7 +6,7 @@ interface IProps extends AllHTMLAttributes<HTMLElement> {
   label: string
   hideLabel?: boolean
   horizontal?: boolean
-  required: boolean
+  required?: boolean
   error?: string
   elementType?: 'input' | 'textarea' | 'select'
 }
