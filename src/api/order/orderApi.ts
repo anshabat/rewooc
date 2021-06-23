@@ -26,6 +26,12 @@ async function createOrder(
       }
     : null
 
+  const sign_up = formData.sign_up.value
+    ? {
+        password: formData.password.value,
+      }
+    : null
+
   const options: IOrderRequest = {
     billing: {
       first_name: formData.billing_first_name.value,
@@ -40,6 +46,7 @@ async function createOrder(
     status: 'processing',
     customer_id: 1,
     shipping,
+    sign_up,
   }
 
   const {

@@ -42,6 +42,8 @@ const initialFormState = {
   shipping_first_name: setFormField(''),
   shipping_last_name: setFormField(''),
   order_note: setFormField(''),
+  sign_up: setFormField(false),
+  password: setFormField(''),
 }
 
 export type CheckoutFormType = typeof initialFormState
@@ -54,13 +56,10 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
-  const [isOrderLoading, setOrderLoading] = useState(false)
 
-  /* Checkout page data */
+  const [isOrderLoading, setOrderLoading] = useState(false)
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
   const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
-
-  /* Form state */
   const [formData, setFormData] = useState<CheckoutFormType>(initialFormState)
   const [errors, setErrors] = useState<ErrorType>({})
 
@@ -149,7 +148,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     })
   }
 
-  const toggleRecipient = (e: any) => {
+  const toggleRecipient = (e: ChangeEvent<HTMLFormElement>) => {
     const checked = Number(e.target.checked)
     const newFormData = {
       ...formData,
@@ -158,8 +157,31 @@ const CheckoutForm: FC<IProps> = (props) => {
         ...formData.billing_last_name.validation,
         required: !checked,
       }),
+      shipping_first_name: setFormField(formData.shipping_first_name.value, {
+        ...formData.shipping_first_name.validation,
+        required: !!checked,
+      }),
+      shipping_last_name: setFormField(formData.shipping_last_name.value, {
+        ...formData.shipping_last_name.validation,
+        required: !!checked,
+      }),
     }
     setFormData(newFormData)
+  }
+
+  const toggleSignUp = (e: ChangeEvent<HTMLFormElement>) => {
+    setFormData({
+      ...formData,
+      sign_up: setFormField(e.target.checked),
+      billing_email: setFormField(formData.billing_email.value, {
+        ...formData.billing_email.validation,
+        required: e.target.checked,
+      }),
+      password: setFormField(formData.password.value, {
+        ...formData.password.validation,
+        required: e.target.checked,
+      }),
+    })
   }
 
   return (
@@ -239,6 +261,26 @@ const CheckoutForm: FC<IProps> = (props) => {
                 onChange={setValue}
               />
             </>
+          ) : null}
+          <ChoiceField
+            label="Sign Up user"
+            name="sign_up"
+            type="checkbox"
+            value={formData.sign_up.value ? 1 : 0}
+            onChange={toggleSignUp}
+            checked={Boolean(formData.sign_up.value)}
+          />
+          {formData.sign_up.value ? (
+            <FormField
+              label="Password Name"
+              name="password"
+              id="password"
+              type="password"
+              value={formData.password.value}
+              required={formData.password.validation.required}
+              error={errors.password}
+              onChange={setValue}
+            />
           ) : null}
         </Form.Fields>
       </Form.Fieldset>

@@ -15,4 +15,7 @@ export interface IOrderRequest {
   products: { product_id: number; quantity: number }[]
   status: 'processing'
   customer_id: number
+  sign_up: {
+    password: string
+  } | null
 }
