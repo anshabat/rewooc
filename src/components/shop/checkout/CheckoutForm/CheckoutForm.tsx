@@ -106,7 +106,7 @@ const CheckoutForm: FC<IProps> = (props) => {
 
         /* required validation */
         if (data.validation.required) {
-          error = Boolean(data.value) ? '' : 'Field is required'
+          error = data.value ? '' : 'Field is required'
         }
 
         /* email validation */
@@ -161,13 +161,17 @@ const CheckoutForm: FC<IProps> = (props) => {
     })
   }
 
-  const setCheckValue = (e: any) => {
-    const name = e.target.name as keyof CheckoutFormType
+  const toggleRecipient = (e: any) => {
     const checked = Number(e.target.checked)
-    setFormData({
+    const newFormData = {
       ...formData,
-      [name]: { ...formData[name], value: checked },
-    })
+      ship_to_different_address: setFormField(checked),
+      billing_last_name: setFormField(formData.billing_last_name.value, {
+        ...formData.billing_last_name.validation,
+        required: !checked,
+      }),
+    }
+    setFormData(newFormData)
   }
 
   return (
@@ -221,7 +225,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="checkbox"
             value={formData.ship_to_different_address.value}
             required={formData.ship_to_different_address.validation.required}
-            onChange={setCheckValue}
+            onChange={toggleRecipient}
             checked={Boolean(formData.ship_to_different_address.value)}
           />
           {formData.ship_to_different_address.value ? (
