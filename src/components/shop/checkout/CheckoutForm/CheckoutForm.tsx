@@ -8,7 +8,7 @@ import Form from '../../../UI/Form/Form'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 
-type IValidationRules = Partial<{
+type ValidationRulesType = Partial<{
   required: boolean
   email: boolean
   phone: boolean
@@ -16,19 +16,18 @@ type IValidationRules = Partial<{
 
 interface IFormField<T> {
   value: T
-  validation: IValidationRules
-  error: string
+  validation: ValidationRulesType
 }
+
+type ErrorType = { [key: string]: string }
 
 function setFormField<T>(
   value: T,
-  validation: IValidationRules = {},
-  error = ''
+  validation: ValidationRulesType = {}
 ): IFormField<T> {
   return {
     value,
     validation,
-    error,
   }
 }
 
@@ -63,6 +62,7 @@ const CheckoutForm: FC<IProps> = (props) => {
 
   /* Form state */
   const [formData, setFormData] = useState<CheckoutFormType>(initialFormState)
+  const [errors, setErrors] = useState<ErrorType>({})
 
   useEffect(() => {
     Promise.all([
@@ -96,54 +96,42 @@ const CheckoutForm: FC<IProps> = (props) => {
     return deliveryMethods.find((method) => String(method.id) === id)
   }
 
-  const validate = (formData: CheckoutFormType): boolean => {
-    let isFormValid = true
+  const validate = (formData: CheckoutFormType): ErrorType => {
+    return Object.entries(formData).reduce<ErrorType>((result, field) => {
+      const [key, data] = field
 
-    const newFormData = Object.entries(formData).reduce<CheckoutFormType>(
-      (result, field) => {
-        const [key, data] = field as [keyof CheckoutFormType, IFormField<any>]
-        let error = ''
-
-        /* required validation */
-        if (data.validation.required) {
-          error = data.value ? '' : 'Field is required'
+      /* required validation */
+      if (data.validation.required) {
+        if (!data.value) {
+          result[key] = 'Field is required'
         }
+      }
 
-        /* email validation */
-        if (data.validation.email && data.value) {
-          error = /^(.+)@(.+)\.([a-z]+)$/.test(data.value)
-            ? ''
-            : 'Enter correct email address'
+      /* email validation */
+      if (data.validation.email && data.value) {
+        if (!/^(.+)@(.+)\.([a-z]+)$/.test(String(data.value))) {
+          result[key] = 'Enter correct email address'
         }
+      }
 
-        /* phone validation */
-        if (data.validation.phone && data.value) {
-          error = /[0-9]/.test(data.value)
-            ? ''
-            : 'Enter correct phone number address'
-        }
+      /* phone validation */
+      if (data.validation.phone && data.value) {
+        if (!/[0-9]/.test(String(data.value)))
+          result[key] = 'Enter correct phone number'
+      }
 
-        if (error) {
-          isFormValid = false
-        }
-
-        result[key] = setFormField(data.value, data.validation, error)
-
-        return result
-      },
-      {} as CheckoutFormType
-    )
-    setFormData(newFormData)
-
-    return isFormValid
+      return result
+    }, {})
   }
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const isFormValid = validate(formData)
+    const formErrors = validate(formData)
+    setErrors(formErrors)
 
-    if (isFormValid) {
+    const hasNoErrors = Object.keys(formErrors).length === 0
+    if (hasNoErrors) {
       setOrderLoading(true)
       return orderApi.createOrder(formData, cartItems).finally(() => {
         setOrderLoading(false)
@@ -186,7 +174,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_first_name.value}
             required={formData.billing_first_name.validation.required}
-            error={formData.billing_first_name.error}
+            error={errors.billing_first_name}
             onChange={setValue}
           />
           <FormField
@@ -196,7 +184,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_last_name.value}
             required={formData.billing_last_name.validation.required}
-            error={formData.billing_last_name.error}
+            error={errors.billing_last_name}
             onChange={setValue}
           />
           <FormField
@@ -206,7 +194,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_phone.value}
             required={formData.billing_phone.validation.required}
-            error={formData.billing_phone.error}
+            error={errors.billing_phone}
             onChange={setValue}
           />
           <FormField
@@ -216,7 +204,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             type="text"
             value={formData.billing_email.value}
             required={formData.billing_email.validation.required}
-            error={formData.billing_email.error}
+            error={errors.billing_email}
             onChange={setValue}
           />
           <ChoiceField
@@ -237,7 +225,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 type="text"
                 value={formData.shipping_first_name.value}
                 required={formData.shipping_first_name.validation.required}
-                error={formData.shipping_first_name.error}
+                error={errors.shipping_first_name}
                 onChange={setValue}
               />
               <FormField
@@ -247,7 +235,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 type="text"
                 value={formData.shipping_last_name.value}
                 required={formData.shipping_last_name.validation.required}
-                error={formData.shipping_last_name.error}
+                error={errors.shipping_last_name}
                 onChange={setValue}
               />
             </>
@@ -258,10 +246,7 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Delivery</Form.Legend>
         <Form.Fields>
-          <ChoiceGroup
-            items={deliveryMethods}
-            error={formData.deliveryMethodId.error}
-          >
+          <ChoiceGroup items={deliveryMethods} error={errors.deliveryMethodId}>
             {(method) => {
               return (
                 <ChoiceField
@@ -285,7 +270,7 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Payment</Form.Legend>
         <Form.Fields>
-          <ChoiceGroup items={paymentMethods} error={formData.payment.error}>
+          <ChoiceGroup items={paymentMethods} error={errors.payment}>
             {(method) => {
               return (
                 <ChoiceField
@@ -315,7 +300,6 @@ const CheckoutForm: FC<IProps> = (props) => {
             elementType="textarea"
             value={formData.order_note.value}
             required={formData.order_note.validation.required}
-            error={formData.order_note.error}
             onChange={setValue}
           />
         </Form.Fields>
