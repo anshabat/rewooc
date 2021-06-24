@@ -16,6 +16,6 @@ export interface IOrderRequest {
   status: 'processing'
   customer_id: number
   sign_up: {
-    password: string
+    account_password: string
   } | null
 }

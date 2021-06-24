@@ -7,6 +7,7 @@ import FormField from '../../../UI/Form/FormField/FormField'
 import Form from '../../../UI/Form/Form'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
+import { selectAccountUser } from '../../../../redux/account/accountSelector'
 
 type ValidationRulesType = Partial<{
   required: boolean
@@ -38,12 +39,12 @@ const initialFormState = {
   billing_email: setFormField('', { email: true }),
   deliveryMethodId: setFormField('', { required: true }),
   payment: setFormField('', { required: true }),
-  ship_to_different_address: setFormField(0),
+  ship_to_different_address: setFormField(false),
   shipping_first_name: setFormField(''),
   shipping_last_name: setFormField(''),
   order_note: setFormField(''),
   sign_up: setFormField(false),
-  password: setFormField(''),
+  account_password: setFormField(''),
 }
 
 export type CheckoutFormType = typeof initialFormState
@@ -62,6 +63,8 @@ const CheckoutForm: FC<IProps> = (props) => {
   const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
   const [formData, setFormData] = useState<CheckoutFormType>(initialFormState)
   const [errors, setErrors] = useState<ErrorType>({})
+  const user = useSelector(selectAccountUser)
+  const userId = user ? user.id : 0
 
   useEffect(() => {
     Promise.all([
@@ -132,7 +135,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     const hasNoErrors = Object.keys(formErrors).length === 0
     if (hasNoErrors) {
       setOrderLoading(true)
-      return orderApi.createOrder(formData, cartItems).finally(() => {
+      return orderApi.createOrder(formData, cartItems, userId).finally(() => {
         setOrderLoading(false)
         setFormData(initialFormState)
       })
@@ -149,24 +152,22 @@ const CheckoutForm: FC<IProps> = (props) => {
   }
 
   const toggleRecipient = (e: ChangeEvent<HTMLFormElement>) => {
-    const checked = Number(e.target.checked)
-    const newFormData = {
+    setFormData({
       ...formData,
-      ship_to_different_address: setFormField(checked),
+      ship_to_different_address: setFormField(e.target.checked),
       billing_last_name: setFormField(formData.billing_last_name.value, {
         ...formData.billing_last_name.validation,
-        required: !checked,
+        required: !e.target.checked,
       }),
       shipping_first_name: setFormField(formData.shipping_first_name.value, {
         ...formData.shipping_first_name.validation,
-        required: !!checked,
+        required: e.target.checked,
       }),
       shipping_last_name: setFormField(formData.shipping_last_name.value, {
         ...formData.shipping_last_name.validation,
-        required: !!checked,
+        required: e.target.checked,
       }),
-    }
-    setFormData(newFormData)
+    })
   }
 
   const toggleSignUp = (e: ChangeEvent<HTMLFormElement>) => {
@@ -177,8 +178,8 @@ const CheckoutForm: FC<IProps> = (props) => {
         ...formData.billing_email.validation,
         required: e.target.checked,
       }),
-      password: setFormField(formData.password.value, {
-        ...formData.password.validation,
+      account_password: setFormField(formData.account_password.value, {
+        ...formData.account_password.validation,
         required: e.target.checked,
       }),
     })
@@ -233,10 +234,10 @@ const CheckoutForm: FC<IProps> = (props) => {
             label="Ship to another person"
             name="ship_to_different_address"
             type="checkbox"
-            value={formData.ship_to_different_address.value}
+            value={Number(formData.ship_to_different_address.value)}
             required={formData.ship_to_different_address.validation.required}
             onChange={toggleRecipient}
-            checked={Boolean(formData.ship_to_different_address.value)}
+            checked={formData.ship_to_different_address.value}
           />
           {formData.ship_to_different_address.value ? (
             <>
@@ -266,19 +267,19 @@ const CheckoutForm: FC<IProps> = (props) => {
             label="Sign Up user"
             name="sign_up"
             type="checkbox"
-            value={formData.sign_up.value ? 1 : 0}
+            value={Number(formData.sign_up.value)}
             onChange={toggleSignUp}
             checked={Boolean(formData.sign_up.value)}
           />
           {formData.sign_up.value ? (
             <FormField
               label="Password Name"
-              name="password"
-              id="password"
+              name="account_password"
+              id="account_password"
               type="password"
-              value={formData.password.value}
-              required={formData.password.validation.required}
-              error={errors.password}
+              value={formData.account_password.value}
+              required={formData.account_password.validation.required}
+              error={errors.account_password}
               onChange={setValue}
             />
           ) : null}

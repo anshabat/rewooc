@@ -10,7 +10,8 @@ import { CheckoutFormType } from '../../components/shop/checkout/CheckoutForm/Ch
  */
 async function createOrder(
   formData: CheckoutFormType,
-  cartItems: ICartItem[]
+  cartItems: ICartItem[],
+  userId: number
 ): Promise<number> {
   const products = cartItems.map((item) => {
     return {
@@ -28,7 +29,7 @@ async function createOrder(
 
   const sign_up = formData.sign_up.value
     ? {
-        password: formData.password.value,
+        account_password: formData.account_password.value,
       }
     : null
 
@@ -44,7 +45,7 @@ async function createOrder(
     order_note: formData.order_note.value,
     products: products,
     status: 'processing',
-    customer_id: 1,
+    customer_id: userId,
     shipping,
     sign_up,
   }

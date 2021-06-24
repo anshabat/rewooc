@@ -44,10 +44,21 @@ class CheckoutRepository
         return $gateways;
     }
 
+    private static function deleteUser($id)
+    {
+        global $wpdb;
+
+        $meta = $wpdb->get_col($wpdb->prepare("SELECT umeta_id FROM $wpdb->usermeta WHERE user_id = %d", $id));
+        foreach ($meta as $mid) {
+            delete_metadata_by_mid('user', $mid);
+        }
+
+        $wpdb->delete($wpdb->users, array('ID' => $id));
+    }
+
     public static function createOrder($data)
     {
         $order = new \WC_Order();
-        $order->set_customer_id($data->customer_id);
         $order->set_billing_first_name($data->billing->first_name);
         $order->set_billing_last_name($data->billing->last_name);
         $order->set_billing_email($data->billing->email);
@@ -57,6 +68,32 @@ class CheckoutRepository
         if ($data->shipping) {
             $order->set_shipping_first_name($data->shipping->first_name);
             $order->set_shipping_last_name($data->shipping->last_name);
+        }
+
+        /* Create and Assign User to Order */
+        if ($data->sign_up && (email_exists($data->billing->email) || username_exists($data->billing->email))) {
+            return [
+                'order' => 0,
+                'user' => new \WP_Error('registration-error-email-exists', __('An account is already registered with your email address', 'woocommerce'))
+            ];
+        }
+
+        $temp_customer_id = 0;
+        if ($data->customer_id) {
+            $order->set_customer_id($data->customer_id);
+        } else {
+            if ($data->sign_up) {
+                $temp_customer_id = wc_create_new_customer(
+                    $data->billing->email,
+                    $data->billing->email,
+                    $data->sign_up->account_password,
+                    [
+                        'first_name' => $data->billing->first_name,
+                        'last_name' => $data->billing->last_name,
+                    ]
+                );
+                $order->set_customer_id($temp_customer_id);
+            }
         }
 
         /* Add products to Order */
@@ -81,11 +118,21 @@ class CheckoutRepository
         /* Calculate and Save Order */
         $order->calculate_totals(false);
 
+        /* If order was not created */
+        if (!$order->get_id()) {
+            /* Remove recently created user due to failure order */
+            if ($temp_customer_id) {
+                self::deleteUser($temp_customer_id);
+            }
+
+            return ['order' => 0, 'user' => 0];
+        }
+
         /* Add Order note */
         if (sanitize_text_field($data->order_note)) {
             $order->add_order_note($data->order_note, $data->customer_id, true);
         }
 
-        return $order->get_id();
+        return ['order' => $order->get_id(), 'user' => $data->customer_id ?: $temp_customer_id];
     }
 }
