@@ -200,6 +200,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             error={errors.billing_first_name}
             onChange={setValue}
           />
+
           <FormField
             label="Last name"
             name="billing_last_name"
@@ -210,6 +211,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             error={errors.billing_last_name}
             onChange={setValue}
           />
+
           <FormField
             label="Phone"
             name="billing_phone"
@@ -220,6 +222,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             error={errors.billing_phone}
             onChange={setValue}
           />
+
           <FormField
             label="Email"
             name="billing_email"
@@ -230,6 +233,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             error={errors.billing_email}
             onChange={setValue}
           />
+
           <ChoiceField
             label="Ship to another person"
             name="ship_to_different_address"
@@ -239,6 +243,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             onChange={toggleRecipient}
             checked={formData.ship_to_different_address.value}
           />
+
           {formData.ship_to_different_address.value ? (
             <>
               <FormField
@@ -263,14 +268,18 @@ const CheckoutForm: FC<IProps> = (props) => {
               />
             </>
           ) : null}
-          <ChoiceField
-            label="Sign Up user"
-            name="sign_up"
-            type="checkbox"
-            value={Number(formData.sign_up.value)}
-            onChange={toggleSignUp}
-            checked={Boolean(formData.sign_up.value)}
-          />
+
+          {userId ? null : (
+            <ChoiceField
+              label="Sign Up user"
+              name="sign_up"
+              type="checkbox"
+              value={Number(formData.sign_up.value)}
+              onChange={toggleSignUp}
+              checked={Boolean(formData.sign_up.value)}
+            />
+          )}
+
           {formData.sign_up.value ? (
             <FormField
               label="Password Name"
