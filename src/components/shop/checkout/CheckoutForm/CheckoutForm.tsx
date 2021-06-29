@@ -1,13 +1,14 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
 import Button from '../../../UI/Button/Button'
 import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
 import Form from '../../../UI/Form/Form'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import { selectAccountUser } from '../../../../redux/account/accountSelector'
+import { signIn } from '../../../../redux/auth/authActions'
 
 type ValidationRulesType = Partial<{
   required: boolean
@@ -64,6 +65,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   const [formData, setFormData] = useState<CheckoutFormType>(initialFormState)
   const [errors, setErrors] = useState<ErrorType>({})
   const user = useSelector(selectAccountUser)
+  const dispatch = useDispatch()
   const userId = user ? user.id : 0
 
   useEffect(() => {
@@ -146,7 +148,12 @@ const CheckoutForm: FC<IProps> = (props) => {
       .createOrder(formData, cartItems, userId)
       .then((orderData) => {
         if (orderData.user && !userId) {
-          console.log('sign in user')
+          dispatch(
+            signIn(
+              formData.billing_email.value,
+              formData.account_password.value
+            )
+          )
         }
         console.log(orderData)
       })
@@ -155,7 +162,7 @@ const CheckoutForm: FC<IProps> = (props) => {
       })
       .finally(() => {
         setOrderLoading(false)
-        //setFormData(initialFormState)
+        setFormData(initialFormState)
       })
   }
 
