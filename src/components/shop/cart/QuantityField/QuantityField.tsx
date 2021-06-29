@@ -10,7 +10,6 @@ import FormField from '../../../UI/Form/FormField/FormField'
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   initialValue: number
-  onBlur: (e: ChangeEvent<HTMLInputElement>) => void
   disabled: boolean
   hasChanged: boolean
 }
