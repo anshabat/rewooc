@@ -129,17 +129,34 @@ const CheckoutForm: FC<IProps> = (props) => {
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (cartItems.length === 0) {
+      alert('No items in the cart')
+      return
+    }
+
     const formErrors = validate(formData)
     setErrors(formErrors)
-
-    const hasNoErrors = Object.keys(formErrors).length === 0
-    if (hasNoErrors) {
-      setOrderLoading(true)
-      return orderApi.createOrder(formData, cartItems, userId).finally(() => {
-        setOrderLoading(false)
-        setFormData(initialFormState)
-      })
+    const hasErrors = Object.keys(formErrors).length > 0
+    if (hasErrors) {
+      return
     }
+
+    setOrderLoading(true)
+    return orderApi
+      .createOrder(formData, cartItems, userId)
+      .then((orderData) => {
+        if (orderData.user && !userId) {
+          console.log('sign in user')
+        }
+        console.log(orderData)
+      })
+      .catch((error: Error) => {
+        alert(error.message)
+      })
+      .finally(() => {
+        setOrderLoading(false)
+        //setFormData(initialFormState)
+      })
   }
 
   const setValue = (e: ChangeEvent<HTMLInputElement>) => {

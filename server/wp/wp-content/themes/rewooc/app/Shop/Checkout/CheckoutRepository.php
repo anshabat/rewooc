@@ -74,7 +74,8 @@ class CheckoutRepository
         if ($data->sign_up && (email_exists($data->billing->email) || username_exists($data->billing->email))) {
             return [
                 'order' => 0,
-                'user' => new \WP_Error('registration-error-email-exists', __('An account is already registered with your email address', 'woocommerce'))
+                'user' => 0,
+                'error' => new \WP_Error('registration-error-email-exists', __('An account is already registered with your email address', 'woocommerce'))
             ];
         }
 

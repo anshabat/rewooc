@@ -8,11 +8,17 @@ import { CheckoutFormType } from '../../components/shop/checkout/CheckoutForm/Ch
 /**
  * Create new order
  */
+interface INewOrderResponse {
+  order: number
+  user: number
+  error?: any
+}
+
 async function createOrder(
   formData: CheckoutFormType,
   cartItems: ICartItem[],
   userId: number
-): Promise<number> {
+): Promise<INewOrderResponse> {
   const products = cartItems.map((item) => {
     return {
       product_id: item.product.id,
@@ -52,12 +58,21 @@ async function createOrder(
 
   const {
     data: { success, data },
-  } = await instance.post<IResponseData<number>>(
+  } = await instance.post<IResponseData<INewOrderResponse>>(
     wcAjax('rewooc_post_order'),
     options
   )
 
-  if (!success) {
+  if (data.error) {
+    const { errors } = data.error
+    Object.values<string[]>(errors).forEach((errs) => {
+      errs.forEach((e) => {
+        throw new Error(e)
+      })
+    })
+  }
+
+  if (!success || !data.order) {
     throw new Error('Fail to create new Order')
   }
 
