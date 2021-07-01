@@ -12,7 +12,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0.5rem 1rem;
     border: 1px solid var(--form-field-border-color);
     background-color: #fff;
     color: var(--color-gray);
@@ -22,6 +21,7 @@
   &__control {
     all: unset;
     width: 100%;
+    padding: 0.5rem 1rem;
     font-size: 0.9rem;
     line-height: 1.5;
     color: inherit;

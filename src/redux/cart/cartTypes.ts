@@ -4,6 +4,7 @@ import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
   CART_ADD_PRODUCT_SUCCESS,
+  CART_CLEAR,
   CART_DELETE_PRODUCT,
   CART_DELETE_PRODUCT_FAIL,
   CART_DELETE_PRODUCT_SUCCESS,
@@ -99,6 +100,10 @@ interface IDeleteFromCartFailAction {
   error: Error
 }
 
+interface IClearCart {
+  type: typeof CART_CLEAR
+}
+
 export type CartActionTypes =
   | ILoadCartPageAction
   | ILoadCartPageSuccessAction
@@ -113,3 +118,4 @@ export type CartActionTypes =
   | IDeleteFromCartAction
   | IDeleteFromCartSuccessAction
   | IDeleteFromCartFailAction
+  | IClearCart

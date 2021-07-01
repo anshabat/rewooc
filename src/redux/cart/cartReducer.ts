@@ -1,16 +1,17 @@
 import produce from 'immer'
 import { INIT_APP_SUCCESS } from '../app/appActions'
-import { ICartState, CartActionTypes } from './cartTypes'
+import { CartActionTypes, ICartState } from './cartTypes'
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
   CART_ADD_PRODUCT_SUCCESS,
-  CART_PAGE_LOAD,
-  CART_PAGE_LOAD_FAIL,
-  CART_PAGE_LOAD_SUCCESS,
+  CART_CLEAR,
   CART_DELETE_PRODUCT,
   CART_DELETE_PRODUCT_FAIL,
   CART_DELETE_PRODUCT_SUCCESS,
+  CART_PAGE_LOAD,
+  CART_PAGE_LOAD_FAIL,
+  CART_PAGE_LOAD_SUCCESS,
   CART_SET_PRODUCT_QUANTITY_FAIL,
   CART_SET_PRODUCT_QUANTITY_START,
   CART_SET_PRODUCT_QUANTITY_SUCCESS,
@@ -18,9 +19,9 @@ import {
 import { AppActionTypes } from '../app/appTypes'
 import {
   addData,
-  updateItemQuantity,
-  deleteData,
   createData,
+  deleteData,
+  updateItemQuantity,
 } from './cartUtils'
 
 const initialState: ICartState = {
@@ -97,6 +98,13 @@ export default function reducer(
         console.error(action.error)
         draft.changingQuantityKey = null
         draft.error = action.error
+        break
+      case CART_CLEAR:
+        Object.keys(draft).forEach(key => {
+          // @ts-ignore
+          draft[key] = initialState[key]
+        })
+        break
     }
   })
 }
