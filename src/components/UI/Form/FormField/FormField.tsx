@@ -2,7 +2,7 @@ import './FormField.scss'
 import React, { AllHTMLAttributes, FC } from 'react'
 import classNames from 'classnames'
 
-interface IProps extends AllHTMLAttributes<HTMLElement> {
+export interface IFormFieldProps extends AllHTMLAttributes<HTMLElement> {
   label: string
   hideLabel?: boolean
   horizontal?: boolean
@@ -11,7 +11,7 @@ interface IProps extends AllHTMLAttributes<HTMLElement> {
   elementType?: 'input' | 'textarea' | 'select'
 }
 
-const FormField: FC<IProps> = (props) => {
+const FormField: FC<IFormFieldProps> = (props) => {
   const {
     horizontal = false,
     label,
