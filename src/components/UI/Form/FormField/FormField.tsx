@@ -20,23 +20,24 @@ const FormField: FC<IProps> = (props) => {
     required,
     error,
     elementType = 'input',
+    children,
     ...restProps
   } = props
 
   const labelClass = classNames({
     'rw-form-field__label': true,
-    'h-screen-reader-text': hideLabel,
+    'h-screen-reader-text': hideLabel
   })
   const fieldClass = classNames({
     'rw-form-field': true,
     'rw-form-field--horizontal': horizontal,
     'rw-form-field--required': required,
-    'rw-form-field--invalid': error,
+    'rw-form-field--invalid': error
   })
 
   const InputControl = (
     <input
-      className="rw-form-field__control"
+      className='rw-form-field__control'
       id={id}
       required={required}
       {...restProps}
@@ -45,7 +46,7 @@ const FormField: FC<IProps> = (props) => {
 
   const TextAreaControl = (
     <textarea
-      className="rw-form-field__control"
+      className='rw-form-field__control'
       id={id}
       required={required}
       {...restProps}
@@ -57,17 +58,20 @@ const FormField: FC<IProps> = (props) => {
   const controls = {
     input: InputControl,
     textarea: TextAreaControl,
-    select: SelectControl,
+    select: SelectControl
   }
 
   return (
     <div className={fieldClass}>
       <div className={labelClass}>
         <label htmlFor={id}>{label}</label>
-        {required ? <span className="rw-form-field__required-star">*</span> : null}
+        {required ? <span className='rw-form-field__required-star'>*</span> : null}
       </div>
-      <div className="rw-form-field__element">{controls[elementType]}</div>
-      {error ? <div className="rw-form-field__error">{error}</div> : null}
+      <div className='rw-form-field__element'>
+        {controls[elementType]}
+        {children}
+      </div>
+      {error ? <div className='rw-form-field__error'>{error}</div> : null}
     </div>
   )
 }

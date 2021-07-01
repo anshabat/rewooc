@@ -9,6 +9,7 @@ import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import { selectAccountUser } from '../../../../redux/account/accountSelector'
 import { signIn } from '../../../../redux/auth/authActions'
+import Icon from '../../../UI/Icon/Icon'
 
 type ValidationRulesType = Partial<{
   required: boolean
@@ -45,7 +46,7 @@ const initialFormState = {
   shipping_first_name: setFormField(''),
   shipping_last_name: setFormField(''),
   order_note: setFormField(''),
-  sign_up: setFormField(false),
+  sign_up: setFormField(true),
   account_password: setFormField('', { equal: 'account_password_repeat' }),
   account_password_repeat: setFormField(''),
 }
@@ -214,10 +215,13 @@ const CheckoutForm: FC<IProps> = (props) => {
         ...formData.account_password.validation,
         required: e.target.checked,
       }),
-      account_password_repeat: setFormField(formData.account_password_repeat.value, {
-        ...formData.account_password_repeat.validation,
-        required: e.target.checked,
-      }),
+      account_password_repeat: setFormField(
+        formData.account_password_repeat.value,
+        {
+          ...formData.account_password_repeat.validation,
+          required: e.target.checked,
+        }
+      ),
     })
   }
 
@@ -327,7 +331,14 @@ const CheckoutForm: FC<IProps> = (props) => {
                 required={formData.account_password.validation.required}
                 error={errors.account_password}
                 onChange={setValue}
-              />
+              >
+                <Icon
+                  name="fa-eye"
+                  onClick={() => {
+                    console.log('click')
+                  }}
+                />
+              </FormField>
               <FormField
                 label="Repeat Password"
                 name="account_password_repeat"
