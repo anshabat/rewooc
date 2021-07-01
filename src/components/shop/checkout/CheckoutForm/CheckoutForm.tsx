@@ -14,6 +14,7 @@ type ValidationRulesType = Partial<{
   required: boolean
   email: boolean
   phone: boolean
+  equal: string
 }>
 
 interface IFormField<T> {
@@ -45,7 +46,8 @@ const initialFormState = {
   shipping_last_name: setFormField(''),
   order_note: setFormField(''),
   sign_up: setFormField(false),
-  account_password: setFormField(''),
+  account_password: setFormField('', { equal: 'account_password_repeat' }),
+  account_password_repeat: setFormField(''),
 }
 
 export type CheckoutFormType = typeof initialFormState
@@ -124,6 +126,13 @@ const CheckoutForm: FC<IProps> = (props) => {
           result[key] = 'Enter correct phone number'
       }
 
+      /* password validation */
+      if (data.validation.equal && data.value) {
+        // @ts-ignore
+        if (data.value !== formData[data.validation.equal].value)
+          result[key] = 'Passwords are not equal'
+      }
+
       return result
     }, {})
   }
@@ -155,14 +164,13 @@ const CheckoutForm: FC<IProps> = (props) => {
             )
           )
         }
-        console.log(orderData)
+        setFormData(initialFormState)
       })
       .catch((error: Error) => {
         alert(error.message)
       })
       .finally(() => {
         setOrderLoading(false)
-        setFormData(initialFormState)
       })
   }
 
@@ -204,6 +212,10 @@ const CheckoutForm: FC<IProps> = (props) => {
       }),
       account_password: setFormField(formData.account_password.value, {
         ...formData.account_password.validation,
+        required: e.target.checked,
+      }),
+      account_password_repeat: setFormField(formData.account_password_repeat.value, {
+        ...formData.account_password_repeat.validation,
         required: e.target.checked,
       }),
     })
@@ -305,16 +317,28 @@ const CheckoutForm: FC<IProps> = (props) => {
           )}
 
           {formData.sign_up.value ? (
-            <FormField
-              label="Password Name"
-              name="account_password"
-              id="account_password"
-              type="password"
-              value={formData.account_password.value}
-              required={formData.account_password.validation.required}
-              error={errors.account_password}
-              onChange={setValue}
-            />
+            <>
+              <FormField
+                label="Password Name"
+                name="account_password"
+                id="account_password"
+                type="password"
+                value={formData.account_password.value}
+                required={formData.account_password.validation.required}
+                error={errors.account_password}
+                onChange={setValue}
+              />
+              <FormField
+                label="Repeat Password"
+                name="account_password_repeat"
+                id="account_password_repeat"
+                type="password"
+                value={formData.account_password_repeat.value}
+                required={formData.account_password_repeat.validation.required}
+                error={errors.account_password_repeat}
+                onChange={setValue}
+              />
+            </>
           ) : null}
         </Form.Fields>
       </Form.Fieldset>
