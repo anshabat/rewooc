@@ -1,6 +1,7 @@
 .rw-icon {
+  all: unset;
+
   &:is(button) {
-    all: unset;
     cursor: pointer;
   }
 }

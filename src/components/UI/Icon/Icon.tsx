@@ -15,7 +15,6 @@ interface IProps {
 
 const Icon: FC<IProps> = (props) => {
   const { classes = [], name = '', onClick } = props
-  classes.push('rw-icon', name)
   classes.push('fa', name)
 
   const IconComponent = (
@@ -23,15 +22,11 @@ const Icon: FC<IProps> = (props) => {
   )
 
   return onClick ? (
-    <button
-      className="rw-icon"
-      type="button"
-      onClick={onClick}
-    >
+    <button className="rw-icon" type="button" onClick={onClick}>
       {IconComponent}
     </button>
   ) : (
-    IconComponent
+    <span className="rw-icon">{IconComponent}</span>
   )
 }
 

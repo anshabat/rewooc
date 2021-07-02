@@ -11,17 +11,19 @@
   &__element {
     display: flex;
     align-items: center;
-    gap: 10px;
     border: 1px solid var(--form-field-border-color);
     background-color: #fff;
     color: var(--color-gray);
+
+    & > * {
+      padding: 0.5rem 1rem;
+    }
   }
 
   /* Control */
   &__control {
-    all: unset;
+    border: 0;
     width: 100%;
-    padding: 0.5rem 1rem;
     font-size: 0.9rem;
     line-height: 1.5;
     color: inherit;
