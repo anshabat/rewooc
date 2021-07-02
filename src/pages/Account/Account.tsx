@@ -6,6 +6,7 @@ import SidebarNav from '../../components/UI/navigation/SidebarNav/SidebarNav'
 import PersonalInformation from './PersonalInformation/PersonalInformation'
 import Orders from './Orders/Orders'
 import Addresses from './Addresses/Addresses'
+import ViewOrder from './ViewOrder/ViewOrder'
 
 const Account: FC = () => {
   const match = useRouteMatch()
@@ -32,6 +33,9 @@ const Account: FC = () => {
             </Route>
             <Route path={`${match.path}/orders`}>
               <Orders />
+            </Route>
+            <Route path={`${match.path}/view-order/:id`}>
+              <ViewOrder />
             </Route>
             <Route path={`${match.path}/edit-address`}>
               <Addresses />

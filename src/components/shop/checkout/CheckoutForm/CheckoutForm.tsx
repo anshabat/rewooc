@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import Button from '../../../UI/Button/Button'
 import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 import { useDispatch, useSelector } from 'react-redux'
@@ -47,7 +48,7 @@ const initialFormState = {
   shipping_first_name: setFormField(''),
   shipping_last_name: setFormField(''),
   order_note: setFormField(''),
-  sign_up: setFormField(true),
+  sign_up: setFormField(false),
   account_password: setFormField('', { equal: 'account_password_repeat' }),
   account_password_repeat: setFormField(''),
 }
@@ -70,6 +71,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   const [errors, setErrors] = useState<ErrorType>({})
   const user = useSelector(selectAccountUser)
   const dispatch = useDispatch()
+  const history = useHistory();
   const userId = user ? user.id : 0
 
   useEffect(() => {
@@ -168,6 +170,7 @@ const CheckoutForm: FC<IProps> = (props) => {
         }
         dispatch(clearCart())
         setFormData(initialFormState)
+        history.push(`/my-account/view-order/${orderData.order}`)
       })
       .catch((error: Error) => {
         alert(error.message)
