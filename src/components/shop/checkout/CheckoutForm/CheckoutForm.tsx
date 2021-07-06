@@ -12,52 +12,32 @@ import { selectAccountUser } from '../../../../redux/account/accountSelector'
 import { signIn } from '../../../../redux/auth/authActions'
 import { clearCart } from '../../../../redux/cart/cartActions'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
-
-type ValidationRulesType = Partial<{
-  required: boolean
-  email: boolean
-  phone: boolean
-  equal: string
-}>
-
-interface IFormField<T> {
-  value: T
-  validation: ValidationRulesType
-}
-
-type ErrorType = { [key: string]: string }
-
-function setFormField<T>(
-  value: T,
-  validation: ValidationRulesType = {}
-): IFormField<T> {
-  return {
-    value,
-    validation,
-  }
-}
+import {
+  createField,
+  FormType,
+  ValidationErrorType,
+  validate,
+} from 'app-services/form'
 
 const initialFormState = {
-  billing_first_name: setFormField('', { required: true }),
-  billing_last_name: setFormField('', { required: true }),
-  billing_phone: setFormField('', { required: true, phone: true }),
-  billing_email: setFormField('', { email: true }),
-  deliveryMethodId: setFormField('', { required: true }),
-  payment: setFormField('', { required: true }),
-  ship_to_different_address: setFormField(false),
-  shipping_first_name: setFormField(''),
-  shipping_last_name: setFormField(''),
-  order_note: setFormField(''),
-  sign_up: setFormField(false),
-  account_password: setFormField('', { equal: 'account_password_repeat' }),
-  account_password_repeat: setFormField(''),
+  billing_first_name: createField('', { required: true }),
+  billing_last_name: createField('', { required: true }),
+  billing_phone: createField('', { required: true, phone: true }),
+  billing_email: createField('', { email: true }),
+  deliveryMethodId: createField('', { required: true }),
+  payment: createField('', { required: true }),
+  ship_to_different_address: createField(false),
+  shipping_first_name: createField(''),
+  shipping_last_name: createField(''),
+  order_note: createField(''),
+  sign_up: createField(false),
+  account_password: createField('', { equal: 'account_password_repeat' }),
+  account_password_repeat: createField(''),
 }
-
-export type CheckoutFormType = typeof initialFormState
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
-  onCreateOrder?: (orderData: CheckoutFormType) => void
+  onCreateOrder?: (orderData: FormType) => void
 }
 
 const CheckoutForm: FC<IProps> = (props) => {
@@ -67,11 +47,11 @@ const CheckoutForm: FC<IProps> = (props) => {
   const [isOrderLoading, setOrderLoading] = useState(false)
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
   const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
-  const [formData, setFormData] = useState<CheckoutFormType>(initialFormState)
-  const [errors, setErrors] = useState<ErrorType>({})
+  const [formData, setFormData] = useState<FormType>(initialFormState)
+  const [errors, setErrors] = useState<ValidationErrorType>({})
   const user = useSelector(selectAccountUser)
   const dispatch = useDispatch()
-  const history = useHistory();
+  const history = useHistory()
   const userId = user ? user.id : 0
 
   useEffect(() => {
@@ -106,41 +86,6 @@ const CheckoutForm: FC<IProps> = (props) => {
     return deliveryMethods.find((method) => String(method.id) === id)
   }
 
-  const validate = (formData: CheckoutFormType): ErrorType => {
-    return Object.entries(formData).reduce<ErrorType>((result, field) => {
-      const [key, data] = field
-
-      /* required validation */
-      if (data.validation.required) {
-        if (!data.value) {
-          result[key] = 'Field is required'
-        }
-      }
-
-      /* email validation */
-      if (data.validation.email && data.value) {
-        if (!/^(.+)@(.+)\.([a-z]+)$/.test(String(data.value))) {
-          result[key] = 'Enter correct email address'
-        }
-      }
-
-      /* phone validation */
-      if (data.validation.phone && data.value) {
-        if (!/[0-9]/.test(String(data.value)))
-          result[key] = 'Enter correct phone number'
-      }
-
-      /* password validation */
-      if (data.validation.equal && data.value) {
-        // @ts-ignore
-        if (data.value !== formData[data.validation.equal].value)
-          result[key] = 'Passwords are not equal'
-      }
-
-      return result
-    }, {})
-  }
-
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -149,9 +94,8 @@ const CheckoutForm: FC<IProps> = (props) => {
       return
     }
 
-    const formErrors = validate(formData)
+    const [hasErrors, formErrors] = validate(formData)
     setErrors(formErrors)
-    const hasErrors = Object.keys(formErrors).length > 0
     if (hasErrors) {
       return
     }
@@ -181,7 +125,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   }
 
   const setValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name as keyof CheckoutFormType
+    const name = e.target.name as keyof FormType
     const value = e.target.value
     setFormData({
       ...formData,
@@ -192,16 +136,16 @@ const CheckoutForm: FC<IProps> = (props) => {
   const toggleRecipient = (e: ChangeEvent<HTMLFormElement>) => {
     setFormData({
       ...formData,
-      ship_to_different_address: setFormField(e.target.checked),
-      billing_last_name: setFormField(formData.billing_last_name.value, {
+      ship_to_different_address: createField(e.target.checked),
+      billing_last_name: createField(formData.billing_last_name.value, {
         ...formData.billing_last_name.validation,
         required: !e.target.checked,
       }),
-      shipping_first_name: setFormField(formData.shipping_first_name.value, {
+      shipping_first_name: createField(formData.shipping_first_name.value, {
         ...formData.shipping_first_name.validation,
         required: e.target.checked,
       }),
-      shipping_last_name: setFormField(formData.shipping_last_name.value, {
+      shipping_last_name: createField(formData.shipping_last_name.value, {
         ...formData.shipping_last_name.validation,
         required: e.target.checked,
       }),
@@ -211,16 +155,16 @@ const CheckoutForm: FC<IProps> = (props) => {
   const toggleSignUp = (e: ChangeEvent<HTMLFormElement>) => {
     setFormData({
       ...formData,
-      sign_up: setFormField(e.target.checked),
-      billing_email: setFormField(formData.billing_email.value, {
+      sign_up: createField(e.target.checked),
+      billing_email: createField(formData.billing_email.value, {
         ...formData.billing_email.validation,
         required: e.target.checked,
       }),
-      account_password: setFormField(formData.account_password.value, {
+      account_password: createField(formData.account_password.value, {
         ...formData.account_password.validation,
         required: e.target.checked,
       }),
-      account_password_repeat: setFormField(
+      account_password_repeat: createField(
         formData.account_password_repeat.value,
         {
           ...formData.account_password_repeat.validation,

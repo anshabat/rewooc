@@ -9,7 +9,8 @@
     "baseUrl": "./",
     "paths": {
       "app-api": ["src/api"],
-      "app-types": ["src/types"]
+      "app-types": ["src/types"],
+      "app-services/*": ["src/services/*"]
     },
     "lib": ["dom", "es2020"]
   }
