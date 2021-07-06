@@ -18,6 +18,7 @@ import {
   ValidationErrorType,
   validate,
 } from 'app-services/form'
+import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
 
 const initialFormState = {
   billing_first_name: createField('', { required: true }),
@@ -43,30 +44,15 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
-
+  const { deliveryMethods, paymentMethods, getDeliveryByMethodId } = useCheckoutForm()
   const [isOrderLoading, setOrderLoading] = useState(false)
-  const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
-  const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
   const [formData, setFormData] = useState<FormType>(initialFormState)
   const [errors, setErrors] = useState<ValidationErrorType>({})
   const user = useSelector(selectAccountUser)
   const dispatch = useDispatch()
   const history = useHistory()
-  const userId = user ? user.id : 0
 
-  useEffect(() => {
-    Promise.all([
-      checkoutApi.fetchDeliveryMethods(),
-      checkoutApi.fetchPaymentMethods(),
-    ])
-      .then(([delivery, payment]) => {
-        setDeliveryMethods(delivery)
-        setPaymentMethods(payment)
-      })
-      .catch((error) => {
-        console.error(error.message)
-      })
-  }, [])
+  const userId = user ? user.id : 0
 
   /* Update delivery */
   if (typeof onUpdateDelivery === 'function') {
@@ -80,10 +66,6 @@ const CheckoutForm: FC<IProps> = (props) => {
         }
       }
     }, [formData.deliveryMethodId])
-  }
-
-  const getDeliveryByMethodId = (id: string): IDeliveryMethod | undefined => {
-    return deliveryMethods.find((method) => String(method.id) === id)
   }
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
