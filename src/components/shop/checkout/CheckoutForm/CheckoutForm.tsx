@@ -47,13 +47,11 @@ const CheckoutForm: FC<IProps> = (props) => {
   /* Update delivery */
   if (typeof onUpdateDelivery === 'function') {
     useEffect(() => {
-      if (formData.deliveryMethodId !== formData.deliveryMethodId) {
-        const currentDeliveryMethod = getDeliveryByMethodId(
-          formData.deliveryMethodId.value
-        )
-        if (currentDeliveryMethod) {
-          onUpdateDelivery(currentDeliveryMethod)
-        }
+      const currentDeliveryMethod = getDeliveryByMethodId(
+        formData.deliveryMethodId.value
+      )
+      if (currentDeliveryMethod) {
+        onUpdateDelivery(currentDeliveryMethod)
       }
     }, [formData.deliveryMethodId])
   }
@@ -61,19 +59,20 @@ const CheckoutForm: FC<IProps> = (props) => {
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (cartItems.length === 0) {
-      alert('No items in the cart')
-      return
-    }
-
     const [hasErrors, formErrors] = validate(formData)
     setErrors(formErrors)
     if (hasErrors) {
       return
     }
 
+    if (cartItems.length === 0) {
+      alert('No items in the cart')
+      return
+    }
+
     setOrderLoading(true)
-    return orderApi
+
+    orderApi
       .createOrder(formData, cartItems, userId)
       .then((orderData) => {
         if (orderData.user && !userId) {
