@@ -14,7 +14,7 @@ import { clearCart } from '../../../../redux/cart/cartActions'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
 import { FormType, ValidationErrorType, validate } from 'app-services/form'
 import { useCheckoutMethods } from '../../../../hooks/useCheckoutMethods'
-import { useCheckoutFormState } from '../../../../hooks/useCheckoutFormState'
+import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -36,7 +36,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     setField,
     toggleSignUp,
     toggleRecipient,
-  } = useCheckoutFormState()
+  } = useCheckoutReducer()
   const [errors, setErrors] = useState<ValidationErrorType>({})
   const user = useSelector(selectAccountUser)
   const dispatch = useDispatch()
