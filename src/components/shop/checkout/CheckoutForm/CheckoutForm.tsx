@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '../../../UI/Button/Button'
-import { checkoutApi, orderApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
+import { orderApi, IDeliveryMethod } from 'app-api'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
@@ -12,29 +12,9 @@ import { selectAccountUser } from '../../../../redux/account/accountSelector'
 import { signIn } from '../../../../redux/auth/authActions'
 import { clearCart } from '../../../../redux/cart/cartActions'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
-import {
-  createField,
-  FormType,
-  ValidationErrorType,
-  validate,
-} from 'app-services/form'
-import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
-
-const initialFormState = {
-  billing_first_name: createField('', { required: true }),
-  billing_last_name: createField('', { required: true }),
-  billing_phone: createField('', { required: true, phone: true }),
-  billing_email: createField('', { email: true }),
-  deliveryMethodId: createField('', { required: true }),
-  payment: createField('', { required: true }),
-  ship_to_different_address: createField(false),
-  shipping_first_name: createField(''),
-  shipping_last_name: createField(''),
-  order_note: createField(''),
-  sign_up: createField(false),
-  account_password: createField('', { equal: 'account_password_repeat' }),
-  account_password_repeat: createField(''),
-}
+import { FormType, ValidationErrorType, validate } from 'app-services/form'
+import { useCheckoutMethods } from '../../../../hooks/useCheckoutMethods'
+import { useCheckoutFormState } from '../../../../hooks/useCheckoutFormState'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -44,9 +24,19 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
-  const { deliveryMethods, paymentMethods, getDeliveryByMethodId } = useCheckoutForm()
+  const {
+    deliveryMethods,
+    paymentMethods,
+    getDeliveryByMethodId,
+  } = useCheckoutMethods()
   const [isOrderLoading, setOrderLoading] = useState(false)
-  const [formData, setFormData] = useState<FormType>(initialFormState)
+  const {
+    formData,
+    clearForm,
+    setField,
+    toggleSignUp,
+    toggleRecipient,
+  } = useCheckoutFormState()
   const [errors, setErrors] = useState<ValidationErrorType>({})
   const user = useSelector(selectAccountUser)
   const dispatch = useDispatch()
@@ -57,7 +47,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   /* Update delivery */
   if (typeof onUpdateDelivery === 'function') {
     useEffect(() => {
-      if (formData.deliveryMethodId !== initialFormState.deliveryMethodId) {
+      if (formData.deliveryMethodId !== formData.deliveryMethodId) {
         const currentDeliveryMethod = getDeliveryByMethodId(
           formData.deliveryMethodId.value
         )
@@ -95,7 +85,7 @@ const CheckoutForm: FC<IProps> = (props) => {
           )
         }
         dispatch(clearCart())
-        setFormData(initialFormState)
+        clearForm()
         history.push(`/my-account/view-order/${orderData.order}`)
       })
       .catch((error: Error) => {
@@ -107,53 +97,9 @@ const CheckoutForm: FC<IProps> = (props) => {
   }
 
   const setValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name as keyof FormType
+    const name = e.target.name
     const value = e.target.value
-    setFormData({
-      ...formData,
-      [name]: { ...formData[name], value },
-    })
-  }
-
-  const toggleRecipient = (e: ChangeEvent<HTMLFormElement>) => {
-    setFormData({
-      ...formData,
-      ship_to_different_address: createField(e.target.checked),
-      billing_last_name: createField(formData.billing_last_name.value, {
-        ...formData.billing_last_name.validation,
-        required: !e.target.checked,
-      }),
-      shipping_first_name: createField(formData.shipping_first_name.value, {
-        ...formData.shipping_first_name.validation,
-        required: e.target.checked,
-      }),
-      shipping_last_name: createField(formData.shipping_last_name.value, {
-        ...formData.shipping_last_name.validation,
-        required: e.target.checked,
-      }),
-    })
-  }
-
-  const toggleSignUp = (e: ChangeEvent<HTMLFormElement>) => {
-    setFormData({
-      ...formData,
-      sign_up: createField(e.target.checked),
-      billing_email: createField(formData.billing_email.value, {
-        ...formData.billing_email.validation,
-        required: e.target.checked,
-      }),
-      account_password: createField(formData.account_password.value, {
-        ...formData.account_password.validation,
-        required: e.target.checked,
-      }),
-      account_password_repeat: createField(
-        formData.account_password_repeat.value,
-        {
-          ...formData.account_password_repeat.validation,
-          required: e.target.checked,
-        }
-      ),
-    })
+    setField(name, value)
   }
 
   return (

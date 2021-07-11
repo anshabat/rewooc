@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import { checkoutApi, IDeliveryMethod, IPaymentMethod } from 'app-api'
 
-export function useCheckoutForm() {
+interface IUseCheckoutMethods {
+  deliveryMethods: IDeliveryMethod[]
+  paymentMethods: IPaymentMethod[]
+  getDeliveryByMethodId: (id: string) => IDeliveryMethod | undefined
+}
+
+export function useCheckoutMethods(): IUseCheckoutMethods {
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
   const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
 
@@ -26,6 +32,6 @@ export function useCheckoutForm() {
   return {
     deliveryMethods,
     paymentMethods,
-    getDeliveryByMethodId
+    getDeliveryByMethodId,
   }
 }
