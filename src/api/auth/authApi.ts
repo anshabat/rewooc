@@ -23,7 +23,7 @@ async function fetchCurrentUser(
   return data
 }
 
-async function checkEmail(email: string): Promise<number | boolean> {
+async function checkEmail(email: string): Promise<boolean> {
   const response = await instance.get<{
     data: number | boolean
     success: boolean
@@ -35,7 +35,7 @@ async function checkEmail(email: string): Promise<number | boolean> {
     throw new Error(ErrorMessage.AUTH_FAIL_CHECK_EMAIL)
   }
 
-  return data.data
+  return Boolean(data.data)
 }
 
 export default {

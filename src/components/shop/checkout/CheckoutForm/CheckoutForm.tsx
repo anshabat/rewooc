@@ -22,6 +22,17 @@ interface IProps {
   onCreateOrder?: (orderData: FormType) => void
 }
 
+const maybeCheckEmail = (
+  email: string,
+  shouldCheck: boolean
+): Promise<boolean> => {
+  if (shouldCheck) {
+    return authApi.checkEmail(email)
+  } else {
+    return Promise.resolve(false)
+  }
+}
+
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
@@ -73,33 +84,15 @@ const CheckoutForm: FC<IProps> = (props) => {
 
     setOrderLoading(true)
 
-    const maybeCheckEmail = (
-      email: string,
-      shouldCheck: boolean
-    ): Promise<void> => {
-      return new Promise<void>((resolve, reject) => {
-        if (shouldCheck) {
-          authApi.checkEmail(email).then((emailExists) => {
-            if (emailExists) {
-              reject()
-            } else {
-              resolve()
-            }
-          })
+    maybeCheckEmail(formData.billing_email.value, formData.sign_up.value)
+      .then((emailExists) => {
+        if (emailExists) {
+          setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
+          throw new Error()
         } else {
-          resolve()
+          return orderApi.createOrder(formData, cartItems, userId)
         }
       })
-    }
-
-    maybeCheckEmail(formData.billing_email.value, formData.sign_up.value)
-      .then(
-        () => orderApi.createOrder(formData, cartItems, userId),
-        () => {
-          setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
-          return Promise.reject()
-        }
-      )
       .then((orderData) => {
         if (orderData.user && !userId) {
           dispatch(
@@ -122,17 +115,6 @@ const CheckoutForm: FC<IProps> = (props) => {
         setOrderLoading(false)
       })
   }
-
-  /*if(formData.sign_up.value) {
-  authApi
-    .checkEmail(formData.billing_email.value)
-    .then((res) => {
-      console.log(res)
-    })
-    .finally(() => {
-      setOrderLoading(false)
-    })
-}*/
 
   const setValue = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
