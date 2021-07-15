@@ -25,4 +25,10 @@ class CheckoutAPI
         $orderId = CheckoutRepository::createOrder($request);
         View::responseSuccess($orderId);
     }
+
+    public static function checkEmail()
+    {
+        $email = sanitize_email($_GET['email']);
+        View::responseSuccess(email_exists($email));
+    }
 }

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '../../../UI/Button/Button'
-import { orderApi, IDeliveryMethod } from 'app-api'
+import { orderApi, IDeliveryMethod, authApi } from 'app-api'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
@@ -15,6 +15,7 @@ import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
 import { FormType, ValidationErrorType, validate } from 'app-services/form'
 import { useCheckoutMethods } from '../../../../hooks/useCheckoutMethods'
 import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
+import { ErrorMessage } from '../../../../shared/errorMessages'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -65,15 +66,40 @@ const CheckoutForm: FC<IProps> = (props) => {
       return
     }
 
-    if (cartItems.length === 0) {
+    /*if (cartItems.length === 0) {
       alert('No items in the cart')
       return
-    }
+    }*/
 
     setOrderLoading(true)
 
-    orderApi
-      .createOrder(formData, cartItems, userId)
+    const maybeCheckEmail = (
+      email: string,
+      shouldCheck: boolean
+    ): Promise<void> => {
+      return new Promise<void>((resolve, reject) => {
+        if (shouldCheck) {
+          authApi.checkEmail(email).then((emailExists) => {
+            if (emailExists) {
+              reject()
+            } else {
+              resolve()
+            }
+          })
+        } else {
+          resolve()
+        }
+      })
+    }
+
+    maybeCheckEmail(formData.billing_email.value, formData.sign_up.value)
+      .then(
+        () => orderApi.createOrder(formData, cartItems, userId),
+        () => {
+          setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
+          return Promise.reject()
+        }
+      )
       .then((orderData) => {
         if (orderData.user && !userId) {
           dispatch(
@@ -88,12 +114,25 @@ const CheckoutForm: FC<IProps> = (props) => {
         history.push(`/my-account/view-order/${orderData.order}`)
       })
       .catch((error: Error) => {
-        alert(error.message)
+        if (error?.message) {
+          alert(error.message)
+        }
       })
       .finally(() => {
         setOrderLoading(false)
       })
   }
+
+  /*if(formData.sign_up.value) {
+  authApi
+    .checkEmail(formData.billing_email.value)
+    .then((res) => {
+      console.log(res)
+    })
+    .finally(() => {
+      setOrderLoading(false)
+    })
+}*/
 
   const setValue = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name

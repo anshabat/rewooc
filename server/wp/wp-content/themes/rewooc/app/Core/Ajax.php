@@ -18,6 +18,7 @@ class Ajax
         'wc_ajax_rewooc_fetch_delivery_methods' => [CheckoutAPI::class, 'fetchDeliveryMethods'],
         'wc_ajax_rewooc_fetch_payment_gateways' => [CheckoutAPI::class, 'fetchPaymentGateways'],
         'wc_ajax_rewooc_post_order' => [CheckoutAPI::class, 'postOrder'],
+        'wc_ajax_rewooc_check_email' => [CheckoutAPI::class, 'checkEmail'],
     ];
 
     public function __construct()
