@@ -22,17 +22,6 @@ interface IProps {
   onCreateOrder?: (orderData: FormType) => void
 }
 
-const maybeCheckEmail = (
-  email: string,
-  shouldCheck: boolean
-): Promise<boolean> => {
-  if (shouldCheck) {
-    return authApi.checkEmail(email)
-  } else {
-    return Promise.resolve(false)
-  }
-}
-
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
@@ -68,7 +57,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     }, [formData.deliveryMethodId])
   }
 
-  const submitForm = (e: FormEvent<HTMLFormElement>) => {
+  const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const [hasErrors, formErrors] = validate(formData)
@@ -77,23 +66,27 @@ const CheckoutForm: FC<IProps> = (props) => {
       return
     }
 
-    /*if (cartItems.length === 0) {
+    if (cartItems.length === 0) {
       alert('No items in the cart')
       return
-    }*/
+    }
 
     setOrderLoading(true)
 
-    maybeCheckEmail(formData.billing_email.value, formData.sign_up.value)
-      .then((emailExists) => {
-        if (emailExists) {
-          setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
-          throw new Error()
-        } else {
-          return orderApi.createOrder(formData, cartItems, userId)
-        }
-      })
-      .then((orderData) => {
+    try {
+      let emailExists = false
+      if (formData.sign_up.value) {
+        emailExists = await authApi.checkEmail(formData.billing_email.value)
+      }
+
+      if (emailExists) {
+        setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
+      } else {
+        const orderData = await orderApi.createOrder(
+          formData,
+          cartItems,
+          userId
+        )
         if (orderData.user && !userId) {
           dispatch(
             signIn(
@@ -105,15 +98,12 @@ const CheckoutForm: FC<IProps> = (props) => {
         dispatch(clearCart())
         clearForm()
         history.push(`/my-account/view-order/${orderData.order}`)
-      })
-      .catch((error: Error) => {
-        if (error?.message) {
-          alert(error.message)
-        }
-      })
-      .finally(() => {
-        setOrderLoading(false)
-      })
+      }
+    } catch (error) {
+      alert(error.message)
+    }
+
+    setOrderLoading(false)
   }
 
   const setValue = (e: ChangeEvent<HTMLInputElement>) => {
