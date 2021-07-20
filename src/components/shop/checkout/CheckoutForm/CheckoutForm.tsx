@@ -1,4 +1,11 @@
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  FocusEvent,
+  useEffect,
+  useState,
+} from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '../../../UI/Button/Button'
 import { orderApi, IDeliveryMethod, authApi } from 'app-api'
@@ -112,6 +119,18 @@ const CheckoutForm: FC<IProps> = (props) => {
     setField(name, value)
   }
 
+  const validateEmail = async (email: string, shouldCheck: boolean) => {
+    let emailExists = false
+    if (shouldCheck) {
+      emailExists = await authApi.checkEmail(email)
+    }
+    if (emailExists) {
+      setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
+    } else {
+      setErrors({})
+    }
+  }
+
   return (
     <Form onSubmit={submitForm} loading={isOrderLoading}>
       <Form.Fieldset>
@@ -159,6 +178,9 @@ const CheckoutForm: FC<IProps> = (props) => {
             required={formData.billing_email.validation.required}
             error={errors.billing_email}
             onChange={setValue}
+            onBlur={(e: FocusEvent<HTMLInputElement>) => {
+              validateEmail(e.target.value, formData.sign_up.value)
+            }}
           />
 
           <ChoiceField
@@ -202,7 +224,12 @@ const CheckoutForm: FC<IProps> = (props) => {
               name="sign_up"
               type="checkbox"
               value={Number(formData.sign_up.value)}
-              onChange={toggleSignUp}
+              onChange={(e: ChangeEvent<HTMLFormElement>) => {
+                console.log(formData.billing_email.value)
+                console.log(e.target.checked)
+                toggleSignUp(e)
+                validateEmail(formData.billing_email.value, e.target.checked)
+              }}
               checked={Boolean(formData.sign_up.value)}
             />
           )}
