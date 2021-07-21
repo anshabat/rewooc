@@ -20,7 +20,7 @@ import { signIn } from '../../../../redux/auth/authActions'
 import { clearCart } from '../../../../redux/cart/cartActions'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
 import { FormType, ValidationErrorType, validate } from 'app-services/form'
-import { useCheckoutMethods } from '../../../../hooks/useCheckoutMethods'
+import { useCheckoutPage } from '../../../../hooks/useCheckoutPage'
 import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
 import { ErrorMessage } from '../../../../shared/errorMessages'
 
@@ -35,8 +35,9 @@ const CheckoutForm: FC<IProps> = (props) => {
   const {
     deliveryMethods,
     paymentMethods,
+    countries,
     getDeliveryByMethodId,
-  } = useCheckoutMethods()
+  } = useCheckoutPage()
   const [isOrderLoading, setOrderLoading] = useState(false)
   const {
     formData,
@@ -264,6 +265,16 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Delivery</Form.Legend>
         <Form.Fields>
+          <FormField
+            label="Country"
+            name="billing_country"
+            id="billing_country"
+            type="text"
+            value={formData.billing_country.value}
+            required={formData.billing_country.validation.required}
+            error={errors.billing_country}
+            onChange={setValue}
+          />
           <ChoiceGroup items={deliveryMethods} error={errors.deliveryMethodId}>
             {(method) => {
               return (

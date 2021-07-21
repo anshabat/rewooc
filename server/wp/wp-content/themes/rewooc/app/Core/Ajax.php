@@ -5,6 +5,7 @@ namespace Rewooc\Core;
 use Rewooc\Shop\Cart;
 use Rewooc\Shop\Checkout\CheckoutAPI;
 use Rewooc\Shop\Products;
+use Rewooc\Common\Region;
 
 class Ajax
 {
@@ -15,6 +16,7 @@ class Ajax
         'wc_ajax_rewooc_set_cat_product_quantity' => [self::class, 'setCartProductQuantity'],
         'wc_ajax_rewooc_get_common_data' => [View::class, 'renderCommonData'],
         'wc_ajax_rewooc_get_current_user' => [self::class, 'getCurrentUser'],
+        'wc_ajax_rewooc_fetch_countries' => [Region::class, 'fetchCountries'],
         'wc_ajax_rewooc_fetch_delivery_methods' => [CheckoutAPI::class, 'fetchDeliveryMethods'],
         'wc_ajax_rewooc_fetch_payment_gateways' => [CheckoutAPI::class, 'fetchPaymentGateways'],
         'wc_ajax_rewooc_post_order' => [CheckoutAPI::class, 'postOrder'],

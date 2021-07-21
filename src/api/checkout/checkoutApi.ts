@@ -1,4 +1,4 @@
-import { IDeliveryMethod, IPaymentMethod } from 'app-api'
+import { IDeliveryMethod, IPaymentMethod, IRegion } from 'app-api'
 import { instance } from '../instance'
 import { IResponseData } from '../types'
 import {
@@ -63,7 +63,25 @@ async function fetchPaymentMethods(): Promise<IPaymentMethod[]> {
   return methods
 }
 
+/**
+ * Fetch countries
+ */
+async function fetchCountries(): Promise<IRegion[]> {
+  const {
+    data: { success, data },
+  } = await instance.get<IResponseData<{ [key: string]: string }>>(
+    wcAjax('rewooc_fetch_countries')
+  )
+
+  if (!success || !data) {
+    throw new Error('Fail to fetch countries')
+  }
+
+  return Object.entries(data).map(([code, name]) => [name, code])
+}
+
 export default {
   fetchDeliveryMethods,
   fetchPaymentMethods,
+  fetchCountries,
 }

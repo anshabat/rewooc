@@ -48,6 +48,7 @@ const initialFormState = {
   deliveryMethodId: createField('', { required: true }),
   payment: createField('', { required: true }),
   ship_to_different_address: createField(false),
+  billing_country: createField('', { required: true }),
   shipping_first_name: createField(''),
   shipping_last_name: createField(''),
   order_note: createField(''),

@@ -47,3 +47,5 @@ export interface IPaymentMethod {
   description: string
   order: number
 }
+
+export type IRegion = [string, string]
