@@ -23,6 +23,7 @@ import { FormType, ValidationErrorType, validate } from 'app-services/form'
 import { useCheckoutPage } from '../../../../hooks/useCheckoutPage'
 import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
 import { ErrorMessage } from '../../../../shared/errorMessages'
+import SelectField from '../../../UI/Form/SelectField/SelectField'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -265,7 +266,7 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Delivery</Form.Legend>
         <Form.Fields>
-          <FormField
+          <SelectField
             label="Country"
             name="billing_country"
             id="billing_country"
@@ -274,6 +275,7 @@ const CheckoutForm: FC<IProps> = (props) => {
             required={formData.billing_country.validation.required}
             error={errors.billing_country}
             onChange={setValue}
+            options={countries}
           />
           <ChoiceGroup items={deliveryMethods} error={errors.deliveryMethodId}>
             {(method) => {
