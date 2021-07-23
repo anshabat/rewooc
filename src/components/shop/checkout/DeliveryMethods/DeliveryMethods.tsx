@@ -15,7 +15,7 @@ const DeliveryMethods: FC<IProps> = (props) => {
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
 
   useEffect(() => {
-    checkoutApi.fetchDeliveryMethods().then((delivery) => {
+    checkoutApi.fetchDeliveryMethods(formData.billing_country.value).then((delivery) => {
       setDeliveryMethods(delivery)
     })
     console.log(formData.billing_country)

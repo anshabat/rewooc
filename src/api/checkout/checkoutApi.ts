@@ -10,14 +10,18 @@ import { wcAjax } from '../endpoints'
 /**
  * Fetch delivery methods
  */
-async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
+async function fetchDeliveryMethods(
+  countryCode = ''
+): Promise<IDeliveryMethod[]> {
   const {
     data: { data, success },
   } = await instance.get<
     IResponseData<{
       [key: number]: IDeliveryMethodResponse
     }>
-  >(wcAjax('rewooc_fetch_delivery_methods'))
+  >(wcAjax('rewooc_fetch_delivery_methods'), {
+    params: { country: countryCode },
+  })
 
   if (!success) {
     throw new Error('Fail to fetch delivery methods')
