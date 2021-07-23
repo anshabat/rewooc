@@ -3,7 +3,6 @@ import React, {
   FC,
   FormEvent,
   FocusEvent,
-  useEffect,
   useState,
 } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -24,6 +23,7 @@ import { useCheckoutPage } from '../../../../hooks/useCheckoutPage'
 import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
 import { ErrorMessage } from '../../../../shared/errorMessages'
 import SelectField from '../../../UI/Form/SelectField/SelectField'
+import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -33,12 +33,7 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
-  const {
-    deliveryMethods,
-    paymentMethods,
-    countries,
-    getDeliveryByMethodId,
-  } = useCheckoutPage()
+  const { paymentMethods, countries } = useCheckoutPage()
   const [isOrderLoading, setOrderLoading] = useState(false)
   const {
     formData,
@@ -55,7 +50,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   const userId = user ? user.id : 0
 
   /* Update delivery */
-  if (typeof onUpdateDelivery === 'function') {
+  /*if (typeof onUpdateDelivery === 'function') {
     useEffect(() => {
       const currentDeliveryMethod = getDeliveryByMethodId(
         formData.deliveryMethodId.value
@@ -64,7 +59,7 @@ const CheckoutForm: FC<IProps> = (props) => {
         onUpdateDelivery(currentDeliveryMethod)
       }
     }, [formData.deliveryMethodId])
-  }
+  }*/
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -277,24 +272,16 @@ const CheckoutForm: FC<IProps> = (props) => {
             onChange={setValue}
             options={countries}
           />
-          <ChoiceGroup items={deliveryMethods} error={errors.deliveryMethodId}>
-            {(method) => {
-              return (
-                <ChoiceField
-                  key={method.id}
-                  label={`${method.title} ${method.cost}`}
-                  name="deliveryMethodId"
-                  type="radio"
-                  value={method.id}
-                  onChange={setValue}
-                  required={formData.deliveryMethodId.validation.required}
-                  checked={
-                    Number(formData.deliveryMethodId.value) === method.id
-                  }
-                />
-              )
+          <DeliveryMethods
+            formData={formData}
+            error={errors.deliveryMethodId}
+            onChange={(deliveryMethod, e: ChangeEvent<HTMLInputElement>) => {
+              setValue(e)
+              if (typeof onUpdateDelivery === 'function') {
+                onUpdateDelivery(deliveryMethod)
+              }
             }}
-          </ChoiceGroup>
+          />
         </Form.Fields>
       </Form.Fieldset>
 

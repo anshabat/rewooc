@@ -27,7 +27,7 @@ async function fetchDeliveryMethods(): Promise<IDeliveryMethod[]> {
     return {
       id: method.instance_id,
       title: method.title,
-      cost: Number(method.cost),
+      cost: Number(method.cost ?? 0),
       enabled: method.enabled,
       order: method.method_order,
     }
