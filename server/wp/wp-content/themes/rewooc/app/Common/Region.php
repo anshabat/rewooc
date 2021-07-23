@@ -9,7 +9,7 @@ class Region
     public static function fetchCountries()
     {
         $countries_obj = new \WC_Countries();
-        $countries = $countries_obj->__get('countries');
+        $countries = $countries_obj->get_shipping_countries();
         View::responseSuccess($countries);
     }
 }

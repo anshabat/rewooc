@@ -24,6 +24,23 @@ class CheckoutRepository
         return null;
     }
 
+    public static function getZoneByCountry($countryCode = "")
+    {
+        $zones = \WC_Shipping_Zones::get_zones();
+        if (empty($zones)) {
+            return 0;
+        }
+        foreach ($zones as $zone) {
+            $locations = $zone['zone_locations'];
+            foreach ($locations as $location) {
+                if ($location->code == $countryCode) {
+                    return $zone['id'];
+                }
+            }
+        }
+        return 0;
+    }
+
     public static function getPaymentGateways()
     {
         $order = (array)get_option('woocommerce_gateway_order');

@@ -8,7 +8,9 @@ class CheckoutAPI
 {
     public static function fetchDeliveryMethods()
     {
-        $deliveryMethods = CheckoutRepository::getDeliveryMethods();
+        $countryCode = sanitize_text_field($_GET['country']);
+        $zoneId = CheckoutRepository::getZoneByCountry($countryCode);
+        $deliveryMethods = CheckoutRepository::getDeliveryMethods($zoneId);
         View::responseSuccess($deliveryMethods);
     }
 
