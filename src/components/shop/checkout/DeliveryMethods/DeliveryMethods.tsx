@@ -8,17 +8,20 @@ interface IProps {
   formData: FormType
   onChange: (method: IDeliveryMethod, e: ChangeEvent<HTMLInputElement>) => void
   error: string
+  setField: any
 }
 
 const DeliveryMethods: FC<IProps> = (props) => {
-  const { formData, error, onChange } = props
+  const { formData, error, onChange, setField } = props
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
 
   useEffect(() => {
-    checkoutApi.fetchDeliveryMethods(formData.billing_country.value).then((delivery) => {
-      setDeliveryMethods(delivery)
-    })
-    console.log(formData.billing_country)
+    checkoutApi
+      .fetchDeliveryMethods(formData.billing_country.value)
+      .then((delivery) => {
+        setDeliveryMethods(delivery)
+        setField('deliveryMethodId', '')
+      })
   }, [formData.billing_country])
 
   return (

@@ -275,6 +275,7 @@ const CheckoutForm: FC<IProps> = (props) => {
           <DeliveryMethods
             formData={formData}
             error={errors.deliveryMethodId}
+            setField={setField}
             onChange={(deliveryMethod, e: ChangeEvent<HTMLInputElement>) => {
               setValue(e)
               if (typeof onUpdateDelivery === 'function') {
