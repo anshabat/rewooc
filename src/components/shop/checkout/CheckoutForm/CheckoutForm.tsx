@@ -12,12 +12,11 @@ import { signIn } from '../../../../redux/auth/authActions'
 import { clearCart } from '../../../../redux/cart/cartActions'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
 import { FormType, ValidationErrorType, validate } from 'app-services/form'
-import { useCheckoutPage } from '../../../../hooks/useCheckoutPage'
 import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
 import { ErrorMessage } from '../../../../shared/errorMessages'
-import SelectField from '../../../UI/Form/SelectField/SelectField'
 import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
 import PaymentMethods from '../PaymentMethods/PaymentMethods'
+import CountryField from '../CountryField/CountryField'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -27,7 +26,6 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
-  const { countries } = useCheckoutPage()
   const [isOrderLoading, setOrderLoading] = useState(false)
   const {
     formData,
@@ -243,16 +241,10 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Delivery</Form.Legend>
         <Form.Fields>
-          <SelectField
-            label="Country"
-            name="billing_country"
-            id="billing_country"
-            type="text"
-            value={formData.billing_country.value}
-            required={formData.billing_country.validation.required}
+          <CountryField
+            formData={formData}
             error={errors.billing_country}
             onChange={setValue}
-            options={countries}
           />
           <DeliveryMethods
             formData={formData}
