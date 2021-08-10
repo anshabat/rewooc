@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react'
-import { checkoutApi, IPaymentMethod, IRegion } from 'app-api'
+import { checkoutApi, IRegion } from 'app-api'
 
 interface IUseCheckoutMethods {
-  paymentMethods: IPaymentMethod[]
   countries: IRegion[]
 }
 
 export function useCheckoutPage(): IUseCheckoutMethods {
-  const [paymentMethods, setPaymentMethods] = useState<IPaymentMethod[]>([])
   const [countries, setCountries] = useState<IRegion[]>([])
 
   useEffect(() => {
-    Promise.all([
-      checkoutApi.fetchPaymentMethods(),
-      checkoutApi.fetchCountries(),
-    ])
-      .then(([payment, countries]) => {
-        setPaymentMethods(payment)
+    Promise.all([checkoutApi.fetchCountries()])
+      .then(([countries]) => {
         setCountries(countries)
       })
       .catch((error) => {
@@ -25,7 +19,6 @@ export function useCheckoutPage(): IUseCheckoutMethods {
   }, [])
 
   return {
-    paymentMethods,
     countries,
   }
 }

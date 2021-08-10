@@ -24,6 +24,10 @@ const DeliveryMethods: FC<IProps> = (props) => {
       })
   }, [formData.billing_country])
 
+  if (!deliveryMethods.length) {
+    return null
+  }
+
   return (
     <ChoiceGroup items={deliveryMethods} error={error}>
       {(method) => {

@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  FC,
-  FormEvent,
-  FocusEvent,
-  useState,
-} from 'react'
+import React, { ChangeEvent, FC, FormEvent, FocusEvent, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '../../../UI/Button/Button'
 import { orderApi, IDeliveryMethod, authApi } from 'app-api'
@@ -12,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectCartItems } from '../../../../redux/cart/cartSelectors'
 import FormField from '../../../UI/Form/FormField/FormField'
 import Form from '../../../UI/Form/Form'
-import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import { selectAccountUser } from '../../../../redux/account/accountSelector'
 import { signIn } from '../../../../redux/auth/authActions'
@@ -24,6 +17,7 @@ import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
 import { ErrorMessage } from '../../../../shared/errorMessages'
 import SelectField from '../../../UI/Form/SelectField/SelectField'
 import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
+import PaymentMethods from '../PaymentMethods/PaymentMethods'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -33,7 +27,7 @@ interface IProps {
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
   const cartItems = useSelector(selectCartItems)
-  const { paymentMethods, countries } = useCheckoutPage()
+  const { countries } = useCheckoutPage()
   const [isOrderLoading, setOrderLoading] = useState(false)
   const {
     formData,
@@ -48,18 +42,6 @@ const CheckoutForm: FC<IProps> = (props) => {
   const history = useHistory()
 
   const userId = user ? user.id : 0
-
-  /* Update delivery */
-  /*if (typeof onUpdateDelivery === 'function') {
-    useEffect(() => {
-      const currentDeliveryMethod = getDeliveryByMethodId(
-        formData.deliveryMethodId.value
-      )
-      if (currentDeliveryMethod) {
-        onUpdateDelivery(currentDeliveryMethod)
-      }
-    }, [formData.deliveryMethodId])
-  }*/
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -289,22 +271,13 @@ const CheckoutForm: FC<IProps> = (props) => {
       <Form.Fieldset>
         <Form.Legend>Payment</Form.Legend>
         <Form.Fields>
-          <ChoiceGroup items={paymentMethods} error={errors.payment}>
-            {(method) => {
-              return (
-                <ChoiceField
-                  key={method.id}
-                  label={method.title}
-                  name="payment"
-                  type="radio"
-                  value={method.id}
-                  onChange={setValue}
-                  required={formData.payment.validation.required}
-                  checked={formData.payment.value === method.id}
-                />
-              )
+          <PaymentMethods
+            error={errors.payment}
+            formData={formData}
+            onChange={(paymentMethod, e: ChangeEvent<HTMLInputElement>) => {
+              setValue(e)
             }}
-          </ChoiceGroup>
+          />
         </Form.Fields>
       </Form.Fieldset>
       <Form.Fieldset>
