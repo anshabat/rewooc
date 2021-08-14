@@ -12,7 +12,7 @@ interface IUseCheckout {
   delivery: IDeliveryMethod | null
 }
 
-export function useCheckout(): IUseCheckout {
+export function useCheckoutPage(): IUseCheckout {
   const cartItemsQuantity = useSelector(selectCartTotalQuantity)
   const cartItemsTotal = useSelector(selectCartTotalPrice)
   const [total, setTotal] = useState<number | null>(null)

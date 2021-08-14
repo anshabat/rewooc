@@ -3,10 +3,10 @@ import React from 'react'
 import Content from '../../components/Layout/Content/Content'
 import CheckoutForm from '../../components/shop/checkout/CheckoutForm/CheckoutForm'
 import CheckoutTotals from '../../components/shop/checkout/CheckoutTotals/CheckoutTotals'
-import { useCheckout } from '../../hooks/useCheckout'
+import { useCheckoutPage } from '../../hooks/useCheckoutPage'
 
 const Checkout: React.FC = () => {
-  const { total, delivery, setDeliveryMethod } = useCheckout()
+  const { total, delivery, setDeliveryMethod } = useCheckoutPage()
 
   return (
     <Content title="Checkout">
