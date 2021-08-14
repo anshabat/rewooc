@@ -33,7 +33,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     setField,
     toggleSignUp,
     toggleRecipient,
-    chooseCountry,
+    loadDeliveryMethods,
   } = useCheckoutReducer()
   const [errors, setErrors] = useState<ValidationErrorType>({})
   const user = useSelector(selectAccountUser)
@@ -91,7 +91,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     setOrderLoading(false)
   }
 
-  const setValue = (e: ChangeEvent<HTMLInputElement>) => {
+  const setValue = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const name = e.target.name
     const value = e.target.value
     setField(name, value)
@@ -247,14 +247,14 @@ const CheckoutForm: FC<IProps> = (props) => {
           <CountryField
             formData={formData}
             error={errors.billing_country}
-            onChange={chooseCountry}
+            onChange={setValue}
           />
           {formData.billing_country.value ? (
             <DeliveryMethods
               formData={formData}
               error={errors.deliveryMethodId}
               onLoad={(deliveryMethods) => {
-                console.log(deliveryMethods, 'lala')
+                loadDeliveryMethods(deliveryMethods.length)
                 setField('deliveryMethodId', '')
               }}
               onChange={(deliveryMethod, e: ChangeEvent<HTMLInputElement>) => {

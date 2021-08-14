@@ -5,7 +5,7 @@ type SetFieldType = (name: string, value: string | number | boolean) => void
 type ToggleRecipientType = (e: ChangeEvent<HTMLFormElement>) => void
 type ToggleSignUpType = (e: ChangeEvent<HTMLFormElement>) => void
 type ClearFormType = () => void
-type ChooseCountryType = (e: ChangeEvent<HTMLSelectElement>) => void
+type LoadDeliveryMethodsType = (length: number) => void
 
 interface IUseCheckoutForm {
   formData: FormType
@@ -13,7 +13,7 @@ interface IUseCheckoutForm {
   toggleRecipient: ToggleRecipientType
   toggleSignUp: ToggleSignUpType
   clearForm: ClearFormType
-  chooseCountry: ChooseCountryType
+  loadDeliveryMethods: LoadDeliveryMethodsType
 }
 
 interface ISetFieldAction {
@@ -32,9 +32,9 @@ interface IToggleSignUpAction {
   checked: boolean
 }
 
-interface ChooseCountryAction {
-  type: 'CHOOSE_COUNTRY'
-  value: string
+interface LoadDeliveryAction {
+  type: 'LOAD_DELIVERY_METHODS'
+  length: number
 }
 
 interface IClearFormAction {
@@ -46,7 +46,7 @@ type ActionType =
   | IToggleRecipientAction
   | IToggleSignUpAction
   | IClearFormAction
-  | ChooseCountryAction
+  | LoadDeliveryAction
 
 const initialFormState = {
   billing_first_name: createField('', { required: true }),
@@ -115,17 +115,15 @@ const formReducer = (state: FormType, action: ActionType) => {
         ),
       }
     }
-    case 'CHOOSE_COUNTRY': {
-      const { value } = action
-      console.log(value)
+    case 'LOAD_DELIVERY_METHODS': {
+      const { length } = action
       return {
         ...state,
-        billing_country: { ...state.billing_country, value: value },
         deliveryMethodId: {
           ...state.deliveryMethodId,
           validation: {
             ...state.deliveryMethodId.validation,
-            required: Boolean(value),
+            required: Boolean(length),
           },
         },
       }
@@ -157,8 +155,8 @@ export function useCheckoutReducer(): IUseCheckoutForm {
     dispatch({ type: 'TOGGLE_SIGN_UP', checked: e.target.checked })
   }
 
-  const chooseCountry: ChooseCountryType = (e) => {
-    dispatch({ type: 'CHOOSE_COUNTRY', value: e.target.value })
+  const loadDeliveryMethods: LoadDeliveryMethodsType = (length) => {
+    dispatch({ type: 'LOAD_DELIVERY_METHODS', length })
   }
 
   return {
@@ -167,6 +165,6 @@ export function useCheckoutReducer(): IUseCheckoutForm {
     toggleRecipient,
     toggleSignUp,
     clearForm,
-    chooseCountry,
+    loadDeliveryMethods,
   }
 }
