@@ -33,6 +33,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     setField,
     toggleSignUp,
     toggleRecipient,
+    chooseCountry
   } = useCheckoutReducer()
   const [errors, setErrors] = useState<ValidationErrorType>({})
   const user = useSelector(selectAccountUser)
@@ -107,6 +108,8 @@ const CheckoutForm: FC<IProps> = (props) => {
       setErrors({})
     }
   }
+
+  console.log(formData)
 
   return (
     <Form onSubmit={submitForm} loading={isOrderLoading}>
@@ -244,7 +247,7 @@ const CheckoutForm: FC<IProps> = (props) => {
           <CountryField
             formData={formData}
             error={errors.billing_country}
-            onChange={setValue}
+            onChange={chooseCountry}
           />
           <DeliveryMethods
             formData={formData}

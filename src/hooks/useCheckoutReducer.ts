@@ -5,6 +5,7 @@ type SetFieldType = (name: string, value: string | number | boolean) => void
 type ToggleRecipientType = (e: ChangeEvent<HTMLFormElement>) => void
 type ToggleSignUpType = (e: ChangeEvent<HTMLFormElement>) => void
 type ClearFormType = () => void
+type ChooseCountryType = (e: ChangeEvent<HTMLSelectElement>) => void
 
 interface IUseCheckoutForm {
   formData: FormType
@@ -12,6 +13,7 @@ interface IUseCheckoutForm {
   toggleRecipient: ToggleRecipientType
   toggleSignUp: ToggleSignUpType
   clearForm: ClearFormType
+  chooseCountry: ChooseCountryType
 }
 
 interface ISetFieldAction {
@@ -30,6 +32,11 @@ interface IToggleSignUpAction {
   checked: boolean
 }
 
+interface ChooseCountryAction {
+  type: 'CHOOSE_COUNTRY'
+  value: string
+}
+
 interface IClearFormAction {
   type: 'CLEAR_FORM'
 }
@@ -39,13 +46,14 @@ type ActionType =
   | IToggleRecipientAction
   | IToggleSignUpAction
   | IClearFormAction
+  | ChooseCountryAction
 
 const initialFormState = {
   billing_first_name: createField('', { required: true }),
   billing_last_name: createField('', { required: true }),
   billing_phone: createField('', { required: true, phone: true }),
   billing_email: createField('', { email: true }),
-  deliveryMethodId: createField('', { required: true }),
+  deliveryMethodId: createField(''),
   payment: createField('', { required: true }),
   ship_to_different_address: createField(false),
   billing_country: createField('', { required: true }),
@@ -107,6 +115,21 @@ const formReducer = (state: FormType, action: ActionType) => {
         ),
       }
     }
+    case 'CHOOSE_COUNTRY': {
+      const { value } = action
+      console.log(value)
+      return {
+        ...state,
+        billing_country: { ...state.billing_country, value: value },
+        deliveryMethodId: {
+          ...state.deliveryMethodId,
+          validation: {
+            ...state.deliveryMethodId.validation,
+            required: Boolean(value),
+          },
+        },
+      }
+    }
     case 'CLEAR_FORM': {
       return initialFormState
     }
@@ -134,11 +157,16 @@ export function useCheckoutReducer(): IUseCheckoutForm {
     dispatch({ type: 'TOGGLE_SIGN_UP', checked: e.target.checked })
   }
 
+  const chooseCountry: ChooseCountryType = (e) => {
+    dispatch({ type: 'CHOOSE_COUNTRY', value: e.target.value })
+  }
+
   return {
     formData,
     setField,
     toggleRecipient,
     toggleSignUp,
     clearForm,
+    chooseCountry,
   }
 }
