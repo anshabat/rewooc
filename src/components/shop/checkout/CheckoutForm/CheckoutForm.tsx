@@ -33,7 +33,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     setField,
     toggleSignUp,
     toggleRecipient,
-    chooseCountry
+    chooseCountry,
   } = useCheckoutReducer()
   const [errors, setErrors] = useState<ValidationErrorType>({})
   const user = useSelector(selectAccountUser)
@@ -249,17 +249,24 @@ const CheckoutForm: FC<IProps> = (props) => {
             error={errors.billing_country}
             onChange={chooseCountry}
           />
-          <DeliveryMethods
-            formData={formData}
-            error={errors.deliveryMethodId}
-            setField={setField}
-            onChange={(deliveryMethod, e: ChangeEvent<HTMLInputElement>) => {
-              setValue(e)
-              if (typeof onUpdateDelivery === 'function') {
-                onUpdateDelivery(deliveryMethod)
-              }
-            }}
-          />
+          {formData.billing_country.value ? (
+            <DeliveryMethods
+              formData={formData}
+              error={errors.deliveryMethodId}
+              onLoad={(deliveryMethods) => {
+                console.log(deliveryMethods, 'lala')
+                setField('deliveryMethodId', '')
+              }}
+              onChange={(deliveryMethod, e: ChangeEvent<HTMLInputElement>) => {
+                setValue(e)
+                if (typeof onUpdateDelivery === 'function') {
+                  onUpdateDelivery(deliveryMethod)
+                }
+              }}
+            />
+          ) : (
+            <p>Choose the country before delivery methods</p>
+          )}
         </Form.Fields>
       </Form.Fieldset>
 

@@ -8,24 +8,24 @@ interface IProps {
   formData: FormType
   onChange: (method: IDeliveryMethod, e: ChangeEvent<HTMLInputElement>) => void
   error: string
-  setField: any
+  onLoad: (methods: IDeliveryMethod[]) => void
 }
 
 const DeliveryMethods: FC<IProps> = (props) => {
-  const { formData, error, onChange, setField } = props
+  const { formData, error, onChange, onLoad } = props
   const [deliveryMethods, setDeliveryMethods] = useState<IDeliveryMethod[]>([])
 
   useEffect(() => {
     checkoutApi
       .fetchDeliveryMethods(formData.billing_country.value)
-      .then((delivery) => {
-        setDeliveryMethods(delivery)
-        setField('deliveryMethodId', '')
+      .then((methods) => {
+        setDeliveryMethods(methods)
+        onLoad(methods)
       })
   }, [formData.billing_country])
 
   if (!deliveryMethods.length) {
-    return null
+    return <p>There are no available delivery methods</p>
   }
 
   return (
