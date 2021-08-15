@@ -1,9 +1,9 @@
 import { IFormField, ValidationErrorType, ValidationRulesType } from './types'
 
-export function createField<T>(
+export function createField<T, P = string>(
   value: T,
-  validation: ValidationRulesType = {}
-): IFormField<T> {
+  validation: ValidationRulesType<P> = {}
+): IFormField<T, P> {
   return {
     value,
     validation,

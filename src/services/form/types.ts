@@ -1,17 +1,13 @@
-import { CheckoutFormType } from '../../hooks/useCheckoutReducer'
-
-export interface IFormField<T> {
+export interface IFormField<T, P = string> {
   value: T
-  validation: ValidationRulesType
+  validation: ValidationRulesType<P>
 }
-
-//export type FormType = { [key: string]: IFormField<any> }
 
 export type ValidationErrorType = { [key: string]: string }
 
-export type ValidationRulesType = Partial<{
+export type ValidationRulesType<T = string> = Partial<{
   required: boolean
   email: boolean
   phone: boolean
-  equal: keyof CheckoutFormType
+  equal: T
 }>

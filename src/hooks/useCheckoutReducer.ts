@@ -51,6 +51,8 @@ type ActionType =
   | IClearFormAction
   | LoadDeliveryAction
 
+type ICheckoutFormField<T> = IFormField<T, keyof CheckoutFormType>
+
 export type CheckoutFormType = {
   billing_first_name: IFormField<string>
   billing_last_name: IFormField<string>
@@ -64,7 +66,7 @@ export type CheckoutFormType = {
   shipping_last_name: IFormField<string>
   order_note: IFormField<string>
   sign_up: IFormField<boolean>
-  account_password: IFormField<string>
+  account_password: ICheckoutFormField<string>
   account_password_repeat: IFormField<string>
 }
 
