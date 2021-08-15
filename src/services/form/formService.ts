@@ -1,9 +1,4 @@
-import {
-  IFormField,
-  ValidationErrorType,
-  ValidationRulesType,
-} from './types'
-import { CheckoutFormType } from '../../hooks/useCheckoutReducer'
+import { IFormField, ValidationErrorType, ValidationRulesType } from './types'
 
 export function createField<T>(
   value: T,
@@ -15,9 +10,9 @@ export function createField<T>(
   }
 }
 
-export const validate = (
-  formData: CheckoutFormType
-): [boolean, ValidationErrorType] => {
+export function validate<
+  T extends { [key: string]: IFormField<number | string | boolean> }
+>(formData: T): [boolean, ValidationErrorType] {
   const errors = Object.entries(formData).reduce<ValidationErrorType>(
     (result, field) => {
       const [key, data] = field
