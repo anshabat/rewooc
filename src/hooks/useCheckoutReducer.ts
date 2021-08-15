@@ -52,23 +52,23 @@ type ActionType =
   | LoadDeliveryAction
 
 export type CheckoutFormType = {
-  billing_first_name: IFormField<any>
-  billing_last_name: IFormField<any>
-  billing_phone: IFormField<any>
-  billing_email: IFormField<any>
-  deliveryMethodId: IFormField<any>
-  payment: IFormField<any>
-  ship_to_different_address: IFormField<any>
-  billing_country: IFormField<any>
-  shipping_first_name: IFormField<any>
-  shipping_last_name: IFormField<any>
-  order_note: IFormField<any>
-  sign_up: IFormField<any>
-  account_password: IFormField<any>
-  account_password_repeat: IFormField<any>
+  billing_first_name: IFormField<string>
+  billing_last_name: IFormField<string>
+  billing_phone: IFormField<string>
+  billing_email: IFormField<string>
+  deliveryMethodId: IFormField<string>
+  payment: IFormField<string>
+  ship_to_different_address: IFormField<boolean>
+  billing_country: IFormField<string>
+  shipping_first_name: IFormField<string>
+  shipping_last_name: IFormField<string>
+  order_note: IFormField<string>
+  sign_up: IFormField<boolean>
+  account_password: IFormField<string>
+  account_password_repeat: IFormField<string>
 }
 
-const initialFormState = {
+const initialFormState: CheckoutFormType = {
   billing_first_name: createField('', { required: true }),
   billing_last_name: createField('', { required: true }),
   billing_phone: createField('', { required: true, phone: true }),
