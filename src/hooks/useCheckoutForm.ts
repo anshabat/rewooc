@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { FormType, validate, ValidationErrorType } from 'app-services/form'
+import { validate, ValidationErrorType } from 'app-services/form'
 import { authApi, orderApi } from 'app-api'
 import { ErrorMessage } from '../shared/errorMessages'
 import { signIn } from '../redux/auth/authActions'
@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectCartItems } from '../redux/cart/cartSelectors'
 import { useHistory } from 'react-router-dom'
 import { selectAccountUserId } from '../redux/account/accountSelector'
+import { CheckoutFormType } from './useCheckoutReducer'
 
-export const useCheckoutForm = (formData: FormType, onClear: () => void) => {
+export const useCheckoutForm = (formData: CheckoutFormType, onClear: () => void) => {
   const [isOrderLoading, setOrderLoading] = useState(false)
   const [errors, setErrors] = useState<ValidationErrorType>({})
   const cartItems = useSelector(selectCartItems)

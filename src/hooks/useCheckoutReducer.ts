@@ -1,14 +1,17 @@
-import { createField, FormType } from 'app-services/form'
+import { createField, IFormField } from 'app-services/form'
 import { ChangeEvent, useReducer } from 'react'
 
-type SetFieldType = (name: string, value: string | number | boolean) => void
+type SetFieldType = (
+  name: keyof CheckoutFormType,
+  value: string | number | boolean
+) => void
 type ToggleRecipientType = (e: ChangeEvent<HTMLFormElement>) => void
 type ToggleSignUpType = (e: ChangeEvent<HTMLFormElement>) => void
 type ClearFormType = () => void
 type LoadDeliveryMethodsType = (length: number) => void
 
 interface IUseCheckoutForm {
-  formData: FormType
+  formData: CheckoutFormType
   setField: SetFieldType
   toggleRecipient: ToggleRecipientType
   toggleSignUp: ToggleSignUpType
@@ -18,7 +21,7 @@ interface IUseCheckoutForm {
 
 interface ISetFieldAction {
   type: 'SET_FIELD'
-  name: string
+  name: keyof CheckoutFormType
   value: string | number | boolean
 }
 
@@ -48,6 +51,23 @@ type ActionType =
   | IClearFormAction
   | LoadDeliveryAction
 
+export type CheckoutFormType = {
+  billing_first_name: IFormField<any>
+  billing_last_name: IFormField<any>
+  billing_phone: IFormField<any>
+  billing_email: IFormField<any>
+  deliveryMethodId: IFormField<any>
+  payment: IFormField<any>
+  ship_to_different_address: IFormField<any>
+  billing_country: IFormField<any>
+  shipping_first_name: IFormField<any>
+  shipping_last_name: IFormField<any>
+  order_note: IFormField<any>
+  sign_up: IFormField<any>
+  account_password: IFormField<any>
+  account_password_repeat: IFormField<any>
+}
+
 const initialFormState = {
   billing_first_name: createField('', { required: true }),
   billing_last_name: createField('', { required: true }),
@@ -65,7 +85,7 @@ const initialFormState = {
   account_password_repeat: createField(''),
 }
 
-const formReducer = (state: FormType, action: ActionType) => {
+const formReducer = (state: CheckoutFormType, action: ActionType) => {
   switch (action.type) {
     case 'SET_FIELD': {
       const { name, value } = action

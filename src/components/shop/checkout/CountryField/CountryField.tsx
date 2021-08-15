@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import SelectField from '../../../UI/Form/SelectField/SelectField'
-import { FormType } from 'app-services/form'
 import { checkoutApi, IRegion } from 'app-api'
+import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
 
 interface IProps {
-  formData: FormType
+  formData: CheckoutFormType
   error: string
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void
 }

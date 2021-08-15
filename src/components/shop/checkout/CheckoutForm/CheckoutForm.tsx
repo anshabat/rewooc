@@ -7,8 +7,7 @@ import Form from '../../../UI/Form/Form'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import { selectAccountUserId } from '../../../../redux/account/accountSelector'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
-import { FormType } from 'app-services/form'
-import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
+import { CheckoutFormType, useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
 import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
 import PaymentMethods from '../PaymentMethods/PaymentMethods'
 import CountryField from '../CountryField/CountryField'
@@ -16,7 +15,7 @@ import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
-  onCreateOrder?: (orderData: FormType) => void
+  onCreateOrder?: (orderData: CheckoutFormType) => void
 }
 
 const CheckoutForm: FC<IProps> = (props) => {
@@ -38,7 +37,7 @@ const CheckoutForm: FC<IProps> = (props) => {
   )
 
   const setValue = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const name = e.target.name
+    const name = e.target.name as keyof CheckoutFormType
     const value = e.target.value
     setField(name, value)
   }

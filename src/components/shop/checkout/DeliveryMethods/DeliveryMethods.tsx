@@ -2,10 +2,10 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
 import { checkoutApi, IDeliveryMethod } from 'app-api'
-import { FormType } from 'app-services/form'
+import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
 
 interface IProps {
-  formData: FormType
+  formData: CheckoutFormType
   onChange: (method: IDeliveryMethod, e: ChangeEvent<HTMLInputElement>) => void
   error: string
   onLoad: (methods: IDeliveryMethod[]) => void

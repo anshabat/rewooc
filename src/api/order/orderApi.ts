@@ -3,7 +3,7 @@ import { wcAjax } from '../endpoints'
 import { ICartItem } from '../cart/cartTypes'
 import { IResponseData } from '../types'
 import { IOrderRequest } from 'app-api'
-import { FormType } from 'app-services/form'
+import { CheckoutFormType } from '../../hooks/useCheckoutReducer'
 
 /**
  * Create new order
@@ -15,7 +15,7 @@ interface INewOrderResponse {
 }
 
 async function createOrder(
-  formData: FormType,
+  formData: CheckoutFormType,
   cartItems: ICartItem[],
   userId: number
 ): Promise<INewOrderResponse> {

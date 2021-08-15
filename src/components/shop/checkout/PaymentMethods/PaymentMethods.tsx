@@ -1,11 +1,11 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
-import { FormType } from 'app-services/form'
 import { checkoutApi, IPaymentMethod } from 'app-api'
+import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
 
 interface IProps {
-  formData: FormType
+  formData: CheckoutFormType
   onChange: (method: IPaymentMethod, e: ChangeEvent<HTMLInputElement>) => void
   error: string
 }
