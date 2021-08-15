@@ -1,22 +1,18 @@
-import React, { ChangeEvent, FC, FormEvent, FocusEvent, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { ChangeEvent, FC, FocusEvent } from 'react'
 import Button from '../../../UI/Button/Button'
-import { orderApi, IDeliveryMethod, authApi } from 'app-api'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectCartItems } from '../../../../redux/cart/cartSelectors'
+import { IDeliveryMethod } from 'app-api'
+import { useSelector } from 'react-redux'
 import FormField from '../../../UI/Form/FormField/FormField'
 import Form from '../../../UI/Form/Form'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
-import { selectAccountUser } from '../../../../redux/account/accountSelector'
-import { signIn } from '../../../../redux/auth/authActions'
-import { clearCart } from '../../../../redux/cart/cartActions'
+import { selectAccountUserId } from '../../../../redux/account/accountSelector'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
-import { FormType, ValidationErrorType, validate } from 'app-services/form'
+import { FormType } from 'app-services/form'
 import { useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
-import { ErrorMessage } from '../../../../shared/errorMessages'
 import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
 import PaymentMethods from '../PaymentMethods/PaymentMethods'
 import CountryField from '../CountryField/CountryField'
+import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -25,8 +21,6 @@ interface IProps {
 
 const CheckoutForm: FC<IProps> = (props) => {
   const { onUpdateDelivery } = props
-  const cartItems = useSelector(selectCartItems)
-  const [isOrderLoading, setOrderLoading] = useState(false)
   const {
     formData,
     clearForm,
@@ -35,81 +29,19 @@ const CheckoutForm: FC<IProps> = (props) => {
     toggleRecipient,
     loadDeliveryMethods,
   } = useCheckoutReducer()
-  const [errors, setErrors] = useState<ValidationErrorType>({})
-  const user = useSelector(selectAccountUser)
-  const dispatch = useDispatch()
-  const history = useHistory()
-
-  const userId = user ? user.id : 0
-
-  const submitForm = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    const [hasErrors, formErrors] = validate(formData)
-    setErrors(formErrors)
-    if (hasErrors) {
-      return
+  const userId = useSelector(selectAccountUserId)
+  const { isOrderLoading, errors, validateEmail, submitForm } = useCheckoutForm(
+    formData,
+    () => {
+      clearForm()
     }
-
-    if (cartItems.length === 0) {
-      alert('No items in the cart')
-      return
-    }
-
-    setOrderLoading(true)
-
-    try {
-      let emailExists = false
-      if (formData.sign_up.value) {
-        emailExists = await authApi.checkEmail(formData.billing_email.value)
-      }
-
-      if (emailExists) {
-        setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
-      } else {
-        const orderData = await orderApi.createOrder(
-          formData,
-          cartItems,
-          userId
-        )
-        if (orderData.user && !userId) {
-          dispatch(
-            signIn(
-              formData.billing_email.value,
-              formData.account_password.value
-            )
-          )
-        }
-        dispatch(clearCart())
-        clearForm()
-        history.push(`/my-account/view-order/${orderData.order}`)
-      }
-    } catch (error) {
-      alert(error.message)
-    }
-
-    setOrderLoading(false)
-  }
+  )
 
   const setValue = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const name = e.target.name
     const value = e.target.value
     setField(name, value)
   }
-
-  const validateEmail = async (email: string, shouldCheck: boolean) => {
-    let emailExists = false
-    if (shouldCheck) {
-      emailExists = await authApi.checkEmail(email)
-    }
-    if (emailExists) {
-      setErrors({ billing_email: ErrorMessage.EMAIL_ALREADY_EXISTS })
-    } else {
-      setErrors({})
-    }
-  }
-
-  console.log(formData)
 
   return (
     <Form onSubmit={submitForm} loading={isOrderLoading}>

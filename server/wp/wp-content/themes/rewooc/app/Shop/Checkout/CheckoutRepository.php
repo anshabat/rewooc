@@ -121,7 +121,8 @@ class CheckoutRepository
         }
 
         /* Add Shipping Method to Order */
-        $shippingMethod = CheckoutRepository::getDeliveryMethodById($data->delivery);
+        $shippingZoneId = $data->billing->country ? CheckoutRepository::getZoneByCountry($data->billing->country) : 0;
+        $shippingMethod = CheckoutRepository::getDeliveryMethodById($data->delivery, $shippingZoneId);
         $item = new \WC_Order_Item_Shipping();
         $item->set_props(
             array(

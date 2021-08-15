@@ -45,6 +45,7 @@ async function createOrder(
       last_name: formData.billing_last_name.value,
       phone: formData.billing_phone.value,
       email: formData.billing_email.value,
+      country: formData.billing_country.value,
     },
     delivery: formData.deliveryMethodId.value,
     payment: formData.payment.value,
