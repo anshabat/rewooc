@@ -47,6 +47,10 @@ export const useCheckoutForm = (formData: FormType, onClear: () => void) => {
           cartItems,
           userId
         )
+
+        dispatch(clearCart())
+        onClear()
+
         if (orderData.user && !userId) {
           dispatch(
             signIn(
@@ -55,9 +59,8 @@ export const useCheckoutForm = (formData: FormType, onClear: () => void) => {
             )
           )
         }
-        dispatch(clearCart())
-        onClear()
-        history.push(`/my-account/view-order/${orderData.order}`)
+
+        return history.push(`/my-account/view-order/${orderData.order}`)
       }
     } catch (error) {
       alert(error.message)
