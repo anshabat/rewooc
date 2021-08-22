@@ -5,6 +5,7 @@ export interface IOrderRequest {
     phone: string
     email: string
     country: string
+    address: string
   }
   shipping: {
     first_name: string

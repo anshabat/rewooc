@@ -58,6 +58,7 @@ export type CheckoutFormType = {
   billing_last_name: IFormField<string>
   billing_phone: IFormField<string>
   billing_email: IFormField<string>
+  billing_address: IFormField<string>
   deliveryMethodId: IFormField<string>
   payment: IFormField<string>
   ship_to_different_address: IFormField<boolean>
@@ -75,6 +76,7 @@ const initialFormState: CheckoutFormType = {
   billing_last_name: createField('', { required: true }),
   billing_phone: createField('', { required: true, phone: true }),
   billing_email: createField('', { email: true }),
+  billing_address: createField(''),
   deliveryMethodId: createField(''),
   payment: createField('', { required: true }),
   ship_to_different_address: createField(false),

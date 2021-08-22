@@ -46,6 +46,8 @@ const CheckoutForm: FC<IProps> = (props) => {
     setField(name, value)
   }
 
+  console.log(formData.billing_address.value)
+
   return (
     <Form onSubmit={submitForm} loading={isOrderLoading}>
       <Form.Fieldset>
@@ -204,7 +206,13 @@ const CheckoutForm: FC<IProps> = (props) => {
           )}
         </Form.Fields>
         <div>
-        <AddressDelivery />
+          <AddressDelivery
+            formData={formData}
+            error={errors.billing_address}
+            onAddressInput={(value) => {
+              setField('billing_address', value)
+            }}
+          />
         </div>
       </Form.Fieldset>
 

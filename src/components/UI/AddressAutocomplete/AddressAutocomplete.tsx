@@ -1,20 +1,25 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { ILocation } from 'app-types'
+import FormField from '../Form/FormField/FormField'
+import { CheckoutFormType } from '../../../hooks/useCheckoutReducer'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const google = window.google
 
 interface IProps {
+  formData: CheckoutFormType
+  error: string
+  onChangeAddress: (value: string) => void
   onSelect: (location: ILocation | null) => void
 }
 
 const AddressAutocomplete: FC<IProps> = (props) => {
-  const { onSelect } = props
-  const [value, setValue] = useState('')
+  const { onSelect, formData, error, onChangeAddress } = props
+  const value = formData.billing_address.value
   const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
-    const input = document.getElementById('pac-input')
+    const input = document.getElementById('billing_address')
     const options = {
       componentRestrictions: { country: 'ua' },
       fields: ['geometry', 'icon', 'name'],
@@ -23,7 +28,7 @@ const AddressAutocomplete: FC<IProps> = (props) => {
     const autocomplete = new google.maps.places.Autocomplete(input, options)
     autocomplete.addListener('place_changed', () => {
       const { geometry } = autocomplete.getPlace()
-      setValue(inputRef.current?.value ?? value)
+      onChangeAddress(inputRef.current?.value ?? value)
       if (!geometry?.location) {
         return onSelect(null)
       }
@@ -36,15 +41,18 @@ const AddressAutocomplete: FC<IProps> = (props) => {
 
   return (
     <div>
-      <input
+      <FormField
+        label="Address"
+        name="billing_address"
+        id="billing_address"
         type="text"
-        id="pac-input"
-        style={{ width: '100%', padding: '5px 10px' }}
         value={value}
+        required={formData.billing_address.validation.required}
+        error={error}
         onChange={(e) => {
-          setValue(e.target.value)
+          onChangeAddress(e.target?.value ?? '')
         }}
-        ref={inputRef}
+        elementRef={inputRef}
       />
     </div>
   )
