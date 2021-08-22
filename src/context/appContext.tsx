@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { IGeneralData } from 'app-data'
+import { IGeneralData } from 'app-api'
 
 export type AppContextType = Omit<IGeneralData, 'cart' | 'user'>
 const AppContext = React.createContext<AppContextType | null>(null)

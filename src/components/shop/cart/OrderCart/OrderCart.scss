@@ -1,0 +1,31 @@
+.rw-order-cart {
+  &__item {
+    display: grid;
+    grid-template-columns: 65px 1fr max-content;
+    grid-gap: 10px;
+
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__image {
+    grid-row-start: span 3;
+  }
+
+  &__quantity {
+    grid-column-start: span 2;
+    display: flex;
+    align-items: center;
+  }
+
+  &__quantity-control {
+    margin-right: 5px;
+    width: 100px;
+  }
+
+  &__price {
+    grid-column-start: span 2;
+    font-weight: bold;
+  }
+}

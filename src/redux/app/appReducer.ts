@@ -1,6 +1,6 @@
 import { INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS } from './appActions'
 import produce from 'immer'
-import { IGeneralData } from 'app-data'
+import { IGeneralData } from 'app-api'
 import { AppActionTypes, IAppState } from './appTypes'
 import { AppContextType } from '../../context/appContext'
 

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
 import { ICartState, INormalizedCartItem } from './cartTypes'
-import { ICartItem } from 'app-data'
+import { ICartItem } from 'app-api'
 import { denormalizeCartItem } from './cartUtils'
 
 export const selectCartItems = createSelector<
@@ -18,7 +18,7 @@ export const selectCartItems = createSelector<
 export const selectCartProcess = createSelector<
   AppStateType,
   ICartState,
-  { loading: boolean; title: null | string }
+  { loading: boolean; title: string }
 >(
   (state) => state.cart,
   (result) => ({ loading: result.loading, title: result.title })

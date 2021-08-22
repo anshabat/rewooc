@@ -1,5 +1,5 @@
 import { CartActionTypes } from './cartTypes'
-import { ICartItem, ICartPage } from "app-data";
+import { ICartItem, ICartPage } from 'app-api'
 
 export const CART_PAGE_LOAD = 'CART_PAGE_LOAD'
 export const CART_PAGE_LOAD_SUCCESS = 'CART_LOAD_SUCCESS'
@@ -18,6 +18,8 @@ export const CART_SET_PRODUCT_QUANTITY_START = 'CART_SET_PRODUCT_QUANTITY_START'
 export const CART_SET_PRODUCT_QUANTITY_SUCCESS =
   'CART_SET_PRODUCT_QUANTITY_SUCCESS'
 export const CART_SET_PRODUCT_QUANTITY_FAIL = 'CART_SET_PRODUCT_QUANTITY_FAIL'
+
+export const CART_CLEAR = 'CART_CLEAR'
 
 export const loadCartPage = (url: string): CartActionTypes => {
   return {
@@ -115,5 +117,11 @@ export const deleteFromCartFail = (error: Error): CartActionTypes => {
   return {
     type: CART_DELETE_PRODUCT_FAIL,
     error,
+  }
+}
+
+export const clearCart = (): CartActionTypes => {
+  return {
+    type: CART_CLEAR,
   }
 }

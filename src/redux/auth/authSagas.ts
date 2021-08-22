@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects'
-import { authApi } from 'app-data'
+import { authApi } from 'app-api'
 import {
   AUTH_CHECK_AUTH,
   AUTH_SIGN_IN,

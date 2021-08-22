@@ -1,6 +1,6 @@
 import './Autocomplete.scss'
 import React, { Component } from 'react'
-import { catalogApi } from 'app-data'
+import { catalogApi } from 'app-api'
 import { IProduct } from 'app-types'
 import AutocompleteResults from './AutocompleteResults/AutocompleteResults'
 import AutocompleteField from './AutocompleteField/AutocompleteField'
@@ -9,7 +9,7 @@ const KEY_CODE = {
   esc: 27,
   enter: 13,
   up: 38,
-  down: 40
+  down: 40,
 }
 
 interface IProps {
@@ -24,7 +24,8 @@ interface IState {
 }
 
 class Autocomplete extends Component<IProps, IState> {
-  private timerId: NodeJS.Timeout | null
+  //NodeJS.Timeout | null
+  private timerId: any
   private containerRef: HTMLElement | null
   private activeItemRef: HTMLAnchorElement | null
 
@@ -115,7 +116,9 @@ class Autocomplete extends Component<IProps, IState> {
     const shift = e.keyCode === KEY_CODE.up ? -1 : +1
     this.setState((prev) => {
       const cursor =
-        prev.cursor <= 0 && e.keyCode === KEY_CODE.up ? prev.posts.length : prev.cursor
+        prev.cursor <= 0 && e.keyCode === KEY_CODE.up
+          ? prev.posts.length
+          : prev.cursor
       return { cursor: (cursor + shift) % prev.posts.length }
     })
   }

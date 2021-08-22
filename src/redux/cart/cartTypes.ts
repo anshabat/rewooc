@@ -1,9 +1,10 @@
-import { ICartItem, ICartPage } from 'app-data'
+import { ICartItem, ICartPage } from 'app-api'
 import { IProduct } from 'app-types'
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
   CART_ADD_PRODUCT_SUCCESS,
+  CART_CLEAR,
   CART_DELETE_PRODUCT,
   CART_DELETE_PRODUCT_FAIL,
   CART_DELETE_PRODUCT_SUCCESS,
@@ -26,7 +27,7 @@ export interface ICartData {
 }
 
 export interface ICartState extends ICartData {
-  title: null | string
+  title: string
   loading: boolean
   error: boolean | Error
   addingProductId: null | number
@@ -99,6 +100,10 @@ interface IDeleteFromCartFailAction {
   error: Error
 }
 
+interface IClearCart {
+  type: typeof CART_CLEAR
+}
+
 export type CartActionTypes =
   | ILoadCartPageAction
   | ILoadCartPageSuccessAction
@@ -113,3 +118,4 @@ export type CartActionTypes =
   | IDeleteFromCartAction
   | IDeleteFromCartSuccessAction
   | IDeleteFromCartFailAction
+  | IClearCart

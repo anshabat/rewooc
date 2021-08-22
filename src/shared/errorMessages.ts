@@ -4,4 +4,6 @@ export const ErrorMessage = {
   CART_FAIL_TO_DELETE_PRODUCT: "Can't delete product from cart",
   CART_FAIL_TO_CHANGE_QUANTITY: "Can't change product quantity",
   USER_FAIL_TO_SIGN_IN: "Can't sign in user",
+  AUTH_FAIL_CHECK_EMAIL: "Can't check if email exists",
+  EMAIL_ALREADY_EXISTS: 'Email already registered'
 }

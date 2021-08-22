@@ -4,17 +4,30 @@ import 'font-awesome/fonts/fontawesome-webfont.woff'
 import 'font-awesome/fonts/fontawesome-webfont.woff2'
 import 'font-awesome/fonts/fontawesome-webfont.svg'
 import 'font-awesome/css/font-awesome.min.css'
-import React, { FC } from 'react'
+import './Icon.scss'
+import React, { FC, MouseEvent } from 'react'
 
 interface IProps {
   classes?: string[]
   name?: string
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const Icon: FC<IProps> = (props) => {
-  const { classes = [], name = '' } = props
+  const { classes = [], name = '', onClick } = props
   classes.push('fa', name)
 
-  return <i className={classes.join(' ').trim()} aria-hidden="true" />
+  const IconComponent = (
+    <i className={classes.join(' ').trim()} aria-hidden="true" />
+  )
+
+  return onClick ? (
+    <button className="rw-icon" type="button" onClick={onClick}>
+      {IconComponent}
+    </button>
+  ) : (
+    <span className="rw-icon">{IconComponent}</span>
+  )
 }
+
 export default Icon

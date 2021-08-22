@@ -36,7 +36,7 @@ export interface ICartItem {
   key: string
   quantity: number
   totalPrice: number
-  product: IProduct | undefined
+  product: IProduct
 }
 
 export interface ICartHash {

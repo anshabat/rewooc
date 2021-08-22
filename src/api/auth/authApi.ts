@@ -1,7 +1,7 @@
 import { instance } from '../instance'
 import { wcAjax } from '../endpoints'
 import { ErrorMessage } from '../../shared/errorMessages'
-import { IUserToken } from "./authTypes";
+import { IUserToken } from './authTypes'
 
 async function fetchCurrentUser(
   username: string,
@@ -23,6 +23,22 @@ async function fetchCurrentUser(
   return data
 }
 
+async function checkEmail(email: string): Promise<boolean> {
+  const response = await instance.get<{
+    data: number | boolean
+    success: boolean
+  }>(wcAjax('rewooc_check_email'), {
+    params: { email },
+  })
+  const { data } = response
+  if (!data.success) {
+    throw new Error(ErrorMessage.AUTH_FAIL_CHECK_EMAIL)
+  }
+
+  return Boolean(data.data)
+}
+
 export default {
   fetchCurrentUser,
+  checkEmail,
 }

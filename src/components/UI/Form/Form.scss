@@ -1,0 +1,23 @@
+.rw-form {
+  &--is-loading {
+    opacity: 0.5;
+  }
+
+  &__fieldset {
+    border: 1px solid var(--border-light-color);
+    padding: 20px;
+
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__legend {
+    font-weight: bold;
+  }
+
+  &__fields {
+    display: grid;
+    grid-gap: 25px;
+  }
+}

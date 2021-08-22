@@ -1,0 +1,13 @@
+export interface IFormField<T, P = string> {
+  value: T
+  validation: ValidationRulesType<P>
+}
+
+export type ValidationErrorType = { [key: string]: string }
+
+export type ValidationRulesType<T = string> = Partial<{
+  required: boolean
+  email: boolean
+  phone: boolean
+  equal: T
+}>

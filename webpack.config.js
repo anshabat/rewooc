@@ -57,6 +57,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    port: 9000,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -74,7 +75,8 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       // Todo remove aliases from webpack or add app-types from tsconfig.json
-      'app-data': path.resolve(__dirname, 'src/data'),
+      'app-api': path.resolve(__dirname, 'src/api'),
+      'app-services': path.resolve(__dirname, 'src/services'),
     },
   },
 }

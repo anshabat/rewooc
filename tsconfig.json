@@ -8,8 +8,9 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "app-data": ["src/data"],
-      "app-types": ["src/types"]
+      "app-api": ["src/api"],
+      "app-types": ["src/types"],
+      "app-services/*": ["src/services/*"]
     },
     "lib": ["dom", "es2020"]
   }

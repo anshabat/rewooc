@@ -1,4 +1,4 @@
-import { ICartItem } from 'app-data'
+import { ICartItem } from 'app-api'
 import { ICartData, ICartState, INormalizedCartItem } from './cartTypes'
 import { IProduct } from 'app-types'
 
@@ -19,7 +19,7 @@ export const denormalizeCartItem = (
     key: item.key,
     totalPrice: item.totalPrice,
     quantity: item.quantity,
-    product: products.find((product) => product.id === item.productId),
+    product: products.find((product) => product.id === item.productId)!,
   }
 }
 
