@@ -15,7 +15,7 @@ import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
 import PaymentMethods from '../PaymentMethods/PaymentMethods'
 import CountryField from '../CountryField/CountryField'
 import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
-import AddressAutocomplete from '../../../UI/AddressAutocomplete/AddressAutocomplete'
+import AddressDelivery from '../AddressDelivery/AddressDelivery'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -203,11 +203,9 @@ const CheckoutForm: FC<IProps> = (props) => {
             <p>Choose the country before delivery methods</p>
           )}
         </Form.Fields>
-        <AddressAutocomplete
-          onSelect={(location) => {
-            console.log(location)
-          }}
-        />
+        <div>
+        <AddressDelivery />
+        </div>
       </Form.Fieldset>
 
       <Form.Fieldset>

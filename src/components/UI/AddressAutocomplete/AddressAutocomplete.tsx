@@ -1,13 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
+import { ILocation } from 'app-types'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const google = window.google
-
-interface ILocation {
-  lat: number
-  lng: number
-}
 
 interface IProps {
   onSelect: (location: ILocation | null) => void
@@ -16,6 +12,7 @@ interface IProps {
 const AddressAutocomplete: FC<IProps> = (props) => {
   const { onSelect } = props
   const [value, setValue] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     const input = document.getElementById('pac-input')
     const options = {
@@ -26,6 +23,7 @@ const AddressAutocomplete: FC<IProps> = (props) => {
     const autocomplete = new google.maps.places.Autocomplete(input, options)
     autocomplete.addListener('place_changed', () => {
       const { geometry } = autocomplete.getPlace()
+      setValue(inputRef.current?.value ?? value)
       if (!geometry?.location) {
         return onSelect(null)
       }
@@ -46,6 +44,7 @@ const AddressAutocomplete: FC<IProps> = (props) => {
         onChange={(e) => {
           setValue(e.target.value)
         }}
+        ref={inputRef}
       />
     </div>
   )
