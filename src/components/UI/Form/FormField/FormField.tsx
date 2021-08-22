@@ -1,8 +1,9 @@
 import './FormField.scss'
-import React, { AllHTMLAttributes, FC, LegacyRef } from 'react'
+import React, { FC, InputHTMLAttributes, LegacyRef } from 'react'
 import classNames from 'classnames'
 
-export interface IFormFieldProps extends AllHTMLAttributes<HTMLElement> {
+export interface IFormFieldProps
+  extends InputHTMLAttributes<HTMLInputElement & HTMLTextAreaElement> {
   label: string
   hideLabel?: boolean
   horizontal?: boolean
