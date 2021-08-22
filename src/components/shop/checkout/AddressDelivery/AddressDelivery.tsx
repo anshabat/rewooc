@@ -1,6 +1,7 @@
-import React, { ChangeEvent, FC, useState } from 'react'
+import './AddressDelivery.scss'
+import React, { FC, useState } from 'react'
 import AddressAutocomplete from '../../../UI/AddressAutocomplete/AddressAutocomplete'
-import { ILocation } from 'app-types'
+import { IPlace } from 'app-types'
 import GoogleMap from '../../../UI/GoogleMap/GoogleMap'
 import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
 
@@ -12,18 +13,24 @@ interface IProps {
 
 const AddressDelivery: FC<IProps> = (props) => {
   const { formData, error, onAddressInput } = props
-  const [location, setLocation] = useState<ILocation | null>(null)
+  const [place, setPlace] = useState<IPlace | null>(null)
   return (
-    <div>
-      <AddressAutocomplete
-        formData={formData}
-        error={error}
-        onChangeAddress={onAddressInput}
-        onSelect={(location) => {
-          setLocation(location)
-        }}
-      />
-      {location ? <GoogleMap location={location} /> : null}
+    <div className="rw-address-delivery">
+      <div className="rw-address-delivery__field">
+        <AddressAutocomplete
+          formData={formData}
+          error={error}
+          onChangeAddress={onAddressInput}
+          onSelect={(place) => {
+            setPlace(place)
+          }}
+        />
+      </div>
+      {place ? (
+        <div className="rw-address-delivery__map">
+          <GoogleMap id="delivery-address-map" viewport={place.viewport} />
+        </div>
+      ) : null}
     </div>
   )
 }

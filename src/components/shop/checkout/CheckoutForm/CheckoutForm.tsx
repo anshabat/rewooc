@@ -46,8 +46,6 @@ const CheckoutForm: FC<IProps> = (props) => {
     setField(name, value)
   }
 
-  console.log(formData.billing_address.value)
-
   return (
     <Form onSubmit={submitForm} loading={isOrderLoading}>
       <Form.Fieldset>
@@ -142,8 +140,6 @@ const CheckoutForm: FC<IProps> = (props) => {
               type="checkbox"
               value={Number(formData.sign_up.value)}
               onChange={(e: ChangeEvent<HTMLFormElement>) => {
-                console.log(formData.billing_email.value)
-                console.log(e.target.checked)
                 toggleSignUp(e)
                 validateEmail(formData.billing_email.value, e.target.checked)
               }}

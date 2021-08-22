@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react'
-import { ILocation } from 'app-types'
+import { IPlace } from 'app-types'
 import FormField from '../Form/FormField/FormField'
 import { CheckoutFormType } from '../../../hooks/useCheckoutReducer'
 
@@ -11,7 +11,7 @@ interface IProps {
   formData: CheckoutFormType
   error: string
   onChangeAddress: (value: string) => void
-  onSelect: (location: ILocation | null) => void
+  onSelect: (place: IPlace | null) => void
 }
 
 const AddressAutocomplete: FC<IProps> = (props) => {
@@ -29,12 +29,15 @@ const AddressAutocomplete: FC<IProps> = (props) => {
     autocomplete.addListener('place_changed', () => {
       const { geometry } = autocomplete.getPlace()
       onChangeAddress(inputRef.current?.value ?? value)
-      if (!geometry?.location) {
+      if (!geometry) {
         return onSelect(null)
       }
       onSelect({
-        lat: geometry.location.lat(),
-        lng: geometry.location.lng(),
+        location: {
+          lat: geometry.location.lat(),
+          lng: geometry.location.lng(),
+        },
+        viewport: geometry.viewport,
       })
     })
   }, [])
