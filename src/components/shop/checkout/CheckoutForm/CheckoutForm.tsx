@@ -7,11 +7,15 @@ import Form from '../../../UI/Form/Form'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import { selectAccountUserId } from '../../../../redux/account/accountSelector'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
-import { CheckoutFormType, useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
+import {
+  CheckoutFormType,
+  useCheckoutReducer,
+} from '../../../../hooks/useCheckoutReducer'
 import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
 import PaymentMethods from '../PaymentMethods/PaymentMethods'
 import CountryField from '../CountryField/CountryField'
 import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
+import AddressAutocomplete from '../../../UI/AddressAutocomplete/AddressAutocomplete'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -199,6 +203,11 @@ const CheckoutForm: FC<IProps> = (props) => {
             <p>Choose the country before delivery methods</p>
           )}
         </Form.Fields>
+        <AddressAutocomplete
+          onSelect={(location) => {
+            console.log(location)
+          }}
+        />
       </Form.Fieldset>
 
       <Form.Fieldset>
