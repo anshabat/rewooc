@@ -10,23 +10,32 @@ interface IProps {
   id: string
   viewport?: IViewport
   markerLocation?: ILocation
+  currentLocation?: ILocation | null
 }
 
 const GoogleMap: FC<IProps> = (props) => {
-  const { viewport, id, markerLocation } = props
+  const { viewport, id, markerLocation, currentLocation } = props
   useEffect(() => {
     const map = new google.maps.Map(document.getElementById(id))
     if (viewport) {
       map.fitBounds(viewport)
     }
-    if(markerLocation) {
+    if (markerLocation) {
       new google.maps.Marker({
         position: markerLocation,
         map,
-        title: "Your current location",
-      });
+        title: 'Address location',
+      })
     }
-  }, [viewport])
+    if (currentLocation) {
+      new google.maps.Marker({
+        position: currentLocation,
+        map,
+        title: 'Current location',
+      })
+    }
+  }, [viewport, currentLocation, markerLocation])
+
   return <div className="rw-google-map" id={id} />
 }
 
