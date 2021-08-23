@@ -200,8 +200,6 @@ const CheckoutForm: FC<IProps> = (props) => {
           ) : (
             <p>Choose the country before delivery methods</p>
           )}
-        </Form.Fields>
-        <div>
           <AddressDelivery
             formData={formData}
             error={errors.billing_address}
@@ -209,7 +207,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               setField('billing_address', value)
             }}
           />
-        </div>
+        </Form.Fields>
       </Form.Fieldset>
 
       <Form.Fieldset>

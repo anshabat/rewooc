@@ -28,7 +28,11 @@ const AddressDelivery: FC<IProps> = (props) => {
       </div>
       {place ? (
         <div className="rw-address-delivery__map">
-          <GoogleMap id="delivery-address-map" viewport={place.viewport} />
+          <GoogleMap
+            id="delivery-address-map"
+            viewport={place.viewport}
+            markerLocation={place.location}
+          />
         </div>
       ) : null}
     </div>
