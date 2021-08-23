@@ -1,5 +1,5 @@
 import './GoogleMap.scss'
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ILocation, IViewport } from 'app-types'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -15,26 +15,32 @@ interface IProps {
 
 const GoogleMap: FC<IProps> = (props) => {
   const { viewport, id, markerLocation, currentLocation } = props
+  const [map, setMap] = useState<any>(null)
+
   useEffect(() => {
-    const map = new google.maps.Map(document.getElementById(id))
+    const googleMap = new google.maps.Map(document.getElementById(id))
     if (viewport) {
-      map.fitBounds(viewport)
+      googleMap.fitBounds(viewport)
     }
     if (markerLocation) {
       new google.maps.Marker({
         position: markerLocation,
-        map,
+        map: googleMap,
         title: 'Address location',
       })
     }
-    if (currentLocation) {
+    setMap(googleMap)
+  }, [viewport, markerLocation])
+
+  useEffect(() => {
+    if (map && currentLocation) {
       new google.maps.Marker({
         position: currentLocation,
         map,
         title: 'Current location',
       })
     }
-  }, [viewport, currentLocation, markerLocation])
+  }, [map, currentLocation])
 
   return <div className="rw-google-map" id={id} />
 }

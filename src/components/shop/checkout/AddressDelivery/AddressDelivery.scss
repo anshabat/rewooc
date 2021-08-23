@@ -7,5 +7,9 @@
   }
   &__actions {
     margin-top: 5px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 10px;
+    justify-content: start;
   }
 }

@@ -76,7 +76,7 @@ const initialFormState: CheckoutFormType = {
   billing_last_name: createField('', { required: true }),
   billing_phone: createField('', { required: true, phone: true }),
   billing_email: createField('', { email: true }),
-  billing_address: createField(''),
+  billing_address: createField('Ukraine'),
   deliveryMethodId: createField(''),
   payment: createField('', { required: true }),
   ship_to_different_address: createField(false),

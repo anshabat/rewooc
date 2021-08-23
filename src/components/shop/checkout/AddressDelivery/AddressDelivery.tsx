@@ -22,7 +22,7 @@ const AddressDelivery: FC<IProps> = (props) => {
   const [currentLocation, setCurrentLocation] = useState<ILocation | null>()
 
   const getCurrentLocation = () => {
-    geolocation.getCurrentPosition(
+    geolocation.watchPosition(
       (position: any) => {
         const { latitude, longitude } = position.coords
         console.log(position)
@@ -32,6 +32,10 @@ const AddressDelivery: FC<IProps> = (props) => {
         console.error('no current location allowed')
       }
     )
+  }
+
+  const calculateDistance = () => {
+
   }
 
   return (
@@ -63,7 +67,15 @@ const AddressDelivery: FC<IProps> = (props) => {
               type="button"
               onClick={getCurrentLocation}
             >
-              Calculate
+              Get current location
+            </Button>
+            <Button
+              size="md"
+              color="secondary"
+              type="button"
+              onClick={calculateDistance}
+            >
+              Calculate distance
             </Button>
           </div>
         </>
