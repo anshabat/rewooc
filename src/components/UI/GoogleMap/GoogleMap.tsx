@@ -2,14 +2,7 @@ import './GoogleMap.scss'
 import React, { FC, useEffect, useState } from 'react'
 import { ILocation, IViewport } from 'app-types'
 import Button from '../Button/Button'
-import { Loader } from '@googlemaps/js-api-loader'
-import { Config } from '../../../config'
-
-const loader = new Loader({
-  apiKey: Config.googleMapApi,
-  libraries: ['places'],
-  language: 'en',
-})
+import { useGoogleMapLoader } from 'app-services/google/useGoogleMapLoader'
 
 interface IProps {
   id: string
@@ -23,15 +16,7 @@ const GoogleMap: FC<IProps> = (props) => {
   const [map, setMap] = useState<any>(null)
   const [marker, setMarker] = useState<any>(null)
   const [currentMarker, setCurrentMarker] = useState<any>(null)
-  const [google, setGoogle] = useState<any>(null)
-
-  useEffect(() => {
-    loader.load().then(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setGoogle(window.google)
-    })
-  }, [])
+  const google = useGoogleMapLoader()
 
   useEffect(() => {
     if (!google) {
