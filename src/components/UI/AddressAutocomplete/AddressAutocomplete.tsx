@@ -25,6 +25,9 @@ const AddressAutocomplete: FC<IProps> = (props) => {
       fields: ['geometry', 'icon', 'name'],
       strictBounds: false,
     }
+    if (!google) {
+      return
+    }
     const autocomplete = new google.maps.places.Autocomplete(input, options)
     autocomplete.addListener('place_changed', () => {
       const { geometry } = autocomplete.getPlace()
