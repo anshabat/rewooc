@@ -25,7 +25,6 @@ const AddressDelivery: FC<IProps> = (props) => {
     geolocation.watchPosition(
       (position: any) => {
         const { latitude, longitude } = position.coords
-        console.log(position)
         setCurrentLocation({ lng: latitude, lat: longitude })
       },
       () => {
@@ -34,9 +33,7 @@ const AddressDelivery: FC<IProps> = (props) => {
     )
   }
 
-  const calculateDistance = () => {
-
-  }
+  const calculateDistance = () => {}
 
   return (
     <div className="rw-address-delivery">

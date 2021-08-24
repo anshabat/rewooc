@@ -2,10 +2,14 @@ import './GoogleMap.scss'
 import React, { FC, useEffect, useState } from 'react'
 import { ILocation, IViewport } from 'app-types'
 import Button from '../Button/Button'
+import { Loader } from '@googlemaps/js-api-loader'
+import { Config } from '../../../config'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const google = window.google
+const loader = new Loader({
+  apiKey: Config.googleMapApi,
+  libraries: ['places'],
+  language: 'en',
+})
 
 interface IProps {
   id: string
@@ -19,8 +23,20 @@ const GoogleMap: FC<IProps> = (props) => {
   const [map, setMap] = useState<any>(null)
   const [marker, setMarker] = useState<any>(null)
   const [currentMarker, setCurrentMarker] = useState<any>(null)
+  const [google, setGoogle] = useState<any>(null)
 
   useEffect(() => {
+    loader.load().then(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      setGoogle(window.google)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!google) {
+      return
+    }
     const googleMap = new google.maps.Map(document.getElementById(id))
     if (viewport) {
       googleMap.fitBounds(viewport)
@@ -34,9 +50,12 @@ const GoogleMap: FC<IProps> = (props) => {
       setMarker(googleMarker)
     }
     setMap(googleMap)
-  }, [viewport, markerLocation])
+  }, [viewport, markerLocation, google])
 
   useEffect(() => {
+    if (!google) {
+      return
+    }
     if (map && currentLocation) {
       const googleMarker = new google.maps.Marker({
         position: currentLocation,
@@ -45,7 +64,7 @@ const GoogleMap: FC<IProps> = (props) => {
       })
       setCurrentMarker(googleMarker)
     }
-  }, [map, currentLocation])
+  }, [map, currentLocation, google])
 
   const fitViewportToMarkers = () => {
     const bounds = new google.maps.LatLngBounds()
