@@ -9,6 +9,7 @@ type ToggleRecipientType = (e: ChangeEvent<HTMLFormElement>) => void
 type ToggleSignUpType = (e: ChangeEvent<HTMLFormElement>) => void
 type ClearFormType = () => void
 type LoadDeliveryMethodsType = (length: number) => void
+type SelectDeliveryMethodTye = (id: string) => void
 
 interface IUseCheckoutForm {
   formData: CheckoutFormType
@@ -17,6 +18,7 @@ interface IUseCheckoutForm {
   toggleSignUp: ToggleSignUpType
   clearForm: ClearFormType
   loadDeliveryMethods: LoadDeliveryMethodsType
+  selectDeliveryMethod: SelectDeliveryMethodTye
 }
 
 interface ISetFieldAction {
@@ -40,6 +42,11 @@ interface LoadDeliveryAction {
   length: number
 }
 
+interface SelectDeliveryAction {
+  type: 'SELECT_DELIVERY_METHOD'
+  id: string
+}
+
 interface IClearFormAction {
   type: 'CLEAR_FORM'
 }
@@ -50,6 +57,7 @@ type ActionType =
   | IToggleSignUpAction
   | IClearFormAction
   | LoadDeliveryAction
+  | SelectDeliveryAction
 
 type ICheckoutFormField<T> = IFormField<T, keyof CheckoutFormType>
 
@@ -152,6 +160,17 @@ const formReducer = (state: CheckoutFormType, action: ActionType) => {
         },
       }
     }
+    case 'SELECT_DELIVERY_METHOD': {
+      const { id } = action
+      return {
+        ...state,
+        deliveryMethodId: { ...state.deliveryMethodId, value: id },
+        billing_address: {
+          ...state.billing_address,
+          validation: { required: id === '15' },
+        },
+      }
+    }
     case 'CLEAR_FORM': {
       return initialFormState
     }
@@ -183,6 +202,10 @@ export function useCheckoutReducer(): IUseCheckoutForm {
     dispatch({ type: 'LOAD_DELIVERY_METHODS', length })
   }
 
+  const selectDeliveryMethod: SelectDeliveryMethodTye = (id) => {
+    dispatch({ type: 'SELECT_DELIVERY_METHOD', id })
+  }
+
   return {
     formData,
     setField,
@@ -190,5 +213,6 @@ export function useCheckoutReducer(): IUseCheckoutForm {
     toggleSignUp,
     clearForm,
     loadDeliveryMethods,
+    selectDeliveryMethod,
   }
 }

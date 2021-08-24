@@ -13,16 +13,19 @@ interface IProps {
 
 const GoogleMap: FC<IProps> = (props) => {
   const { viewport, id, markerLocation, currentLocation } = props
-  const [map, setMap] = useState<any>(null)
-  const [marker, setMarker] = useState<any>(null)
-  const [currentMarker, setCurrentMarker] = useState<any>(null)
+  const [map, setMap] = useState<google.maps.Map | null>(null)
+  const [marker, setMarker] = useState<google.maps.Marker | null>(null)
+  const [currentMarker, setCurrentMarker] = useState<google.maps.Marker | null>(
+    null
+  )
   const google = useGoogleMapLoader()
 
   useEffect(() => {
-    if (!google) {
+    const element = document.getElementById(id)
+    if (!google || !element) {
       return
     }
-    const googleMap = new google.maps.Map(document.getElementById(id))
+    const googleMap = new google.maps.Map(element)
     if (viewport) {
       googleMap.fitBounds(viewport)
     }
@@ -52,12 +55,17 @@ const GoogleMap: FC<IProps> = (props) => {
   }, [map, currentLocation, google])
 
   const fitViewportToMarkers = () => {
+    if (!map || !google) {
+      return
+    }
     const bounds = new google.maps.LatLngBounds()
     if (marker) {
-      bounds.extend(marker.getPosition())
+      const position = marker.getPosition()
+      if (position) bounds.extend(position)
     }
     if (currentMarker) {
-      bounds.extend(currentMarker.getPosition())
+      const position = currentMarker.getPosition()
+      if (position) bounds.extend(position)
     }
     map.fitBounds(bounds)
   }

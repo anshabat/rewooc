@@ -8,14 +8,14 @@ const loader = new Loader({
   language: 'en',
 })
 
-export function useGoogleMapLoader(): any {
-  const [google, setGoogle] = useState<any>(null)
+type GoogleType = typeof globalThis.google
+
+export function useGoogleMapLoader(): GoogleType | null {
+  const [google, setGoogle] = useState<GoogleType | null>(null)
 
   useEffect(() => {
-    loader.load().then(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setGoogle(window.google)
+    loader.load().then((google) => {
+      setGoogle(google)
     })
   }, [])
 

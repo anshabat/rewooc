@@ -18,11 +18,11 @@ const AddressAutocomplete: FC<IProps> = (props) => {
   const google = useGoogleMapLoader()
 
   useEffect(() => {
-    if (!google) {
+    const input = document.getElementById('billing_address') as HTMLInputElement
+    if (!google || !input) {
       return
     }
-    const input = document.getElementById('billing_address')
-    const options = {
+    const options: google.maps.places.AutocompleteOptions = {
       componentRestrictions: { country: 'ua' },
       fields: ['geometry', 'icon', 'name'],
       strictBounds: false,
@@ -31,7 +31,7 @@ const AddressAutocomplete: FC<IProps> = (props) => {
     autocomplete.addListener('place_changed', () => {
       const { geometry } = autocomplete.getPlace()
       onChangeAddress(inputRef.current?.value ?? value)
-      if (!geometry) {
+      if (!geometry?.location) {
         return onSelect(null)
       }
       onSelect({

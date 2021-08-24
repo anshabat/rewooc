@@ -20,6 +20,7 @@ import AddressDelivery from '../AddressDelivery/AddressDelivery'
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
   onCreateOrder?: (orderData: CheckoutFormType) => void
+  delivery: IDeliveryMethod | null
 }
 
 const CheckoutForm: FC<IProps> = (props) => {
@@ -31,6 +32,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     toggleSignUp,
     toggleRecipient,
     loadDeliveryMethods,
+    selectDeliveryMethod,
   } = useCheckoutReducer()
   const userId = useSelector(selectAccountUserId)
   const { isOrderLoading, errors, validateEmail, submitForm } = useCheckoutForm(
@@ -191,7 +193,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 setField('deliveryMethodId', '')
               }}
               onChange={(deliveryMethod, e: ChangeEvent<HTMLInputElement>) => {
-                setValue(e)
+                selectDeliveryMethod(e.target.value)
                 if (typeof onUpdateDelivery === 'function') {
                   onUpdateDelivery(deliveryMethod)
                 }
@@ -200,13 +202,15 @@ const CheckoutForm: FC<IProps> = (props) => {
           ) : (
             <p>Choose the country before delivery methods</p>
           )}
-          <AddressDelivery
-            formData={formData}
-            error={errors.billing_address}
-            onAddressInput={(value) => {
-              setField('billing_address', value)
-            }}
-          />
+          {formData.deliveryMethodId.value === '15' ? (
+            <AddressDelivery
+              formData={formData}
+              error={errors.billing_address}
+              onAddressInput={(value) => {
+                setField('billing_address', value)
+              }}
+            />
+          ) : null}
         </Form.Fields>
       </Form.Fieldset>
 
