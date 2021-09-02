@@ -3,12 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 
 module.exports = {
   entry: './src/index.tsx',
   output: {
     publicPath: '/',
+    path: path.resolve(__dirname, 'dist'),
+    chunkFilename: '[name].bundle.js',
+    filename: '[name].bundle.js',
   },
   stats: {
     entrypoints: false,
@@ -71,7 +75,9 @@ module.exports = {
     }),
     new CopyPlugin({ patterns: [{ from: './src/.htaccess' }] }),
     new Dotenv(),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerPort: 8887,
+    }),
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
