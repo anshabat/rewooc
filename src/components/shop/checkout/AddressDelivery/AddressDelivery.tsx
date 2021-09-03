@@ -33,8 +33,6 @@ const AddressDelivery: FC<IProps> = (props) => {
     )
   }
 
-  const calculateDistance = () => {}
-
   return (
     <div className="rw-address-delivery">
       <div className="rw-address-delivery__field">
@@ -70,7 +68,6 @@ const AddressDelivery: FC<IProps> = (props) => {
               size="md"
               color="secondary"
               type="button"
-              onClick={calculateDistance}
             >
               Calculate distance
             </Button>
