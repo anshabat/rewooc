@@ -10,18 +10,26 @@ import { IProduct } from 'app-types'
 import { useCartInfo } from '../../../../hooks/useCartInfo'
 import FormField from '../../../UI/Form/FormField/FormField'
 
-const ProductCard: FC<IProduct> = (props) => {
-  const { id, images, title, price, link } = props
+interface IProps extends Partial<IProduct> {
+  id: number
+  images: any
+  link: string
+  price: number
+  title: string
+  isProductInCart: boolean
+  isProductAddingToCart: boolean
+}
+
+const ProductCard: FC<IProps> = (props) => {
+  const { id, title, price, link, isProductInCart, isProductAddingToCart } = props
 
   const [quantity, changeQuantity] = useState(1)
-  const { isProductInCart, isProductAddingToCart } = useCartInfo(id)
+  //const { isProductAddingToCart } = useCartInfo(id)
   const dispatch = useDispatch()
 
   return (
     <article className="rw-product-card">
-      <div className="rw-product-card__row">
-        <Image image={images.medium} />
-      </div>
+      <div className="rw-product-card__row"></div>
       <h3 className="rw-product-card__row">
         <a className="ps-link ps-link--primary" href={link}>
           {title}
@@ -54,4 +62,4 @@ const ProductCard: FC<IProduct> = (props) => {
   )
 }
 
-export default ProductCard
+export default React.memo(ProductCard)
