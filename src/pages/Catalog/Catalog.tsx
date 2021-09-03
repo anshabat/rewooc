@@ -10,14 +10,13 @@ import {
   selectCatalogProcess,
   selectProducts,
 } from '../../redux/catalog/catalogSelectors'
-import { selectAddingToCartId, selectCartItems } from '../../redux/cart/cartSelectors'
+import { useProductsInCartSelector } from '../../hooks/useProductsInCartSelector'
 
 const Catalog: FC = () => {
   const { title, loading } = useSelector(selectCatalogProcess)
   const products = useSelector(selectProducts)
+  const { cartItemsIds, addingToCartId } = useProductsInCartSelector()
   useConnectPage(loadCatalogPage)
-  const cartItems = useSelector(selectCartItems)
-  const addingToCartId = useSelector(selectAddingToCartId)
 
   if (loading) return <ContentLoader />
 
@@ -25,8 +24,8 @@ const Catalog: FC = () => {
     <Content title={title}>
       <Grid items={products}>
         {(product) => {
-          console.log(product)
           //return <ProductCard {...product} />
+          console.log(product.images)
           return (
             <ProductCard
               id={product.id}
@@ -34,7 +33,7 @@ const Catalog: FC = () => {
               title={product.title}
               price={product.price}
               link={product.link}
-              isProductInCart={!!cartItems.find(item => item.product.id === product.id)}
+              isProductInCart={cartItemsIds.includes(product.id)}
               isProductAddingToCart={addingToCartId === product.id}
             />
           )

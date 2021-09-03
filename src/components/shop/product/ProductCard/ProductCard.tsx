@@ -7,7 +7,6 @@ import Price from '../../Price/Price'
 import { addToCart } from '../../../../redux/cart/cartActions'
 import { siteUrl } from '../../../../shared/utilities'
 import { IProduct } from 'app-types'
-import { useCartInfo } from '../../../../hooks/useCartInfo'
 import FormField from '../../../UI/Form/FormField/FormField'
 
 interface IProps extends Partial<IProduct> {
@@ -22,14 +21,14 @@ interface IProps extends Partial<IProduct> {
 
 const ProductCard: FC<IProps> = (props) => {
   const { id, title, price, link, isProductInCart, isProductAddingToCart } = props
-
   const [quantity, changeQuantity] = useState(1)
-  //const { isProductAddingToCart } = useCartInfo(id)
   const dispatch = useDispatch()
 
   return (
     <article className="rw-product-card">
-      <div className="rw-product-card__row"></div>
+      <div className="rw-product-card__row">
+        {/*<Image image={images.medium} />*/}
+      </div>
       <h3 className="rw-product-card__row">
         <a className="ps-link ps-link--primary" href={link}>
           {title}
