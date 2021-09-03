@@ -9,25 +9,15 @@ import { siteUrl } from '../../../../shared/utilities'
 import { IProduct } from 'app-types'
 import FormField from '../../../UI/Form/FormField/FormField'
 
-interface IProps extends Partial<IProduct> {
-  id: number
-  images: any
-  link: string
-  price: number
-  title: string
-  isProductInCart: boolean
-  isProductAddingToCart: boolean
-}
-
-const ProductCard: FC<IProps> = (props) => {
-  const { id, title, price, link, isProductInCart, isProductAddingToCart } = props
+const ProductCard: FC<IProduct> = (props) => {
+  const { id, title, price, link, isProductInCart, isProductAddingToCart, images } = props
   const [quantity, changeQuantity] = useState(1)
   const dispatch = useDispatch()
 
   return (
     <article className="rw-product-card">
       <div className="rw-product-card__row">
-        {/*<Image image={images.medium} />*/}
+        <Image image={images.medium} />
       </div>
       <h3 className="rw-product-card__row">
         <a className="ps-link ps-link--primary" href={link}>

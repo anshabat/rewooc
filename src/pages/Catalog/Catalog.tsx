@@ -24,12 +24,10 @@ const Catalog: FC = () => {
     <Content title={title}>
       <Grid items={products}>
         {(product) => {
-          //return <ProductCard {...product} />
-          console.log(product.images)
           return (
             <ProductCard
               id={product.id}
-              images=""
+              images={product.images}
               title={product.title}
               price={product.price}
               link={product.link}
