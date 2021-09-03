@@ -2,10 +2,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production",
-    "dev": "webpack --mode=development",
-    "watch": "webpack --watch --mode=development",
-    "start": "webpack-dev-server",
-    "serve": "webpack serve",
+    "start": "webpack serve --mode=development",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/ --color",
     "lint:css": "stylelint src/**/*.scss --color",
     "format": "prettier src/ --write",
@@ -21,7 +18,6 @@
     "@webpack-cli/serve": "^1.5.2",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
-    "connected-react-router": "^6.8.0",
     "font-awesome": "^4.7.0",
     "immer": "^8.0.1",
     "react": "^17.0.1",
@@ -73,6 +69,6 @@
     "webpack": "^5.12.2",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^4.1.0"
   }
 }
