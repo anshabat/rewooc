@@ -10,17 +10,34 @@ import {
   selectCatalogProcess,
   selectProducts,
 } from '../../redux/catalog/catalogSelectors'
+import { useProductsInCartSelector } from '../../hooks/useProductsInCartSelector'
+import ProductContainer from '../../components/shop/product/ProductContainer/ProductContainer'
 
 const Catalog: FC = () => {
   const { title, loading } = useSelector(selectCatalogProcess)
   const products = useSelector(selectProducts)
+  //const { cartItemsIds, addingToCartId } = useProductsInCartSelector()
   useConnectPage(loadCatalogPage)
 
   if (loading) return <ContentLoader />
 
   return (
     <Content title={title}>
-      <Grid items={products}>{(product) => <ProductCard {...product} />}</Grid>
+      <Grid items={products}>
+        {(product) => {
+          return (
+            <ProductContainer>
+              <ProductCard
+                id={product.id}
+                images={product.images}
+                title={product.title}
+                price={product.price}
+                link={product.link}
+              />
+            </ProductContainer>
+          )
+        }}
+      </Grid>
     </Content>
   )
 }

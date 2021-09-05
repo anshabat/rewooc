@@ -80,6 +80,7 @@ class CheckoutRepository
         $order->set_billing_last_name($data->billing->last_name);
         $order->set_billing_email($data->billing->email);
         $order->set_billing_phone($data->billing->phone);
+        $order->set_billing_address_1($data->billing->address);
         $order->set_payment_method($data->payment);
 
         if ($data->shipping) {

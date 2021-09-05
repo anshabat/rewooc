@@ -1,10 +1,12 @@
 export interface IProduct {
-  addToCartUrl: string
-  getStockQuantity: null | number
+  addToCartUrl?: string
+  getStockQuantity?: null | number
   id: number
   images: any
-  isSoldIndividually: boolean
+  isSoldIndividually?: boolean
   link: string
   price: number
   title: string
+  isProductInCart?: boolean
+  isProductAddingToCart?: boolean
 }

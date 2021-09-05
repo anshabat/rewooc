@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ConnectedRouter } from 'connected-react-router'
-import { history } from './shared/history'
+import { BrowserRouter as Router } from 'react-router-dom'
 import Root from './pages/Root'
 import { checkAuth } from './redux/auth/authActions'
 import PageLoader from './components/UI/loaders/PageLoader/PageLoader'
@@ -24,9 +23,9 @@ const App: FC = () => {
 
   return (
     <AppProvider value={data}>
-      <ConnectedRouter history={history}>
+      <Router>
         <Root />
-      </ConnectedRouter>
+      </Router>
     </AppProvider>
   )
 }

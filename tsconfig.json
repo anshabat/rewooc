@@ -3,6 +3,8 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "es5",
+    "module": "esnext",
+    "moduleResolution": "node",
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
@@ -12,6 +14,7 @@
       "app-types": ["src/types"],
       "app-services/*": ["src/services/*"]
     },
-    "lib": ["dom", "es2020"]
+    "lib": ["dom", "es2020"],
+    "types": ["google.maps", "node"]
   }
 }

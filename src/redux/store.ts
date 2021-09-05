@@ -1,9 +1,7 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
 import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
-import { history } from '../shared/history'
 import app from './app/appReducer'
 import cart from './cart/cartReducer'
 import catalog from './catalog/catalogReducer'
@@ -15,7 +13,6 @@ import { catalogSagas } from './catalog/catalogSagas'
 import { authSagas } from './auth/authSagas'
 
 const rootReducer = combineReducers({
-  router: connectRouter(history),
   app,
   cart,
   catalog,
@@ -34,7 +31,7 @@ const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   rootReducer,
   composeWithDevTools(
-    applyMiddleware(routerMiddleware(history), sagaMiddleware)
+    applyMiddleware(sagaMiddleware)
   )
 )
 sagaMiddleware.run(rootSaga)

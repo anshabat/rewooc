@@ -7,15 +7,18 @@ import Form from '../../../UI/Form/Form'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import { selectAccountUserId } from '../../../../redux/account/accountSelector'
 import PasswordField from '../../../UI/Form/PasswordField/PasswordField'
-import { CheckoutFormType, useCheckoutReducer } from '../../../../hooks/useCheckoutReducer'
+import {
+  CheckoutFormType,
+  useCheckoutReducer,
+} from '../../../../hooks/useCheckoutReducer'
 import DeliveryMethods from '../DeliveryMethods/DeliveryMethods'
 import PaymentMethods from '../PaymentMethods/PaymentMethods'
 import CountryField from '../CountryField/CountryField'
 import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
+import AddressDelivery from '../AddressDelivery/AddressDelivery'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
-  onCreateOrder?: (orderData: CheckoutFormType) => void
 }
 
 const CheckoutForm: FC<IProps> = (props) => {
@@ -27,6 +30,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     toggleSignUp,
     toggleRecipient,
     loadDeliveryMethods,
+    selectDeliveryMethod,
   } = useCheckoutReducer()
   const userId = useSelector(selectAccountUserId)
   const { isOrderLoading, errors, validateEmail, submitForm } = useCheckoutForm(
@@ -136,8 +140,6 @@ const CheckoutForm: FC<IProps> = (props) => {
               type="checkbox"
               value={Number(formData.sign_up.value)}
               onChange={(e: ChangeEvent<HTMLFormElement>) => {
-                console.log(formData.billing_email.value)
-                console.log(e.target.checked)
                 toggleSignUp(e)
                 validateEmail(formData.billing_email.value, e.target.checked)
               }}
@@ -189,7 +191,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 setField('deliveryMethodId', '')
               }}
               onChange={(deliveryMethod, e: ChangeEvent<HTMLInputElement>) => {
-                setValue(e)
+                selectDeliveryMethod(e.target.value)
                 if (typeof onUpdateDelivery === 'function') {
                   onUpdateDelivery(deliveryMethod)
                 }
@@ -198,6 +200,15 @@ const CheckoutForm: FC<IProps> = (props) => {
           ) : (
             <p>Choose the country before delivery methods</p>
           )}
+          {formData.deliveryMethodId.value === '15' ? (
+            <AddressDelivery
+              formData={formData}
+              error={errors.billing_address}
+              onAddressInput={(value) => {
+                setField('billing_address', value)
+              }}
+            />
+          ) : null}
         </Form.Fields>
       </Form.Fieldset>
 
