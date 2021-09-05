@@ -9,6 +9,7 @@ import { Slider, CarouselProvider } from '../../components/carousel'
 import { usePageData } from '../../hooks/usePageData'
 import ContentLoader from '../../components/UI/loaders/ContentLoader/ContentLoader'
 import { useProductsInCartSelector } from '../../hooks/useProductsInCartSelector'
+import ProductContainer from '../../components/shop/product/ProductContainer/ProductContainer'
 
 interface IPageData {
   featuredProducts: IProduct[]
@@ -17,7 +18,7 @@ interface IPageData {
 
 const Home: React.FC = () => {
   const data = usePageData<IPageData>()
-  const { cartItemsIds, addingToCartId } = useProductsInCartSelector()
+  //const { cartItemsIds, addingToCartId } = useProductsInCartSelector()
 
   if (!data) return <ContentLoader />
 
@@ -32,12 +33,9 @@ const Home: React.FC = () => {
               <SectionPrimary title="Featured Products">
                 <Slider>
                   {featuredProducts.map((product) => (
-                    <ProductCard
-                      {...product}
-                      key={product.id}
-                      isProductInCart={cartItemsIds.includes(product.id)}
-                      isProductAddingToCart={addingToCartId === product.id}
-                    />
+                    <ProductContainer key={product.id}>
+                      <ProductCard {...product} />
+                    </ProductContainer>
                   ))}
                 </Slider>
               </SectionPrimary>

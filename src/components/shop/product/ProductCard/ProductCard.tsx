@@ -8,9 +8,19 @@ import { addToCart } from '../../../../redux/cart/cartActions'
 import { siteUrl } from '../../../../shared/utilities'
 import { IProduct } from 'app-types'
 import FormField from '../../../UI/Form/FormField/FormField'
+import { useCartInfo } from '../../../../hooks/useProductsInCartSelector'
 
 const ProductCard: FC<IProduct> = (props) => {
-  const { id, title, price, link, isProductInCart, isProductAddingToCart, images } = props
+  const {
+    id,
+    title,
+    price,
+    link,
+    images,
+    isProductInCart,
+    isProductAddingToCart,
+  } = props
+  //const {isProductInCart, isProductAddingToCart} = useCartInfo(id)
   const [quantity, changeQuantity] = useState(1)
   const dispatch = useDispatch()
 
