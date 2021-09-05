@@ -9,14 +9,15 @@ import {
 } from '../../../../redux/cart/cartSelectors'
 import Price from '../../Price/Price'
 import OrderCart from '../../cart/OrderCart/OrderCart'
+import { useCheckoutTotal } from '../../../../hooks/useCheckoutTotal'
 
 interface IProps {
-  total: number | null
   delivery: IDeliveryMethod | null
 }
 
 const CheckoutTotals: FC<IProps> = (props) => {
-  const { total, delivery } = props
+  const { delivery } = props
+  const total = useCheckoutTotal(delivery)
   const cartItems = useSelector(selectCartItems)
   const subtotal = useSelector(selectCartTotalPrice)
   const count = useSelector(selectCartTotalQuantity)

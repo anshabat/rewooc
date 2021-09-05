@@ -19,7 +19,6 @@ import AddressDelivery from '../AddressDelivery/AddressDelivery'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
-  onCreateOrder?: (orderData: CheckoutFormType) => void
   delivery: IDeliveryMethod | null
 }
 
