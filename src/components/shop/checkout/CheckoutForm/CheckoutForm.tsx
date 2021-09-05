@@ -19,7 +19,6 @@ import AddressDelivery from '../AddressDelivery/AddressDelivery'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
-  delivery: IDeliveryMethod | null
 }
 
 const CheckoutForm: FC<IProps> = (props) => {

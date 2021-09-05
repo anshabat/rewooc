@@ -11,7 +11,7 @@ const Checkout: React.FC = () => {
   return (
     <Content title="Checkout">
       <div className="rw-checkout">
-        <CheckoutForm onUpdateDelivery={setDeliveryMethod} delivery={delivery} />
+        <CheckoutForm onUpdateDelivery={setDeliveryMethod} />
         <CheckoutTotals delivery={delivery} />
       </div>
     </Content>
