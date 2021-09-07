@@ -1,6 +1,7 @@
 import './Dialog.scss'
 import React, { FC } from 'react'
 import DialogPortal from './DialogPortal'
+import Backdrop from '../Backdrop/Backdrop'
 
 interface IProps {
   isOpened: boolean
@@ -16,10 +17,14 @@ const Dialog: FC<IProps> = (props) => {
 
   return (
     <DialogPortal>
-      <div className="rw-dialog">
-        <button className="rw-dialog__close" onClick={onClose}>X</button>
-        <div className="rw-dialog__content">{children}</div>
-      </div>
+      <Backdrop onClick={onClose}>
+        <div className="rw-dialog">
+          <button className="rw-dialog__close" onClick={onClose}>
+            X
+          </button>
+          <div className="rw-dialog__content">{children}</div>
+        </div>
+      </Backdrop>
     </DialogPortal>
   )
 }
