@@ -1,13 +1,23 @@
 .rw-dialog {
   position: relative;
-  background-color: rgba(255, 0, 0, 0.3);
-  height: 300px;
-  width: 300px;
+  max-width: 300px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: var(--border-radius);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--border-light-color);
+  }
 
   &__close {
-    position: absolute;
-    right: 10px;
-    top: 10px;
     cursor: pointer;
+  }
+
+  &__content {
+    padding: 20px;
   }
 }

@@ -50,6 +50,7 @@ const UserNav: FC = () => {
         </Button>
         <Dialog
           isOpened={modal1}
+          title="Cart"
           onClose={() => {
             setModal1(false)
           }}
