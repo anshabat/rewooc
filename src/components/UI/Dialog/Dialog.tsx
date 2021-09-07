@@ -18,19 +18,18 @@ const Dialog: FC<IProps> = (props) => {
 
   return (
     <DialogPortal>
-      <Backdrop onClick={onClose}>
-        <div className="rw-dialog">
-          {title ? (
-            <div className="rw-dialog__header">
-              <h3>{title}</h3>
-              <button className="rw-dialog__close" onClick={onClose}>
-                X
-              </button>
-            </div>
-          ) : null}
-          <div className="rw-dialog__content">{children}</div>
-        </div>
-      </Backdrop>
+      <Backdrop onClick={onClose} />
+      <div className="rw-dialog">
+        {title ? (
+          <div className="rw-dialog__header">
+            <h3>{title}</h3>
+            <button className="rw-dialog__close" onClick={onClose}>
+              X
+            </button>
+          </div>
+        ) : null}
+        <div className="rw-dialog__content">{children}</div>
+      </div>
     </DialogPortal>
   )
 }

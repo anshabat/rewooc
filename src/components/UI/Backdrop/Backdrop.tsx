@@ -6,7 +6,7 @@ interface IProps {
 }
 
 const Backdrop: FC<IProps> = (props) => {
-  const { children, onClick } = props
+  const { onClick } = props
   return (
     <div
       className="rw-backdrop"
@@ -15,16 +15,7 @@ const Backdrop: FC<IProps> = (props) => {
           onClick()
         }
       }}
-    >
-      <div
-        className="rw-backdrop__body"
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
-      >
-        {children}
-      </div>
-    </div>
+    />
   )
 }
 
