@@ -5,7 +5,7 @@ import Backdrop from '../Backdrop/Backdrop'
 
 interface IProps {
   isOpened: boolean
-  onClose?: () => void
+  onClose: () => void
   title?: string
 }
 

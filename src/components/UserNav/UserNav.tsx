@@ -63,19 +63,14 @@ const UserNav: FC = () => {
           size="sm"
           color="secondary"
           onClick={() => {
-            setModal2((prev) => !prev)
+            setModal2(true)
           }}
         >
           Modal 2
         </Button>
-        <Dialog
-          isOpened={modal2}
-          onClose={() => {
-            setModal2(false)
-          }}
-        >
-          This is the second dialog
-        </Dialog>
+        <Dialog isOpened={modal2} onClose={() => {
+          setModal2(false)
+        }}>This is the second dialog</Dialog>
       </li>
     </ul>
   )

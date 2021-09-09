@@ -39,7 +39,8 @@ const CheckoutForm: FC<IProps> = (props) => {
     errors,
     validateEmail,
     submitForm,
-    cartIsEmpty,
+    cartEmptyError,
+    hideEmptyCartError,
   } = useCheckoutForm(formData, () => {
     clearForm()
   })
@@ -52,7 +53,9 @@ const CheckoutForm: FC<IProps> = (props) => {
 
   return (
     <>
-      <Dialog isOpened={cartIsEmpty}>Cart Is Empty</Dialog>
+      <Dialog isOpened={cartEmptyError} onClose={() => hideEmptyCartError()}>
+        Cart Is Empty
+      </Dialog>
       <Form onSubmit={submitForm} loading={isOrderLoading}>
         <Form.Fieldset>
           <Form.Legend>Contact info</Form.Legend>

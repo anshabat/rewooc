@@ -16,11 +16,15 @@ export const useCheckoutForm = (
 ) => {
   const [isOrderLoading, setOrderLoading] = useState(false)
   const [errors, setErrors] = useState<ValidationErrorType>({})
-  const [cartIsEmpty, setCartIsEmpty] = useState(false)
+  const [cartEmptyError, setCartEmptyError] = useState(false)
   const cartItems = useSelector(selectCartItems)
   const userId = useSelector(selectAccountUserId)
   const dispatch = useDispatch()
   const history = useHistory()
+
+  const hideEmptyCartError  = () => {
+    setCartEmptyError(false)
+  }
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -32,7 +36,7 @@ export const useCheckoutForm = (
     }
 
     if (cartItems.length === 0) {
-      setCartIsEmpty(true)
+      setCartEmptyError(true)
       return
     }
 
@@ -91,6 +95,7 @@ export const useCheckoutForm = (
     errors,
     submitForm,
     validateEmail,
-    cartIsEmpty,
+    cartEmptyError,
+    hideEmptyCartError
   }
 }
