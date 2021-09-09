@@ -8,16 +8,21 @@ import { AppProvider } from './context/appContext'
 import { AppStateType } from './redux/store'
 import { IAppState } from './redux/app/appTypes'
 import { selectApp } from './redux/app/appSelectors'
+import Dialog from './components/UI/Dialog/Dialog'
 
 const App: FC = () => {
-  const { data, loading } = useSelector<AppStateType, IAppState>(selectApp)
+  const { data, loading, error } = useSelector<AppStateType, IAppState>(
+    selectApp
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(checkAuth())
   }, [])
 
-  if (loading || !data) return <PageLoader />
+  if (loading) return <PageLoader />
+
+  if (error || !data) return <Dialog isOpened={true}>{error.toString()}</Dialog>
 
   //TODO add if (!data) - return Error page component instead of Loading state
 
