@@ -1,10 +1,13 @@
 import React, { FC } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useConnectPage } from '../../hooks/useConnectPage'
 import ProductCard from '../../components/shop/product/ProductCard/ProductCard'
 import Content from '../../components/Layout/Content/Content'
 import Grid from '../../components/UI/Grid/Grid'
-import { loadCatalogPage } from '../../redux/catalog/catalogActions'
+import {
+  catalogPageHideError,
+  loadCatalogPage,
+} from '../../redux/catalog/catalogActions'
 import ContentLoader from '../../components/UI/loaders/ContentLoader/ContentLoader'
 import {
   selectCatalogProcess,
@@ -17,30 +20,40 @@ import Dialog from '../../components/UI/Dialog/Dialog'
 const Catalog: FC = () => {
   const { title, loading, error } = useSelector(selectCatalogProcess)
   const products = useSelector(selectProducts)
+  const dispatch = useDispatch()
   //const { cartItemsIds, addingToCartId } = useProductsInCartSelector()
   useConnectPage(loadCatalogPage)
 
   if (loading) return <ContentLoader />
 
-  if(error) return <Dialog isOpened={true}>{error.toString()}</Dialog>
-
   return (
     <Content title={title}>
-      <Grid items={products}>
-        {(product) => {
-          return (
-            <ProductContainer>
-              <ProductCard
-                id={product.id}
-                images={product.images}
-                title={product.title}
-                price={product.price}
-                link={product.link}
-              />
-            </ProductContainer>
-          )
-        }}
-      </Grid>
+      {error ? (
+        <Dialog
+          isOpened={true}
+          onClose={() => {
+            dispatch(catalogPageHideError())
+          }}
+        >
+          {error.toString()}
+        </Dialog>
+      ) : (
+        <Grid items={products}>
+          {(product) => {
+            return (
+              <ProductContainer>
+                <ProductCard
+                  id={product.id}
+                  images={product.images}
+                  title={product.title}
+                  price={product.price}
+                  link={product.link}
+                />
+              </ProductContainer>
+            )
+          }}
+        </Grid>
+      )}
     </Content>
   )
 }

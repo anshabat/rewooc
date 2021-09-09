@@ -1,8 +1,9 @@
 import produce from 'immer'
-import { ICatalogState, CatalogActionTypes } from './catalogTypes'
+import { CatalogActionTypes, ICatalogState } from './catalogTypes'
 import {
-  CATALOG_PAGE_LOAD_FAIL,
+  CATALOG_PAGE_HIDE_ERROR,
   CATALOG_PAGE_LOAD,
+  CATALOG_PAGE_LOAD_FAIL,
   CATALOG_PAGE_LOAD_SUCCESS,
 } from './catalogActions'
 
@@ -32,6 +33,9 @@ const reducer = (
       case CATALOG_PAGE_LOAD_FAIL:
         draft.loading = false
         draft.error = action.error
+        break
+      case CATALOG_PAGE_HIDE_ERROR:
+        draft.error = false
     }
   })
 }
