@@ -8,7 +8,7 @@ import { AppProvider } from './context/appContext'
 import { AppStateType } from './redux/store'
 import { IAppState } from './redux/app/appTypes'
 import { selectApp } from './redux/app/appSelectors'
-import Dialog from './components/UI/Dialog/Dialog'
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 
 const App: FC = () => {
   const { data, loading, error } = useSelector<AppStateType, IAppState>(
@@ -22,16 +22,14 @@ const App: FC = () => {
 
   if (loading) return <PageLoader />
 
-  if (error || !data) return <Dialog isOpened={true}>{error.toString()}</Dialog>
-
-  //TODO add if (!data) - return Error page component instead of Loading state
-
   return (
-    <AppProvider value={data}>
-      <Router>
-        <Root />
-      </Router>
-    </AppProvider>
+    <ErrorBoundary error={error || !data}>
+      <AppProvider value={data!}>
+        <Router>
+          <Root />
+        </Router>
+      </AppProvider>
+    </ErrorBoundary>
   )
 }
 

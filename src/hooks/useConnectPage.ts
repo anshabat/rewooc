@@ -9,6 +9,6 @@ export function useConnectPage(action: (url: string) => AnyAction): void {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(action(apiUrl(window.location.pathname + 'sd')))
+    dispatch(action(apiUrl(window.location.pathname)))
   }, [location.pathname])
 }

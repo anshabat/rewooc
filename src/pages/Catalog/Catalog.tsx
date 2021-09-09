@@ -15,7 +15,7 @@ import {
 } from '../../redux/catalog/catalogSelectors'
 import { useProductsInCartSelector } from '../../hooks/useProductsInCartSelector'
 import ProductContainer from '../../components/shop/product/ProductContainer/ProductContainer'
-import Dialog from '../../components/UI/Dialog/Dialog'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 
 const Catalog: FC = () => {
   const { title, loading, error } = useSelector(selectCatalogProcess)
@@ -28,16 +28,12 @@ const Catalog: FC = () => {
 
   return (
     <Content title={title}>
-      {error ? (
-        <Dialog
-          isOpened={true}
-          onClose={() => {
-            dispatch(catalogPageHideError())
-          }}
-        >
-          {error.toString()}
-        </Dialog>
-      ) : (
+      <ErrorBoundary
+        error={error}
+        onClose={() => {
+          dispatch(catalogPageHideError())
+        }}
+      >
         <Grid items={products}>
           {(product) => {
             return (
@@ -53,7 +49,7 @@ const Catalog: FC = () => {
             )
           }}
         </Grid>
-      )}
+      </ErrorBoundary>
     </Content>
   )
 }
