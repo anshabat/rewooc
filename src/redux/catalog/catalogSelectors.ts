@@ -9,8 +9,12 @@ export const selectProducts = (state: AppStateType): IProduct[] =>
 export const selectCatalogProcess = createSelector<
   AppStateType,
   ICatalogState,
-  { loading: boolean; title: string }
+  { loading: boolean; title: string; error: Error | boolean }
 >(
   (state) => state.catalog,
-  (result) => ({ loading: result.loading, title: result.title })
+  (result) => ({
+    loading: result.loading,
+    title: result.title,
+    error: result.error,
+  })
 )

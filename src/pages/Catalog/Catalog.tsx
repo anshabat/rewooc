@@ -12,14 +12,17 @@ import {
 } from '../../redux/catalog/catalogSelectors'
 import { useProductsInCartSelector } from '../../hooks/useProductsInCartSelector'
 import ProductContainer from '../../components/shop/product/ProductContainer/ProductContainer'
+import Dialog from '../../components/UI/Dialog/Dialog'
 
 const Catalog: FC = () => {
-  const { title, loading } = useSelector(selectCatalogProcess)
+  const { title, loading, error } = useSelector(selectCatalogProcess)
   const products = useSelector(selectProducts)
   //const { cartItemsIds, addingToCartId } = useProductsInCartSelector()
   useConnectPage(loadCatalogPage)
 
   if (loading) return <ContentLoader />
+
+  if(error) return <Dialog isOpened={true}>{error.toString()}</Dialog>
 
   return (
     <Content title={title}>
