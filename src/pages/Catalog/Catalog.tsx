@@ -13,9 +13,8 @@ import {
   selectCatalogProcess,
   selectProducts,
 } from '../../redux/catalog/catalogSelectors'
-import { useProductsInCartSelector } from '../../hooks/useProductsInCartSelector'
 import ProductContainer from '../../components/shop/product/ProductContainer/ProductContainer'
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
+import CustomErrorBoundary from '../../components/errorBoundaries/CustomErrorBoundary'
 
 const Catalog: FC = () => {
   const { title, loading, error } = useSelector(selectCatalogProcess)
@@ -28,7 +27,7 @@ const Catalog: FC = () => {
 
   return (
     <Content title={title}>
-      <ErrorBoundary
+      <CustomErrorBoundary
         error={error}
         onClose={() => {
           dispatch(catalogPageHideError())
@@ -49,7 +48,7 @@ const Catalog: FC = () => {
             )
           }}
         </Grid>
-      </ErrorBoundary>
+      </CustomErrorBoundary>
     </Content>
   )
 }

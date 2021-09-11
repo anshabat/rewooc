@@ -6,7 +6,7 @@ interface IProps {
   onClose?: () => void
 }
 
-const ErrorBoundary: FC<IProps> = (props) => {
+const CustomErrorBoundary: FC<IProps> = (props) => {
   const { children, error, onClose } = props
 
   if (!error) return <>{children}</>
@@ -25,4 +25,4 @@ const ErrorBoundary: FC<IProps> = (props) => {
   )
 }
 
-export default ErrorBoundary
+export default CustomErrorBoundary

@@ -8,7 +8,7 @@ import { AppProvider } from './context/appContext'
 import { AppStateType } from './redux/store'
 import { IAppState } from './redux/app/appTypes'
 import { selectApp } from './redux/app/appSelectors'
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
+import CustomErrorBoundary from './components/errorBoundaries/CustomErrorBoundary'
 
 const App: FC = () => {
   const { data, loading, error } = useSelector<AppStateType, IAppState>(
@@ -23,13 +23,13 @@ const App: FC = () => {
   if (loading) return <PageLoader />
 
   return (
-    <ErrorBoundary error={error || !data}>
+    <CustomErrorBoundary error={error || !data}>
       <AppProvider value={data!}>
         <Router>
           <Root />
         </Router>
       </AppProvider>
-    </ErrorBoundary>
+    </CustomErrorBoundary>
   )
 }
 
