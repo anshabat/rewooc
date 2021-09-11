@@ -1,0 +1,8 @@
+.rw-link {
+  text-decoration: none;
+  color: var(--link-clolor);
+
+  &:hover {
+    color: var(--link-clolor-light);
+  }
+}

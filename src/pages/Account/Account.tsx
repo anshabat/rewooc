@@ -7,6 +7,7 @@ import PersonalInformation from './PersonalInformation/PersonalInformation'
 import Orders from './Orders/Orders'
 import Addresses from './Addresses/Addresses'
 import ViewOrder from './ViewOrder/ViewOrder'
+import Sidebar from '../../components/UI/SIdebar/Sidebar'
 
 const Account: FC = () => {
   const match = useRouteMatch()
@@ -14,18 +15,16 @@ const Account: FC = () => {
   return (
     <Content title="My Account">
       <div className="rw-account">
-        <div className="rw-account__sidebar">
-          <div className="rw-account__sidebar-item">[User data]</div>
-          <div className="rw-account__sidebar-item">
-            <SidebarNav
-              items={[
-                { url: `${match.url}`, name: 'Personal info' },
-                { url: `${match.url}/orders`, name: 'Orders' },
-                { url: `${match.url}/edit-address`, name: 'Addresses' },
-              ]}
-            />
-          </div>
-        </div>
+        <Sidebar>
+          <div>[User data]</div>
+          <SidebarNav
+            items={[
+              { url: `${match.url}`, name: 'Personal info' },
+              { url: `${match.url}/orders`, name: 'Orders' },
+              { url: `${match.url}/edit-address`, name: 'Addresses' },
+            ]}
+          />
+        </Sidebar>
         <div className="rw-account__body">
           <Switch>
             <Route path={`${match.path}`} exact>

@@ -1,5 +1,6 @@
+import './SidebarNav.scss'
 import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
+import A from '../../A/A'
 
 interface PropsType {
   items: Array<{ url: string; name: string }>
@@ -11,8 +12,8 @@ const SidebarNav: FC<PropsType> = (props) => {
     <ul className="rw-sidebar-nav">
       {items.map((item, index) => {
         return (
-          <li className="rw-sidebar-nav__item" key={index}>
-            <Link to={item.url}>{item.name}</Link>
+          <li key={index}>
+            <A to={item.url}>{item.name}</A>
           </li>
         )
       })}
