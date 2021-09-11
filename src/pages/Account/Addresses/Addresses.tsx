@@ -1,8 +1,8 @@
-import React, { FC, useContext, useEffect } from 'react'
+import React, { FC } from 'react'
 import { IUserAddress } from 'app-types'
 import { usePageData } from '../../../hooks/usePageData'
 import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
-import { AccountContext } from '../Account'
+import { useAccountContext } from '../../../context/accountContext'
 
 interface IUserAddressPage extends IUserAddress {
   title: string
@@ -10,12 +10,7 @@ interface IUserAddressPage extends IUserAddress {
 
 const Addresses: FC = () => {
   const data = usePageData<IUserAddressPage>()
-
-  const { title, setTitle } = useContext(AccountContext)
-
-  useEffect(() => {
-    setTitle(data?.title || title)
-  }, [data, title])
+  useAccountContext(data?.title)
 
   if (!data) return <ContentLoader />
 

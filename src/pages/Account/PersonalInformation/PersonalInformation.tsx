@@ -1,17 +1,12 @@
-import React, { FC, useContext, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAccountUser } from '../../../redux/account/accountSelector'
 import Loader from '../../../components/UI/loaders/Loader/Loader'
-import { AccountContext } from '../Account'
+import { useAccountContext } from '../../../context/accountContext'
 
 const PersonalInformation: FC = () => {
   const user = useSelector(selectAccountUser)
-
-  const { title, setTitle } = useContext(AccountContext)
-
-  useEffect(() => {
-    setTitle('Personal info' || title)
-  }, [title])
+  useAccountContext('Personal info')
 
   if (!user) return <Loader />
 

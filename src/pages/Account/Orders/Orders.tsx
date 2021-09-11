@@ -1,9 +1,9 @@
-import React, { FC, useContext, useEffect } from 'react'
+import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { usePageData } from '../../../hooks/usePageData'
 import { IOrder } from 'app-types'
 import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
-import { AccountContext } from '../Account'
+import { useAccountContext } from '../../../context/accountContext'
 
 interface IPageData {
   orders: IOrder[]
@@ -12,11 +12,7 @@ interface IPageData {
 
 const Orders: FC = () => {
   const data = usePageData<IPageData>()
-  const { title, setTitle } = useContext(AccountContext)
-
-  useEffect(() => {
-    setTitle(data?.title || title)
-  }, [data, title])
+  useAccountContext(data?.title)
 
   if (!data) return <ContentLoader />
 
