@@ -18,6 +18,6 @@ foreach ( $customer_orders->orders as $customer_order ) {
 }
 
 View::renderPage( [
-	'title'  => get_the_title(),
+	'title'  => 'Orders',
 	'orders' => $result
 ] );
