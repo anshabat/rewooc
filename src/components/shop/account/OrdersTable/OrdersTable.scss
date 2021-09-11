@@ -1,0 +1,14 @@
+.rw-order-table {
+  width: 100%;
+  table-layout: fixed;
+
+  td,
+  th {
+    padding: 10px;
+    border: 1px solid var(--border-light-color);
+  }
+
+  th {
+    font-weight: bold;
+  }
+}

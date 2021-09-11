@@ -1,5 +1,7 @@
+import { IDate } from './dateAndTime'
+
 export interface IOrder {
-  created: any
+  created: IDate
   currency: string
   id: number
   item_count: number
