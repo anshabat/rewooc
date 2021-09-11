@@ -23,7 +23,6 @@ const reducer = (state = initialState, action: AuthActionTypes): IAuthState => {
         draft.error = false
         break
       case AUTH_SIGN_IN_FAIL:
-        console.error(action.error)
         draft.loading = false
         draft.error = action.error
         break

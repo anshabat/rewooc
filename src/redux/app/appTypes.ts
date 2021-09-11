@@ -1,4 +1,9 @@
-import { INIT_APP, INIT_APP_FAIL, INIT_APP_SUCCESS } from './appActions'
+import {
+  APP_HIDE_ERROR,
+  INIT_APP,
+  INIT_APP_FAIL,
+  INIT_APP_SUCCESS,
+} from './appActions'
 import { AppContextType } from '../../context/appContext'
 
 /**
@@ -27,7 +32,12 @@ interface IInitAppFailAction {
   error: Error
 }
 
+interface IAppHideError {
+  type: typeof APP_HIDE_ERROR
+}
+
 export type AppActionTypes =
   | IInitAppAction
   | IInitAppSuccessAction
   | IInitAppFailAction
+  | IAppHideError

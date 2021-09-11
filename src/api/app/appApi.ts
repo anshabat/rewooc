@@ -15,7 +15,7 @@ async function fetchGeneralData(): Promise<IGeneralData> {
   )
   const { data } = response
   if (!data) {
-    throw new Error(ErrorMessage.CART_FAIL_TO_FETCH_GENERAL_DATA)
+    throw new Error(ErrorMessage.APP_FAIL_TO_FETCH_GENERAL_DATA)
   }
   return { ...data, cart: cartHashToItems(data.cart) }
 }

@@ -10,13 +10,21 @@ import { useHistory } from 'react-router-dom'
 import { selectAccountUserId } from '../redux/account/accountSelector'
 import { CheckoutFormType } from './useCheckoutReducer'
 
-export const useCheckoutForm = (formData: CheckoutFormType, onClear: () => void) => {
+export const useCheckoutForm = (
+  formData: CheckoutFormType,
+  onClear: () => void
+) => {
   const [isOrderLoading, setOrderLoading] = useState(false)
   const [errors, setErrors] = useState<ValidationErrorType>({})
+  const [cartEmptyError, setCartEmptyError] = useState(false)
   const cartItems = useSelector(selectCartItems)
   const userId = useSelector(selectAccountUserId)
   const dispatch = useDispatch()
   const history = useHistory()
+
+  const hideEmptyCartError  = () => {
+    setCartEmptyError(false)
+  }
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -28,7 +36,7 @@ export const useCheckoutForm = (formData: CheckoutFormType, onClear: () => void)
     }
 
     if (cartItems.length === 0) {
-      alert('No items in the cart')
+      setCartEmptyError(true)
       return
     }
 
@@ -87,5 +95,7 @@ export const useCheckoutForm = (formData: CheckoutFormType, onClear: () => void)
     errors,
     submitForm,
     validateEmail,
+    cartEmptyError,
+    hideEmptyCartError
   }
 }

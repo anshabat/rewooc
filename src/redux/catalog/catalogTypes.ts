@@ -1,8 +1,9 @@
 import { IProduct } from 'app-types'
 import {
+  CATALOG_PAGE_HIDE_ERROR,
   CATALOG_PAGE_LOAD,
   CATALOG_PAGE_LOAD_FAIL,
-  CATALOG_PAGE_LOAD_SUCCESS,
+  CATALOG_PAGE_LOAD_SUCCESS
 } from './catalogActions'
 
 export interface ICatalogState {
@@ -32,7 +33,12 @@ interface ILoadCatalogPageFail {
   error: Error
 }
 
+interface ICatalogPageHideError {
+  type: typeof CATALOG_PAGE_HIDE_ERROR
+}
+
 export type CatalogActionTypes =
   | ILoadCatalogPageAction
   | ILoadCatalogPageSuccessAction
   | ILoadCatalogPageFail
+  | ICatalogPageHideError

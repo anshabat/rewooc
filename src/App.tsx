@@ -8,25 +8,28 @@ import { AppProvider } from './context/appContext'
 import { AppStateType } from './redux/store'
 import { IAppState } from './redux/app/appTypes'
 import { selectApp } from './redux/app/appSelectors'
+import CustomErrorBoundary from './components/errorBoundaries/CustomErrorBoundary'
 
 const App: FC = () => {
-  const { data, loading } = useSelector<AppStateType, IAppState>(selectApp)
+  const { data, loading, error } = useSelector<AppStateType, IAppState>(
+    selectApp
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(checkAuth())
   }, [])
 
-  if (loading || !data) return <PageLoader />
-
-  //TODO add if (!data) - return Error page component instead of Loading state
+  if (loading) return <PageLoader />
 
   return (
-    <AppProvider value={data}>
-      <Router>
-        <Root />
-      </Router>
-    </AppProvider>
+    <CustomErrorBoundary error={error || !data}>
+      <AppProvider value={data!}>
+        <Router>
+          <Root />
+        </Router>
+      </AppProvider>
+    </CustomErrorBoundary>
   )
 }
 

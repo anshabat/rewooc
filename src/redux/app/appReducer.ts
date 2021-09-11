@@ -1,4 +1,9 @@
-import { INIT_APP_FAIL, INIT_APP, INIT_APP_SUCCESS } from './appActions'
+import {
+  APP_HIDE_ERROR,
+  INIT_APP,
+  INIT_APP_FAIL,
+  INIT_APP_SUCCESS,
+} from './appActions'
 import produce from 'immer'
 import { IGeneralData } from 'app-api'
 import { AppActionTypes, IAppState } from './appTypes'
@@ -30,9 +35,11 @@ const reducer = (state = initialState, action: AppActionTypes): IAppState => {
         draft.data = separateStateFromContext(action.payload)
         break
       case INIT_APP_FAIL:
-        console.error(action.error)
         draft.loading = false
         draft.error = action.error
+        break
+      case APP_HIDE_ERROR:
+        draft.error = false
     }
   })
 }
