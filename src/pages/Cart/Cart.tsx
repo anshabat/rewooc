@@ -9,6 +9,7 @@ import {
   selectCartItems,
   selectCartProcess,
 } from '../../redux/cart/cartSelectors'
+import ErrorBoundary from '../../components/errorBoundaries/ErrorBoundary'
 
 const Cart: FC = () => {
   const { title, loading } = useSelector(selectCartProcess)
@@ -20,7 +21,9 @@ const Cart: FC = () => {
   return (
     <Content title={title}>
       {CartItems.length > 0 ? (
-        <CartTable items={CartItems} />
+        <ErrorBoundary>
+          <CartTable items={CartItems} />
+        </ErrorBoundary>
       ) : (
         <p>Cart is empty</p>
       )}
