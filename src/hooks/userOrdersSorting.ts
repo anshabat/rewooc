@@ -4,6 +4,7 @@ import { useState } from 'react'
 interface ISorting {
   orderBy: 'total' | 'id' | 'created.date'
   direction: 'asc' | 'desc'
+  type: 'string' | 'number'
 }
 
 type IUserOrdersSorting = (
@@ -14,7 +15,8 @@ type IUserOrdersSorting = (
   sorting: ISorting
   changeOrder: (
     orderBy: 'total' | 'id' | 'created.date',
-    direction: 'asc' | 'desc'
+    direction: 'asc' | 'desc',
+    type: 'string' | 'number'
   ) => void
 }
 
@@ -28,23 +30,21 @@ export const userOrdersSorting: IUserOrdersSorting = (
   initialSorting = {
     orderBy: 'created.date',
     direction: 'asc',
+    type: 'string',
   }
 ) => {
   const sortOrders = (orders: IOrder[], sorting: ISorting): IOrder[] => {
-    const { orderBy, direction } = sorting
+    const { orderBy, direction, type } = sorting
     const newOrders = [...orders]
     return newOrders.sort((a, b) => {
       const aValue = foo(a, orderBy)
       const bValue = foo(b, orderBy)
       let result = a.id - b.id
-      switch (orderBy) {
-        case 'id':
+      switch (type) {
+        case 'number':
           result = direction === 'desc' ? bValue - aValue : aValue - bValue
           break
-        case 'total':
-          result = direction === 'desc' ? bValue - aValue : aValue - bValue
-          break
-        case 'created.date':
+        case 'string':
           if (direction === 'desc') {
             result = aValue > bValue ? -1 : 1
           } else {
@@ -60,11 +60,13 @@ export const userOrdersSorting: IUserOrdersSorting = (
 
   const changeOrder = (
     orderBy: 'total' | 'id' | 'created.date',
-    direction: 'asc' | 'desc'
+    direction: 'asc' | 'desc',
+    type: 'string' | 'number'
   ): void => {
     setSorting({
       orderBy,
       direction,
+      type,
     })
   }
 
