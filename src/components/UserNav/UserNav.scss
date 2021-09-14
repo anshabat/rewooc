@@ -2,6 +2,7 @@
   display: inline-grid;
   grid-auto-flow: column;
   grid-gap: 10px 30px;
+  align-items: center;
 
   &__link {
     font-size: 1.2rem;
