@@ -18,6 +18,11 @@ type IUserOrdersSorting = (
   ) => void
 }
 
+const foo = (obj: any, dottedStr: string): any => {
+  const properties = dottedStr.split('.')
+  return properties.reduce((res, item) => res?.[item], obj)
+}
+
 export const userOrdersSorting: IUserOrdersSorting = (
   orders,
   initialSorting = {
@@ -29,19 +34,21 @@ export const userOrdersSorting: IUserOrdersSorting = (
     const { orderBy, direction } = sorting
     const newOrders = [...orders]
     return newOrders.sort((a, b) => {
+      const aValue = foo(a, orderBy)
+      const bValue = foo(b, orderBy)
       let result = a.id - b.id
       switch (orderBy) {
         case 'id':
-          result = direction === 'desc' ? b.id - a.id : a.id - b.id
+          result = direction === 'desc' ? bValue - aValue : aValue - bValue
           break
         case 'total':
-          result = direction === 'desc' ? b.total - a.total : a.total - b.total
+          result = direction === 'desc' ? bValue - aValue : aValue - bValue
           break
         case 'created.date':
           if (direction === 'desc') {
-            result = a.created.date > b.created.date ? -1 : 1
+            result = aValue > bValue ? -1 : 1
           } else {
-            result = a.created.date > b.created.date ? 1 : -1
+            result = aValue > bValue ? 1 : -1
           }
           break
       }
