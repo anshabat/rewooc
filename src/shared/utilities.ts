@@ -53,3 +53,8 @@ export function trimObject<T>(obj: T, exceptions: Array<string>): Partial<T> {
     return result
   }, {})
 }
+
+export const propertyFromDottedString = (obj: any, dottedStr: string): any => {
+  const properties = dottedStr.split('.')
+  return properties.reduce((res, item) => res?.[item], obj)
+}
