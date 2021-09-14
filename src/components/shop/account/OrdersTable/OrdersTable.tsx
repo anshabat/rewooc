@@ -11,9 +11,19 @@ interface IProps {
   orders: IOrder[]
 }
 
+type OrderProperties = 'total' | 'id' | 'created.date'
+
 const OrdersTable: FC<IProps> = (props) => {
   const { orders } = props
-  const { sortedOrders, sorting, changeOrder } = userOrdersSorting(orders)
+  const {
+    sortedOrders,
+    sorting,
+    changeOrder,
+  } = userOrdersSorting<OrderProperties>(orders, {
+    orderBy: 'created.date',
+    direction: 'asc',
+    type: 'string',
+  })
 
   return (
     <table className="rw-order-table">

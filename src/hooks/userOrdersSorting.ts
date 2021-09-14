@@ -2,41 +2,34 @@ import { IOrder } from 'app-types'
 import { useState } from 'react'
 import { propertyFromDottedString } from '../shared/utilities'
 
-interface ISorting {
-  orderBy: 'total' | 'id' | 'created.date'
+interface ISorting<T> {
+  orderBy: T
   direction: 'asc' | 'desc'
   type: 'string' | 'number'
 }
 
-type ChangeOrder = (
-  orderBy: 'total' | 'id' | 'created.date',
+type ChangeOrder<T> = (
+  orderBy: T,
   direction: 'asc' | 'desc',
   type: 'string' | 'number'
 ) => void
 
-type IUserOrdersSorting = (
-  orders: IOrder[],
-  initialSorting?: ISorting
-) => {
+interface IUserOrdersSorting<T> {
   sortedOrders: IOrder[]
-  sorting: ISorting
-  changeOrder: ChangeOrder
+  sorting: ISorting<T>
+  changeOrder: ChangeOrder<T>
 }
 
-export const userOrdersSorting: IUserOrdersSorting = (
-  orders,
-  initialSorting = {
-    orderBy: 'created.date',
-    direction: 'asc',
-    type: 'string',
-  }
-) => {
-  const sortOrders = (orders: IOrder[], sorting: ISorting): IOrder[] => {
+export function userOrdersSorting<T>(
+  orders: IOrder[],
+  initialSorting: ISorting<T>
+): IUserOrdersSorting<T> {
+  function sortOrders(orders: IOrder[], sorting: ISorting<T>): IOrder[] {
     const { orderBy, direction, type } = sorting
     const newOrders = [...orders]
     return newOrders.sort((a, b) => {
-      const aValue = propertyFromDottedString(a, orderBy)
-      const bValue = propertyFromDottedString(b, orderBy)
+      const aValue = propertyFromDottedString(a, String(orderBy))
+      const bValue = propertyFromDottedString(b, String(orderBy))
       switch (type) {
         case 'string':
           if (direction === 'desc') {
@@ -51,9 +44,9 @@ export const userOrdersSorting: IUserOrdersSorting = (
     })
   }
 
-  const [sorting, setSorting] = useState<ISorting>(initialSorting)
+  const [sorting, setSorting] = useState<ISorting<T>>(initialSorting)
 
-  const changeOrder: ChangeOrder = (orderBy, direction, type) => {
+  const changeOrder: ChangeOrder<T> = (orderBy, direction, type) => {
     setSorting({
       orderBy,
       direction,
