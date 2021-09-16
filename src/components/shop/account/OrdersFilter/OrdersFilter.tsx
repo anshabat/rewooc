@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 
 export interface OrderFilterAttributes {
-  status: string
+  status: string[]
 }
 
 interface OrdersFilterProps {
@@ -20,23 +20,25 @@ const statuses = [
 
 const OrdersFilter: FC<OrdersFilterProps> = (props) => {
   const { onFilter } = props
-  const [activeStatus, setActiveStatus] = useState('')
+  const [activeStatuses, setActiveStatuses] = useState<string[]>([])
 
   const changeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setActiveStatus(e.target.value)
+    const values = Array.from(e.target.options)
+      .filter((option) => option.selected)
+      .map((option) => option.value)
+    setActiveStatuses(values)
   }
 
   useEffect(() => {
-    onFilter({ status: activeStatus })
-  }, [activeStatus])
+    onFilter({ status: activeStatuses })
+  }, [activeStatuses.length])
 
   return (
     <div className="rw-order-filter">
-      <select onChange={changeStatus}>
-        <option value="">All statuses</option>
+      <select onChange={changeStatus} multiple>
         {statuses.map((status) => {
           return (
-            <option value={status} key={status} defaultValue={activeStatus}>
+            <option value={status} key={status}>
               {status}
             </option>
           )

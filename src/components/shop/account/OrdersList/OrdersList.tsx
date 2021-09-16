@@ -10,9 +10,8 @@ interface OrdersListProps {
   orders: IOrder[]
 }
 
-const filterByStatus = (orders: IOrder[], status: string): IOrder[] => {
-  if (status === '') return orders
-  return orders.filter((order) => order.status === status)
+const filterByStatus = (orders: IOrder[], statuses: string[]): IOrder[] => {
+  return orders.filter((order) => statuses.includes(order.status))
 }
 
 const OrdersList: FC<OrdersListProps> = (props) => {
