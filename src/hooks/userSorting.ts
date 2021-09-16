@@ -1,5 +1,5 @@
 import { IOrder } from 'app-types'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { propertyFromDottedString } from '../shared/utilities'
 
 interface ISorting<T> {
@@ -24,7 +24,10 @@ export function userSorting<T>(
   orders: IOrder[],
   initialSorting: ISorting<T>
 ): IUserSorting<T> {
+  const [sorting, setSorting] = useState<ISorting<T>>(initialSorting)
+
   function sortOrders(orders: IOrder[], sorting: ISorting<T>): IOrder[] {
+    console.log('sort hook')
     const { orderBy, direction, type } = sorting
     const newOrders = [...orders]
     return newOrders.sort((a, b) => {
@@ -44,8 +47,6 @@ export function userSorting<T>(
     })
   }
 
-  const [sorting, setSorting] = useState<ISorting<T>>(initialSorting)
-
   const changeOrder: ChangeOrder<T> = (orderBy, direction, type) => {
     setSorting({
       orderBy,
@@ -54,7 +55,9 @@ export function userSorting<T>(
     })
   }
 
-  const sortedOrders = sortOrders(orders, sorting)
+  const sortedOrders = useMemo(() => {
+    return sortOrders(orders, sorting)
+  }, [orders, sorting])
 
   return { sortedOrders, sorting, changeOrder }
 }
