@@ -20,7 +20,7 @@ interface IUserSorting<T> {
   changeOrder: ChangeOrder<T>
 }
 
-export function userSorting<T>(
+export function useSorting<T>(
   orders: IOrder[],
   initialSorting: ISorting<T>
 ): IUserSorting<T> {

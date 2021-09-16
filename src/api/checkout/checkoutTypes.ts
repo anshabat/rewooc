@@ -26,8 +26,8 @@ export interface IDeliveryMethod {
   id: number
   title: string
   cost: number
-  order: number
-  enabled: string
+  order?: number
+  enabled?: string
 }
 
 export interface IPaymentMethodResponse {

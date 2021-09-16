@@ -5,7 +5,7 @@ import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
 import { getFormattedDate } from 'app-services/date'
 import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
-import { userSorting } from '../../../../hooks/userSorting'
+import { useSorting } from '../../../../hooks/useSorting'
 
 interface IProps {
   orders: IOrder[]
@@ -15,7 +15,7 @@ type OrderProperties = 'total' | 'id' | 'created.date'
 
 const OrdersTable: FC<IProps> = (props) => {
   const { orders } = props
-  const { sortedOrders, sorting, changeOrder } = userSorting<OrderProperties>(
+  const { sortedOrders, sorting, changeOrder } = useSorting<OrderProperties>(
     orders,
     {
       orderBy: 'created.date',
@@ -39,6 +39,7 @@ const OrdersTable: FC<IProps> = (props) => {
             </SortableTitle>
           </th>
           <th>Status</th>
+          <th>Delivery</th>
           <th>
             <SortableTitle
               direction={
@@ -71,6 +72,7 @@ const OrdersTable: FC<IProps> = (props) => {
                 <A to={`/my-account/view-order/${order.id}`}>{order.id}</A>
               </td>
               <td>{order.status}</td>
+              <td>{order.deliveryMethod.title}</td>
               <td>{getFormattedDate(order.created.date)}</td>
               <td>
                 <Price value={order.total} />

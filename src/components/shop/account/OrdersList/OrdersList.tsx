@@ -11,6 +11,7 @@ interface OrdersListProps {
 }
 
 const filterByStatus = (orders: IOrder[], statuses: string[]): IOrder[] => {
+  if (!statuses.length) return orders
   return orders.filter((order) => statuses.includes(order.status))
 }
 

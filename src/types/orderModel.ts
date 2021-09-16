@@ -1,4 +1,5 @@
 import { IDate } from './dateAndTime'
+import { IDeliveryMethod } from 'app-api'
 
 export interface IOrder {
   created: IDate
@@ -9,4 +10,5 @@ export interface IOrder {
   status: string
   total: number //string in response
   url: number
+  deliveryMethod: IDeliveryMethod
 }
