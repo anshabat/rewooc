@@ -3,7 +3,7 @@ import { usePageData } from '../../../hooks/usePageData'
 import { IOrder } from 'app-types'
 import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
 import { useAccountContext } from '../../../context/accountContext'
-import OrdersTable from '../../../components/shop/account/OrdersTable/OrdersTable'
+import OrdersList from '../../../components/shop/account/OrdersList/OrdersList'
 
 interface IPageData {
   orders: IOrder[]
@@ -18,11 +18,7 @@ const Orders: FC = () => {
 
   const { orders } = data
 
-  return (
-    <div>
-      <OrdersTable orders={orders} />
-    </div>
-  )
+  return <OrdersList orders={orders} />
 }
 
 export default Orders
