@@ -14,16 +14,16 @@ type ChangeOrder<T> = (
   type: 'string' | 'number'
 ) => void
 
-interface IUserOrdersSorting<T> {
+interface IUserSorting<T> {
   sortedOrders: IOrder[]
   sorting: ISorting<T>
   changeOrder: ChangeOrder<T>
 }
 
-export function userOrdersSorting<T>(
+export function userSorting<T>(
   orders: IOrder[],
   initialSorting: ISorting<T>
-): IUserOrdersSorting<T> {
+): IUserSorting<T> {
   function sortOrders(orders: IOrder[], sorting: ISorting<T>): IOrder[] {
     const { orderBy, direction, type } = sorting
     const newOrders = [...orders]

@@ -5,7 +5,7 @@ import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
 import { getFormattedDate } from 'app-services/date'
 import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
-import { userOrdersSorting } from '../../../../hooks/userOrdersSorting'
+import { userSorting } from '../../../../hooks/userSorting'
 
 interface IProps {
   orders: IOrder[]
@@ -15,15 +15,14 @@ type OrderProperties = 'total' | 'id' | 'created.date'
 
 const OrdersTable: FC<IProps> = (props) => {
   const { orders } = props
-  const {
-    sortedOrders,
-    sorting,
-    changeOrder,
-  } = userOrdersSorting<OrderProperties>(orders, {
-    orderBy: 'created.date',
-    direction: 'asc',
-    type: 'string',
-  })
+  const { sortedOrders, sorting, changeOrder } = userSorting<OrderProperties>(
+    orders,
+    {
+      orderBy: 'created.date',
+      direction: 'asc',
+      type: 'string',
+    }
+  )
 
   return (
     <table className="rw-order-table">
