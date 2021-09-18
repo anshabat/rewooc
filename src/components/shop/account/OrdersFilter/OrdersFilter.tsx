@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { IDeliveryMethod } from 'app-api'
+import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 
 export interface OrderFilterAttributes {
   status: string[]
@@ -46,16 +47,11 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
 
   return (
     <div className="rw-order-filter">
-      <select onChange={changeStatus} multiple>
-        {statuses.map((status) => {
-          return (
-            <option value={status} key={status}>
-              {status}
-            </option>
-          )
-        })}
-      </select>
-      <select onChange={changeDelivery} multiple>
+      <HorizontalFilter attributes={[
+        {label: 'Status', applied: false, valuesComponent: <div>status component</div>},
+        {label: 'Delivery', applied: false, valuesComponent: <div>delivery component</div>},
+      ]} />
+      {/*<select onChange={changeDelivery} multiple>
         {deliveryValues.map((delivery) => {
           return (
             <option value={delivery.id} key={delivery.id}>
@@ -63,7 +59,7 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
             </option>
           )
         })}
-      </select>
+      </select>*/}
     </div>
   )
 }
