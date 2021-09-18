@@ -27,7 +27,6 @@ export function useSorting<T>(
   const [sorting, setSorting] = useState<ISorting<T>>(initialSorting)
 
   function sortOrders(orders: IOrder[], sorting: ISorting<T>): IOrder[] {
-    console.log('sort hook')
     const { orderBy, direction, type } = sorting
     const newOrders = [...orders]
     return newOrders.sort((a, b) => {

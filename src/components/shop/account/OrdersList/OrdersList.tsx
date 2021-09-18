@@ -11,16 +11,29 @@ interface OrdersListProps {
   orders: IOrder[]
 }
 
-const filterByStatus = (orders: IOrder[], statuses: string[]): IOrder[] => {
-  if (!statuses.length) return orders
-  return orders.filter((order) => statuses.includes(order.status))
-}
+class OrderFilterModule {
+  constructor(
+    public orders: IOrder[],
+    public attributes: OrderFilterAttributes
+  ) {}
 
-const filterByDelivery = (orders: IOrder[], deliveries: string[]): IOrder[] => {
-  if (!deliveries.length) return orders
-  return orders.filter((order) =>
-    deliveries.includes(String(order.deliveryMethod.id))
-  )
+  filterByStatus(): this {
+    const { status } = this.attributes
+    if (status.length) {
+      this.orders = this.orders.filter((order) => status.includes(order.status))
+    }
+    return this
+  }
+
+  filterByDelivery(): this {
+    const { delivery } = this.attributes
+    if (delivery.length) {
+      this.orders = this.orders.filter((order) =>
+        delivery.includes(String(order.deliveryMethod.id))
+      )
+    }
+    return this
+  }
 }
 
 const OrdersList: FC<OrdersListProps> = (props) => {
@@ -28,9 +41,10 @@ const OrdersList: FC<OrdersListProps> = (props) => {
   const [filteredOrders, setFilteredOrders] = useState(orders)
 
   const onFilterHandler = (attributes: OrderFilterAttributes) => {
-    const newOrders = filterByStatus(orders, attributes.status)
-    const newOrders2 = filterByDelivery(newOrders, attributes.delivery)
-    setFilteredOrders(newOrders2)
+    const filter = new OrderFilterModule(orders, attributes)
+      .filterByStatus()
+      .filterByDelivery()
+    setFilteredOrders(filter.orders)
   }
 
   const deliveryValues = orders.reduce<IDeliveryMethod[]>((prev, order) => {
