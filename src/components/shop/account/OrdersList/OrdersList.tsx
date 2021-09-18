@@ -12,21 +12,16 @@ interface OrdersListProps {
 }
 
 class OrderFilterModule {
-  constructor(
-    public orders: IOrder[],
-    public attributes: OrderFilterAttributes
-  ) {}
+  constructor(public orders: IOrder[]) {}
 
-  filterByStatus(): this {
-    const { status } = this.attributes
+  filterByStatus(status: string[]): this {
     if (status.length) {
       this.orders = this.orders.filter((order) => status.includes(order.status))
     }
     return this
   }
 
-  filterByDelivery(): this {
-    const { delivery } = this.attributes
+  filterByDelivery(delivery: string[]): this {
     if (delivery.length) {
       this.orders = this.orders.filter((order) =>
         delivery.includes(String(order.deliveryMethod.id))
@@ -41,9 +36,9 @@ const OrdersList: FC<OrdersListProps> = (props) => {
   const [filteredOrders, setFilteredOrders] = useState(orders)
 
   const onFilterHandler = (attributes: OrderFilterAttributes) => {
-    const filter = new OrderFilterModule(orders, attributes)
-      .filterByStatus()
-      .filterByDelivery()
+    const filter = new OrderFilterModule(orders)
+      .filterByStatus(attributes.status)
+      .filterByDelivery(attributes.delivery)
     setFilteredOrders(filter.orders)
   }
 
