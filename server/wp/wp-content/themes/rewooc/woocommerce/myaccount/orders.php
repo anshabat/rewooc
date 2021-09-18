@@ -11,11 +11,16 @@ foreach ($customer_orders->orders as $customer_order) {
         $item_data = $item->get_data();
     }
 
+    $statuses = wc_get_order_statuses();
+
     $result[] = [
         'url' => $order->get_view_order_url(),
         'id' => $order->get_id(),
         'number' => $order->get_order_number(),
-        'status' => $order->get_status(),
+        'status' => [
+            'key' => $order->get_status(),
+            'value' => $statuses['wc-' . $order->get_status()]
+        ],
         'created' => $order->get_date_created(),
         'item_count' => $order->get_item_count(),
         'total' => $order->get_total(),

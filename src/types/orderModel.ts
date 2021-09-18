@@ -7,7 +7,10 @@ export interface IOrder {
   id: number
   item_count: number
   number: number //string in response
-  status: string
+  status: {
+    key: string
+    value: string
+  }
   total: number //string in response
   url: number
   deliveryMethod: IDeliveryMethod

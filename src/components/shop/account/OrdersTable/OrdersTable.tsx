@@ -71,7 +71,7 @@ const OrdersTable: FC<IProps> = (props) => {
               <td>
                 <A to={`/my-account/view-order/${order.id}`}>{order.id}</A>
               </td>
-              <td>{order.status}</td>
+              <td>{order.status.value}</td>
               <td>{order.deliveryMethod.title}</td>
               <td>{getFormattedDate(order.created.date)}</td>
               <td>

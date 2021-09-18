@@ -16,7 +16,7 @@ class OrderFilterModule {
 
   filterByStatus(status: string[]): this {
     if (status.length) {
-      this.orders = this.orders.filter((order) => status.includes(order.status))
+      this.orders = this.orders.filter((order) => status.includes(order.status.key))
     }
     return this
   }

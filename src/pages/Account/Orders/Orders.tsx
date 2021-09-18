@@ -4,6 +4,7 @@ import { IOrder } from 'app-types'
 import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
 import { useAccountContext } from '../../../context/accountContext'
 import OrdersList from '../../../components/shop/account/OrdersList/OrdersList'
+import ErrorBoundary from '../../../components/errorBoundaries/ErrorBoundary'
 
 interface IPageData {
   orders: IOrder[]
@@ -18,7 +19,11 @@ const Orders: FC = () => {
 
   const { orders } = data
 
-  return <OrdersList orders={orders} />
+  return (
+    <ErrorBoundary>
+      <OrdersList orders={orders} />
+    </ErrorBoundary>
+  )
 }
 
 export default Orders
