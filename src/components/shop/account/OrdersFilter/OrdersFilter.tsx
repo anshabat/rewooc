@@ -40,7 +40,6 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
         attributes={[
           {
             label: 'Status',
-            applied: false,
             valuesComponent: (
               <ChoiceList
                 options={statusOptions}
@@ -48,10 +47,10 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
                 defaultOptions={activeStatuses}
               />
             ),
+            isApplied: Boolean(activeStatuses.length),
           },
           {
             label: 'Delivery',
-            applied: false,
             valuesComponent: (
               <ChoiceList
                 options={deliveryOptions}
@@ -59,6 +58,7 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
                 defaultOptions={activeDelivery}
               />
             ),
+            isApplied: Boolean(activeDelivery.length),
           },
         ]}
       />

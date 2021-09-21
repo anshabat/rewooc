@@ -24,6 +24,10 @@
     gap: 5px;
   }
 
+  &__attribute--active &__label {
+    font-weight: bold;
+  }
+
   &__dropdown {
     position: absolute;
     top: calc(100% + 5px);
