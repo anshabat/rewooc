@@ -33,19 +33,10 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
     value: String(d.id),
   }))
 
-  const changeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const values = Array.from(e.target.options)
-      .filter((option) => option.selected)
-      .map((option) => option.value)
-    setActiveStatuses(values)
-  }
-
-  const changeDelivery = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const values = Array.from(e.target.options)
-      .filter((option) => option.selected)
-      .map((option) => option.value)
-    setActiveDeliveries(values)
-  }
+  const statusOptions = statuses.map((s) => ({
+    label: s,
+    value: s,
+  }))
 
   useEffect(() => {
     onFilter({ status: activeStatuses, delivery: activeDelivery })
@@ -58,24 +49,27 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
           {
             label: 'Status',
             applied: false,
-            valuesComponent: <ChoiceList options={deliveryOptions} />,
+            valuesComponent: (
+              <ChoiceList
+                options={statusOptions}
+                onChange={setActiveStatuses}
+                defaultOptions={activeStatuses}
+              />
+            ),
           },
           {
             label: 'Delivery',
             applied: false,
-            valuesComponent: <div>delivery component</div>,
+            valuesComponent: (
+              <ChoiceList
+                options={deliveryOptions}
+                onChange={setActiveDeliveries}
+                defaultOptions={activeDelivery}
+              />
+            ),
           },
         ]}
       />
-      {/*<select onChange={changeDelivery} multiple>
-        {deliveryValues.map((delivery) => {
-          return (
-            <option value={delivery.id} key={delivery.id}>
-              {delivery.title}
-            </option>
-          )
-        })}
-      </select>*/}
     </div>
   )
 }
