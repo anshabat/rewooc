@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { IDeliveryMethod } from 'app-api'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
+import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 
 export interface OrderFilterAttributes {
   status: string[]
@@ -27,6 +28,11 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
   const [activeStatuses, setActiveStatuses] = useState<string[]>([])
   const [activeDelivery, setActiveDeliveries] = useState<string[]>([])
 
+  const deliveryOptions = deliveryValues.map((d) => ({
+    label: d.title,
+    value: String(d.id),
+  }))
+
   const changeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const values = Array.from(e.target.options)
       .filter((option) => option.selected)
@@ -47,10 +53,20 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
 
   return (
     <div className="rw-order-filter">
-      <HorizontalFilter attributes={[
-        {label: 'Status', applied: false, valuesComponent: <div>status component</div>},
-        {label: 'Delivery', applied: false, valuesComponent: <div>delivery component</div>},
-      ]} />
+      <HorizontalFilter
+        attributes={[
+          {
+            label: 'Status',
+            applied: false,
+            valuesComponent: <ChoiceList options={deliveryOptions} />,
+          },
+          {
+            label: 'Delivery',
+            applied: false,
+            valuesComponent: <div>delivery component</div>,
+          },
+        ]}
+      />
       {/*<select onChange={changeDelivery} multiple>
         {deliveryValues.map((delivery) => {
           return (
