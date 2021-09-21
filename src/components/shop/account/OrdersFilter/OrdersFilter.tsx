@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { IDeliveryMethod } from 'app-api'
+import { OrderStatus } from 'app-types'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 
@@ -10,21 +11,12 @@ export interface OrderFilterAttributes {
 
 interface OrdersFilterProps {
   deliveryValues: IDeliveryMethod[]
+  statusValues: OrderStatus[]
   onFilter: (attributes: OrderFilterAttributes) => void
 }
 
-const statuses = [
-  'pending',
-  'processing',
-  'on-hold',
-  'completed',
-  'cancelled',
-  'refunded',
-  'failed',
-]
-
 const OrdersFilter: FC<OrdersFilterProps> = (props) => {
-  const { onFilter, deliveryValues } = props
+  const { onFilter, deliveryValues, statusValues } = props
   const [activeStatuses, setActiveStatuses] = useState<string[]>([])
   const [activeDelivery, setActiveDeliveries] = useState<string[]>([])
 
@@ -33,9 +25,9 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
     value: String(d.id),
   }))
 
-  const statusOptions = statuses.map((s) => ({
-    label: s,
-    value: s,
+  const statusOptions = statusValues.map((item) => ({
+    label: item.value,
+    value: item.key,
   }))
 
   useEffect(() => {
