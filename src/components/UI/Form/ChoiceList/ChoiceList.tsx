@@ -1,9 +1,10 @@
 import './ChoiceList.scss'
 import React, { FC, useEffect, useState } from 'react'
 import ChoiceField from '../ChoiceField/ChoiceField'
+import { IFilterChoiceValue } from '../../../shop/account/OrdersList/OrdersList'
 
 interface ChoiceListProps {
-  options: { label: string; value: string }[]
+  options: IFilterChoiceValue[]
   onChange?: (options: string[]) => void
   defaultOptions?: string[]
 }
@@ -34,18 +35,22 @@ const ChoiceList: FC<ChoiceListProps> = (props) => {
   }, [checkedOptions])
 
   return (
-    <div className="rw-choice-list">
+    <ul className="rw-choice-list">
       {options.map((option) => (
-        <ChoiceField
-          type="checkbox"
-          label={option.label}
-          name={option.value}
-          key={option.value}
-          onChange={checkField}
-          defaultChecked={defaultOptions?.includes(option.value)}
-        />
+        <li className="rw-choice-list__item" key={option.value}>
+          <ChoiceField
+            type="checkbox"
+            label={option.label}
+            name={option.value}
+            onChange={checkField}
+            defaultChecked={defaultOptions?.includes(option.value)}
+          />
+          {option.count ? (
+            <div className="rw-choice-list__count">({option.count})</div>
+          ) : null}
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }
 
