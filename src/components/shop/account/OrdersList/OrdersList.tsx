@@ -6,7 +6,7 @@ import OrdersFilter, {
   OrderFilterAttributes,
 } from '../OrdersFilter/OrdersFilter'
 import { IDeliveryMethod } from 'app-api'
-import { OrderFilterModule } from 'app-services/orders'
+import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
 
 interface OrdersListProps {
   orders: IOrder[]
@@ -21,6 +21,7 @@ export interface IFilterChoiceValue {
 const OrdersList: FC<OrdersListProps> = (props) => {
   const { orders } = props
   const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
+  const {filterOrders, updateAttribute} = useOrdersFilter(orders)
 
   const initialDeliveries = orders
     .reduce<IDeliveryMethod[]>((prev, order) => {
@@ -55,38 +56,9 @@ const OrdersList: FC<OrdersListProps> = (props) => {
     initialStatuses
   )
 
-  const filterOrders = (
-    initialOrders: IOrder[],
-    attributes: OrderFilterAttributes
-  ): IOrder[] => {
-    return new OrderFilterModule(initialOrders)
-      .filterByStatus(attributes.status)
-      .filterByDelivery(attributes.delivery)
-      .getOrders()
-  }
-
-  const updateAttribute = (
-    key: 'status' | 'delivery',
-    initialValues: IFilterChoiceValue[],
-    attributes: OrderFilterAttributes
-  ) => {
-    return initialValues.map((option) => {
-      const statuses = [...attributes[key], option.value]
-      const filteredOrders = filterOrders(orders, {
-        ...attributes,
-        [key]: statuses,
-      })
-      return {
-        value: option.value,
-        label: option.label,
-        count: filteredOrders.length,
-      }
-    })
-  }
-
   const onFilterHandler = (attributes: OrderFilterAttributes) => {
-    const filteredOrders = filterOrders(orders, attributes)
-    setFilteredOrders(filteredOrders)
+    const newOrders = filterOrders(attributes)
+    setFilteredOrders(orders)
 
     const newStatuses = updateAttribute('status', initialStatuses, attributes)
     const newDeliveries = updateAttribute(
