@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
 import { OrderFilterAttributes } from '../components/shop/account/OrdersFilter/OrdersFilter'
-import { IFilterChoiceValue } from '../components/shop/account/OrdersList/OrdersList'
-import { OrderFilterModule } from 'app-services/orders'
+import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
 
 //interface UseOrdersFilter {}
@@ -13,7 +12,7 @@ export function useOrdersFilter(orders: IOrder[]) {
       const existing = prev.some((i) => i.id === order.deliveryMethod.id)
       return existing ? prev : prev.concat(order.deliveryMethod)
     }, [])
-    .map<IFilterChoiceValue>((value, index, array) => {
+    .map<FilterChoiceValue>((value, index, array) => {
       return {
         label: value.title,
         value: String(value.id),
@@ -26,7 +25,7 @@ export function useOrdersFilter(orders: IOrder[]) {
       const existing = prev.some((i) => i.key === order.status.key)
       return existing ? prev : prev.concat(order.status)
     }, [])
-    .map<IFilterChoiceValue>((value, index, array) => {
+    .map<FilterChoiceValue>((value, index, array) => {
       return {
         label: value.value,
         value: value.key,
@@ -34,10 +33,10 @@ export function useOrdersFilter(orders: IOrder[]) {
       }
     })
 
-  const [deliveries, setDeliveries] = useState<IFilterChoiceValue[]>(
+  const [deliveries, setDeliveries] = useState<FilterChoiceValue[]>(
     initialDeliveries
   )
-  const [statuses, setStatuses] = useState<IFilterChoiceValue[]>(
+  const [statuses, setStatuses] = useState<FilterChoiceValue[]>(
     initialStatuses
   )
 
@@ -53,8 +52,8 @@ export function useOrdersFilter(orders: IOrder[]) {
   const updateAttribute = (
     key: 'status' | 'delivery',
     attributes: OrderFilterAttributes
-  ): IFilterChoiceValue[] => {
-    let initialValues: IFilterChoiceValue[]
+  ): FilterChoiceValue[] => {
+    let initialValues: FilterChoiceValue[]
     switch (key) {
       case 'status':
         initialValues = initialStatuses

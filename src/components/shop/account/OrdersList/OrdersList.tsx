@@ -9,12 +9,6 @@ interface OrdersListProps {
   orders: IOrder[]
 }
 
-export interface IFilterChoiceValue {
-  label: string
-  value: string
-  count?: number
-}
-
 const OrdersList: FC<OrdersListProps> = (props) => {
   const { orders } = props
   const { filteredOrders, deliveries, statuses, applyFilter } = useOrdersFilter(

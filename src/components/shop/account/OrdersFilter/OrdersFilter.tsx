@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
-import { IFilterChoiceValue } from '../OrdersList/OrdersList'
+import { FilterChoiceValue } from 'app-services/orders'
 
 export interface OrderFilterAttributes {
   status: string[]
@@ -9,8 +9,8 @@ export interface OrderFilterAttributes {
 }
 
 interface OrdersFilterProps {
-  deliveryOptions: IFilterChoiceValue[]
-  statusOptions: IFilterChoiceValue[]
+  deliveryOptions: FilterChoiceValue[]
+  statusOptions: FilterChoiceValue[]
   onFilter: (attributes: OrderFilterAttributes) => void
 }
 
