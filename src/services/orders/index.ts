@@ -1,2 +1,2 @@
 export { OrderFilterModule } from './orderServices'
-export { FilterChoiceValue } from './types'
+export { FilterChoiceValue, IFilterAttributes } from './types'

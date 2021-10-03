@@ -5,17 +5,17 @@ export interface FilterChoiceValue {
 }
 
 interface FilterAttributeValue {
-  key: string
   label: string
   type: 'multichoice' | 'range'
-  values: FilterChoiceValue
+  values: FilterChoiceValue[]
+}
+
+export interface IFilterAttributes {
+  // TODO make with generic
+  [key: string]: FilterAttributeValue
 }
 
 /*
 export interface FilterAttribute {
-  [key: string]: FilterAttributeValue
-}*/
-
-export interface FilterAttribute {
   [key: string]: FilterChoiceValue[]
-}
+}*/
