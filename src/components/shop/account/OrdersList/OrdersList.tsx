@@ -6,31 +6,10 @@ import OrdersFilter, {
   OrderFilterAttributes,
 } from '../OrdersFilter/OrdersFilter'
 import { IDeliveryMethod } from 'app-api'
+import { OrderFilterModule } from 'app-services/orders'
 
 interface OrdersListProps {
   orders: IOrder[]
-}
-
-export class OrderFilterModule {
-  constructor(public orders: IOrder[]) {}
-
-  filterByStatus(status: string[]): this {
-    if (status.length) {
-      this.orders = this.orders.filter((order) =>
-        status.includes(order.status.key)
-      )
-    }
-    return this
-  }
-
-  filterByDelivery(delivery: string[]): this {
-    if (delivery.length) {
-      this.orders = this.orders.filter((order) =>
-        delivery.includes(String(order.deliveryMethod.id))
-      )
-    }
-    return this
-  }
 }
 
 export interface IFilterChoiceValue {
@@ -41,7 +20,7 @@ export interface IFilterChoiceValue {
 
 const OrdersList: FC<OrdersListProps> = (props) => {
   const { orders } = props
-  const [filteredOrders, setFilteredOrders] = useState(orders)
+  const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
 
   const initialDeliveries = orders
     .reduce<IDeliveryMethod[]>((prev, order) => {
@@ -76,24 +55,49 @@ const OrdersList: FC<OrdersListProps> = (props) => {
     initialStatuses
   )
 
-  const onFilterHandler = (attributes: OrderFilterAttributes) => {
-    const filter = new OrderFilterModule(orders)
+  const filterOrders = (
+    initialOrders: IOrder[],
+    attributes: OrderFilterAttributes
+  ): IOrder[] => {
+    return new OrderFilterModule(initialOrders)
       .filterByStatus(attributes.status)
       .filterByDelivery(attributes.delivery)
-    setFilteredOrders(filter.orders)
+      .getOrders()
+  }
+
+  const onFilterHandler = (attributes: OrderFilterAttributes) => {
+    const filteredOrders = filterOrders(orders, attributes)
+    setFilteredOrders(filteredOrders)
 
     const newStatuses = initialStatuses.map<IFilterChoiceValue>((option) => {
       const statuses = [...attributes.status, option.value]
-      const filter2 = new OrderFilterModule(orders)
-        .filterByStatus(statuses)
-        .filterByDelivery(attributes.delivery)
+      const filteredOrders = filterOrders(orders, {
+        status: statuses,
+        delivery: attributes.delivery,
+      })
       return {
         value: option.value,
         label: option.label,
-        count: filter2.orders.length,
+        count: filteredOrders.length,
       }
     })
     setStatuses(newStatuses)
+
+    const newDeliveries = initialDeliveries.map<IFilterChoiceValue>(
+      (option) => {
+        const deliveries = [...attributes.delivery, option.value]
+        const filteredOrders = filterOrders(orders, {
+          status: attributes.status,
+          delivery: deliveries,
+        })
+        return {
+          value: option.value,
+          label: option.label,
+          count: filteredOrders.length,
+        }
+      }
+    )
+    setDeliveries(newDeliveries)
   }
 
   return (
