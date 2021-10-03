@@ -65,15 +65,16 @@ const OrdersList: FC<OrdersListProps> = (props) => {
       .getOrders()
   }
 
-  const onFilterHandler = (attributes: OrderFilterAttributes) => {
-    const filteredOrders = filterOrders(orders, attributes)
-    setFilteredOrders(filteredOrders)
-
-    const newStatuses = initialStatuses.map<IFilterChoiceValue>((option) => {
-      const statuses = [...attributes.status, option.value]
+  const updateAttribute = (
+    key: 'status' | 'delivery',
+    initialValues: IFilterChoiceValue[],
+    attributes: OrderFilterAttributes
+  ) => {
+    return initialValues.map((option) => {
+      const statuses = [...attributes[key], option.value]
       const filteredOrders = filterOrders(orders, {
-        status: statuses,
-        delivery: attributes.delivery,
+        ...attributes,
+        [key]: statuses,
       })
       return {
         value: option.value,
@@ -81,22 +82,19 @@ const OrdersList: FC<OrdersListProps> = (props) => {
         count: filteredOrders.length,
       }
     })
-    setStatuses(newStatuses)
+  }
 
-    const newDeliveries = initialDeliveries.map<IFilterChoiceValue>(
-      (option) => {
-        const deliveries = [...attributes.delivery, option.value]
-        const filteredOrders = filterOrders(orders, {
-          status: attributes.status,
-          delivery: deliveries,
-        })
-        return {
-          value: option.value,
-          label: option.label,
-          count: filteredOrders.length,
-        }
-      }
+  const onFilterHandler = (attributes: OrderFilterAttributes) => {
+    const filteredOrders = filterOrders(orders, attributes)
+    setFilteredOrders(filteredOrders)
+
+    const newStatuses = updateAttribute('status', initialStatuses, attributes)
+    const newDeliveries = updateAttribute(
+      'delivery',
+      initialDeliveries,
+      attributes
     )
+    setStatuses(newStatuses)
     setDeliveries(newDeliveries)
   }
 
