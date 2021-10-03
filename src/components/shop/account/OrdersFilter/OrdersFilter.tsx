@@ -1,43 +1,43 @@
 import React, { FC, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
-import { FilterChoiceValue } from 'app-services/orders'
 import { FilterAttribute } from 'app-services/orders/types'
 
-export interface SelectedAttributes {
+/*export interface SelectedAttributes {
   status: string[]
   delivery: string[]
+}*/
+
+export interface ISelectedAttributes {
+  [key: string]: string[]
 }
 
 interface OrdersFilterProps {
   attributes: FilterAttribute
-  onFilter: (attributes: SelectedAttributes) => void
+  onFilter: (attributes: ISelectedAttributes) => void
 }
 
 const OrdersFilter: FC<OrdersFilterProps> = (props) => {
   const { onFilter, attributes } = props
-  /*const [activeStatuses, setActiveStatuses] = useState<string[]>([])
-  const [activeDelivery, setActiveDeliveries] = useState<string[]>([])*/
-  const [
-    selectedAttributes,
-    setSelectedAttributes,
-  ] = useState<SelectedAttributes>({
-    status: [],
-    delivery: [],
-  })
+  const initialValues = Object.keys(attributes).reduce<ISelectedAttributes>(
+    (acc, attr) => {
+      acc[attr] = []
+      return acc
+    },
+    {}
+  )
+
+  const [values, setValues] = useState<ISelectedAttributes>(initialValues)
 
   useEffect(() => {
-    onFilter({
-      status: selectedAttributes.status,
-      delivery: selectedAttributes.delivery,
-    })
-  }, [selectedAttributes])
+    onFilter(values)
+  }, [values])
 
   const updateActiveAttributes = (
     type: 'status' | 'delivery',
     values: string[]
   ) => {
-    setSelectedAttributes((prev) => ({
+    setValues((prev) => ({
       ...prev,
       [type]: values,
     }))
@@ -55,10 +55,10 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
                 onChange={(values) => {
                   updateActiveAttributes('status', values)
                 }}
-                defaultOptions={selectedAttributes.status}
+                defaultOptions={values.status}
               />
             ),
-            isApplied: Boolean(selectedAttributes.status.length),
+            isApplied: Boolean(values.status.length),
           },
           {
             label: 'Delivery',
@@ -68,10 +68,10 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
                 onChange={(values) => {
                   updateActiveAttributes('delivery', values)
                 }}
-                defaultOptions={selectedAttributes.delivery}
+                defaultOptions={values.delivery}
               />
             ),
-            isApplied: Boolean(selectedAttributes.delivery.length),
+            isApplied: Boolean(values.delivery.length),
           },
         ]}
       />

@@ -5,6 +5,7 @@ export interface FilterChoiceValue {
 }
 
 interface FilterAttributeValue {
+  key: string
   label: string
   type: 'multichoice' | 'range'
   values: FilterChoiceValue

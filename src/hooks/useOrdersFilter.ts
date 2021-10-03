@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
-import { SelectedAttributes } from '../components/shop/account/OrdersFilter/OrdersFilter'
+import { ISelectedAttributes } from '../components/shop/account/OrdersFilter/OrdersFilter'
 import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
 
@@ -40,7 +40,7 @@ export function useOrdersFilter(orders: IOrder[]) {
 
   const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
 
-  const filterOrders = (attributes: SelectedAttributes): IOrder[] => {
+  const filterOrders = (attributes: ISelectedAttributes): IOrder[] => {
     return new OrderFilterModule(orders)
       .filterByStatus(attributes.status)
       .filterByDelivery(attributes.delivery)
@@ -49,7 +49,7 @@ export function useOrdersFilter(orders: IOrder[]) {
 
   const updateAttribute = (
     key: 'status' | 'delivery',
-    attributes: SelectedAttributes
+    attributes: ISelectedAttributes
   ): FilterChoiceValue[] => {
     let initialValues: FilterChoiceValue[]
     switch (key) {
@@ -74,7 +74,7 @@ export function useOrdersFilter(orders: IOrder[]) {
     })
   }
 
-  const applyFilter = (attributes: SelectedAttributes) => {
+  const applyFilter = (attributes: ISelectedAttributes) => {
     const newOrders = filterOrders(attributes)
     const newStatuses = updateAttribute('status', attributes)
     const newDeliveries = updateAttribute('delivery', attributes)
