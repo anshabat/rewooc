@@ -11,17 +11,13 @@ interface OrdersListProps {
 
 const OrdersList: FC<OrdersListProps> = (props) => {
   const { orders } = props
-  const { filteredOrders, deliveries, statuses, applyFilter } = useOrdersFilter(
+  const { filteredOrders, updatedAttributes, applyFilter } = useOrdersFilter(
     orders
   )
 
   return (
     <div className="rw-orders-list">
-      <OrdersFilter
-        deliveryOptions={deliveries}
-        statusOptions={statuses}
-        onFilter={applyFilter}
-      />
+      <OrdersFilter attributes={updatedAttributes} onFilter={applyFilter} />
       <OrdersTable orders={filteredOrders} />
     </div>
   )

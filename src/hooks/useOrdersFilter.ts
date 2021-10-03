@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
-import { OrderFilterAttributes } from '../components/shop/account/OrdersFilter/OrdersFilter'
+import { SelectedAttributes } from '../components/shop/account/OrdersFilter/OrdersFilter'
 import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
 
@@ -36,13 +36,11 @@ export function useOrdersFilter(orders: IOrder[]) {
   const [deliveries, setDeliveries] = useState<FilterChoiceValue[]>(
     initialDeliveries
   )
-  const [statuses, setStatuses] = useState<FilterChoiceValue[]>(
-    initialStatuses
-  )
+  const [statuses, setStatuses] = useState<FilterChoiceValue[]>(initialStatuses)
 
   const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
 
-  const filterOrders = (attributes: OrderFilterAttributes): IOrder[] => {
+  const filterOrders = (attributes: SelectedAttributes): IOrder[] => {
     return new OrderFilterModule(orders)
       .filterByStatus(attributes.status)
       .filterByDelivery(attributes.delivery)
@@ -51,7 +49,7 @@ export function useOrdersFilter(orders: IOrder[]) {
 
   const updateAttribute = (
     key: 'status' | 'delivery',
-    attributes: OrderFilterAttributes
+    attributes: SelectedAttributes
   ): FilterChoiceValue[] => {
     let initialValues: FilterChoiceValue[]
     switch (key) {
@@ -76,7 +74,7 @@ export function useOrdersFilter(orders: IOrder[]) {
     })
   }
 
-  const applyFilter = (attributes: OrderFilterAttributes) => {
+  const applyFilter = (attributes: SelectedAttributes) => {
     const newOrders = filterOrders(attributes)
     const newStatuses = updateAttribute('status', attributes)
     const newDeliveries = updateAttribute('delivery', attributes)
@@ -86,10 +84,14 @@ export function useOrdersFilter(orders: IOrder[]) {
     setDeliveries(newDeliveries)
   }
 
+  const updatedAttributes = {
+    delivery: deliveries,
+    status: statuses,
+  }
+
   return {
     filteredOrders,
-    deliveries,
-    statuses,
+    updatedAttributes,
     applyFilter,
   }
 }

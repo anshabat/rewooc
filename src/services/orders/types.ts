@@ -10,6 +10,11 @@ interface FilterAttributeValue {
   values: FilterChoiceValue
 }
 
+/*
 export interface FilterAttribute {
   [key: string]: FilterAttributeValue
+}*/
+
+export interface FilterAttribute {
+  [key: string]: FilterChoiceValue[]
 }

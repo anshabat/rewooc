@@ -2,26 +2,46 @@ import React, { FC, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { FilterChoiceValue } from 'app-services/orders'
+import { FilterAttribute } from 'app-services/orders/types'
 
-export interface OrderFilterAttributes {
+export interface SelectedAttributes {
   status: string[]
   delivery: string[]
 }
 
 interface OrdersFilterProps {
-  deliveryOptions: FilterChoiceValue[]
-  statusOptions: FilterChoiceValue[]
-  onFilter: (attributes: OrderFilterAttributes) => void
+  attributes: FilterAttribute
+  onFilter: (attributes: SelectedAttributes) => void
 }
 
 const OrdersFilter: FC<OrdersFilterProps> = (props) => {
-  const { onFilter, deliveryOptions, statusOptions } = props
-  const [activeStatuses, setActiveStatuses] = useState<string[]>([])
-  const [activeDelivery, setActiveDeliveries] = useState<string[]>([])
+  const { onFilter, attributes } = props
+  /*const [activeStatuses, setActiveStatuses] = useState<string[]>([])
+  const [activeDelivery, setActiveDeliveries] = useState<string[]>([])*/
+  const [
+    selectedAttributes,
+    setSelectedAttributes,
+  ] = useState<SelectedAttributes>({
+    status: [],
+    delivery: [],
+  })
 
   useEffect(() => {
-    onFilter({ status: activeStatuses, delivery: activeDelivery })
-  }, [activeStatuses.length, activeDelivery.length])
+    onFilter({
+      status: selectedAttributes.status,
+      delivery: selectedAttributes.delivery,
+    })
+  }, [selectedAttributes])
+
+  const updateActiveAttributes = (
+    type: 'status' | 'delivery',
+    values: string[]
+  ) => {
+    setSelectedAttributes((prev) => ({
+      ...prev,
+      [type]: values,
+    }))
+  }
 
   return (
     <div className="rw-order-filter">
@@ -31,23 +51,27 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
             label: 'Status',
             valuesComponent: (
               <ChoiceList
-                options={statusOptions}
-                onChange={setActiveStatuses}
-                defaultOptions={activeStatuses}
+                options={attributes.status}
+                onChange={(values) => {
+                  updateActiveAttributes('status', values)
+                }}
+                defaultOptions={selectedAttributes.status}
               />
             ),
-            isApplied: Boolean(activeStatuses.length),
+            isApplied: Boolean(selectedAttributes.status.length),
           },
           {
             label: 'Delivery',
             valuesComponent: (
               <ChoiceList
-                options={deliveryOptions}
-                onChange={setActiveDeliveries}
-                defaultOptions={activeDelivery}
+                options={attributes.delivery}
+                onChange={(values) => {
+                  updateActiveAttributes('delivery', values)
+                }}
+                defaultOptions={selectedAttributes.delivery}
               />
             ),
-            isApplied: Boolean(activeDelivery.length),
+            isApplied: Boolean(selectedAttributes.delivery.length),
           },
         ]}
       />
