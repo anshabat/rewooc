@@ -41,6 +41,8 @@ export function useOrdersFilter(orders: IOrder[]) {
     initialStatuses
   )
 
+  const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
+
   const filterOrders = (attributes: OrderFilterAttributes): IOrder[] => {
     return new OrderFilterModule(orders)
       .filterByStatus(attributes.status)
@@ -74,12 +76,21 @@ export function useOrdersFilter(orders: IOrder[]) {
       }
     })
   }
+
+  const applyFilter = (attributes: OrderFilterAttributes) => {
+    const newOrders = filterOrders(attributes)
+    const newStatuses = updateAttribute('status', attributes)
+    const newDeliveries = updateAttribute('delivery', attributes)
+
+    setFilteredOrders(newOrders)
+    setStatuses(newStatuses)
+    setDeliveries(newDeliveries)
+  }
+
   return {
-    filterOrders,
-    updateAttribute,
+    filteredOrders,
     deliveries,
     statuses,
-    setDeliveries,
-    setStatuses,
+    applyFilter,
   }
 }
