@@ -4,7 +4,7 @@ export interface FilterChoiceValue {
   count?: number
 }
 
-interface FilterAttributeValue {
+export interface FilterAttributeValue {
   label: string
   type: 'multichoice' | 'range'
   values: FilterChoiceValue[]

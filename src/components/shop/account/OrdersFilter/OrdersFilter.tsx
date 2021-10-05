@@ -1,10 +1,20 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, ReactElement, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
-import { IFilterAttributes } from 'app-services/orders/types'
+import {
+  FilterAttributeValue,
+  IFilterAttributes,
+} from 'app-services/orders/types'
+import FormField from '../../../UI/Form/FormField/FormField'
 
 export interface ISelectedAttributes {
   [key: string]: string[]
+}
+
+interface IFilterAttributeComponent {
+  label: string
+  valuesComponent: ReactElement
+  isApplied: boolean
 }
 
 interface OrdersFilterProps {
@@ -17,6 +27,30 @@ const getInitialValues = (attributes: IFilterAttributes) => {
     acc[attr] = []
     return acc
   }, {})
+}
+
+interface IFilterFactory {
+  attribute: FilterAttributeValue
+  values: string[]
+  onApply: (values: string[]) => void
+}
+
+const FilterFactory: FC<IFilterFactory> = (props) => {
+  const { attribute, values, onApply } = props
+  switch (attribute.type) {
+    case 'multichoice':
+      return (
+        <ChoiceList
+          options={attribute.values}
+          defaultOptions={values}
+          onChange={(newValues) => {
+            onApply(newValues)
+          }}
+        />
+      )
+    case 'range':
+      return <FormField label={attribute.label} />
+  }
 }
 
 const OrdersFilter: FC<OrdersFilterProps> = (props) => {
@@ -38,39 +72,30 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
     }))
   }
 
-  // TODO make dynamic with attributes prop
-  const newAttributes = [
-    {
-      label: 'Status',
+  const attributeComponents = Object.entries(
+    attributes
+  ).map<IFilterAttributeComponent>((attr) => {
+    const [key, data] = attr
+    return {
+      label: data.label,
       valuesComponent: (
-        <ChoiceList
-          options={attributes.status.values}
-          onChange={(values) => {
-            updateActiveAttributes('status', values)
+        <FilterFactory
+          values={values[key]}
+          attribute={data}
+          onApply={(newValues) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            updateActiveAttributes(key, newValues)
           }}
-          defaultOptions={values.status}
         />
       ),
-      isApplied: Boolean(values.status.length),
-    },
-    {
-      label: 'Delivery',
-      valuesComponent: (
-        <ChoiceList
-          options={attributes.delivery.values}
-          onChange={(values) => {
-            updateActiveAttributes('delivery', values)
-          }}
-          defaultOptions={values.delivery}
-        />
-      ),
-      isApplied: Boolean(values.delivery.length),
-    },
-  ]
+      isApplied: Boolean(values[key].length),
+    }
+  })
 
   return (
     <div className="rw-order-filter">
-      <HorizontalFilter attributes={newAttributes} />
+      <HorizontalFilter attributes={attributeComponents} />
     </div>
   )
 }
