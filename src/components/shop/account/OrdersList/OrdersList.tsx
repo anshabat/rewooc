@@ -13,7 +13,7 @@ interface OrdersListProps {
 
 const attributesFacade = (attributes: {
   [key: string]: FilterChoiceValue[]
-}): IFilterAttributes => {
+}): IFilterAttributes<{status: any, delivery: any}> => {
   // TODO probably should be set as hook arguments, with generic for Order attributes
   return {
     status: {
