@@ -1,11 +1,9 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
-import {
-  FilterAttributeValue,
-  IFilterAttributes,
-} from 'app-services/orders/types'
+import { IFilterAttributes } from 'app-services/orders/types'
 import FilterFactory from '../../../UI/FilterFactory/FilterFactory'
 
+//TODO limit string to status | delivery
 export interface ISelectedAttributes {
   [key: string]: string[]
 }
@@ -17,16 +15,17 @@ interface IFilterAttributeComponent {
 }
 
 const getInitialValues = (
-  attributes: IFilterAttributes<{ status: any; delivery: any }>
+  //TODO accept 'status' | 'delivery' as generic, use it only once, best as HOOK generic
+  attributes: IFilterAttributes<'status' | 'delivery'>[]
 ) => {
-  return Object.keys(attributes).reduce<ISelectedAttributes>((acc, attr) => {
-    acc[attr] = []
+  return attributes.reduce<ISelectedAttributes>((acc, attr) => {
+    acc[attr.key] = []
     return acc
   }, {})
 }
 
 interface OrdersFilterProps {
-  attributes: IFilterAttributes<{ status: any; delivery: any }>
+  attributes: IFilterAttributes<'status' | 'delivery'>[]
   onFilter: (attributes: ISelectedAttributes) => void
 }
 
@@ -50,26 +49,23 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
     }))
   }
 
-  const attributeComponents = Object.entries<FilterAttributeValue>(
-    attributes
-  ).map<IFilterAttributeComponent>((attr) => {
-    const [key, data] = attr
-    return {
-      label: data.label,
-      valuesComponent: (
-        <FilterFactory
-          values={values[key]}
-          attribute={data}
-          onApply={(newValues) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            updateActiveAttributes(key, newValues)
-          }}
-        />
-      ),
-      isApplied: Boolean(values[key].length),
+  const attributeComponents = attributes.map<IFilterAttributeComponent>(
+    (attr) => {
+      return {
+        label: attr.label,
+        valuesComponent: (
+          <FilterFactory
+            values={values[attr.key]}
+            attribute={attr}
+            onApply={(newValues) => {
+              updateActiveAttributes(attr.key, newValues)
+            }}
+          />
+        ),
+        isApplied: Boolean(values[attr.key].length),
+      }
     }
-  })
+  )
 
   return (
     <div className="rw-order-filter">

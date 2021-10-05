@@ -10,11 +10,16 @@ export interface FilterAttributeValue {
   values: FilterChoiceValue[]
 }
 
-export type IFilterAttributes<Type> = {
+//TODO rename IFilterAttributes to IFilterAttribute without S
+export interface IFilterAttributes<T> extends FilterAttributeValue {
+  key: T
+}
+
+/*export type IFilterAttributes<Type> = {
   // TODO make with generic
   //[key: string]: FilterAttributeValue
   [Property in keyof Type]: FilterAttributeValue
-}
+}*/
 
 /*
 export interface FilterAttribute {
