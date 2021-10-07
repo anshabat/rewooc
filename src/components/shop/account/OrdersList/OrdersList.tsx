@@ -45,7 +45,7 @@ type IOrderFilter = IFilterAttributes<keyof IOrderValues>[]
 
 const OrdersList: FC<OrdersListProps> = (props) => {
   const { orders } = props
-  const { filteredOrders, updatedAttributes, applyFilter } = useOrdersFilter(
+  const { filteredOrders, updatedAttributes, applyFilter } = useOrdersFilter<IOrderValues>(
     orders
   )
 

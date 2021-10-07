@@ -6,7 +6,7 @@ import { IDeliveryMethod } from 'app-api'
 
 //interface UseOrdersFilter {}
 
-export function useOrdersFilter(orders: IOrder[]) {
+export function useOrdersFilter<T>(orders: IOrder[]) {
   const initialDeliveries = orders
     .reduce<IDeliveryMethod[]>((prev, order) => {
       const existing = prev.some((i) => i.id === order.deliveryMethod.id)
@@ -40,16 +40,19 @@ export function useOrdersFilter(orders: IOrder[]) {
 
   const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
 
-  const filterOrders = (attributes: ISelectedAttributes): IOrder[] => {
+  const filterOrders = (attributes: T): IOrder[] => {
+
     return new OrderFilterModule(orders)
+      // @ts-ignore TODO fix
       .filterByStatus(attributes.status)
+      // @ts-ignore TODO fix
       .filterByDelivery(attributes.delivery)
       .getOrders()
   }
 
   const updateAttribute = (
     key: 'status' | 'delivery',
-    attributes: ISelectedAttributes
+    attributes: T
   ): FilterChoiceValue[] => {
     let initialValues: FilterChoiceValue[]
     switch (key) {
@@ -61,6 +64,7 @@ export function useOrdersFilter(orders: IOrder[]) {
     }
 
     return initialValues.map((option) => {
+      // @ts-ignore TODO fix
       const statuses = [...attributes[key], option.value]
       const filteredOrders = filterOrders({
         ...attributes,
@@ -74,7 +78,7 @@ export function useOrdersFilter(orders: IOrder[]) {
     })
   }
 
-  const applyFilter = (attributes: ISelectedAttributes) => {
+  const applyFilter = (attributes: T) => {
     const newOrders = filterOrders(attributes)
     const newStatuses = updateAttribute('status', attributes)
     const newDeliveries = updateAttribute('delivery', attributes)

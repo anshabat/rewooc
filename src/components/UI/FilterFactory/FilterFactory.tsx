@@ -1,17 +1,15 @@
-import { IFilterAttributes } from 'app-services/orders'
+import { FilterAttributeValue, IFilterAttributes } from 'app-services/orders'
 import React, { FC, ReactElement } from 'react'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
 import FormField from '../Form/FormField/FormField'
-import { ISelectedAttributes } from '../../shop/account/OrdersFilter/OrdersFilter'
 
-interface IFilterFactory<T> {
-  attribute: IFilterAttributes<T>
+interface IFilterFactory {
+  attribute: FilterAttributeValue
   values: string[]
-  onApply: (values: ISelectedAttributes) => void
-  //onApply: (values: { [K in T]: string[] }) => void
+  onApply: (values: string[]) => void
 }
 
-function FilterFactory<T extends string>(props: IFilterFactory<T>): ReactElement {
+function FilterFactory(props: IFilterFactory): ReactElement {
   const { attribute, values, onApply } = props
   switch (attribute.type) {
     case 'multichoice':
@@ -20,7 +18,7 @@ function FilterFactory<T extends string>(props: IFilterFactory<T>): ReactElement
           options={attribute.values}
           defaultOptions={values}
           onChange={(newValues) => {
-            onApply({ [attribute.key]: newValues })
+            onApply(newValues)
           }}
         />
       )

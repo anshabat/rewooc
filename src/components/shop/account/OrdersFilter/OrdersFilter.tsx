@@ -14,21 +14,21 @@ interface IFilterAttributeComponent {
   isApplied: boolean
 }
 
-interface IProps {
-  attributes: IFilterAttributes<'status' | 'delivery'>[]
-  onFilter: (attributes: ISelectedAttributes) => void
-  attributesValues: ISelectedAttributes
+interface IProps<T> {
+  attributes: IFilterAttributes<keyof T>[]
+  onFilter: (attributes: T) => void
+  attributesValues: T
 }
 
-const OrdersFilter: FC<IProps> = (props) => {
+function OrdersFilter<T>(props: IProps<T>): ReactElement {
   const { onFilter, attributes, attributesValues } = props
-  const [values, setValues] = useState<ISelectedAttributes>(attributesValues)
+  const [values, setValues] = useState<T>(attributesValues)
 
   useEffect(() => {
     onFilter(values)
   }, [values])
 
-  const updateActiveAttributes = (newValues: ISelectedAttributes) => {
+  const updateActiveAttributes = (newValues: T) => {
     setValues((prev) => ({ ...prev, ...newValues }))
   }
 
@@ -41,7 +41,7 @@ const OrdersFilter: FC<IProps> = (props) => {
             values={values[attr.key]}
             attribute={attr}
             onApply={(newValues) => {
-              updateActiveAttributes(newValues)
+              updateActiveAttributes({ [attr.key]: newValues })
             }}
           />
         ),
