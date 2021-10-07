@@ -4,6 +4,7 @@ export interface FilterChoiceValue {
   count?: number
 }
 
+// TODO remove if it turns of unnecessary
 export interface FilterAttributeValue {
   label: string
   type: 'multichoice' | 'range'

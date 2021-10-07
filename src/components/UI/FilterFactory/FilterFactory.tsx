@@ -1,12 +1,13 @@
-import { FilterAttributeValue } from 'app-services/orders'
+import { IFilterAttributes } from 'app-services/orders'
 import React, { FC } from 'react'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
 import FormField from '../Form/FormField/FormField'
+import { ISelectedAttributes } from '../../shop/account/OrdersFilter/OrdersFilter'
 
 interface IFilterFactory {
-  attribute: FilterAttributeValue
+  attribute: IFilterAttributes<'status' | 'delivery'>
   values: string[]
-  onApply: (values: string[]) => void
+  onApply: (values: ISelectedAttributes) => void
 }
 
 const FilterFactory: FC<IFilterFactory> = (props) => {
@@ -18,7 +19,7 @@ const FilterFactory: FC<IFilterFactory> = (props) => {
           options={attribute.values}
           defaultOptions={values}
           onChange={(newValues) => {
-            onApply(newValues)
+            onApply({ [attribute.key]: newValues })
           }}
         />
       )

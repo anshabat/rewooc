@@ -24,12 +24,12 @@ const getInitialValues = (
   }, {})
 }
 
-interface OrdersFilterProps {
+interface IProps {
   attributes: IFilterAttributes<'status' | 'delivery'>[]
   onFilter: (attributes: ISelectedAttributes) => void
 }
 
-const OrdersFilter: FC<OrdersFilterProps> = (props) => {
+const OrdersFilter: FC<IProps> = (props) => {
   const { onFilter, attributes } = props
   const initialValues = getInitialValues(attributes)
   const [values, setValues] = useState<ISelectedAttributes>(initialValues)
@@ -38,15 +38,8 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
     onFilter(values)
   }, [values])
 
-  const updateActiveAttributes = (
-    // TODO fix static data
-    type: 'status' | 'delivery',
-    values: string[]
-  ) => {
-    setValues((prev) => ({
-      ...prev,
-      [type]: values,
-    }))
+  const updateActiveAttributes = (newValues: ISelectedAttributes) => {
+    setValues((prev) => ({ ...prev, ...newValues }))
   }
 
   const attributeComponents = attributes.map<IFilterAttributeComponent>(
@@ -58,7 +51,7 @@ const OrdersFilter: FC<OrdersFilterProps> = (props) => {
             values={values[attr.key]}
             attribute={attr}
             onApply={(newValues) => {
-              updateActiveAttributes(attr.key, newValues)
+              updateActiveAttributes(newValues)
             }}
           />
         ),
