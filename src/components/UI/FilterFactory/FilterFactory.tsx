@@ -1,16 +1,16 @@
 import { IFilterAttributes } from 'app-services/orders'
-import React, { FC } from 'react'
+import React, { FC, ReactElement } from 'react'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
 import FormField from '../Form/FormField/FormField'
 import { ISelectedAttributes } from '../../shop/account/OrdersFilter/OrdersFilter'
 
-interface IFilterFactory {
-  attribute: IFilterAttributes<'status' | 'delivery'>
+interface IFilterFactory<T> {
+  attribute: IFilterAttributes<T>
   values: string[]
   onApply: (values: ISelectedAttributes) => void
 }
 
-const FilterFactory: FC<IFilterFactory> = (props) => {
+function FilterFactory<T extends string>(props: IFilterFactory<T>): ReactElement {
   const { attribute, values, onApply } = props
   switch (attribute.type) {
     case 'multichoice':
