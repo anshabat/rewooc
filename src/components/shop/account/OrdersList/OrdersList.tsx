@@ -13,7 +13,7 @@ interface OrdersListProps {
 
 const attributesFacade = (attributes: {
   [key: string]: FilterChoiceValue[]
-}): IFilterAttributes<'status' | 'delivery'>[] => {
+}): IOrderFilter => {
   // TODO probably should be set as hook arguments, with generic for Order attributes
   return [
     {
@@ -31,16 +31,34 @@ const attributesFacade = (attributes: {
   ]
 }
 
+export interface IOrderValues {
+  status: string[]
+  delivery: string[]
+}
+
+const initialValues: IOrderValues = {
+  status: [],
+  delivery: [],
+}
+
+type IOrderFilter = IFilterAttributes<keyof IOrderValues>[]
+
 const OrdersList: FC<OrdersListProps> = (props) => {
   const { orders } = props
   const { filteredOrders, updatedAttributes, applyFilter } = useOrdersFilter(
     orders
   )
+
   // TODO should come from the hook instead of temporary facade
   const newAttributes = attributesFacade(updatedAttributes)
+
   return (
     <div className="rw-orders-list">
-      <OrdersFilter attributes={newAttributes} onFilter={applyFilter} />
+      <OrdersFilter
+        attributes={newAttributes}
+        attributesValues={initialValues}
+        onFilter={applyFilter}
+      />
       <OrdersTable orders={filteredOrders} />
     </div>
   )

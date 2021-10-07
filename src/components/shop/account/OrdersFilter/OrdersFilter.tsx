@@ -14,25 +14,15 @@ interface IFilterAttributeComponent {
   isApplied: boolean
 }
 
-const getInitialValues = (
-  //TODO accept 'status' | 'delivery' as generic, use it only once, best as HOOK generic
-  attributes: IFilterAttributes<'status' | 'delivery'>[]
-) => {
-  return attributes.reduce<ISelectedAttributes>((acc, attr) => {
-    acc[attr.key] = []
-    return acc
-  }, {})
-}
-
 interface IProps {
   attributes: IFilterAttributes<'status' | 'delivery'>[]
   onFilter: (attributes: ISelectedAttributes) => void
+  attributesValues: ISelectedAttributes
 }
 
 const OrdersFilter: FC<IProps> = (props) => {
-  const { onFilter, attributes } = props
-  const initialValues = getInitialValues(attributes)
-  const [values, setValues] = useState<ISelectedAttributes>(initialValues)
+  const { onFilter, attributes, attributesValues } = props
+  const [values, setValues] = useState<ISelectedAttributes>(attributesValues)
 
   useEffect(() => {
     onFilter(values)

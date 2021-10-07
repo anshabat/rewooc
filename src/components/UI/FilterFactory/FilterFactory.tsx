@@ -8,6 +8,7 @@ interface IFilterFactory<T> {
   attribute: IFilterAttributes<T>
   values: string[]
   onApply: (values: ISelectedAttributes) => void
+  //onApply: (values: { [K in T]: string[] }) => void
 }
 
 function FilterFactory<T extends string>(props: IFilterFactory<T>): ReactElement {
