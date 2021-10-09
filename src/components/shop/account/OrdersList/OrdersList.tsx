@@ -11,7 +11,7 @@ interface OrdersListProps {
   orders: IOrder[]
 }
 
-const attributesFacade = (attributes: {
+/*const attributesFacade = (attributes: {
   [key: string]: FilterChoiceValue[]
 }): IOrderFilter => {
   // TODO probably should be set as hook arguments, with generic for Order attributes
@@ -29,7 +29,7 @@ const attributesFacade = (attributes: {
       type: 'multichoice',
     },
   ]
-}
+}*/
 
 export interface IOrderValues {
   status: string[]
@@ -49,13 +49,10 @@ const OrdersList: FC<OrdersListProps> = (props) => {
     orders
   )
 
-  // TODO should come from the hook instead of temporary facade
-  const newAttributes = attributesFacade(updatedAttributes)
-
   return (
     <div className="rw-orders-list">
       <OrdersFilter
-        attributes={newAttributes}
+        attributes={updatedAttributes}
         attributesValues={initialValues}
         onFilter={applyFilter}
       />

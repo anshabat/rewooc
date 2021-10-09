@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import { IFilterAttributes } from 'app-services/orders/types'
 import FilterFactory from '../../../UI/FilterFactory/FilterFactory'
+import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 
 //TODO limit string to status | delivery
 export interface ISelectedAttributes {
@@ -15,7 +16,8 @@ interface IFilterAttributeComponent {
 }
 
 interface IProps<T> {
-  attributes: IFilterAttributes<keyof T>[]
+  //attributes: IFilterAttributes<keyof T>[]
+  attributes: any
   onFilter: (attributes: T) => void
   attributesValues: T
 }
@@ -32,15 +34,46 @@ function OrdersFilter<T>(props: IProps<T>): ReactElement {
     setValues((prev) => ({ ...prev, ...newValues }))
   }
 
-  const attributeComponents = attributes.map<IFilterAttributeComponent>(
+  const attributeComponents = [
+    {
+      key: 'status',
+      label: 'Status',
+      valuesComponent: (
+        <ChoiceList
+          options={attributes.status}
+          defaultOptions={values.status}
+          onChange={(newValues) => {
+            updateActiveAttributes({ status: newValues })
+          }}
+        />
+      ),
+      isApplied: Boolean(values.status.length),
+    },
+    {
+      key: 'delivery',
+      label: 'Delivery',
+      valuesComponent: (
+        <ChoiceList
+          options={attributes.delivery}
+          defaultOptions={values.delivery}
+          onChange={(newValues) => {
+            updateActiveAttributes({ delivery: newValues })
+          }}
+        />
+      ),
+      isApplied: Boolean(values.delivery.length),
+    },
+  ]
+
+  /*const attributeComponents = attributes.map<IFilterAttributeComponent>(
     (attr) => {
       return {
         label: attr.label,
         valuesComponent: (
-          <FilterFactory
-            values={values[attr.key]}
-            attribute={attr}
-            onApply={(newValues) => {
+          <ChoiceList
+            options={attr.values}
+            defaultOptions={values[attr.key]}
+            onChange={(newValues) => {
               updateActiveAttributes({ [attr.key]: newValues })
             }}
           />
@@ -48,7 +81,7 @@ function OrdersFilter<T>(props: IProps<T>): ReactElement {
         isApplied: Boolean(values[attr.key].length),
       }
     }
-  )
+  )*/
 
   return (
     <div className="rw-order-filter">
