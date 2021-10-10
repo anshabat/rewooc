@@ -4,21 +4,8 @@ import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
 import { IOrderValues } from '../components/shop/account/OrdersFilter/OrdersFilter'
 
-export function useOrdersFilter(orders: IOrder[]) {
-  const initialDeliveries = orders
-    .reduce<IDeliveryMethod[]>((prev, order) => {
-      const existing = prev.some((i) => i.id === order.deliveryMethod.id)
-      return existing ? prev : prev.concat(order.deliveryMethod)
-    }, [])
-    .map<FilterChoiceValue>((value, index, array) => {
-      return {
-        label: value.title,
-        value: String(value.id),
-        count: array.length,
-      }
-    })
-
-  const initialStatuses = orders
+const getStatusAttribute = (orders: IOrder[]) => {
+  return orders
     .reduce<OrderStatus[]>((prev, order) => {
       const existing = prev.some((i) => i.key === order.status.key)
       return existing ? prev : prev.concat(order.status)
@@ -30,11 +17,34 @@ export function useOrdersFilter(orders: IOrder[]) {
         count: array.length,
       }
     })
+}
 
-  const [deliveries, setDeliveries] = useState<FilterChoiceValue[]>(
-    initialDeliveries
-  )
-  const [statuses, setStatuses] = useState<FilterChoiceValue[]>(initialStatuses)
+const getDeliveryAttribute = (orders: IOrder[]) => {
+  return orders
+    .reduce<IDeliveryMethod[]>((prev, order) => {
+      const existing = prev.some((i) => i.id === order.deliveryMethod.id)
+      return existing ? prev : prev.concat(order.deliveryMethod)
+    }, [])
+    .map<FilterChoiceValue>((value, index, array) => {
+      return {
+        label: value.title,
+        value: String(value.id),
+        count: array.length,
+      }
+    })
+}
+
+interface IOrderAttributes {
+  delivery: FilterChoiceValue[]
+  status: FilterChoiceValue[]
+}
+
+export function useOrdersFilter(orders: IOrder[]) {
+  const initialAttributes: IOrderAttributes = {
+    delivery: getDeliveryAttribute(orders),
+    status: getStatusAttribute(orders),
+  }
+  const [attributes, setAttributes] = useState(initialAttributes)
   const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
 
   const filterOrders = (values: IOrderValues): IOrder[] => {
@@ -67,23 +77,17 @@ export function useOrdersFilter(orders: IOrder[]) {
     const newOrders = filterOrders(values)
     const newStatuses = updateAttributeValuesCount(
       'status',
-      initialStatuses,
+      initialAttributes.status,
       values
     )
     const newDeliveries = updateAttributeValuesCount(
       'delivery',
-      initialDeliveries,
+      initialAttributes.delivery,
       values
     )
 
     setFilteredOrders(newOrders)
-    setStatuses(newStatuses)
-    setDeliveries(newDeliveries)
-  }
-
-  const attributes = {
-    delivery: deliveries,
-    status: statuses,
+    setAttributes({ status: newStatuses, delivery: newDeliveries })
   }
 
   return {
