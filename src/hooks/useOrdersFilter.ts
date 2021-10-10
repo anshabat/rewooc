@@ -55,11 +55,10 @@ export function useOrdersFilter(orders: IOrder[]) {
   }
 
   const updateAttributeValuesCount = (
-    key: 'status' | 'delivery',
-    attributes: FilterChoiceValue[],
+    key: keyof IOrderAttributes,
     values: IOrderValues
   ): FilterChoiceValue[] => {
-    return attributes.map((attr) => {
+    return initialAttributes[key].map((attr) => {
       const nextValues = [...values[key], attr.value]
       const filteredOrders = filterOrders({
         ...values,
@@ -75,19 +74,13 @@ export function useOrdersFilter(orders: IOrder[]) {
 
   const applyFilter = (values: IOrderValues) => {
     const newOrders = filterOrders(values)
-    const newStatuses = updateAttributeValuesCount(
-      'status',
-      initialAttributes.status,
-      values
-    )
-    const newDeliveries = updateAttributeValuesCount(
-      'delivery',
-      initialAttributes.delivery,
-      values
-    )
+    const newAttributes: IOrderAttributes = {
+      status: updateAttributeValuesCount('status', values),
+      delivery: updateAttributeValuesCount('delivery', values),
+    }
 
     setFilteredOrders(newOrders)
-    setAttributes({ status: newStatuses, delivery: newDeliveries })
+    setAttributes(newAttributes)
   }
 
   return {
