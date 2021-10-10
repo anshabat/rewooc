@@ -14,7 +14,7 @@ const OrdersList: FC<IProps> = (props) => {
 
   return (
     <div className="rw-orders-list">
-      <OrdersFilter orders={orders} onFilter={setOrders} />
+      <OrdersFilter initialOrders={orders} onFilter={setOrders} />
       <OrdersTable orders={updatedOrders} />
     </div>
   )

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { IFilterComponent } from 'app-services/orders/types'
@@ -6,40 +6,20 @@ import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
 import { IOrder } from 'app-types'
 
 interface IProps {
-  orders: IOrder[]
+  initialOrders: IOrder[]
   onFilter: (orders: IOrder[]) => void
 }
 
-export interface IOrderValues {
-  status: string[]
-  delivery: string[]
-}
-
-const initialValues: IOrderValues = {
-  status: [],
-  delivery: [],
-}
-
 function OrdersFilter(props: IProps): ReactElement {
-  const { orders, onFilter } = props
-  const [values, setValues] = useState(initialValues)
-  const {
-    filteredOrders,
-    attributes,
-    applyFilter,
-  } = useOrdersFilter(orders)
+  const { initialOrders, onFilter } = props
+
+  const { orders, attributes, values, updateValues } = useOrdersFilter(
+    initialOrders
+  )
 
   useEffect(() => {
-    onFilter(filteredOrders)
-  }, [filteredOrders])
-
-  useEffect(() => {
-    applyFilter(values)
-  }, [values])
-
-  const updateValues = (newValues: Partial<IOrderValues>) => {
-    setValues((prev) => ({ ...prev, ...newValues }))
-  }
+    onFilter(orders)
+  }, [orders])
 
   const attributeComponents: IFilterComponent[] = [
     {

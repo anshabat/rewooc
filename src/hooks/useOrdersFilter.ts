@@ -1,8 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
 import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
-import { IOrderValues } from '../components/shop/account/OrdersFilter/OrdersFilter'
+
+interface IOrderValues {
+  status: string[]
+  delivery: string[]
+}
+
+interface IOrderAttributes {
+  delivery: FilterChoiceValue[]
+  status: FilterChoiceValue[]
+}
+
+interface IUseOrdersProps {
+  orders: IOrder[]
+  attributes: IOrderAttributes
+  values: IOrderValues
+  updateValues: (newValues: Partial<IOrderValues>) => void
+}
 
 const getStatusAttribute = (orders: IOrder[]) => {
   return orders
@@ -34,21 +50,25 @@ const getDeliveryAttribute = (orders: IOrder[]) => {
     })
 }
 
-interface IOrderAttributes {
-  delivery: FilterChoiceValue[]
-  status: FilterChoiceValue[]
-}
-
-export function useOrdersFilter(orders: IOrder[]) {
-  const initialAttributes: IOrderAttributes = {
-    delivery: getDeliveryAttribute(orders),
-    status: getStatusAttribute(orders),
+export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
+  const initialValues: IOrderValues = {
+    status: [],
+    delivery: [],
   }
+  const initialAttributes: IOrderAttributes = {
+    delivery: getDeliveryAttribute(initialOrders),
+    status: getStatusAttribute(initialOrders),
+  }
+  const [orders, setOrders] = useState<IOrder[]>(initialOrders)
   const [attributes, setAttributes] = useState(initialAttributes)
-  const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
+  const [values, setValues] = useState(initialValues)
+
+  useEffect(() => {
+    applyFilter(values)
+  }, [values])
 
   const filterOrders = (values: IOrderValues): IOrder[] => {
-    return new OrderFilterModule(orders)
+    return new OrderFilterModule(initialOrders)
       .filterByStatus(values.status)
       .filterByDelivery(values.delivery)
       .getOrders()
@@ -79,13 +99,18 @@ export function useOrdersFilter(orders: IOrder[]) {
       delivery: updateAttributeValuesCount('delivery', values),
     }
 
-    setFilteredOrders(newOrders)
+    setOrders(newOrders)
     setAttributes(newAttributes)
   }
 
+  const updateValues = (newValues: Partial<IOrderValues>) => {
+    setValues((prev) => ({ ...prev, ...newValues }))
+  }
+
   return {
-    filteredOrders,
+    orders,
     attributes,
-    applyFilter,
+    values,
+    updateValues,
   }
 }
