@@ -38,13 +38,14 @@ export function useOrdersFilter<T>(orders: IOrder[]) {
   const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
 
   const filterOrders = (attributes: T): IOrder[] => {
-
-    return new OrderFilterModule(orders)
-      // @ts-ignore TODO fix
-      .filterByStatus(attributes.status)
-      // @ts-ignore TODO fix
-      .filterByDelivery(attributes.delivery)
-      .getOrders()
+    return (
+      new OrderFilterModule(orders)
+        // @ts-ignore TODO fix
+        .filterByStatus(attributes.status)
+        // @ts-ignore TODO fix
+        .filterByDelivery(attributes.delivery)
+        .getOrders()
+    )
   }
 
   const updateAttribute = (
@@ -85,14 +86,14 @@ export function useOrdersFilter<T>(orders: IOrder[]) {
     setDeliveries(newDeliveries)
   }
 
-  const updatedAttributes = {
+  const attributes = {
     delivery: deliveries,
     status: statuses,
   }
 
   return {
     filteredOrders,
-    updatedAttributes,
+    attributes,
     applyFilter,
   }
 }

@@ -1,38 +1,21 @@
 import './OrdersList.scss'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { IOrder } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
-import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
 
-interface OrdersListProps {
+interface IProps {
   orders: IOrder[]
 }
 
-export interface IOrderValues {
-  status: string[]
-  delivery: string[]
-}
-
-const initialValues: IOrderValues = {
-  status: [],
-  delivery: [],
-}
-
-const OrdersList: FC<OrdersListProps> = (props) => {
+const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
-  const { filteredOrders, updatedAttributes, applyFilter } = useOrdersFilter<IOrderValues>(
-    orders
-  )
+  const [updatedOrders, setOrders] = useState(orders)
 
   return (
     <div className="rw-orders-list">
-      <OrdersFilter
-        attributes={updatedAttributes}
-        attributesValues={initialValues}
-        onFilter={applyFilter}
-      />
-      <OrdersTable orders={filteredOrders} />
+      <OrdersFilter orders={orders} onFilter={setOrders} />
+      <OrdersTable orders={updatedOrders} />
     </div>
   )
 }

@@ -1,24 +1,43 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
-import { FilterChoiceValue } from 'app-services/orders'
 import { IFilterComponent } from 'app-services/orders/types'
+import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
+import { IOrder } from 'app-types'
 
 interface IProps {
-  attributes: {delivery: FilterChoiceValue[], status: FilterChoiceValue[]}
-  onFilter: (attributes: {delivery: string[], status: string[]}) => void
-  attributesValues: {delivery: string[], status: string[]}
+  orders: IOrder[]
+  onFilter: (orders: IOrder[]) => void
+}
+
+interface IOrderValues {
+  status: string[]
+  delivery: string[]
+}
+
+const initialValues: IOrderValues = {
+  status: [],
+  delivery: [],
 }
 
 function OrdersFilter(props: IProps): ReactElement {
-  const { onFilter, attributes, attributesValues } = props
-  const [values, setValues] = useState(attributesValues)
+  const { orders, onFilter } = props
+  const [values, setValues] = useState(initialValues)
+  const {
+    filteredOrders,
+    attributes,
+    applyFilter,
+  } = useOrdersFilter<IOrderValues>(orders)
 
   useEffect(() => {
-    onFilter(values)
+    onFilter(filteredOrders)
+  }, [filteredOrders])
+
+  useEffect(() => {
+    applyFilter(values)
   }, [values])
 
-  const updateActiveAttributes = (newValues: any) => {
+  const updateAttributes = (newValues: Partial<IOrderValues>) => {
     setValues((prev) => ({ ...prev, ...newValues }))
   }
 
@@ -31,7 +50,7 @@ function OrdersFilter(props: IProps): ReactElement {
           options={attributes.status}
           defaultOptions={values.status}
           onChange={(newValues) => {
-            updateActiveAttributes({ status: newValues })
+            updateAttributes({ status: newValues })
           }}
         />
       ),
@@ -45,7 +64,7 @@ function OrdersFilter(props: IProps): ReactElement {
           options={attributes.delivery}
           defaultOptions={values.delivery}
           onChange={(newValues) => {
-            updateActiveAttributes({ delivery: newValues })
+            updateAttributes({ delivery: newValues })
           }}
         />
       ),
