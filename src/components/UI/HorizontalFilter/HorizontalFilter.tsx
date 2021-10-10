@@ -1,14 +1,11 @@
 import './HorizontalFilter.scss'
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
+import { IFilterComponent } from 'app-services/orders/types'
 
 interface HorizontalFilterProps {
-  attributes: {
-    label: string
-    valuesComponent: ReactElement
-    isApplied?: boolean
-  }[]
+  attributes: IFilterComponent[]
 }
 
 const HorizontalFilter: FC<HorizontalFilterProps> = (props) => {
@@ -46,9 +43,12 @@ const HorizontalFilter: FC<HorizontalFilterProps> = (props) => {
     <nav className="rw-horizontal-filter">
       <ul className="rw-horizontal-filter__list">
         {attributes.map((attribute, index) => {
-          const attributeClasses = classNames('rw-horizontal-filter__attribute', {
-            'rw-horizontal-filter__attribute--active': attribute.isApplied,
-          })
+          const attributeClasses = classNames(
+            'rw-horizontal-filter__attribute',
+            {
+              'rw-horizontal-filter__attribute--active': attribute.isApplied,
+            }
+          )
           return (
             <li
               ref={listItemRefs[index]}

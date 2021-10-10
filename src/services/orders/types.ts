@@ -1,28 +1,26 @@
+import { ReactElement } from 'react'
+
 export interface FilterChoiceValue {
   label: string
   value: string
   count?: number
 }
 
-// TODO remove if it turns of unnecessary
+export interface IFilterComponent {
+  key: string
+  label: string
+  valuesComponent: ReactElement
+  isApplied: boolean
+}
+
+// TODO temp, remove after filter factory
 export interface FilterAttributeValue {
   label: string
   type: 'multichoice' | 'range'
   values: FilterChoiceValue[]
 }
 
-//TODO rename IFilterAttributes to IFilterAttribute without S
+// TODO temp, remove after filter factory
 export interface IFilterAttributes<T> extends FilterAttributeValue {
   key: T
 }
-
-/*export type IFilterAttributes<Type> = {
-  // TODO make with generic
-  //[key: string]: FilterAttributeValue
-  [Property in keyof Type]: FilterAttributeValue
-}*/
-
-/*
-export interface FilterAttribute {
-  [key: string]: FilterChoiceValue[]
-}*/

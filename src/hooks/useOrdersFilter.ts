@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
-import { ISelectedAttributes } from '../components/shop/account/OrdersFilter/OrdersFilter'
 import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
-
-//interface UseOrdersFilter {}
 
 export function useOrdersFilter<T>(orders: IOrder[]) {
   const initialDeliveries = orders

@@ -1,40 +1,28 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
-import { IFilterAttributes } from 'app-services/orders/types'
-import FilterFactory from '../../../UI/FilterFactory/FilterFactory'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
+import { FilterChoiceValue } from 'app-services/orders'
+import { IFilterComponent } from 'app-services/orders/types'
 
-//TODO limit string to status | delivery
-export interface ISelectedAttributes {
-  [key: string]: string[]
+interface IProps {
+  attributes: {delivery: FilterChoiceValue[], status: FilterChoiceValue[]}
+  onFilter: (attributes: {delivery: string[], status: string[]}) => void
+  attributesValues: {delivery: string[], status: string[]}
 }
 
-interface IFilterAttributeComponent {
-  label: string
-  valuesComponent: ReactElement
-  isApplied: boolean
-}
-
-interface IProps<T> {
-  //attributes: IFilterAttributes<keyof T>[]
-  attributes: any
-  onFilter: (attributes: T) => void
-  attributesValues: T
-}
-
-function OrdersFilter<T>(props: IProps<T>): ReactElement {
+function OrdersFilter(props: IProps): ReactElement {
   const { onFilter, attributes, attributesValues } = props
-  const [values, setValues] = useState<T>(attributesValues)
+  const [values, setValues] = useState(attributesValues)
 
   useEffect(() => {
     onFilter(values)
   }, [values])
 
-  const updateActiveAttributes = (newValues: T) => {
+  const updateActiveAttributes = (newValues: any) => {
     setValues((prev) => ({ ...prev, ...newValues }))
   }
 
-  const attributeComponents = [
+  const attributeComponents: IFilterComponent[] = [
     {
       key: 'status',
       label: 'Status',
@@ -64,24 +52,6 @@ function OrdersFilter<T>(props: IProps<T>): ReactElement {
       isApplied: Boolean(values.delivery.length),
     },
   ]
-
-  /*const attributeComponents = attributes.map<IFilterAttributeComponent>(
-    (attr) => {
-      return {
-        label: attr.label,
-        valuesComponent: (
-          <ChoiceList
-            options={attr.values}
-            defaultOptions={values[attr.key]}
-            onChange={(newValues) => {
-              updateActiveAttributes({ [attr.key]: newValues })
-            }}
-          />
-        ),
-        isApplied: Boolean(values[attr.key].length),
-      }
-    }
-  )*/
 
   return (
     <div className="rw-order-filter">
