@@ -37,7 +37,7 @@ function OrdersFilter(props: IProps): ReactElement {
     applyFilter(values)
   }, [values])
 
-  const updateAttributes = (newValues: Partial<IOrderValues>) => {
+  const updateValues = (newValues: Partial<IOrderValues>) => {
     setValues((prev) => ({ ...prev, ...newValues }))
   }
 
@@ -50,7 +50,7 @@ function OrdersFilter(props: IProps): ReactElement {
           options={attributes.status}
           defaultOptions={values.status}
           onChange={(newValues) => {
-            updateAttributes({ status: newValues })
+            updateValues({ status: newValues })
           }}
         />
       ),
@@ -64,7 +64,7 @@ function OrdersFilter(props: IProps): ReactElement {
           options={attributes.delivery}
           defaultOptions={values.delivery}
           onChange={(newValues) => {
-            updateAttributes({ delivery: newValues })
+            updateValues({ delivery: newValues })
           }}
         />
       ),
