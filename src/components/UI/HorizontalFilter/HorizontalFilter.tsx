@@ -2,7 +2,7 @@ import './HorizontalFilter.scss'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
-import { IFilterComponent } from 'app-services/orders/types'
+import { IFilterComponent } from 'app-services/orders'
 
 interface HorizontalFilterProps {
   attributes: IFilterComponent[]

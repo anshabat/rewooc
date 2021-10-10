@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
-import { IFilterComponent } from 'app-services/orders/types'
+import { IFilterComponent } from 'app-services/orders'
 import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
 import { IOrder } from 'app-types'
 
