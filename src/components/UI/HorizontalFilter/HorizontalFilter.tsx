@@ -1,15 +1,16 @@
 import './HorizontalFilter.scss'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, MouseEvent, useEffect, useRef, useState } from 'react'
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import { IFilterComponent } from 'app-services/orders'
 
 interface HorizontalFilterProps {
   attributes: IFilterComponent[]
+  onClear?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const HorizontalFilter: FC<HorizontalFilterProps> = (props) => {
-  const { attributes } = props
+  const { attributes, onClear } = props
   const [openedAttribute, setOpenedAttribute] = useState<number | null>(null)
 
   const listItemRefs: React.MutableRefObject<any>[] = []
@@ -74,7 +75,9 @@ const HorizontalFilter: FC<HorizontalFilterProps> = (props) => {
         })}
       </ul>
       {isFilterApplied ? (
-        <button className="rw-horizontal-filter__clear">Clear</button>
+        <button className="rw-horizontal-filter__clear" onClick={onClear}>
+          Clear
+        </button>
       ) : null}
     </nav>
   )

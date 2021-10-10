@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, MouseEvent } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
 import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
@@ -18,6 +18,7 @@ interface IUseOrdersProps {
   attributes: IOrderAttributes
   values: IOrderValues
   updateValues: (newValues: Partial<IOrderValues>) => void
+  clearFilter: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const getStatusAttribute = (orders: IOrder[]) => {
@@ -107,10 +108,15 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
     setValues((prev) => ({ ...prev, ...newValues }))
   }
 
+  const clearFilter = () => {
+    updateValues(initialValues)
+  }
+
   return {
     orders,
     attributes,
     values,
     updateValues,
+    clearFilter,
   }
 }

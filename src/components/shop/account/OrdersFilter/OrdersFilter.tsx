@@ -13,9 +13,13 @@ interface IProps {
 function OrdersFilter(props: IProps): ReactElement {
   const { initialOrders, onFilter } = props
 
-  const { orders, attributes, values, updateValues } = useOrdersFilter(
-    initialOrders
-  )
+  const {
+    orders,
+    attributes,
+    values,
+    updateValues,
+    clearFilter,
+  } = useOrdersFilter(initialOrders)
 
   useEffect(() => {
     onFilter(orders)
@@ -54,7 +58,10 @@ function OrdersFilter(props: IProps): ReactElement {
 
   return (
     <div className="rw-order-filter">
-      <HorizontalFilter attributes={attributeComponents} />
+      <HorizontalFilter
+        attributes={attributeComponents}
+        onClear={clearFilter}
+      />
     </div>
   )
 }
