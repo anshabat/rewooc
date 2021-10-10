@@ -1,5 +1,6 @@
 import './ChoiceField.scss'
 import React, { AllHTMLAttributes, FC } from 'react'
+import classNames from 'classnames'
 
 interface IProps extends AllHTMLAttributes<HTMLElement> {
   type: 'radio' | 'checkbox'
@@ -7,11 +8,14 @@ interface IProps extends AllHTMLAttributes<HTMLElement> {
 }
 
 const ChoiceField: FC<IProps> = (props) => {
-  const { type, label, ...restProps } = props
+  const { type, label, disabled, ...restProps } = props
+  const classes = classNames('rw-choice-field', {
+    'rw-choice-field--disabled': disabled,
+  })
 
   return (
-    <label className="rw-choice-field">
-      <input type={type} {...restProps} />
+    <label className={classes}>
+      <input type={type} disabled={disabled} {...restProps} />
       <span>{label}</span>
     </label>
   )

@@ -44,6 +44,7 @@ const ChoiceList: FC<ChoiceListProps> = (props) => {
             name={option.value}
             onChange={checkField}
             defaultChecked={defaultOptions?.includes(option.value)}
+            disabled={Boolean(!option.count)}
           />
           {option.count != null ? (
             <div className="rw-choice-list__count">({option.count})</div>

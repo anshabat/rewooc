@@ -3,4 +3,9 @@
   grid-template-columns: auto 1fr;
   grid-gap: 5px;
   align-items: center;
+  font-size: 0.9rem;
+
+  &--disabled {
+    color: var(--font-disabled-color);
+  }
 }
