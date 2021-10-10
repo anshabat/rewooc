@@ -10,7 +10,7 @@ interface IProps {
   onFilter: (orders: IOrder[]) => void
 }
 
-interface IOrderValues {
+export interface IOrderValues {
   status: string[]
   delivery: string[]
 }
@@ -27,7 +27,7 @@ function OrdersFilter(props: IProps): ReactElement {
     filteredOrders,
     attributes,
     applyFilter,
-  } = useOrdersFilter<IOrderValues>(orders)
+  } = useOrdersFilter(orders)
 
   useEffect(() => {
     onFilter(filteredOrders)

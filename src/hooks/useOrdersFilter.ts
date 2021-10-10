@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
 import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
+import { IOrderValues } from '../components/shop/account/OrdersFilter/OrdersFilter'
 
-export function useOrdersFilter<T>(orders: IOrder[]) {
+export function useOrdersFilter(orders: IOrder[]) {
   const initialDeliveries = orders
     .reduce<IDeliveryMethod[]>((prev, order) => {
       const existing = prev.some((i) => i.id === order.deliveryMethod.id)
@@ -34,23 +35,19 @@ export function useOrdersFilter<T>(orders: IOrder[]) {
     initialDeliveries
   )
   const [statuses, setStatuses] = useState<FilterChoiceValue[]>(initialStatuses)
-
   const [filteredOrders, setFilteredOrders] = useState<IOrder[]>(orders)
 
-  const filterOrders = (attributes: T): IOrder[] => {
-    return (
-      new OrderFilterModule(orders)
-        // @ts-ignore TODO fix
-        .filterByStatus(attributes.status)
-        // @ts-ignore TODO fix
-        .filterByDelivery(attributes.delivery)
-        .getOrders()
-    )
+  const filterOrders = (values: IOrderValues): IOrder[] => {
+    return new OrderFilterModule(orders)
+      .filterByStatus(values.status)
+      .filterByDelivery(values.delivery)
+      .getOrders()
   }
 
-  const updateAttribute = (
+  // TODO refactor, only return new count
+  const updateChoiceValueLength = (
     key: 'status' | 'delivery',
-    attributes: T
+    values: IOrderValues
   ): FilterChoiceValue[] => {
     let initialValues: FilterChoiceValue[]
     switch (key) {
@@ -62,10 +59,9 @@ export function useOrdersFilter<T>(orders: IOrder[]) {
     }
 
     return initialValues.map((option) => {
-      // @ts-ignore TODO fix
-      const statuses = [...attributes[key], option.value]
+      const statuses = [...values[key], option.value]
       const filteredOrders = filterOrders({
-        ...attributes,
+        ...values,
         [key]: statuses,
       })
       return {
@@ -76,10 +72,10 @@ export function useOrdersFilter<T>(orders: IOrder[]) {
     })
   }
 
-  const applyFilter = (attributes: T) => {
-    const newOrders = filterOrders(attributes)
-    const newStatuses = updateAttribute('status', attributes)
-    const newDeliveries = updateAttribute('delivery', attributes)
+  const applyFilter = (values: IOrderValues) => {
+    const newOrders = filterOrders(values)
+    const newStatuses = updateChoiceValueLength('status', values)
+    const newDeliveries = updateChoiceValueLength('delivery', values)
 
     setFilteredOrders(newOrders)
     setStatuses(newStatuses)
