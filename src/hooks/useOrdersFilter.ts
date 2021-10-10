@@ -44,29 +44,20 @@ export function useOrdersFilter(orders: IOrder[]) {
       .getOrders()
   }
 
-  // TODO refactor, only return new count
-  const updateChoiceValueLength = (
+  const updateAttributeValuesCount = (
     key: 'status' | 'delivery',
+    attributes: FilterChoiceValue[],
     values: IOrderValues
   ): FilterChoiceValue[] => {
-    let initialValues: FilterChoiceValue[]
-    switch (key) {
-      case 'status':
-        initialValues = initialStatuses
-        break
-      case 'delivery':
-        initialValues = initialDeliveries
-    }
-
-    return initialValues.map((option) => {
-      const statuses = [...values[key], option.value]
+    return attributes.map((attr) => {
+      const nextValues = [...values[key], attr.value]
       const filteredOrders = filterOrders({
         ...values,
-        [key]: statuses,
+        [key]: nextValues,
       })
       return {
-        value: option.value,
-        label: option.label,
+        value: attr.value,
+        label: attr.label,
         count: filteredOrders.length,
       }
     })
@@ -74,8 +65,16 @@ export function useOrdersFilter(orders: IOrder[]) {
 
   const applyFilter = (values: IOrderValues) => {
     const newOrders = filterOrders(values)
-    const newStatuses = updateChoiceValueLength('status', values)
-    const newDeliveries = updateChoiceValueLength('delivery', values)
+    const newStatuses = updateAttributeValuesCount(
+      'status',
+      initialStatuses,
+      values
+    )
+    const newDeliveries = updateAttributeValuesCount(
+      'delivery',
+      initialDeliveries,
+      values
+    )
 
     setFilteredOrders(newOrders)
     setStatuses(newStatuses)
