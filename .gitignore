@@ -3,6 +3,7 @@ node_modules/
 dist/
 docker/database
 .env
+coverage/
 
 # Ignore Wordpress Server
 /server/wp/*.*

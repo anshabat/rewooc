@@ -2,6 +2,7 @@ import { useEffect, useState, MouseEvent } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
 import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
+import { useQuery } from 'app-services/query'
 
 interface IOrderValues {
   status: string[]
@@ -21,6 +22,7 @@ interface IUseOrdersProps {
   clearFilter: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
+// TODO move to helpers after folder structure change to modules
 const getStatusAttribute = (orders: IOrder[]) => {
   return orders
     .reduce<OrderStatus[]>((prev, order) => {
@@ -51,6 +53,13 @@ const getDeliveryAttribute = (orders: IOrder[]) => {
     })
 }
 
+const getValuesArrayFromQueryParams = (key: string, params: any): any => {
+  if (!params[key]) {
+    return []
+  }
+  return Array.isArray(params.status) ? params.status : [params.status]
+}
+
 export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   const initialValues: IOrderValues = {
     status: [],
@@ -63,10 +72,24 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   const [orders, setOrders] = useState<IOrder[]>(initialOrders)
   const [attributes, setAttributes] = useState(initialAttributes)
   const [values, setValues] = useState(initialValues)
+  const { params } = useQuery()
 
   useEffect(() => {
     applyFilter(values)
   }, [values])
+
+  useEffect(() => {
+    setValues({
+      status: [
+        ...values.status,
+        ...getValuesArrayFromQueryParams('status', params),
+      ],
+      delivery: [
+        ...values.delivery,
+        ...getValuesArrayFromQueryParams('delivery', params),
+      ],
+    })
+  }, [params])
 
   const filterOrders = (values: IOrderValues): IOrder[] => {
     return new OrderFilterModule(initialOrders)
