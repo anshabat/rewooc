@@ -72,7 +72,7 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   const [orders, setOrders] = useState<IOrder[]>(initialOrders)
   const [attributes, setAttributes] = useState(initialAttributes)
   const [values, setValues] = useState(initialValues)
-  const { params } = useQuery()
+  const { params, updateQueryString } = useQuery()
 
   useEffect(() => {
     applyFilter(values)
@@ -127,8 +127,10 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
     setAttributes(newAttributes)
   }
 
-  const updateValues = (newValues: Partial<IOrderValues>) => {
-    setValues((prev) => ({ ...prev, ...newValues }))
+  const updateValues = (attributeValues: Partial<IOrderValues>) => {
+    //@ts-ignore
+    updateQueryString(attributeValues)
+    setValues((prev) => ({ ...prev, ...attributeValues }))
   }
 
   const clearFilter = () => {
