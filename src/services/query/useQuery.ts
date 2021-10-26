@@ -35,36 +35,36 @@ export function useQuery() {
       return `${key}=${valuesStr}`
     })*/
     /*
-    * 1 - map values
-    * 2 - if key exist - change value inside param
-    * 3 - if not exist - add new key to the param
-    * 4 - if values empty - remove key
-    * */
+     * 1 - map values
+     * 2 - if key exist - change value inside param
+     * 3 - if not exist - add new key to the param
+     * 4 - if values empty - remove key
+     * */
 
-    const newParams = {...params}
+    const newParams = { ...params }
     //console.log(values)
 
     Object.entries(values).forEach(([key, val]) => {
-      if((Array.isArray(val) && val.length === 0) || '') {
+      if ((Array.isArray(val) && val.length === 0) || '') {
         delete newParams[key]
       } else {
         newParams[key] = val
       }
       //const valueStr = Array.isArray(val) ? val.join(VALUES_SEPARATOR) : String(val)
-      if(newParams[key] != null) {
+      if (newParams[key] != null) {
         /*
-        * if val === [''] || '' - delete newParams[key]
-        * else - newParams[key] = val
-        * */
-/*       if(Array.isArray(val) && Array.isArray(param)) {
-         console.log('old - arrays')
-         newParams[key] = val
-       } else if (!Array.isArray(val) && !Array.isArray(param)) {
-         console.log('olf - primitives')
-         newParams[key] = val
-       } else {
-         throw Error ('inconsistent types')
-       }*/
+         * if val === [''] || '' - delete newParams[key]
+         * else - newParams[key] = val
+         * */
+        /*       if(Array.isArray(val) && Array.isArray(param)) {
+                 console.log('old - arrays')
+                 newParams[key] = val
+               } else if (!Array.isArray(val) && !Array.isArray(param)) {
+                 console.log('olf - primitives')
+                 newParams[key] = val
+               } else {
+                 throw Error ('inconsistent types')
+               }*/
       } else {
         /*if(Array.isArray(val)) {
           console.log('new - array')
@@ -74,18 +74,22 @@ export function useQuery() {
           throw Error ('inconsistent types')
         }*/
       }
-
     })
     //return `${key}=${valuesStr}`
     console.log(newParams)
   }
 
   const parseQueryString = (str: string): IParam => {
+    if (!str.startsWith('?')) {
+      return {}
+    }
     const params = str.slice(1).split('&')
     return params.reduce<IParam>((res, param) => {
       const [name, value] = param.split('=')
-      const values = value.split(VALUES_SEPARATOR)
-      res[name] = values.length > 1 ? values : value
+      if (value) {
+        const values = value.split(VALUES_SEPARATOR)
+        res[name] = values.length > 1 ? values : value
+      }
       return res
     }, {})
   }

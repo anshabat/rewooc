@@ -57,7 +57,7 @@ const getValuesArrayFromQueryParams = (key: string, params: any): any => {
   if (!params[key]) {
     return []
   }
-  return Array.isArray(params.status) ? params.status : [params.status]
+  return Array.isArray(params[key]) ? params[key] : [params[key]]
 }
 
 export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
