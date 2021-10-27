@@ -18,10 +18,6 @@ export function useQuery() {
     }
   }, [])
 
-  useEffect(() => {
-    updateUrl(params)
-  }, [params])
-
   const updateUrl = (newParams: IParam): void => {
     const pageUrl = `${window.location.origin}${window.location.pathname}`
     const search = getQueryStringFromParams(newParams)
@@ -39,6 +35,7 @@ export function useQuery() {
       }
     })
     setParams(newParams)
+    updateUrl(newParams)
   }
 
   const setParamsFromUrl = () => {
