@@ -29,10 +29,11 @@ const OrdersList: FC<IProps> = (props) => {
   const {
     items: paginatedOrders,
     changePage,
-    currentPage,
+    currentPages,
+    loadMore
   } = usePagination<IOrder>(sortedOrders, PER_PAGE)
 
-  const { items: showMoreOrders, loadMore } = useShowMore<IOrder>(sortedOrders, PER_PAGE)
+  //const { items: showMoreOrders, loadMore } = useShowMore<IOrder>(sortedOrders, PER_PAGE)
 
   return (
     <div className="rw-orders-list">
@@ -41,7 +42,7 @@ const OrdersList: FC<IProps> = (props) => {
       </div>
       <div className="rw-orders-list__table">
         <OrdersTable
-          orders={showMoreOrders}
+          orders={paginatedOrders}
           sorting={sorting}
           onSorting={changeOrder}
         />
@@ -49,7 +50,7 @@ const OrdersList: FC<IProps> = (props) => {
       <div className="rw-orders-list__pagination">
         <Paginator
           total={filteredOrders.length}
-          currentPage={currentPage}
+          currentPage={currentPages[0]}
           perPage={PER_PAGE}
           onNavigate={changePage}
         />
@@ -59,7 +60,7 @@ const OrdersList: FC<IProps> = (props) => {
           color="secondary"
           size="lg"
           onClick={loadMore}
-          disabled={showMoreOrders.length >= filteredOrders.length}
+          disabled={paginatedOrders.length >= filteredOrders.length}
         >
           Load More
         </Button>
