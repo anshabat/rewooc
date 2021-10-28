@@ -21,7 +21,7 @@ const HorizontalFilter: FC<HorizontalFilterProps> = (props) => {
   const isFilterApplied = attributes.some((attribute) => attribute.isApplied)
 
   const clickOutsideFilterHandler = (e: any) => {
-    const clickedInside = listItemRefs.some((i) => i.current.contains(e.target))
+    const clickedInside = listItemRefs.some((i) => i.current?.contains(e.target))
     if (!clickedInside) {
       setOpenedAttribute(null)
     }
