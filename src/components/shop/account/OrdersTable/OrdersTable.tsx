@@ -15,13 +15,17 @@ interface IProps {
 const OrdersTable: FC<IProps> = (props) => {
   const { orders, sorting, onSorting } = props
 
+  const getSortingDirection = (orderBy: string): 'desc' | 'asc' | null => {
+    return sorting.orderBy === orderBy ? sorting.direction : null
+  }
+
   return (
     <table className="rw-order-table">
       <thead>
         <tr>
           <th>
             <SortableTitle
-              direction={sorting.orderBy === 'id' ? sorting.direction : null}
+              direction={getSortingDirection('id')}
               onChange={(direction) => {
                 onSorting('id', direction, 'number')
               }}
@@ -33,9 +37,7 @@ const OrdersTable: FC<IProps> = (props) => {
           <th>Delivery</th>
           <th>
             <SortableTitle
-              direction={
-                sorting.orderBy === 'created.date' ? sorting.direction : null
-              }
+              direction={getSortingDirection('created.date')}
               onChange={(direction) => {
                 onSorting('created.date', direction, 'string')
               }}
@@ -45,7 +47,7 @@ const OrdersTable: FC<IProps> = (props) => {
           </th>
           <th>
             <SortableTitle
-              direction={sorting.orderBy === 'total' ? sorting.direction : null}
+              direction={getSortingDirection('total')}
               onChange={(direction) => {
                 onSorting('total', direction, 'number')
               }}
