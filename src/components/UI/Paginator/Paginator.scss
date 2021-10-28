@@ -1,0 +1,22 @@
+.rw-paginator {
+  display: flex;
+  gap: 10px;
+
+  &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: 1px solid var(--color-gray);
+    color: var(--color-gray);
+    background: none;
+    cursor: pointer;
+  }
+
+  &__item--active &__link {
+    border: none;
+    color: #000;
+    cursor: default;
+  }
+}
