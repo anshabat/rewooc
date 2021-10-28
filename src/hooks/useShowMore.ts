@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 
-export function useShowMore(allItems: any[], loadCount = 2, initialLength = 4) {
-  const [itemsSlice, setItemsSlice] = useState<any[]>(allItems)
+interface UseShowMoreHook<T> {
+  items: T[]
+  loadMore: () => void
+}
+
+export function useShowMore<T>(allItems: T[], perPage = 10): UseShowMoreHook<T> {
+  const [itemsSlice, setItemsSlice] = useState<T[]>(allItems)
 
   useEffect(() => {
-    getItemsSlice(initialLength, 0)
+    getItemsSlice(perPage, 0)
   }, [allItems])
 
   const loadMore = () => {
-    getItemsSlice(itemsSlice.length, loadCount)
+    getItemsSlice(itemsSlice.length, perPage)
   }
 
   const getItemsSlice = (length: number, step: number) => {

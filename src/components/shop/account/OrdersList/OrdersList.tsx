@@ -13,7 +13,7 @@ interface IProps {
   orders: IOrder[]
 }
 
-const PER_PAGE = 10
+const PER_PAGE = 2
 
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
@@ -32,7 +32,7 @@ const OrdersList: FC<IProps> = (props) => {
     currentPage,
   } = usePagination<IOrder>(sortedOrders, PER_PAGE)
 
-  const { items: showMoreOrders, loadMore } = useShowMore(sortedOrders, 2, 3)
+  const { items: showMoreOrders, loadMore } = useShowMore<IOrder>(sortedOrders, PER_PAGE)
 
   return (
     <div className="rw-orders-list">
