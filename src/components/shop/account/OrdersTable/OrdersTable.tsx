@@ -5,24 +5,15 @@ import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
 import { getFormattedDate } from 'app-services/date'
 import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
-import { useSorting } from '../../../../hooks/useSorting'
 
 interface IProps {
   orders: IOrder[]
+  sorting: any
+  onSorting: any
 }
 
-type OrderProperties = 'total' | 'id' | 'created.date'
-
 const OrdersTable: FC<IProps> = (props) => {
-  const { orders } = props
-  const { sortedOrders, sorting, changeOrder } = useSorting<OrderProperties>(
-    orders,
-    {
-      orderBy: 'created.date',
-      direction: 'asc',
-      type: 'string',
-    }
-  )
+  const { orders, sorting, onSorting } = props
 
   return (
     <table className="rw-order-table">
@@ -32,7 +23,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={sorting.orderBy === 'id' ? sorting.direction : null}
               onChange={(direction) => {
-                changeOrder('id', direction, 'number')
+                onSorting('id', direction, 'number')
               }}
             >
               Number
@@ -46,7 +37,7 @@ const OrdersTable: FC<IProps> = (props) => {
                 sorting.orderBy === 'created.date' ? sorting.direction : null
               }
               onChange={(direction) => {
-                changeOrder('created.date', direction, 'string')
+                onSorting('created.date', direction, 'string')
               }}
             >
               Created
@@ -56,7 +47,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={sorting.orderBy === 'total' ? sorting.direction : null}
               onChange={(direction) => {
-                changeOrder('total', direction, 'number')
+                onSorting('total', direction, 'number')
               }}
             >
               Total
@@ -65,7 +56,7 @@ const OrdersTable: FC<IProps> = (props) => {
         </tr>
       </thead>
       <tbody>
-        {sortedOrders.map((order) => {
+        {orders.map((order) => {
           return (
             <tr key={order.id}>
               <td>
