@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import { propertyFromDottedString } from '../shared/utilities'
 
 interface IUserSorting {
+  //TODO change IOrder go Generic, useSorting should be abstract, not bind with Orders
   sortedOrders: IOrder[]
   sorting: ISorting
   changeOrder: ChangeOrderType

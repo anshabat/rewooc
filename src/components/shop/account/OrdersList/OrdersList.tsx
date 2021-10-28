@@ -4,6 +4,7 @@ import { IOrder } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import { useSorting } from '../../../../hooks/useSorting'
+import { usePagination } from '../../../../hooks/usePagination'
 
 interface IProps {
   orders: IOrder[]
@@ -17,15 +18,26 @@ const OrdersList: FC<IProps> = (props) => {
     direction: 'asc',
     type: 'string',
   })
+  const { items: paginatedOrders, changePage } = usePagination<IOrder>(
+    sortedOrders,
+    2
+  )
 
   return (
     <div className="rw-orders-list">
       <OrdersFilter initialOrders={orders} onFilter={setFilteredOrders} />
       <OrdersTable
-        orders={sortedOrders}
+        orders={paginatedOrders}
         sorting={sorting}
         onSorting={changeOrder}
       />
+      <button
+        onClick={() => {
+          changePage(2)
+        }}
+      >
+        go to 2 page
+      </button>
     </div>
   )
 }
