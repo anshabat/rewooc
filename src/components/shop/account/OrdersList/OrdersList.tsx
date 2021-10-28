@@ -6,12 +6,14 @@ import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import { useSorting } from '../../../../hooks/useSorting'
 import { usePagination } from '../../../../hooks/usePagination'
 import Paginator from '../../../UI/Paginator/Paginator'
+import { useShowMore } from '../../../../hooks/useShowMore'
+import Button from '../../../UI/Button/Button'
 
 interface IProps {
   orders: IOrder[]
 }
 
-const PER_PAGE = 5
+const PER_PAGE = 10
 
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
@@ -30,6 +32,8 @@ const OrdersList: FC<IProps> = (props) => {
     currentPage,
   } = usePagination<IOrder>(sortedOrders, PER_PAGE)
 
+  const { items: showMoreOrders, loadMore } = useShowMore(sortedOrders, 2, 3)
+
   return (
     <div className="rw-orders-list">
       <div className="rw-orders-list__filter">
@@ -37,7 +41,7 @@ const OrdersList: FC<IProps> = (props) => {
       </div>
       <div className="rw-orders-list__table">
         <OrdersTable
-          orders={paginatedOrders}
+          orders={showMoreOrders}
           sorting={sorting}
           onSorting={changeOrder}
         />
@@ -49,6 +53,16 @@ const OrdersList: FC<IProps> = (props) => {
           perPage={PER_PAGE}
           onNavigate={changePage}
         />
+      </div>
+      <div className="rw-orders-list__show-more">
+        <Button
+          color="secondary"
+          size="lg"
+          onClick={loadMore}
+          disabled={showMoreOrders.length >= filteredOrders.length}
+        >
+          Load More
+        </Button>
       </div>
     </div>
   )
