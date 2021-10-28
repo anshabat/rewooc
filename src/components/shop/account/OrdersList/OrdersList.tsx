@@ -9,19 +9,14 @@ interface IProps {
   orders: IOrder[]
 }
 
-type OrdersSortingType = 'total' | 'id' | 'created.date'
-
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
   const [filteredOrders, setFilteredOrders] = useState(orders)
-  const { sortedOrders, sorting, changeOrder } = useSorting<OrdersSortingType>(
-    filteredOrders,
-    {
-      orderBy: 'created.date',
-      direction: 'asc',
-      type: 'string',
-    }
-  )
+  const { sortedOrders, sorting, changeOrder } = useSorting(filteredOrders, {
+    orderBy: 'created.date',
+    direction: 'asc',
+    type: 'string',
+  })
 
   return (
     <div className="rw-orders-list">

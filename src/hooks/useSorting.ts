@@ -1,32 +1,20 @@
-import { IOrder } from 'app-types'
+import { ChangeOrderType, IOrder, ISorting } from 'app-types'
 import { useMemo, useState } from 'react'
 import { propertyFromDottedString } from '../shared/utilities'
 
-interface ISorting<T> {
-  orderBy: T
-  direction: 'asc' | 'desc'
-  type: 'string' | 'number'
-}
-
-type ChangeOrder<T> = (
-  orderBy: T,
-  direction: 'asc' | 'desc',
-  type: 'string' | 'number'
-) => void
-
-interface IUserSorting<T> {
+interface IUserSorting {
   sortedOrders: IOrder[]
-  sorting: ISorting<T>
-  changeOrder: ChangeOrder<T>
+  sorting: ISorting
+  changeOrder: ChangeOrderType
 }
 
-export function useSorting<T>(
+export function useSorting(
   orders: IOrder[],
-  initialSorting: ISorting<T>
-): IUserSorting<T> {
-  const [sorting, setSorting] = useState<ISorting<T>>(initialSorting)
+  initialSorting: ISorting
+): IUserSorting {
+  const [sorting, setSorting] = useState<ISorting>(initialSorting)
 
-  function sortOrders(orders: IOrder[], sorting: ISorting<T>): IOrder[] {
+  function sortOrders(orders: IOrder[], sorting: ISorting): IOrder[] {
     const { orderBy, direction, type } = sorting
     const newOrders = [...orders]
     return newOrders.sort((a, b) => {
@@ -46,7 +34,7 @@ export function useSorting<T>(
     })
   }
 
-  const changeOrder: ChangeOrder<T> = (orderBy, direction, type) => {
+  const changeOrder: ChangeOrderType = (orderBy, direction, type) => {
     setSorting({
       orderBy,
       direction,

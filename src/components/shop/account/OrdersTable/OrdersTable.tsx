@@ -1,6 +1,6 @@
 import './OrdersTable.scss'
 import React, { FC } from 'react'
-import { IOrder } from 'app-types'
+import { ChangeOrderType, IOrder, ISorting } from 'app-types'
 import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
 import { getFormattedDate } from 'app-services/date'
@@ -8,8 +8,8 @@ import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
 
 interface IProps {
   orders: IOrder[]
-  sorting: any
-  onSorting: any
+  sorting: ISorting
+  onSorting: ChangeOrderType
 }
 
 const OrdersTable: FC<IProps> = (props) => {
