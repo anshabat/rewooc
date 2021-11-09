@@ -6,7 +6,7 @@ import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import { useSorting } from '../../../../hooks/useSorting'
 import { usePagination } from '../../../../hooks/usePagination'
 import Paginator from '../../../UI/Paginator/Paginator'
-import Button from '../../../UI/Button/Button'
+import LoadMore from '../../../UI/LoadMore/LoadMore'
 
 interface IProps {
   orders: IOrder[]
@@ -53,14 +53,7 @@ const OrdersList: FC<IProps> = (props) => {
             perPage={PER_PAGE}
             onNavigate={changePage}
           />
-          <Button
-            color="secondary"
-            size="lg"
-            onClick={loadMore}
-            disabled={!isLoadMoreAvailable}
-          >
-            Load More
-          </Button>
+          <LoadMore onLoadMore={loadMore} disabled={!isLoadMoreAvailable} />
         </div>
       ) : null}
     </div>

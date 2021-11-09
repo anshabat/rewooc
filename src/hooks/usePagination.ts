@@ -4,7 +4,7 @@ interface UsePaginationHook<T> {
   items: T[]
   currentPages: number[]
   changePage: (page: number) => void
-  loadMore: any
+  loadMore: () => void
   isLoadMoreAvailable: boolean
 }
 
