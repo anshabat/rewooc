@@ -2,7 +2,7 @@ import './Paginator.scss'
 import React, { FC } from 'react'
 import classNames from 'classnames'
 
-const isItemInList = (list: number | number[], item: number) => {
+const isItemInList = (list: number | number[], item: number): boolean => {
   if (Array.isArray(list)) {
     return list.includes(item)
   } else {

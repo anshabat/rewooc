@@ -30,6 +30,7 @@ const OrdersList: FC<IProps> = (props) => {
     changePage,
     currentPages,
     loadMore,
+    isLoadMoreAvailable
   } = usePagination<IOrder>(sortedOrders, PER_PAGE)
 
   return (
@@ -57,7 +58,7 @@ const OrdersList: FC<IProps> = (props) => {
           color="secondary"
           size="lg"
           onClick={loadMore}
-          disabled={paginatedOrders.length >= filteredOrders.length}
+          disabled={!isLoadMoreAvailable}
         >
           Load More
         </Button>

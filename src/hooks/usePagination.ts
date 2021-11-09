@@ -5,6 +5,7 @@ interface UsePaginationHook<T> {
   currentPages: number[]
   changePage: (page: number) => void
   loadMore: any
+  isLoadMoreAvailable: boolean
 }
 
 export function usePagination<T>(
@@ -13,9 +14,11 @@ export function usePagination<T>(
 ): UsePaginationHook<T> {
   const [itemsSlice, setItemsSlice] = useState(items)
   const [currentPages, setCurrentPage] = useState([1])
+  const [isLoadMoreAvailable, setIsLoadMoreAvailable] = useState(true)
 
   useEffect(() => {
     setItemsSlice(sliceItems(currentPages))
+    setIsLoadMoreAvailable(checkLoadMoreAvailability(currentPages))
   }, [currentPages, items])
 
   /* Reset pagination to first page after items were changed (filtered, sorted etc) */
@@ -32,6 +35,15 @@ export function usePagination<T>(
     return items.slice(fromIndex, toIndex)
   }
 
+  const checkLoadMoreAvailability = (pages: number[]) => {
+    const loadedItems = pages[pages.length - 1] * perPage
+    return loadedItems < items.length
+  }
+
+  const changePage = (page: number) => {
+    setCurrentPage([page])
+  }
+
   const loadMore = () => {
     const newPage = currentPages[currentPages.length - 1]
     const loadedItems = newPage * perPage
@@ -41,9 +53,11 @@ export function usePagination<T>(
     }
   }
 
-  const changePage = (page: number) => {
-    setCurrentPage([page])
+  return {
+    items: itemsSlice,
+    changePage,
+    currentPages,
+    loadMore,
+    isLoadMoreAvailable,
   }
-
-  return { items: itemsSlice, changePage, currentPages, loadMore }
 }
