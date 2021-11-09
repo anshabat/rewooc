@@ -6,7 +6,6 @@ import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import { useSorting } from '../../../../hooks/useSorting'
 import { usePagination } from '../../../../hooks/usePagination'
 import Paginator from '../../../UI/Paginator/Paginator'
-import { useShowMore } from '../../../../hooks/useShowMore'
 import Button from '../../../UI/Button/Button'
 
 interface IProps {
@@ -21,7 +20,7 @@ const OrdersList: FC<IProps> = (props) => {
   const [filteredOrders, setFilteredOrders] = useState(orders)
 
   const { sortedOrders, sorting, changeOrder } = useSorting(filteredOrders, {
-    orderBy: 'created.date',
+    orderBy: 'id',
     direction: 'asc',
     type: 'string',
   })

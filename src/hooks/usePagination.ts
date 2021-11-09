@@ -15,7 +15,7 @@ export function usePagination<T>(
   const [currentPages, setCurrentPage] = useState([1])
 
   useEffect(() => {
-    setItemsSlice(sliceItems())
+    setItemsSlice(sliceItems(currentPages))
   }, [currentPages, items])
 
   /* Reset pagination to first page after items were changed (filtered, sorted etc) */
@@ -23,10 +23,9 @@ export function usePagination<T>(
     setCurrentPage([1])
   }, [items])
 
-  const sliceItems = () => {
-    const fromIndex = perPage * (currentPages[0] - 1)
-    //const toIndex = fromIndex + perPage
-    const toIndex = perPage * currentPages[currentPages.length - 1]
+  const sliceItems = (pages: number[]) => {
+    const fromIndex = perPage * (pages[0] - 1)
+    const toIndex = perPage * pages[pages.length - 1]
     if (fromIndex >= items.length) {
       return items
     }
@@ -34,13 +33,12 @@ export function usePagination<T>(
   }
 
   const loadMore = () => {
-    /*const fromIndex = perPage * (currentPages[0] - 1)
-    const toIndex = fromIndex + perPage
-    const newSlice = items.slice(fromIndex, toIndex)
-    console.log(newSlice)
-    setItemsSlice(newSlice)*/
-    const newCurrentPages = currentPages.concat(currentPages.length + 1)
-    setCurrentPage(newCurrentPages)
+    const newPage = currentPages[currentPages.length - 1]
+    const loadedItems = newPage * perPage
+    if (loadedItems < items.length) {
+      const newCurrentPages = currentPages.concat(newPage + 1)
+      setCurrentPage(newCurrentPages)
+    }
   }
 
   const changePage = (page: number) => {
