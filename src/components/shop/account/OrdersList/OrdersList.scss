@@ -1,8 +1,11 @@
 .rw-orders-list {
   display: grid;
-  grid-gap: 10px;
+  gap: 10px;
 
   &__pagination {
     justify-self: center;
+    display: grid;
+    gap: 10px;
+    justify-items: center;
   }
 }

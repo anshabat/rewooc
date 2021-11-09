@@ -12,7 +12,7 @@ interface IProps {
   orders: IOrder[]
 }
 
-const PER_PAGE = 2
+const PER_PAGE = 3
 
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
@@ -30,7 +30,7 @@ const OrdersList: FC<IProps> = (props) => {
     changePage,
     currentPages,
     loadMore,
-    isLoadMoreAvailable
+    isLoadMoreAvailable,
   } = usePagination<IOrder>(sortedOrders, PER_PAGE)
 
   return (
@@ -45,24 +45,24 @@ const OrdersList: FC<IProps> = (props) => {
           onSorting={changeOrder}
         />
       </div>
-      <div className="rw-orders-list__pagination">
-        <Paginator
-          total={filteredOrders.length}
-          currentPages={currentPages}
-          perPage={PER_PAGE}
-          onNavigate={changePage}
-        />
-      </div>
-      <div className="rw-orders-list__show-more">
-        <Button
-          color="secondary"
-          size="lg"
-          onClick={loadMore}
-          disabled={!isLoadMoreAvailable}
-        >
-          Load More
-        </Button>
-      </div>
+      {filteredOrders.length > PER_PAGE ? (
+        <div className="rw-orders-list__pagination">
+          <Paginator
+            total={filteredOrders.length}
+            currentPages={currentPages}
+            perPage={PER_PAGE}
+            onNavigate={changePage}
+          />
+          <Button
+            color="secondary"
+            size="lg"
+            onClick={loadMore}
+            disabled={!isLoadMoreAvailable}
+          >
+            Load More
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -20,10 +20,6 @@ interface PaginatorProps {
 const Paginator: FC<PaginatorProps> = (props) => {
   const { currentPages, perPage, total, onNavigate } = props
 
-  if (perPage >= total) {
-    return null
-  }
-
   const pagesCount = Math.ceil(total / perPage)
   const pageNumbers = new Array(pagesCount).fill(null)
 
