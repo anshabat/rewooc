@@ -2,15 +2,23 @@ import './Paginator.scss'
 import React, { FC } from 'react'
 import classNames from 'classnames'
 
+const isItemInList = (list: number | number[], item: number) => {
+  if (Array.isArray(list)) {
+    return list.includes(item)
+  } else {
+    return list === item
+  }
+}
+
 interface PaginatorProps {
   total: number
-  currentPage: number
+  currentPages: number | number[]
   perPage: number
   onNavigate: (page: number) => void
 }
 
 const Paginator: FC<PaginatorProps> = (props) => {
-  const { currentPage, perPage, total, onNavigate } = props
+  const { currentPages, perPage, total, onNavigate } = props
 
   if (perPage >= total) {
     return null
@@ -21,11 +29,11 @@ const Paginator: FC<PaginatorProps> = (props) => {
 
   const getActiveClass = (index: number) =>
     classNames('rw-paginator__item', {
-      'rw-paginator__item--active': currentPage === index,
+      'rw-paginator__item--active': isItemInList(currentPages, index),
     })
 
   const clickPageHandler = (page: number) => {
-    if (page !== currentPage) {
+    if (!isItemInList(currentPages, page)) {
       onNavigate(page)
     }
   }
