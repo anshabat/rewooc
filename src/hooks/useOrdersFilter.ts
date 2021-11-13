@@ -80,12 +80,8 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
 
   useEffect(() => {
     setValues({
-      status: [
-        ...getValuesArrayFromQueryParams('status', params),
-      ],
-      delivery: [
-        ...getValuesArrayFromQueryParams('delivery', params),
-      ],
+      status: [...getValuesArrayFromQueryParams('status', params)],
+      delivery: [...getValuesArrayFromQueryParams('delivery', params)],
     })
   }, [params])
 
@@ -114,13 +110,12 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
     })
   }
 
-  const applyFilter = (values: IOrderValues) => {
-    const newOrders = filterOrders(values)
+  const applyFilter = (newValues: IOrderValues) => {
+    const newOrders = filterOrders(newValues)
     const newAttributes: IOrderAttributes = {
-      status: updateAttributeValuesCount('status', values),
-      delivery: updateAttributeValuesCount('delivery', values),
+      status: updateAttributeValuesCount('status', newValues),
+      delivery: updateAttributeValuesCount('delivery', newValues),
     }
-
     setOrders(newOrders)
     setAttributes(newAttributes)
   }

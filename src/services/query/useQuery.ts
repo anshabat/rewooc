@@ -1,16 +1,33 @@
 import { useEffect, useState } from 'react'
 
-interface IParam {
+export interface IParam {
   [key: string]: string | string[]
 }
 
 const VALUES_SEPARATOR = ','
 
+const parseQueryString = (str: string): IParam => {
+  if (!str.startsWith('?')) {
+    return {}
+  }
+  const params = str.slice(1).split('&')
+  return params.reduce<IParam>((res, param) => {
+    const [name, value] = param.split('=')
+    if (value) {
+      const values = value.split(VALUES_SEPARATOR)
+      res[name] = values.length > 1 ? values : value
+    }
+    return res
+  }, {})
+}
+
+//TODO add typing to return value
 export function useQuery() {
-  const [params, setParams] = useState<IParam>({})
+  const [params, setParams] = useState<IParam>(
+    parseQueryString(window.location.search)
+  )
 
   useEffect(() => {
-    setParamsFromUrl()
     window.addEventListener('popstate', setParamsFromUrl)
 
     return () => {
@@ -26,7 +43,7 @@ export function useQuery() {
   }
 
   const updateParams = (values: IParam) => {
-    const newParams = { ...params }
+    const newParams = parseQueryString(window.location.search)
     Object.entries(values).forEach(([key, val]) => {
       if ((Array.isArray(val) && val.length === 0) || val === '') {
         delete newParams[key]
@@ -44,21 +61,6 @@ export function useQuery() {
     }
     const queryStrParams = parseQueryString(window.location.search)
     setParams(queryStrParams)
-  }
-
-  const parseQueryString = (str: string): IParam => {
-    if (!str.startsWith('?')) {
-      return {}
-    }
-    const params = str.slice(1).split('&')
-    return params.reduce<IParam>((res, param) => {
-      const [name, value] = param.split('=')
-      if (value) {
-        const values = value.split(VALUES_SEPARATOR)
-        res[name] = values.length > 1 ? values : value
-      }
-      return res
-    }, {})
   }
 
   const getQueryStringFromParams = (params: IParam): string => {
