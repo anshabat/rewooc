@@ -83,7 +83,9 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   }
   //TODO get initialValues from params
   const [values, setValues] = useState(initialValues)
-  const [orders, setOrders] = useState<IOrder[]>(filterOrders(initialOrders, initialValues))
+  const [orders, setOrders] = useState<IOrder[]>(
+    filterOrders(initialOrders, initialValues)
+  )
   const [attributes, setAttributes] = useState(initialAttributes)
 
   useEffect(() => {
@@ -131,7 +133,10 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   }
 
   const clearFilter = () => {
-    updateValues(initialValues)
+    const emptyValues = Object.keys(initialValues).reduce((res, key) => {
+      return { ...res, [key]: [] }
+    }, {})
+    updateValues(emptyValues)
   }
 
   return {
