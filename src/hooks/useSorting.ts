@@ -4,7 +4,6 @@ import { propertyFromDottedString } from '../shared/utilities'
 
 interface IUserSorting {
   //TODO change IOrder go Generic, useSorting should be abstract, not bind with Orders
-  sortedOrders: IOrder[]
   sorting: ISorting
   changeOrder: ChangeOrderType
 }
@@ -15,7 +14,7 @@ export function useSorting(
 ): IUserSorting {
   const [sorting, setSorting] = useState<ISorting>(initialSorting)
 
-  function sortOrders(orders: IOrder[], sorting: ISorting): IOrder[] {
+  /*function sortOrders(orders: IOrder[], sorting: ISorting): IOrder[] {
     const { orderBy, direction, type } = sorting
     const newOrders = [...orders]
     return newOrders.sort((a, b) => {
@@ -33,7 +32,7 @@ export function useSorting(
           return direction === 'desc' ? bValue - aValue : aValue - bValue
       }
     })
-  }
+  }*/
 
   const changeOrder: ChangeOrderType = (orderBy, direction, type) => {
     setSorting({
@@ -43,9 +42,9 @@ export function useSorting(
     })
   }
 
-  const sortedOrders = useMemo(() => {
+  /*const sortedOrders = useMemo(() => {
     return sortOrders(orders, sorting)
-  }, [orders, sorting])
+  }, [orders, sorting])*/
 
-  return { sortedOrders, sorting, changeOrder }
+  return { sorting, changeOrder }
 }

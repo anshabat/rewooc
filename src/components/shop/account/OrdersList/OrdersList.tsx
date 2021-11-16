@@ -1,12 +1,12 @@
 import './OrdersList.scss'
 import React, { FC, useState } from 'react'
-import { IOrder } from 'app-types'
+import { IOrder, ISorting } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
-import { useSorting } from '../../../../hooks/useSorting'
 import { usePagination } from '../../../../hooks/usePagination'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'
+import { sortObjects } from '../../../../shared/utilities'
 
 interface IProps {
   orders: IOrder[]
@@ -19,11 +19,9 @@ const OrdersList: FC<IProps> = (props) => {
 
   const [filteredOrders, setFilteredOrders] = useState(orders)
 
-  const { sortedOrders, sorting, changeOrder } = useSorting(filteredOrders, {
-    orderBy: 'id',
-    direction: 'asc',
-    type: 'string',
-  })
+  const sortingHandler = (sorting: ISorting) => {
+    setFilteredOrders(sortObjects(filteredOrders, sorting))
+  }
 
   const {
     items: paginatedOrders,
@@ -31,7 +29,7 @@ const OrdersList: FC<IProps> = (props) => {
     currentPages,
     loadMore,
     isLoadMoreAvailable,
-  } = usePagination<IOrder>(sortedOrders, PER_PAGE)
+  } = usePagination<IOrder>(filteredOrders, PER_PAGE)
 
   return (
     <div className="rw-orders-list">
@@ -40,9 +38,9 @@ const OrdersList: FC<IProps> = (props) => {
       </div>
       <div className="rw-orders-list__table">
         <OrdersTable
+          initialSorting={{ orderBy: 'id', direction: 'asc', type: 'string' }}
           orders={paginatedOrders}
-          sorting={sorting}
-          onSorting={changeOrder}
+          onSorting={sortingHandler}
         />
       </div>
       {filteredOrders.length > PER_PAGE ? (

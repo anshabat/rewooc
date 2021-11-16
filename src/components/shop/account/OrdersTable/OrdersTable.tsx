@@ -1,19 +1,35 @@
 import './OrdersTable.scss'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ChangeOrderType, IOrder, ISorting } from 'app-types'
 import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
 import { getFormattedDate } from 'app-services/date'
 import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
+import { useSorting } from '../../../../hooks/useSorting'
 
 interface IProps {
   orders: IOrder[]
-  sorting: ISorting
-  onSorting: ChangeOrderType
+  initialSorting: ISorting
+  onSorting: (sorting: ISorting) => void
 }
 
 const OrdersTable: FC<IProps> = (props) => {
-  const { orders, sorting, onSorting } = props
+  const { orders, initialSorting, onSorting } = props
+
+  /*const { sortedOrders, sorting, changeOrder } = useSorting({
+    orderBy: 'id',
+    direction: 'asc',
+    type: 'string',
+  })*/
+  const [sorting, setSorting] = useState<ISorting>(initialSorting)
+
+  useEffect(() => {
+    onSorting(sorting)
+  }, [sorting])
+
+  const changeDirection: ChangeOrderType = (orderBy, direction, type) => {
+    setSorting({ orderBy, direction, type })
+  }
 
   const getSortingDirection = (orderBy: string): 'desc' | 'asc' | null => {
     return sorting.orderBy === orderBy ? sorting.direction : null
@@ -27,7 +43,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getSortingDirection('id')}
               onChange={(direction) => {
-                onSorting('id', direction, 'number')
+                changeDirection('id', direction, 'number')
               }}
             >
               Number
@@ -39,7 +55,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getSortingDirection('created.date')}
               onChange={(direction) => {
-                onSorting('created.date', direction, 'string')
+                changeDirection('created.date', direction, 'string')
               }}
             >
               Created
@@ -49,7 +65,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getSortingDirection('total')}
               onChange={(direction) => {
-                onSorting('total', direction, 'number')
+                changeDirection('total', direction, 'number')
               }}
             >
               Total

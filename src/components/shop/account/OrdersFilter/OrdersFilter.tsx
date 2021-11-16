@@ -22,7 +22,7 @@ function OrdersFilter(props: IProps): ReactElement {
   } = useOrdersFilter(initialOrders)
 
   useEffect(() => {
-    console.log(orders, 'order filter')
+    //console.log(orders, 'order filter')
     onFilter(orders)
   }, [orders.length])
 

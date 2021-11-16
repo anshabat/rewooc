@@ -7,6 +7,7 @@
  */
 
 import { Config } from '../config'
+import { ISorting } from 'app-types'
 
 export const debounce = (
   callback: (e: Event) => void,
@@ -57,4 +58,24 @@ export function trimObject<T>(obj: T, exceptions: Array<string>): Partial<T> {
 export const propertyFromDottedString = (obj: any, dottedStr: string): any => {
   const properties = dottedStr.split('.')
   return properties.reduce((res, item) => res?.[item], obj)
+}
+
+export function sortObjects<T>(orders: T[], sorting: ISorting): T[] {
+  const { orderBy, direction, type } = sorting
+  const newOrders = [...orders]
+  return newOrders.sort((a, b) => {
+    const aValue = propertyFromDottedString(a, String(orderBy))
+    const bValue = propertyFromDottedString(b, String(orderBy))
+    switch (type) {
+      case 'string':
+        if (direction === 'desc') {
+          return aValue > bValue ? -1 : 1
+        } else {
+          return aValue > bValue ? 1 : -1
+        }
+      case 'number':
+      default:
+        return direction === 'desc' ? bValue - aValue : aValue - bValue
+    }
+  })
 }
