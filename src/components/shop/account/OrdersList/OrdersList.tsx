@@ -9,18 +9,18 @@ import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { sortObjects } from '../../../../shared/utilities'
 
 interface IProps {
-  orders: IOrder[]
+  initialOrders: IOrder[]
 }
 
 const PER_PAGE = 3
 
 const OrdersList: FC<IProps> = (props) => {
-  const { orders } = props
+  const { initialOrders } = props
 
-  const [filteredOrders, setFilteredOrders] = useState(orders)
+  const [orders, setOrders] = useState(initialOrders)
 
   const sortingHandler = (sorting: ISorting) => {
-    setFilteredOrders(sortObjects(filteredOrders, sorting))
+    setOrders(sortObjects(orders, sorting))
   }
 
   const {
@@ -29,12 +29,12 @@ const OrdersList: FC<IProps> = (props) => {
     currentPages,
     loadMore,
     isLoadMoreAvailable,
-  } = usePagination<IOrder>(filteredOrders, PER_PAGE)
+  } = usePagination<IOrder>(orders, PER_PAGE)
 
   return (
     <div className="rw-orders-list">
       <div className="rw-orders-list__filter">
-        <OrdersFilter initialOrders={orders} onFilter={setFilteredOrders} />
+        <OrdersFilter initialOrders={initialOrders} onFilter={setOrders} />
       </div>
       <div className="rw-orders-list__table">
         <OrdersTable
@@ -43,10 +43,10 @@ const OrdersList: FC<IProps> = (props) => {
           onSorting={sortingHandler}
         />
       </div>
-      {filteredOrders.length > PER_PAGE ? (
+      {orders.length > PER_PAGE ? (
         <div className="rw-orders-list__pagination">
           <Paginator
-            total={filteredOrders.length}
+            total={orders.length}
             currentPages={currentPages}
             perPage={PER_PAGE}
             onNavigate={changePage}
