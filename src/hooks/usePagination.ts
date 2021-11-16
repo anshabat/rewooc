@@ -32,18 +32,23 @@ export function usePagination<T>(
   }, [currentPages.reduce((sum, next) => sum + next), items])
 
   /* Reset pagination to first page after items were changed (filtered, sorted etc) */
-  useEffect(() => {
-    setCurrentPages([1])
-  }, [items])
+  /*useEffect(() => {
+    console.log(items, 'items')
+    if(didMount.current) {
+      setCurrentPages([1])
+    } else {
+      didMount.current = true
+    }
+  }, [items.length])*/
 
-  useEffect(() => {
+/*  useEffect(() => {
     //TODO stop flickering url param
     setTimeout(() => {
       const a = getInitialPages(queryParams)
       console.log(a, queryParams)
       setCurrentPages(a)
     }, 0)
-  }, [])
+  }, [])*/
 
   const sliceItems = (pages: number[]) => {
     const fromIndex = perPage * (pages[0] - 1)

@@ -38,6 +38,13 @@ const getStatusAttribute = (orders: IOrder[]) => {
     })
 }
 
+const filterOrders = (orders: IOrder[], values: IOrderValues): IOrder[] => {
+  return new OrderFilterModule(orders)
+    .filterByStatus(values.status)
+    .filterByDelivery(values.delivery)
+    .getOrders()
+}
+
 const getDeliveryAttribute = (orders: IOrder[]) => {
   return orders
     .reduce<IDeliveryMethod[]>((prev, order) => {
@@ -61,18 +68,23 @@ const getValuesArrayFromQueryParams = (key: string, params: any): any => {
 }
 
 export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
-  const initialValues: IOrderValues = {
+  /*const initialValues: IOrderValues = {
     status: [],
     delivery: [],
-  }
+  }*/
   const initialAttributes: IOrderAttributes = {
     delivery: getDeliveryAttribute(initialOrders),
     status: getStatusAttribute(initialOrders),
   }
-  const [orders, setOrders] = useState<IOrder[]>(initialOrders)
-  const [attributes, setAttributes] = useState(initialAttributes)
-  const [values, setValues] = useState(initialValues)
   const { params, updateParams } = useQuery()
+  const initialValues = {
+    status: [...getValuesArrayFromQueryParams('status', params)],
+    delivery: [...getValuesArrayFromQueryParams('delivery', params)],
+  }
+  //TODO get initialValues from params
+  const [values, setValues] = useState(initialValues)
+  const [orders, setOrders] = useState<IOrder[]>(filterOrders(initialOrders, initialValues))
+  const [attributes, setAttributes] = useState(initialAttributes)
 
   useEffect(() => {
     applyFilter(values)
@@ -85,20 +97,13 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
     })
   }, [params])
 
-  const filterOrders = (values: IOrderValues): IOrder[] => {
-    return new OrderFilterModule(initialOrders)
-      .filterByStatus(values.status)
-      .filterByDelivery(values.delivery)
-      .getOrders()
-  }
-
   const updateAttributeValuesCount = (
     key: keyof IOrderAttributes,
     values: IOrderValues
   ): FilterChoiceValue[] => {
     return initialAttributes[key].map((attr) => {
       const nextValues = [...values[key], attr.value]
-      const filteredOrders = filterOrders({
+      const filteredOrders = filterOrders(initialOrders, {
         ...values,
         [key]: nextValues,
       })
@@ -111,7 +116,7 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   }
 
   const applyFilter = (newValues: IOrderValues) => {
-    const newOrders = filterOrders(newValues)
+    const newOrders = filterOrders(initialOrders, newValues)
     const newAttributes: IOrderAttributes = {
       status: updateAttributeValuesCount('status', newValues),
       delivery: updateAttributeValuesCount('delivery', newValues),
