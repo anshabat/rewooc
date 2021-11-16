@@ -1,50 +1,28 @@
-import { ChangeOrderType, IOrder, ISorting } from 'app-types'
-import { useMemo, useState } from 'react'
-import { propertyFromDottedString } from '../shared/utilities'
+import { ChangeOrderType, ISorting, TGetSortingDirection } from 'app-types'
+import { useEffect, useState } from 'react'
 
-interface IUserSorting {
-  //TODO change IOrder go Generic, useSorting should be abstract, not bind with Orders
-  sorting: ISorting
-  changeOrder: ChangeOrderType
+interface IUseSorting {
+  getDirection: TGetSortingDirection
+  setDirection: ChangeOrderType
 }
 
 export function useSorting(
-  orders: IOrder[],
-  initialSorting: ISorting
-): IUserSorting {
+  initialSorting: ISorting,
+  onSorting: (sorting: ISorting) => void
+): IUseSorting {
   const [sorting, setSorting] = useState<ISorting>(initialSorting)
 
-  /*function sortOrders(orders: IOrder[], sorting: ISorting): IOrder[] {
-    const { orderBy, direction, type } = sorting
-    const newOrders = [...orders]
-    return newOrders.sort((a, b) => {
-      const aValue = propertyFromDottedString(a, String(orderBy))
-      const bValue = propertyFromDottedString(b, String(orderBy))
-      switch (type) {
-        case 'string':
-          if (direction === 'desc') {
-            return aValue > bValue ? -1 : 1
-          } else {
-            return aValue > bValue ? 1 : -1
-          }
-        case 'number':
-        default:
-          return direction === 'desc' ? bValue - aValue : aValue - bValue
-      }
-    })
-  }*/
+  useEffect(() => {
+    onSorting(sorting)
+  }, [sorting])
 
-  const changeOrder: ChangeOrderType = (orderBy, direction, type) => {
-    setSorting({
-      orderBy,
-      direction,
-      type,
-    })
+  const setDirection: ChangeOrderType = (orderBy, direction, type) => {
+    setSorting({ orderBy, direction, type })
   }
 
-  /*const sortedOrders = useMemo(() => {
-    return sortOrders(orders, sorting)
-  }, [orders, sorting])*/
+  const getDirection: TGetSortingDirection = (orderBy) => {
+    return sorting.orderBy === orderBy ? sorting.direction : null
+  }
 
-  return { sorting, changeOrder }
+  return { getDirection, setDirection }
 }

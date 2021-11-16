@@ -9,3 +9,5 @@ export type ChangeOrderType = (
   direction: 'asc' | 'desc',
   type: 'string' | 'number'
 ) => void
+
+export type TGetSortingDirection = (orderBy: string) => 'desc' | 'asc' | null
