@@ -86,7 +86,7 @@ const OrdersList: FC<IProps> = (props) => {
       <div className="rw-orders-list__table">
         <OrdersTable
           orders={getOrders()}
-          initialSorting={sorting}
+          sorting={sorting}
           onSorting={sortingHandler}
         />
       </div>

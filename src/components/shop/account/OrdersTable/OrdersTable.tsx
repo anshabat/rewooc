@@ -1,21 +1,24 @@
 import './OrdersTable.scss'
 import React, { FC } from 'react'
-import { IOrder, ISorting } from 'app-types'
+import { IOrder, ISorting, TGetSortingDirection } from 'app-types'
 import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
 import { getFormattedDate } from 'app-services/date'
 import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
-import { useSorting } from '../../../../hooks/useSorting'
 
 interface IProps {
   orders: IOrder[]
-  initialSorting: ISorting
+  sorting: ISorting
   onSorting: (sorting: ISorting) => void
 }
 
 const OrdersTable: FC<IProps> = (props) => {
-  const { orders, initialSorting, onSorting } = props
-  const { getDirection, setDirection } = useSorting(initialSorting, onSorting)
+  const { orders, sorting, onSorting } = props
+
+  //TODO move to helpers, as the filer helpers
+  const getDirection: TGetSortingDirection = (orderBy) => {
+    return sorting.orderBy === orderBy ? sorting.direction : null
+  }
 
   return (
     <table className="rw-order-table">
@@ -25,7 +28,11 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getDirection('id')}
               onChange={(direction) => {
-                setDirection('id', direction, 'number')
+                onSorting({
+                  orderBy: 'id',
+                  type: 'number',
+                  direction,
+                })
               }}
             >
               Number
@@ -37,7 +44,11 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getDirection('created.date')}
               onChange={(direction) => {
-                setDirection('created.date', direction, 'string')
+                onSorting({
+                  orderBy: 'created.date',
+                  type: 'string',
+                  direction,
+                })
               }}
             >
               Created
@@ -47,7 +58,11 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getDirection('total')}
               onChange={(direction) => {
-                setDirection('total', direction, 'number')
+                onSorting({
+                  orderBy: 'total',
+                  type: 'number',
+                  direction,
+                })
               }}
             >
               Total
