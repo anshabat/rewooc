@@ -10,12 +10,6 @@ interface IOrderAttributes {
   status: FilterChoiceValue[]
 }
 
-interface IUseOrdersProps {
-  attributes: IOrderAttributes
-  //values: IOrderValues
-  clearFilter: (e: MouseEvent<HTMLButtonElement>) => void
-}
-
 // TODO move to helpers after folder structure change to modules
 const getStatusAttribute = (orders: IOrder[]) => {
   return orders
@@ -47,15 +41,11 @@ const getDeliveryAttribute = (orders: IOrder[]) => {
     })
 }
 
-export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): IUseOrdersProps {
+export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): IOrderAttributes {
   /*const initialValues: IOrderValues = {
     status: [],
     delivery: [],
   }*/
-  const initialAttributes: IOrderAttributes = {
-    delivery: getDeliveryAttribute(initialOrders),
-    status: getStatusAttribute(initialOrders),
-  }
   //const { params, updateParams } = useQuery()
   /*const initialValues = {
     status: [...getValuesArrayFromQueryParams('status', params)],
@@ -66,6 +56,12 @@ export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): 
 /*  const [orders, setOrders] = useState<IOrder[]>(
     filterOrders(initialOrders, initialValues)
   )*/
+
+  const initialAttributes: IOrderAttributes = {
+    delivery: getDeliveryAttribute(initialOrders),
+    status: getStatusAttribute(initialOrders),
+  }
+
   const [attributes, setAttributes] = useState(initialAttributes)
 
   useEffect(() => {
@@ -103,24 +99,8 @@ export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): 
       status: updateAttributeValuesCount('status', newValues),
       delivery: updateAttributeValuesCount('delivery', newValues),
     }
-    //setOrders(newOrders)
     setAttributes(newAttributes)
   }
 
-  /*const updateValues = (attributeValues: Partial<IOrderValues>) => {
-    updateParams(attributeValues)
-    setValues((prev) => ({ ...prev, ...attributeValues }))
-  }*/
-
-  const clearFilter = () => {
-    /*const emptyValues = Object.keys(initialValues).reduce((res, key) => {
-      return { ...res, [key]: [] }
-    }, {})
-    updateValues(emptyValues)*/
-  }
-
-  return {
-    attributes,
-    clearFilter,
-  }
+  return attributes
 }

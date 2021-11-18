@@ -29,7 +29,7 @@ const OrdersList: FC<IProps> = (props) => {
 
   const { params, updateParams } = useQuery()
 
-  const initialValues = {
+  const initialValues: IOrderValues = {
     status: [...getValuesArrayFromQueryParams('status', params)],
     delivery: [...getValuesArrayFromQueryParams('delivery', params)],
   }
@@ -45,15 +45,23 @@ const OrdersList: FC<IProps> = (props) => {
   const [sorting, setSorting] = useState(initialSorting)
 
   const sortingHandler = (sorting: ISorting) => {
-    setOrders(sortObjects(orders, sorting))
+    setSorting(sorting)
   }
 
   const filterHandler = (newValue: IOrderValues) => {
     setValues({ ...values, ...newValue })
   }
 
+  const clearFilter = () => {
+    const emptyValues = Object.keys(values).reduce<IOrderValues>((res, key) => {
+      return { ...res, [key]: [] }
+    }, initialValues)
+    setValues(emptyValues)
+  }
+
   const getOrders = () => {
-    const filteredOrders = filterOrders(orders, values)
+    const sortedOrders = sortObjects(orders, sorting)
+    const filteredOrders = filterOrders(sortedOrders, values)
     return filteredOrders
   }
 
@@ -72,6 +80,7 @@ const OrdersList: FC<IProps> = (props) => {
           initialOrders={initialOrders}
           onFilter={filterHandler}
           values={values}
+          onClear={clearFilter}
         />
       </div>
       <div className="rw-orders-list__table">

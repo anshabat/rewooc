@@ -6,22 +6,18 @@ import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
 import { IOrder } from 'app-types'
 import { IOrderValues } from 'app-services/orders/types'
 
+//TODO remove any
 interface IProps {
   initialOrders: IOrder[]
-  //todo remove any
-  onFilter: (values: any) => void
   values: IOrderValues
+  onFilter: (values: any) => void
+  onClear: () => void
 }
 
 function OrdersFilter(props: IProps): ReactElement {
-  const { initialOrders, onFilter, values } = props
-
-  //TODO remove changing orders state inside useOrdersFilter. It has just change attribute params and call callback like useSorting
-  const { attributes, clearFilter } = useOrdersFilter(initialOrders, values)
-
-  /*useEffect(() => {
-    onFilter(values)
-  }, [values])*/
+  const { initialOrders, values, onFilter, onClear } = props
+  //TODO maybe more attributes to State, and calculate quantity there
+  const attributes = useOrdersFilter(initialOrders, values)
 
   const attributeComponents: IFilterComponent[] = [
     {
@@ -58,7 +54,7 @@ function OrdersFilter(props: IProps): ReactElement {
     <div className="rw-order-filter">
       <HorizontalFilter
         attributes={attributeComponents}
-        onClear={clearFilter}
+        onClear={onClear}
       />
     </div>
   )
