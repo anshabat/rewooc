@@ -12,8 +12,7 @@ interface IOrderAttributes {
 
 interface IUseOrdersProps {
   attributes: IOrderAttributes
-  values: IOrderValues
-  updateValues: (newValues: Partial<IOrderValues>) => void
+  //values: IOrderValues
   clearFilter: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -48,14 +47,7 @@ const getDeliveryAttribute = (orders: IOrder[]) => {
     })
 }
 
-const getValuesArrayFromQueryParams = (key: string, params: any): any => {
-  if (!params[key]) {
-    return []
-  }
-  return Array.isArray(params[key]) ? params[key] : [params[key]]
-}
-
-export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
+export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): IUseOrdersProps {
   /*const initialValues: IOrderValues = {
     status: [],
     delivery: [],
@@ -64,13 +56,13 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
     delivery: getDeliveryAttribute(initialOrders),
     status: getStatusAttribute(initialOrders),
   }
-  const { params, updateParams } = useQuery()
-  const initialValues = {
+  //const { params, updateParams } = useQuery()
+  /*const initialValues = {
     status: [...getValuesArrayFromQueryParams('status', params)],
     delivery: [...getValuesArrayFromQueryParams('delivery', params)],
-  }
+  }*/
   //TODO get initialValues from params
-  const [values, setValues] = useState(initialValues)
+  //const [values, setValues] = useState(initialValues)
 /*  const [orders, setOrders] = useState<IOrder[]>(
     filterOrders(initialOrders, initialValues)
   )*/
@@ -80,12 +72,12 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
     applyFilter(values)
   }, [values])
 
-  useEffect(() => {
+  /*useEffect(() => {
     setValues({
       status: [...getValuesArrayFromQueryParams('status', params)],
       delivery: [...getValuesArrayFromQueryParams('delivery', params)],
     })
-  }, [params])
+  }, [params])*/
 
   const updateAttributeValuesCount = (
     key: keyof IOrderAttributes,
@@ -115,22 +107,20 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
     setAttributes(newAttributes)
   }
 
-  const updateValues = (attributeValues: Partial<IOrderValues>) => {
+  /*const updateValues = (attributeValues: Partial<IOrderValues>) => {
     updateParams(attributeValues)
     setValues((prev) => ({ ...prev, ...attributeValues }))
-  }
+  }*/
 
   const clearFilter = () => {
-    const emptyValues = Object.keys(initialValues).reduce((res, key) => {
+    /*const emptyValues = Object.keys(initialValues).reduce((res, key) => {
       return { ...res, [key]: [] }
     }, {})
-    updateValues(emptyValues)
+    updateValues(emptyValues)*/
   }
 
   return {
     attributes,
-    values,
-    updateValues,
     clearFilter,
   }
 }

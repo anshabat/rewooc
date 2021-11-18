@@ -4,24 +4,24 @@ import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { IFilterComponent } from 'app-services/orders'
 import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
 import { IOrder } from 'app-types'
+import { IOrderValues } from 'app-services/orders/types'
 
 interface IProps {
   initialOrders: IOrder[]
   //todo remove any
   onFilter: (values: any) => void
+  values: IOrderValues
 }
 
 function OrdersFilter(props: IProps): ReactElement {
-  const { initialOrders, onFilter } = props
+  const { initialOrders, onFilter, values } = props
 
   //TODO remove changing orders state inside useOrdersFilter. It has just change attribute params and call callback like useSorting
-  const { attributes, values, updateValues, clearFilter } = useOrdersFilter(
-    initialOrders
-  )
+  const { attributes, clearFilter } = useOrdersFilter(initialOrders, values)
 
-  useEffect(() => {
+  /*useEffect(() => {
     onFilter(values)
-  }, [values])
+  }, [values])*/
 
   const attributeComponents: IFilterComponent[] = [
     {
@@ -32,7 +32,7 @@ function OrdersFilter(props: IProps): ReactElement {
           options={attributes.status}
           defaultOptions={values.status}
           onChange={(newValues) => {
-            updateValues({ status: newValues })
+            onFilter({ status: newValues })
           }}
         />
       ),
@@ -46,7 +46,7 @@ function OrdersFilter(props: IProps): ReactElement {
           options={attributes.delivery}
           defaultOptions={values.delivery}
           onChange={(newValues) => {
-            updateValues({ delivery: newValues })
+            onFilter({ delivery: newValues })
           }}
         />
       ),
