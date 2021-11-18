@@ -1,13 +1,9 @@
 import { useEffect, useState, MouseEvent } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
-import { FilterChoiceValue, OrderFilterModule } from 'app-services/orders'
+import { FilterChoiceValue, filterOrders } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
 import { useQuery } from 'app-services/query'
-
-interface IOrderValues {
-  status: string[]
-  delivery: string[]
-}
+import { IOrderValues } from 'app-services/orders/types'
 
 interface IOrderAttributes {
   delivery: FilterChoiceValue[]
@@ -15,7 +11,6 @@ interface IOrderAttributes {
 }
 
 interface IUseOrdersProps {
-  orders: IOrder[]
   attributes: IOrderAttributes
   values: IOrderValues
   updateValues: (newValues: Partial<IOrderValues>) => void
@@ -36,13 +31,6 @@ const getStatusAttribute = (orders: IOrder[]) => {
         count: array.length,
       }
     })
-}
-
-const filterOrders = (orders: IOrder[], values: IOrderValues): IOrder[] => {
-  return new OrderFilterModule(orders)
-    .filterByStatus(values.status)
-    .filterByDelivery(values.delivery)
-    .getOrders()
 }
 
 const getDeliveryAttribute = (orders: IOrder[]) => {
@@ -83,9 +71,9 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   }
   //TODO get initialValues from params
   const [values, setValues] = useState(initialValues)
-  const [orders, setOrders] = useState<IOrder[]>(
+/*  const [orders, setOrders] = useState<IOrder[]>(
     filterOrders(initialOrders, initialValues)
-  )
+  )*/
   const [attributes, setAttributes] = useState(initialAttributes)
 
   useEffect(() => {
@@ -118,12 +106,12 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   }
 
   const applyFilter = (newValues: IOrderValues) => {
-    const newOrders = filterOrders(initialOrders, newValues)
+    //const newOrders = filterOrders(initialOrders, newValues)
     const newAttributes: IOrderAttributes = {
       status: updateAttributeValuesCount('status', newValues),
       delivery: updateAttributeValuesCount('delivery', newValues),
     }
-    setOrders(newOrders)
+    //setOrders(newOrders)
     setAttributes(newAttributes)
   }
 
@@ -140,7 +128,6 @@ export function useOrdersFilter(initialOrders: IOrder[]): IUseOrdersProps {
   }
 
   return {
-    orders,
     attributes,
     values,
     updateValues,

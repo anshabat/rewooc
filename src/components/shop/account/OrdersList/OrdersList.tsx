@@ -7,6 +7,8 @@ import { usePagination } from '../../../../hooks/usePagination'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { sortObjects } from '../../../../shared/utilities'
+import { filterOrders } from 'app-services/orders'
+import { IOrderValues } from 'app-services/orders/types'
 
 interface IProps {
   initialOrders: IOrder[]
@@ -23,6 +25,10 @@ const OrdersList: FC<IProps> = (props) => {
     setOrders(sortObjects(orders, sorting))
   }
 
+  const filterHandler = (values: IOrderValues) => {
+    setOrders(filterOrders(initialOrders, values))
+  }
+
   const {
     items: paginatedOrders,
     changePage,
@@ -34,12 +40,12 @@ const OrdersList: FC<IProps> = (props) => {
   return (
     <div className="rw-orders-list">
       <div className="rw-orders-list__filter">
-        <OrdersFilter initialOrders={initialOrders} onFilter={setOrders} />
+        <OrdersFilter initialOrders={initialOrders} onFilter={filterHandler} />
       </div>
       <div className="rw-orders-list__table">
         <OrdersTable
-          initialSorting={{ orderBy: 'id', direction: 'asc', type: 'string' }}
           orders={paginatedOrders}
+          initialSorting={{ orderBy: 'id', direction: 'asc', type: 'string' }}
           onSorting={sortingHandler}
         />
       </div>

@@ -12,3 +12,8 @@ export interface IFilterComponent {
   valuesComponent: ReactElement
   isApplied: boolean
 }
+
+export interface IOrderValues {
+  status: string[]
+  delivery: string[]
+}

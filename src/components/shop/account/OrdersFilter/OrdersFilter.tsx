@@ -7,24 +7,21 @@ import { IOrder } from 'app-types'
 
 interface IProps {
   initialOrders: IOrder[]
-  onFilter: (orders: IOrder[]) => void
+  //todo remove any
+  onFilter: (values: any) => void
 }
 
 function OrdersFilter(props: IProps): ReactElement {
   const { initialOrders, onFilter } = props
 
-  const {
-    orders,
-    attributes,
-    values,
-    updateValues,
-    clearFilter,
-  } = useOrdersFilter(initialOrders)
+  //TODO remove changing orders state inside useOrdersFilter. It has just change attribute params and call callback like useSorting
+  const { attributes, values, updateValues, clearFilter } = useOrdersFilter(
+    initialOrders
+  )
 
   useEffect(() => {
-    //console.log(orders, 'order filter')
-    onFilter(orders)
-  }, [orders.length])
+    onFilter(values)
+  }, [values])
 
   const attributeComponents: IFilterComponent[] = [
     {
