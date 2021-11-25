@@ -3,7 +3,6 @@ import React, { FC, useState } from 'react'
 import { IOrder, ISorting } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
-import { usePagination } from '../../../../hooks/usePagination'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { sortObjects } from '../../../../shared/utilities'
@@ -12,7 +11,7 @@ import { IOrderValues } from 'app-services/orders/types'
 import { IParam, useQuery } from 'app-services/query'
 
 interface IProps {
-  initialOrders: IOrder[]
+  orders: IOrder[]
 }
 
 const PER_PAGE = 3
@@ -46,7 +45,7 @@ const getItemsPageSlice = function <T>(
 }
 
 const OrdersList: FC<IProps> = (props) => {
-  const { initialOrders } = props
+  const { orders } = props
 
   const { params, updateParams } = useQuery()
 
@@ -64,7 +63,6 @@ const OrdersList: FC<IProps> = (props) => {
   }
   const initialPages: number[] = getInitialPages(params)
 
-  const [orders, setOrders] = useState(initialOrders)
   const [values, setValues] = useState(initialFilters)
   const [sorting, setSorting] = useState(initialSorting)
   const [pages, setPages] = useState(initialPages)
@@ -87,30 +85,34 @@ const OrdersList: FC<IProps> = (props) => {
   const changePage = (page: number) => {
     setPages([page])
   }
+  const loadMore = function () {
+    const newPage = pages[pages.length - 1]
+    const loadedItems = newPage * PER_PAGE
+    if (loadedItems < orders.length) {
+      const newCurrentPages = pages.concat(newPage + 1)
+      setPages(newCurrentPages)
+    }
+  }
 
   /**
-   * Orders selector
+   * Selectors
    */
-  const getOrders = () => {
+  const getCurrentPageOrders = function () {
     const sortedOrders = sortObjects(orders, sorting)
     const filteredOrders = filterOrders(sortedOrders, values)
     const paginatedOrders = getItemsPageSlice(filteredOrders, pages, PER_PAGE)
     return paginatedOrders
   }
-
-  /*const {
-    items: paginatedOrders,
-    changePage,
-    currentPages,
-    loadMore,
-    isLoadMoreAvailable,
-  } = usePagination<IOrder>(orders, PER_PAGE)*/
+  const getOrdersTotal = function () {
+    const filteredOrders = filterOrders(orders, values)
+    return filteredOrders.length
+  }
 
   return (
     <div className="rw-orders-list">
       <div className="rw-orders-list__filter">
         <OrdersFilter
-          initialOrders={initialOrders}
+          orders={orders}
           onFilter={filterHandler}
           values={values}
           onClear={clearFilter}
@@ -118,7 +120,7 @@ const OrdersList: FC<IProps> = (props) => {
       </div>
       <div className="rw-orders-list__table">
         <OrdersTable
-          orders={getOrders()}
+          orders={getCurrentPageOrders()}
           sorting={sorting}
           onSorting={sortingHandler}
         />
@@ -127,11 +129,16 @@ const OrdersList: FC<IProps> = (props) => {
         <div className="rw-orders-list__pagination">
           <Paginator
             pages={pages}
-            total={orders.length}
+            total={getOrdersTotal()}
             perPage={PER_PAGE}
             onChange={changePage}
           />
-          {/*<LoadMore onLoadMore={loadMore} disabled={!isLoadMoreAvailable} />*/}
+          <LoadMore
+            pages={pages}
+            total={getOrdersTotal()}
+            perPage={PER_PAGE}
+            onLoadMore={loadMore}
+          />
         </div>
       ) : null}
     </div>

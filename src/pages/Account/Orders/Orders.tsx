@@ -21,7 +21,7 @@ const Orders: FC = () => {
 
   return (
     <ErrorBoundary>
-      <OrdersList initialOrders={orders} />
+      <OrdersList orders={orders} />
     </ErrorBoundary>
   )
 }

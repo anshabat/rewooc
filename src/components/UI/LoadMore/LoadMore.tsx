@@ -1,20 +1,27 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import Button from '../Button/Button'
 
 interface TLoadMore {
+  pages: number[]
   onLoadMore: () => void
-  disabled?: boolean
+  perPage: number
+  total: number
 }
 
 const LoadMore: FC<TLoadMore> = (props) => {
-  const { onLoadMore, disabled = false } = props
+  const { pages, onLoadMore, total, perPage } = props
+
+  const isDisabled = useMemo(() => {
+    const loadedItems = pages[pages.length - 1] * perPage
+    return loadedItems >= total
+  }, [pages, perPage, total])
 
   return (
     <Button
       color="secondary"
       size="lg"
       onClick={onLoadMore}
-      disabled={disabled}
+      disabled={isDisabled}
     >
       Load More
     </Button>
