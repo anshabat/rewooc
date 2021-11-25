@@ -29,7 +29,7 @@ const OrdersList: FC<IProps> = (props) => {
 
   const { params, updateParams } = useQuery()
 
-  const initialValues: IOrderValues = {
+  const initialFilters: IOrderValues = {
     status: [...getValuesArrayFromQueryParams('status', params)],
     delivery: [...getValuesArrayFromQueryParams('delivery', params)],
   }
@@ -41,7 +41,7 @@ const OrdersList: FC<IProps> = (props) => {
   }
 
   const [orders, setOrders] = useState(initialOrders)
-  const [values, setValues] = useState(initialValues)
+  const [values, setValues] = useState(initialFilters)
   const [sorting, setSorting] = useState(initialSorting)
 
   const sortingHandler = (sorting: ISorting) => {
@@ -55,7 +55,7 @@ const OrdersList: FC<IProps> = (props) => {
   const clearFilter = () => {
     const emptyValues = Object.keys(values).reduce<IOrderValues>((res, key) => {
       return { ...res, [key]: [] }
-    }, initialValues)
+    }, initialFilters)
     setValues(emptyValues)
   }
 
