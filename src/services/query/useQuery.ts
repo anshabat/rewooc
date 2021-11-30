@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
+/*
 export interface IParam {
   [key: string]: string | string[]
 }
+*/
+export type IParam = any
 
 const VALUES_SEPARATOR = ','
 

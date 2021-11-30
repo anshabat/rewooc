@@ -1,5 +1,5 @@
 import './OrdersList.scss'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { IOrder, ISorting } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
@@ -25,12 +25,14 @@ const getValuesArrayFromQueryParams = (key: string, params: any): any => {
   }
   return Array.isArray(params[key]) ? params[key] : [params[key]]
 }
+
 const getInitialPages = (queryParams: IParam) => {
   const { pages } = queryParams
   if (!pages) return [1]
   const pagesParam = Array.isArray(pages) ? pages : [pages]
   return pagesParam.map((p) => Number(p))
 }
+
 const getItemsPageSlice = function <T>(
   items: T[],
   pages: number[],
@@ -56,16 +58,23 @@ const OrdersList: FC<IProps> = (props) => {
     status: [...getValuesArrayFromQueryParams('status', params)],
     delivery: [...getValuesArrayFromQueryParams('delivery', params)],
   }
-  const initialSorting: ISorting = {
-    orderBy: 'id',
-    direction: 'asc',
-    type: 'string',
-  }
   const initialPages: number[] = getInitialPages(params)
+  const initialSorting: ISorting = {
+    orderBy: params.orderBy || 'id',
+    direction: params.direction || 'asc',
+    type: params.type || 'string',
+  }
 
   const [values, setValues] = useState(initialFilters)
   const [sorting, setSorting] = useState(initialSorting)
   const [pages, setPages] = useState(initialPages)
+
+  /**
+   * Update page url address
+   */
+  useEffect(() => {
+    updateParams({ ...values, ...sorting, pages })
+  }, [values, sorting, pages])
 
   /**
    * Reducers
@@ -73,7 +82,7 @@ const OrdersList: FC<IProps> = (props) => {
   const sortingHandler = (sorting: ISorting) => {
     setSorting(sorting)
   }
-  const filterHandler = (newValue: IOrderValues) => {
+  const filterHandler = (newValue: Partial<IOrderValues>) => {
     setValues({ ...values, ...newValue })
   }
   const clearFilter = () => {
