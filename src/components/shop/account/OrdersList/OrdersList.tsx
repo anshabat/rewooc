@@ -14,19 +14,32 @@ interface IProps {
   orders: IOrder[]
 }
 
+type ParamsType = {
+  status: string[]
+  delivery: string[]
+  orderBy: string
+  direction: 'asc' | 'desc'
+  type: 'number' | 'string'
+  pages: number[]
+}
+
 const PER_PAGE = 3
 
 /**
  * Helpers
  */
-const getValuesArrayFromQueryParams = (key: string, params: any): any => {
-  if (!params[key]) {
+const getValuesArrayFromQueryParams = (
+  key: keyof ParamsType,
+  params: IParam<ParamsType>
+): Array<string> => {
+  const paramsKey = params[key]
+  if (!paramsKey) {
     return []
   }
-  return Array.isArray(params[key]) ? params[key] : [params[key]]
+  return Array.isArray(paramsKey) ? paramsKey : [paramsKey]
 }
 
-const getInitialPages = (queryParams: IParam) => {
+const getInitialPages = (queryParams: IParam<ParamsType>) => {
   const { pages } = queryParams
   if (!pages) return [1]
   const pagesParam = Array.isArray(pages) ? pages : [pages]
@@ -49,7 +62,7 @@ const getItemsPageSlice = function <T>(
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
 
-  const { params, updateParams } = useQuery()
+  const { params, updateParams } = useQuery<ParamsType>()
 
   /**
    * State
@@ -60,9 +73,9 @@ const OrdersList: FC<IProps> = (props) => {
   }
   const initialPages: number[] = getInitialPages(params)
   const initialSorting: ISorting = {
-    orderBy: params.orderBy || 'id',
-    direction: params.direction || 'asc',
-    type: params.type || 'string',
+    orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
+    direction: params.direction === 'desc' ? params.direction : 'asc',
+    type: params.type === 'number' ? params.type : 'string',
   }
 
   const [values, setValues] = useState(initialFilters)
@@ -73,7 +86,8 @@ const OrdersList: FC<IProps> = (props) => {
    * Update page url address
    */
   useEffect(() => {
-    updateParams({ ...values, ...sorting, pages })
+    const pagesParam = pages.map((p) => String(p))
+    updateParams({ ...values, ...sorting, pages: pagesParam })
   }, [values, sorting, pages])
 
   /**
@@ -109,8 +123,7 @@ const OrdersList: FC<IProps> = (props) => {
   const getCurrentPageOrders = function () {
     const sortedOrders = sortObjects(orders, sorting)
     const filteredOrders = filterOrders(sortedOrders, values)
-    const paginatedOrders = getItemsPageSlice(filteredOrders, pages, PER_PAGE)
-    return paginatedOrders
+    return getItemsPageSlice(filteredOrders, pages, PER_PAGE)
   }
   const getOrdersTotal = function () {
     const filteredOrders = filterOrders(orders, values)
