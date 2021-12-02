@@ -68,22 +68,29 @@ const OrdersList: FC<IProps> = (props) => {
    * State
    */
   const initialFilters: IOrderValues = {
+    status: [],
+    delivery: [],
+  }
+  const initialPages: number[] = [1]
+  const initialSorting: ISorting = {
+    orderBy: 'id',
+    direction: 'asc',
+    type: 'string',
+  }
+
+  const [values, setValues] = useState<IOrderValues>({
     status: [...getValuesArrayFromQueryParams('status', params)],
     delivery: [...getValuesArrayFromQueryParams('delivery', params)],
-  }
-  const initialPages: number[] = getInitialPages(params)
-  const initialSorting: ISorting = {
+  })
+  const [sorting, setSorting] = useState<ISorting>({
     orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
     direction: params.direction === 'desc' ? params.direction : 'asc',
     type: params.type === 'number' ? params.type : 'string',
-  }
-
-  const [values, setValues] = useState(initialFilters)
-  const [sorting, setSorting] = useState(initialSorting)
-  const [pages, setPages] = useState(initialPages)
+  })
+  const [pages, setPages] = useState(getInitialPages(params))
 
   /**
-   * Update page url address
+   * Update page url address on user events
    */
   useEffect(() => {
     const pagesParam = pages.map((p) => String(p))
@@ -97,13 +104,14 @@ const OrdersList: FC<IProps> = (props) => {
     setSorting(sorting)
   }
   const filterHandler = (newValue: Partial<IOrderValues>) => {
+    setPages(initialPages)
+    setSorting(initialSorting)
     setValues({ ...values, ...newValue })
   }
   const clearFilter = () => {
-    const emptyValues = Object.keys(values).reduce<IOrderValues>((res, key) => {
-      return { ...res, [key]: [] }
-    }, initialFilters)
-    setValues(emptyValues)
+    setPages(initialPages)
+    setSorting(initialSorting)
+    setValues(initialFilters)
   }
   const changePage = (page: number) => {
     setPages([page])
