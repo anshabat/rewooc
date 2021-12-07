@@ -1,5 +1,5 @@
 import './OrdersList.scss'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useReducer, useState } from 'react'
 import { IOrder, ISorting } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
@@ -20,6 +20,19 @@ type ParamsType = {
   orderBy: string
   direction: 'asc' | 'desc'
   type: 'number' | 'string'
+  pages: number[]
+}
+
+interface TInitialState {
+  filter: {
+    status: string[]
+    delivery: string[]
+  }
+  sorting: {
+    orderBy: string
+    direction: 'asc' | 'desc'
+    type: 'string' | 'number'
+  }
   pages: number[]
 }
 
@@ -67,6 +80,58 @@ const OrdersList: FC<IProps> = (props) => {
   /**
    * State
    */
+
+  const initialState: TInitialState = {
+    filter: {
+      status: [],
+      delivery: [],
+    },
+    sorting: {
+      orderBy: 'id',
+      direction: 'asc',
+      type: 'string',
+    },
+    pages: [1],
+  }
+
+  const [state, dispatch] = useReducer(
+    (state: TInitialState, action: any): TInitialState => {
+      switch (action.type) {
+        case 'INIT':
+          return {
+            filter: {
+              status: [...getValuesArrayFromQueryParams('status', params)],
+              delivery: [...getValuesArrayFromQueryParams('delivery', params)],
+            },
+            sorting: {
+              orderBy:
+                typeof params.orderBy === 'string' ? params.orderBy : 'id',
+              direction: params.direction === 'desc' ? params.direction : 'asc',
+              type: params.type === 'number' ? params.type : 'string',
+            },
+            pages: getInitialPages(params),
+          }
+        case 'SORTING':
+          return { ...state, sorting: action.payload.sorting }
+        case 'FILTER':
+          return {
+            ...initialState,
+            filter: { ...state.filter, ...action.payload.value },
+          }
+        case 'CLEAR':
+          return { ...initialState }
+        case 'PAGINATE':
+        case 'LOAD_MORE':
+          return { ...state, pages: action.payload.pages }
+        default:
+          return state
+      }
+    },
+    initialState
+  )
+
+  console.log(state)
+
   const initialFilters: IOrderValues = {
     status: [],
     delivery: [],
@@ -98,23 +163,27 @@ const OrdersList: FC<IProps> = (props) => {
   }, [values, sorting, pages])
 
   /**
-   * Reducers
+   * Action Creators
    */
   const sortingHandler = (sorting: ISorting) => {
     setSorting(sorting)
+    dispatch({ type: 'SORTING', payload: { sorting } })
   }
   const filterHandler = (newValue: Partial<IOrderValues>) => {
     setPages(initialPages)
     setSorting(initialSorting)
     setValues({ ...values, ...newValue })
+    dispatch({ type: 'FILTER', payload: { value: newValue } })
   }
   const clearFilter = () => {
     setPages(initialPages)
     setSorting(initialSorting)
     setValues(initialFilters)
+    dispatch({ type: 'CLEAR' })
   }
   const changePage = (page: number) => {
     setPages([page])
+    dispatch({ type: 'PAGINATE', payload: { pages: [page] } })
   }
   const loadMore = function () {
     const newPage = pages[pages.length - 1]
@@ -122,6 +191,7 @@ const OrdersList: FC<IProps> = (props) => {
     if (loadedItems < orders.length) {
       const newCurrentPages = pages.concat(newPage + 1)
       setPages(newCurrentPages)
+      dispatch({ type: 'LOAD_MORE', payload: { pages: newCurrentPages } })
     }
   }
 
