@@ -10,49 +10,52 @@ import { filterOrders } from 'app-services/orders'
 import { IOrderValues } from 'app-services/orders/types'
 import { IParam, useQuery } from 'app-services/query'
 
+/**
+ * Types
+ */
 interface IProps {
   orders: IOrder[]
 }
 
-type ParamsType = {
+interface TOrdersFilter {
   status: string[]
   delivery: string[]
+}
+
+interface TOrdersSorting {
   orderBy: string
   direction: 'asc' | 'desc'
   type: 'number' | 'string'
-  pages: number[]
 }
+
+type TOrdersPages = number[]
+
+type TQueryParams = TOrdersFilter & TOrdersSorting & { pages: TOrdersPages }
 
 interface TInitialState {
-  filter: {
-    status: string[]
-    delivery: string[]
-  }
-  sorting: {
-    orderBy: string
-    direction: 'asc' | 'desc'
-    type: 'string' | 'number'
-  }
-  pages: number[]
+  filter: TOrdersFilter
+  sorting: TOrdersSorting
+  pages: TOrdersPages
 }
 
+/**
+ * Constants
+ */
 const PER_PAGE = 3
 
 /**
  * Helpers
  */
 const getValuesArrayFromQueryParams = (
-  key: keyof ParamsType,
-  params: IParam<ParamsType>
+  param: string | string[] | undefined
 ): Array<string> => {
-  const paramsKey = params[key]
-  if (!paramsKey) {
+  if (!param) {
     return []
   }
-  return Array.isArray(paramsKey) ? paramsKey : [paramsKey]
+  return Array.isArray(param) ? param : [param]
 }
 
-const getInitialPages = (queryParams: IParam<ParamsType>) => {
+const getInitialPages = (queryParams: IParam<TQueryParams>) => {
   const { pages } = queryParams
   if (!pages) return [1]
   const pagesParam = Array.isArray(pages) ? pages : [pages]
@@ -61,7 +64,7 @@ const getInitialPages = (queryParams: IParam<ParamsType>) => {
 
 const getItemsPageSlice = function <T>(
   items: T[],
-  pages: number[],
+  pages: TOrdersPages,
   perPage: number
 ) {
   const fromIndex = perPage * (pages[0] - 1)
@@ -72,11 +75,11 @@ const getItemsPageSlice = function <T>(
   return items.slice(fromIndex, toIndex)
 }
 
-const getStateFromUrl = function (params: IParam<ParamsType>): TInitialState {
+const getStateFromUrl = function (params: IParam<TQueryParams>): TInitialState {
   return {
     filter: {
-      status: [...getValuesArrayFromQueryParams('status', params)],
-      delivery: [...getValuesArrayFromQueryParams('delivery', params)],
+      status: [...getValuesArrayFromQueryParams(params.status)],
+      delivery: [...getValuesArrayFromQueryParams(params.delivery)],
     },
     sorting: {
       orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
@@ -87,6 +90,9 @@ const getStateFromUrl = function (params: IParam<ParamsType>): TInitialState {
   }
 }
 
+/**
+ * State
+ */
 const initialState: TInitialState = {
   filter: {
     status: [],
@@ -102,7 +108,7 @@ const initialState: TInitialState = {
 
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
-  const { params, updateParams } = useQuery<ParamsType>()
+  const { params, updateParams } = useQuery<TQueryParams>()
 
   const [state, dispatch] = useReducer(
     (state: TInitialState, action: any): TInitialState => {
