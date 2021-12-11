@@ -17,7 +17,7 @@ interface IProps {
   orders: IOrder[]
 }
 
-interface TOrdersFilter {
+interface TOrdersFilterAttributes {
   status: string[]
   delivery: string[]
 }
@@ -30,10 +30,10 @@ interface TOrdersSorting {
 
 type TOrdersPages = number[]
 
-type TQueryParams = TOrdersFilter & TOrdersSorting & { pages: TOrdersPages }
+type TQueryParams = TOrdersFilterAttributes & TOrdersSorting & { pages: TOrdersPages }
 
 interface TInitialState {
-  filter: TOrdersFilter
+  filter: TOrdersFilterAttributes
   sorting: TOrdersSorting
   pages: TOrdersPages
 }
@@ -75,12 +75,24 @@ const getItemsPageSlice = function <T>(
   return items.slice(fromIndex, toIndex)
 }
 
-const getStateFromUrl = function (params: IParam<TQueryParams>): TInitialState {
-  return {
-    filter: {
-      status: [...getValuesArrayFromQueryParams(params.status)],
-      delivery: [...getValuesArrayFromQueryParams(params.delivery)],
+const getStateFromUrl = function (
+  initialState: TInitialState,
+  params: IParam<TQueryParams>
+): TInitialState {
+  const filter = Object.keys(initialState.filter).reduce<any>(
+    (result, attribute) => {
+      result[attribute] = [
+        ...getValuesArrayFromQueryParams(
+          params[attribute as keyof TOrdersFilterAttributes]
+        ),
+      ]
+      return result
     },
+    {}
+  )
+
+  return {
+    filter,
     sorting: {
       orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
       direction: params.direction === 'desc' ? params.direction : 'asc',
@@ -129,7 +141,7 @@ const OrdersList: FC<IProps> = (props) => {
           return state
       }
     },
-    getStateFromUrl(params)
+    getStateFromUrl(initialState, params)
   )
 
   const { pages, sorting, filter } = state
