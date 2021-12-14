@@ -1,8 +1,7 @@
-import { useEffect, useState, MouseEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { IOrder, OrderStatus } from 'app-types'
 import { FilterChoiceValue, filterOrders } from 'app-services/orders'
 import { IDeliveryMethod } from 'app-api'
-import { useQuery } from 'app-services/query'
 import { IOrderValues } from 'app-services/orders/types'
 
 interface IOrderAttributes {
@@ -42,21 +41,6 @@ const getDeliveryAttribute = (orders: IOrder[]) => {
 }
 
 export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): IOrderAttributes {
-  /*const initialValues: IOrderValues = {
-    status: [],
-    delivery: [],
-  }*/
-  //const { params, updateParams } = useQuery()
-  /*const initialValues = {
-    status: [...getValuesArrayFromQueryParams('status', params)],
-    delivery: [...getValuesArrayFromQueryParams('delivery', params)],
-  }*/
-  //TODO get initialValues from params
-  //const [values, setValues] = useState(initialValues)
-/*  const [orders, setOrders] = useState<IOrder[]>(
-    filterOrders(initialOrders, initialValues)
-  )*/
-
   const initialAttributes: IOrderAttributes = {
     delivery: getDeliveryAttribute(initialOrders),
     status: getStatusAttribute(initialOrders),
@@ -65,15 +49,8 @@ export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): 
   const [attributes, setAttributes] = useState(initialAttributes)
 
   useEffect(() => {
-    applyFilter(values)
+    updateAttributes(values)
   }, [values])
-
-  /*useEffect(() => {
-    setValues({
-      status: [...getValuesArrayFromQueryParams('status', params)],
-      delivery: [...getValuesArrayFromQueryParams('delivery', params)],
-    })
-  }, [params])*/
 
   const updateAttributeValuesCount = (
     key: keyof IOrderAttributes,
@@ -93,8 +70,7 @@ export function useOrdersFilter(initialOrders: IOrder[], values: IOrderValues): 
     })
   }
 
-  const applyFilter = (newValues: IOrderValues) => {
-    //const newOrders = filterOrders(initialOrders, newValues)
+  const updateAttributes = (newValues: IOrderValues) => {
     const newAttributes: IOrderAttributes = {
       status: updateAttributeValuesCount('status', newValues),
       delivery: updateAttributeValuesCount('delivery', newValues),
