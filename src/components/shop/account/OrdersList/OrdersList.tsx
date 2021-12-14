@@ -1,14 +1,18 @@
 import './OrdersList.scss'
 import React, { FC, useEffect, useReducer } from 'react'
-import { IOrder, ISorting } from 'app-types'
+import { IOrder, ISorting, OrderStatus } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { sortObjects } from '../../../../shared/utilities'
-import { filterOrders } from 'app-services/orders'
-import { IOrderValues } from 'app-services/orders/types'
+import {
+  filterOrders,
+  FilterChoiceValue,
+  IOrderValues,
+} from 'app-services/orders'
 import { IParam, useQuery } from 'app-services/query'
+import { IDeliveryMethod } from 'app-api'
 
 /**
  * Types
@@ -17,9 +21,14 @@ interface IProps {
   orders: IOrder[]
 }
 
+interface IOrderAttributes {
+  delivery: FilterChoiceValue[]
+  status: FilterChoiceValue[]
+}
+
 export interface TOrdersFilterAttributes {
-  status: string[]
   delivery: string[]
+  status: string[]
 }
 
 interface TOrdersSorting {
@@ -30,12 +39,14 @@ interface TOrdersSorting {
 
 type TOrdersPages = number[]
 
-type TQueryParams = TOrdersFilterAttributes & TOrdersSorting & { pages: TOrdersPages }
+type TQueryParams = TOrdersFilterAttributes &
+  TOrdersSorting & { pages: TOrdersPages }
 
-interface TInitialState {
+interface TState {
   filter: TOrdersFilterAttributes
   sorting: TOrdersSorting
   pages: TOrdersPages
+  attributes: IOrderAttributes
 }
 
 /**
@@ -46,6 +57,36 @@ const PER_PAGE = 3
 /**
  * Helpers
  */
+const getStatusAttribute = (orders: IOrder[]) => {
+  return orders
+    .reduce<OrderStatus[]>((prev, order) => {
+      const existing = prev.some((i) => i.key === order.status.key)
+      return existing ? prev : prev.concat(order.status)
+    }, [])
+    .map<FilterChoiceValue>((value, index, array) => {
+      return {
+        label: value.value,
+        value: value.key,
+        count: array.length,
+      }
+    })
+}
+
+const getDeliveryAttribute = (orders: IOrder[]) => {
+  return orders
+    .reduce<IDeliveryMethod[]>((prev, order) => {
+      const existing = prev.some((i) => i.id === order.deliveryMethod.id)
+      return existing ? prev : prev.concat(order.deliveryMethod)
+    }, [])
+    .map<FilterChoiceValue>((value, index, array) => {
+      return {
+        label: value.title,
+        value: String(value.id),
+        count: array.length,
+      }
+    })
+}
+
 const getValuesArrayFromQueryParams = (
   param: string | string[] | undefined
 ): Array<string> => {
@@ -76,9 +117,9 @@ const getItemsPageSlice = function <T>(
 }
 
 const getStateFromUrl = function (
-  initialState: TInitialState,
+  initialState: TState,
   params: IParam<TQueryParams>
-): TInitialState {
+): TState {
   const filter = Object.keys(initialState.filter).reduce<any>(
     (result, attribute) => {
       result[attribute] = [
@@ -92,6 +133,7 @@ const getStateFromUrl = function (
   )
 
   return {
+    ...initialState,
     filter,
     sorting: {
       orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
@@ -105,7 +147,7 @@ const getStateFromUrl = function (
 /**
  * State
  */
-const initialState: TInitialState = {
+const initialState: TState = {
   filter: {
     status: [],
     delivery: [],
@@ -116,6 +158,10 @@ const initialState: TInitialState = {
     type: 'string',
   },
   pages: [1],
+  attributes: {
+    delivery: [],
+    status: [],
+  },
 }
 
 const OrdersList: FC<IProps> = (props) => {
@@ -123,7 +169,7 @@ const OrdersList: FC<IProps> = (props) => {
   const { params, updateParams } = useQuery<TQueryParams>()
 
   const [state, dispatch] = useReducer(
-    (state: TInitialState, action: any): TInitialState => {
+    (state: TState, action: any): TState => {
       switch (action.type) {
         case 'SORTING':
           return { ...state, sorting: action.payload.sorting }
@@ -141,7 +187,13 @@ const OrdersList: FC<IProps> = (props) => {
           return state
       }
     },
-    getStateFromUrl(initialState, params)
+    {
+      ...getStateFromUrl(initialState, params),
+      attributes: {
+        delivery: getDeliveryAttribute(orders),
+        status: getStatusAttribute(orders),
+      },
+    }
   )
 
   const { pages, sorting, filter } = state
