@@ -17,7 +17,7 @@ interface IProps {
   orders: IOrder[]
 }
 
-interface TOrdersFilterAttributes {
+export interface TOrdersFilterAttributes {
   status: string[]
   delivery: string[]
 }

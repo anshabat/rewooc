@@ -6,8 +6,8 @@ export interface FilterChoiceValue {
   count?: number
 }
 
-export interface IFilterComponent {
-  key: string
+export interface IFilter<T = string> {
+  key: T
   label: string
   valuesComponent: ReactElement
   isApplied: boolean
