@@ -21,7 +21,7 @@ interface IProps {
   orders: IOrder[]
 }
 
-interface IOrderAttributes {
+export interface IOrderAttributes {
   delivery: FilterChoiceValue[]
   status: FilterChoiceValue[]
 }
@@ -63,11 +63,16 @@ const getStatusAttribute = (orders: IOrder[]) => {
       const existing = prev.some((i) => i.key === order.status.key)
       return existing ? prev : prev.concat(order.status)
     }, [])
-    .map<FilterChoiceValue>((value, index, array) => {
+    .map<FilterChoiceValue>((attr) => {
+      const value = String(attr.key)
+      const filteredOrders = filterOrders(orders, {
+        delivery: [],
+        status: [value],
+      })
       return {
-        label: value.value,
-        value: value.key,
-        count: array.length,
+        label: attr.value,
+        value,
+        count: filteredOrders.length,
       }
     })
 }
@@ -78,11 +83,16 @@ const getDeliveryAttribute = (orders: IOrder[]) => {
       const existing = prev.some((i) => i.id === order.deliveryMethod.id)
       return existing ? prev : prev.concat(order.deliveryMethod)
     }, [])
-    .map<FilterChoiceValue>((value, index, array) => {
+    .map<FilterChoiceValue>((attr) => {
+      const value = String(attr.id)
+      const filteredOrders = filterOrders(orders, {
+        status: [],
+        delivery: [value],
+      })
       return {
-        label: value.title,
-        value: String(value.id),
-        count: array.length,
+        label: attr.title,
+        value,
+        count: filteredOrders.length,
       }
     })
 }
@@ -116,58 +126,87 @@ const getItemsPageSlice = function <T>(
   return items.slice(fromIndex, toIndex)
 }
 
-const getStateFromUrl = function (
-  initialState: TState,
+const getFilterValuesFromUrl = function (
+  initialValues: any,
   params: IParam<TQueryParams>
-): TState {
-  const filter = Object.keys(initialState.filter).reduce<any>(
-    (result, attribute) => {
-      result[attribute] = [
-        ...getValuesArrayFromQueryParams(
-          params[attribute as keyof TOrdersFilterAttributes]
-        ),
-      ]
-      return result
-    },
-    {}
-  )
+): any {
+  return Object.keys(initialValues).reduce<any>((result, attribute) => {
+    result[attribute] = [
+      ...getValuesArrayFromQueryParams(
+        params[attribute as keyof TOrdersFilterAttributes]
+      ),
+    ]
+    return result
+  }, {})
+}
 
-  return {
-    ...initialState,
-    filter,
-    sorting: {
-      orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
-      direction: params.direction === 'desc' ? params.direction : 'asc',
-      type: params.type === 'number' ? params.type : 'string',
-    },
-    pages: getInitialPages(params),
+const updateAttributeValuesCount = (
+  key: keyof IOrderAttributes,
+  values: IOrderValues,
+  orders: IOrder[],
+  attributes: IOrderAttributes
+): FilterChoiceValue[] => {
+  return attributes[key].map((attr) => {
+    const nextValues = [...values[key], attr.value]
+    const filteredOrders = filterOrders(orders, {
+      ...values,
+      [key]: nextValues,
+    })
+    return {
+      value: attr.value,
+      label: attr.label,
+      count: filteredOrders.length,
+    }
+  })
+}
+
+const updateAttributes = (
+  newValues: IOrderValues,
+  orders: IOrder[],
+  attributes: IOrderAttributes
+) => {
+  const newAttributes: IOrderAttributes = {
+    status: updateAttributeValuesCount('status', newValues, orders, attributes),
+    delivery: updateAttributeValuesCount(
+      'delivery',
+      newValues,
+      orders,
+      attributes
+    ),
   }
+  return newAttributes
 }
 
 /**
- * State
+ * Component
  */
-const initialState: TState = {
-  filter: {
-    status: [],
-    delivery: [],
-  },
-  sorting: {
-    orderBy: 'id',
-    direction: 'asc',
-    type: 'string',
-  },
-  pages: [1],
-  attributes: {
-    delivery: [],
-    status: [],
-  },
-}
-
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
   const { params, updateParams } = useQuery<TQueryParams>()
 
+  /**
+   * State
+   */
+  const initialState: TState = {
+    attributes: {
+      delivery: getDeliveryAttribute(orders),
+      status: getStatusAttribute(orders),
+    },
+    filter: {
+      status: [],
+      delivery: [],
+    },
+    sorting: {
+      orderBy: 'id',
+      direction: 'asc',
+      type: 'string',
+    },
+    pages: [1],
+  }
+
+  /**
+   * Reducer
+   */
   const [state, dispatch] = useReducer(
     (state: TState, action: any): TState => {
       switch (action.type) {
@@ -177,9 +216,12 @@ const OrdersList: FC<IProps> = (props) => {
           return {
             ...initialState,
             filter: { ...state.filter, ...action.payload.value },
+            attributes: action.payload.attributes,
           }
         case 'CLEAR':
-          return { ...initialState }
+          return {
+            ...initialState,
+          }
         case 'PAGINATE':
         case 'LOAD_MORE':
           return { ...state, pages: action.payload.pages }
@@ -188,15 +230,23 @@ const OrdersList: FC<IProps> = (props) => {
       }
     },
     {
-      ...getStateFromUrl(initialState, params),
-      attributes: {
-        delivery: getDeliveryAttribute(orders),
-        status: getStatusAttribute(orders),
+      ...initialState,
+      attributes: updateAttributes(
+        getFilterValuesFromUrl(initialState.filter, params),
+        orders,
+        initialState.attributes
+      ),
+      filter: getFilterValuesFromUrl(initialState.filter, params),
+      sorting: {
+        orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
+        direction: params.direction === 'desc' ? params.direction : 'asc',
+        type: params.type === 'number' ? params.type : 'string',
       },
+      pages: getInitialPages(params),
     }
   )
 
-  const { pages, sorting, filter } = state
+  const { pages, sorting, filter, attributes } = state
 
   /**
    * Update page url address on user events
@@ -213,7 +263,15 @@ const OrdersList: FC<IProps> = (props) => {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
   const filterHandler = (newValue: Partial<IOrderValues>) => {
-    dispatch({ type: 'FILTER', payload: { value: newValue } })
+    const newAttributes = updateAttributes(
+      { ...filter, ...newValue },
+      orders,
+      attributes
+    )
+    dispatch({
+      type: 'FILTER',
+      payload: { value: newValue, attributes: newAttributes },
+    })
   }
   const clearFilter = () => {
     dispatch({ type: 'CLEAR' })
@@ -247,6 +305,7 @@ const OrdersList: FC<IProps> = (props) => {
     <div className="rw-orders-list">
       <div className="rw-orders-list__filter">
         <OrdersFilter
+          attributes={attributes}
           orders={orders}
           onFilter={filterHandler}
           values={filter}

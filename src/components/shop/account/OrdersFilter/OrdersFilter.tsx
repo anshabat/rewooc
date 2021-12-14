@@ -2,13 +2,13 @@ import React, { ReactElement } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { IFilter } from 'app-services/orders'
-import { useOrdersFilter } from '../../../../hooks/useOrdersFilter'
 import { IOrder } from 'app-types'
 import { IOrderValues } from 'app-services/orders/types'
-import {TOrdersFilterAttributes} from '../OrdersList/OrdersList'
+import {IOrderAttributes, TOrdersFilterAttributes} from '../OrdersList/OrdersList'
 
 //TODO remove any
 interface IProps {
+  attributes: IOrderAttributes
   orders: IOrder[]
   values: IOrderValues
   onFilter: (values: any) => void
@@ -16,9 +16,7 @@ interface IProps {
 }
 
 function OrdersFilter(props: IProps): ReactElement {
-  const { orders, values, onFilter, onClear } = props
-  //TODO maybe more attributes to State, and calculate quantity there
-  const attributes = useOrdersFilter(orders, values)
+  const { attributes, values, onFilter, onClear } = props
 
   const attributeComponents: IFilter<keyof TOrdersFilterAttributes>[] = [
     {
