@@ -177,6 +177,28 @@ const updateAttributes = (
   return newAttributes
 }
 
+const getInitialStateFromUrl = function (
+  initialState: TState,
+  params: IParam<TQueryParams>,
+  orders: IOrder[]
+): TState {
+  return {
+    ...initialState,
+    attributes: updateAttributes(
+      getFilterValuesFromUrl(initialState.filter, params),
+      orders,
+      initialState.attributes
+    ),
+    filter: getFilterValuesFromUrl(initialState.filter, params),
+    sorting: {
+      orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
+      direction: params.direction === 'desc' ? params.direction : 'asc',
+      type: params.type === 'number' ? params.type : 'string',
+    },
+    pages: getInitialPages(params),
+  }
+}
+
 /**
  * Component
  */
@@ -226,24 +248,11 @@ const OrdersList: FC<IProps> = (props) => {
         case 'LOAD_MORE':
           return { ...state, pages: action.payload.pages }
         default:
-          return state
+          throw new Error(`Unsupported action type: ${action.type}`)
       }
     },
-    {
-      ...initialState,
-      attributes: updateAttributes(
-        getFilterValuesFromUrl(initialState.filter, params),
-        orders,
-        initialState.attributes
-      ),
-      filter: getFilterValuesFromUrl(initialState.filter, params),
-      sorting: {
-        orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
-        direction: params.direction === 'desc' ? params.direction : 'asc',
-        type: params.type === 'number' ? params.type : 'string',
-      },
-      pages: getInitialPages(params),
-    }
+    initialState,
+    (initialState) => getInitialStateFromUrl(initialState, params, orders)
   )
 
   const { pages, sorting, filter, attributes } = state
