@@ -1,18 +1,13 @@
 import './OrdersList.scss'
 import React, { FC, useEffect, useReducer } from 'react'
-import { IOrder, ISorting, OrderStatus } from 'app-types'
+import { IOrder, ISorting } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { sortObjects } from '../../../../shared/utilities'
-import {
-  filterOrders,
-  FilterChoiceValue,
-  IOrderValues,
-} from 'app-services/orders'
+import { filterOrders, FilterChoiceValue } from 'app-services/orders'
 import { IParam, useQuery } from 'app-services/query'
-import { IDeliveryMethod } from 'app-api'
 
 /**
  * Types
@@ -57,49 +52,51 @@ const PER_PAGE = 3
 /**
  * Helpers
  */
-const getStatusAttribute = (orders: IOrder[]) => {
+
+const getAttributeFromOrders = function (
+  orders: any[],
+  attributeName: keyof IOrder,
+  cb: (arg: any) => FilterChoiceValue
+) {
   return orders
-    .reduce<OrderStatus[]>((prev, order) => {
-      const existing = prev.some((i) => i.key === order.status.key)
-      return existing ? prev : prev.concat(order.status)
+    .map((order) => {
+      return { ...order, [attributeName]: cb(order[attributeName]) }
+    })
+    .reduce<any[]>((prev, order) => {
+      const existing = prev.some((i) => i.value === order[attributeName].value)
+      return existing ? prev : prev.concat(order[attributeName])
     }, [])
     .map<FilterChoiceValue>((attr) => {
-      const value = String(attr.key)
-      const filteredOrders = filterOrders(orders, {
-        delivery: [],
-        status: [value],
-      })
       return {
-        label: attr.value,
-        value,
-        count: filteredOrders.length,
+        label: attr.label,
+        value: String(attr.value),
       }
     })
 }
 
-const getDeliveryAttribute = (orders: IOrder[]) => {
-  return orders
-    .reduce<IDeliveryMethod[]>((prev, order) => {
-      const existing = prev.some((i) => i.id === order.deliveryMethod.id)
-      return existing ? prev : prev.concat(order.deliveryMethod)
-    }, [])
-    .map<FilterChoiceValue>((attr) => {
-      const value = String(attr.id)
-      const filteredOrders = filterOrders(orders, {
-        status: [],
-        delivery: [value],
-      })
-      return {
-        label: attr.title,
-        value,
-        count: filteredOrders.length,
-      }
+const addCountToAttribute = function (
+  orders: IOrder[],
+  attributeName: keyof TOrdersFilterAttributes,
+  options: FilterChoiceValue[],
+  initialValues: TOrdersFilterAttributes
+): FilterChoiceValue[] {
+  return options.map<FilterChoiceValue>((option) => {
+    const { label, value } = option
+    const filteredOrders = filterOrders(orders, {
+      ...initialValues,
+      [attributeName]: [value],
     })
+    return {
+      label,
+      value,
+      count: filteredOrders.length,
+    }
+  })
 }
 
 const getValuesArrayFromQueryParams = (
   param: string | string[] | undefined
-): Array<string> => {
+): string[] => {
   if (!param) {
     return []
   }
@@ -142,7 +139,7 @@ const getFilterValuesFromUrl = function (
 
 const updateAttributeValuesCount = (
   key: keyof IOrderAttributes,
-  values: IOrderValues,
+  values: TOrdersFilterAttributes,
   orders: IOrder[],
   attributes: IOrderAttributes
 ): FilterChoiceValue[] => {
@@ -161,7 +158,7 @@ const updateAttributeValuesCount = (
 }
 
 const updateAttributes = (
-  newValues: IOrderValues,
+  newValues: TOrdersFilterAttributes,
   orders: IOrder[],
   attributes: IOrderAttributes
 ) => {
@@ -206,18 +203,44 @@ const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
   const { params, updateParams } = useQuery<TQueryParams>()
 
+  const initialValues: TOrdersFilterAttributes = {
+    status: [],
+    delivery: [],
+  }
+
+  const delivery = getAttributeFromOrders(
+    orders,
+    'deliveryMethod',
+    (delivery) => {
+      return { value: delivery.id, label: delivery.title }
+    }
+  )
+  const deliveryWithCount = addCountToAttribute(
+    orders,
+    'delivery',
+    delivery,
+    initialValues
+  )
+
+  const status = getAttributeFromOrders(orders, 'status', (status) => {
+    return { value: status.key, label: status.value }
+  })
+  const statusWithCount = addCountToAttribute(
+    orders,
+    'status',
+    status,
+    initialValues
+  )
+
   /**
    * State
    */
   const initialState: TState = {
     attributes: {
-      delivery: getDeliveryAttribute(orders),
-      status: getStatusAttribute(orders),
+      delivery: deliveryWithCount,
+      status: statusWithCount,
     },
-    filter: {
-      status: [],
-      delivery: [],
-    },
+    filter: initialValues,
     sorting: {
       orderBy: 'id',
       direction: 'asc',
@@ -271,7 +294,7 @@ const OrdersList: FC<IProps> = (props) => {
   const sortingHandler = (sorting: ISorting) => {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
-  const filterHandler = (newValue: Partial<IOrderValues>) => {
+  const filterHandler = (newValue: Partial<TOrdersFilterAttributes>) => {
     const newAttributes = updateAttributes(
       { ...filter, ...newValue },
       orders,

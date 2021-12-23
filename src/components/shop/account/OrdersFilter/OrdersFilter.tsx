@@ -3,14 +3,13 @@ import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { IFilter } from 'app-services/orders'
 import { IOrder } from 'app-types'
-import { IOrderValues } from 'app-services/orders/types'
 import {IOrderAttributes, TOrdersFilterAttributes} from '../OrdersList/OrdersList'
 
 //TODO remove any
 interface IProps {
   attributes: IOrderAttributes
   orders: IOrder[]
-  values: IOrderValues
+  values: TOrdersFilterAttributes
   onFilter: (values: any) => void
   onClear: () => void
 }
