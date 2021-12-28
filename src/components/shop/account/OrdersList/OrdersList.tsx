@@ -6,7 +6,7 @@ import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { sortObjects } from '../../../../shared/utilities'
-import { filterOrders, FilterChoiceValue } from 'app-services/orders'
+import { FilterChoiceValue, Filter } from 'app-services/filter'
 import { IParam, useQuery } from 'app-services/query'
 
 /**
@@ -76,16 +76,14 @@ const getAttributeFromOrders = function (
 
 const addCountToAttribute = function (
   orders: IOrder[],
-  attributeName: keyof TOrdersFilterAttributes,
-  options: FilterChoiceValue[],
-  initialValues: TOrdersFilterAttributes
+  attributeName: string,
+  options: FilterChoiceValue[]
 ): FilterChoiceValue[] {
   return options.map<FilterChoiceValue>((option) => {
     const { label, value } = option
-    const filteredOrders = filterOrders(orders, {
-      ...initialValues,
-      [attributeName]: [value],
-    })
+    const filteredOrders = new Filter(orders)
+      .by(attributeName, [value])
+      .getItems()
     return {
       label,
       value,
@@ -138,17 +136,14 @@ const getFilterValuesFromUrl = function (
 }
 
 const updateAttributeValuesCount = (
-  key: keyof IOrderAttributes,
-  values: TOrdersFilterAttributes,
+  key: string,
+  values: string[],
   orders: IOrder[],
-  attributes: IOrderAttributes
+  attributes: FilterChoiceValue[]
 ): FilterChoiceValue[] => {
-  return attributes[key].map((attr) => {
-    const nextValues = [...values[key], attr.value]
-    const filteredOrders = filterOrders(orders, {
-      ...values,
-      [key]: nextValues,
-    })
+  return attributes.map((attr) => {
+    const nextValues = [...values, attr.value]
+    const filteredOrders = new Filter(orders).by(key, nextValues).getItems()
     return {
       value: attr.value,
       label: attr.label,
@@ -163,12 +158,17 @@ const updateAttributes = (
   attributes: IOrderAttributes
 ) => {
   const newAttributes: IOrderAttributes = {
-    status: updateAttributeValuesCount('status', newValues, orders, attributes),
-    delivery: updateAttributeValuesCount(
-      'delivery',
-      newValues,
+    status: updateAttributeValuesCount(
+      'status.key',
+      newValues.status,
       orders,
-      attributes
+      attributes['status']
+    ),
+    delivery: updateAttributeValuesCount(
+      'deliveryMethod.id',
+      newValues.delivery,
+      orders,
+      attributes['delivery']
     ),
   }
   return newAttributes
@@ -196,17 +196,22 @@ const getInitialStateFromUrl = function (
   }
 }
 
+export const filterOrders = (
+  orders: IOrder[],
+  values: TOrdersFilterAttributes
+): IOrder[] => {
+  return new Filter(orders)
+    .by('status.key', values.status)
+    .by('deliveryMethod.id', values.delivery)
+    .getItems()
+}
+
 /**
  * Component
  */
 const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
   const { params, updateParams } = useQuery<TQueryParams>()
-
-  const initialValues: TOrdersFilterAttributes = {
-    status: [],
-    delivery: [],
-  }
 
   const delivery = getAttributeFromOrders(
     orders,
@@ -217,20 +222,14 @@ const OrdersList: FC<IProps> = (props) => {
   )
   const deliveryWithCount = addCountToAttribute(
     orders,
-    'delivery',
-    delivery,
-    initialValues
+    'deliveryMethod.id',
+    delivery
   )
 
   const status = getAttributeFromOrders(orders, 'status', (status) => {
     return { value: status.key, label: status.value }
   })
-  const statusWithCount = addCountToAttribute(
-    orders,
-    'status',
-    status,
-    initialValues
-  )
+  const statusWithCount = addCountToAttribute(orders, 'status.key', status)
 
   /**
    * State
@@ -240,7 +239,10 @@ const OrdersList: FC<IProps> = (props) => {
       delivery: deliveryWithCount,
       status: statusWithCount,
     },
-    filter: initialValues,
+    filter: {
+      status: [],
+      delivery: [],
+    },
     sorting: {
       orderBy: 'id',
       direction: 'asc',
@@ -279,6 +281,8 @@ const OrdersList: FC<IProps> = (props) => {
   )
 
   const { pages, sorting, filter, attributes } = state
+
+  console.log(filter)
 
   /**
    * Update page url address on user events

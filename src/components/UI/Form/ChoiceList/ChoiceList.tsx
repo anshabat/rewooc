@@ -1,7 +1,7 @@
 import './ChoiceList.scss'
 import React, { FC, useEffect, useState } from 'react'
 import ChoiceField from '../ChoiceField/ChoiceField'
-import { FilterChoiceValue } from 'app-services/orders'
+import { FilterChoiceValue } from 'app-services/filter'
 
 interface ChoiceListProps {
   options: FilterChoiceValue[]
