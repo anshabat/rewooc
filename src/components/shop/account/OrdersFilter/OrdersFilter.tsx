@@ -2,13 +2,11 @@ import React, { ReactElement } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { IFilter } from 'app-services/filter'
-import { IOrder } from 'app-types'
-import {IOrderAttributes, TOrdersFilterAttributes} from '../OrdersList/OrdersList'
+import {IOrderAttributes, TOrdersFilterAttributes} from '../../../../hooks/useOrdersList'
 
 //TODO remove any
 interface IProps {
   attributes: IOrderAttributes
-  orders: IOrder[]
   values: TOrdersFilterAttributes
   onFilter: (values: any) => void
   onClear: () => void
