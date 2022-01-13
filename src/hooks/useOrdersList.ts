@@ -189,7 +189,7 @@ const updateAttributes = (
   const status = attributes['status'].map((attr) => {
     const statusValues = [...values.status, attr.value]
     const deliveryValues = [...values.delivery]
-    const filteredOrders = new Filter(orders).by('deliveryMethod.id', deliveryValues).by('status.key', statusValues).getItems()
+    const filteredOrders = new Filter(orders).by('delivery', deliveryValues).by('status', statusValues).getItems()
     
     return {
       value: attr.value,
@@ -201,7 +201,7 @@ const updateAttributes = (
   const delivery = attributes['delivery'].map((attr) => {
     const deliveryValues = [...values.delivery, attr.value]
     const statusValues = [...values.status]
-    const filteredOrders = new Filter(orders).by('deliveryMethod.id', deliveryValues).by('status.key', statusValues).getItems()
+    const filteredOrders = new Filter(orders).by('delivery', deliveryValues).by('status', statusValues).getItems()
     return {
       value: attr.value,
       label: attr.label,
@@ -241,8 +241,8 @@ export const filterOrders = (
   values: TOrdersFilterAttributes
 ): IOrder[] => {
   return new Filter(orders)
-    .by('status.key', values.status)
-    .by('deliveryMethod.id', values.delivery)
+    .by('status', values.status)
+    .by('delivery', values.delivery)
     .getItems()
 }
 
@@ -258,7 +258,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   )
   const deliveryWithCount = addCountToAttribute(
     orders,
-    'deliveryMethod.id',
+    'delivery',
     delivery
   )
 
@@ -266,7 +266,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     return { value: status.key, label: status.value }
   })
 
-  const statusWithCount = addCountToAttribute(orders, 'status.key', status)
+  const statusWithCount = addCountToAttribute(orders, 'status', status)
 
   /**
    * State
