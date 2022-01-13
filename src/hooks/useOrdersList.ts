@@ -91,6 +91,7 @@ const addCountToAttribute = function (
 ): FilterChoiceValue[] {
   return options.map<FilterChoiceValue>((option) => {
     const { label, value } = option
+
     const filteredOrders = new Filter(orders)
       .by(attributeName, [value])
       .getItems()
@@ -145,42 +146,71 @@ const getFilterValuesFromUrl = function (
   }, {})
 }
 
-const updateAttributeValuesCount = (
-  key: string,
-  values: string[],
+// const updateAttributeValuesCount = (
+//   key: string,
+//   values: string[],
+//   orders: IOrder[],
+//   attributes: FilterChoiceValue[]
+// ): FilterChoiceValue[] => {
+
+//   return attributes.map((attr) => {
+//     const nextValues = [...values, attr.value]
+//     console.log(key, nextValues);
+//     const filteredOrders = new Filter(orders).by(key, nextValues).getItems()
+//     return {
+//       value: attr.value,
+//       label: attr.label,
+//       count: filteredOrders.length,
+//     }
+//   })
+// }
+
+const updateAttributes = (
+  values: TOrdersFilterAttributes,
   orders: IOrder[],
-  attributes: FilterChoiceValue[]
-): FilterChoiceValue[] => {
-  return attributes.map((attr) => {
-    const nextValues = [...values, attr.value]
-    const filteredOrders = new Filter(orders).by(key, nextValues).getItems()
+  attributes: IOrderAttributes
+) => {
+  // const newAttributes: IOrderAttributes = {
+  //   status: updateAttributeValuesCount(
+  //     'status.key',
+  //     newValues.status,
+  //     orders,
+  //     attributes['status']
+  //   ),
+  //   delivery: updateAttributeValuesCount(
+  //     'deliveryMethod.id',
+  //     newValues.delivery,
+  //     orders,
+  //     attributes['delivery']
+  //   ),
+  // }
+  // return newAttributes
+
+  const status = attributes['status'].map((attr) => {
+    const statusValues = [...values.status, attr.value]
+    const deliveryValues = [...values.delivery]
+    const filteredOrders = new Filter(orders).by('deliveryMethod.id', deliveryValues).by('status.key', statusValues).getItems()
+    
     return {
       value: attr.value,
       label: attr.label,
       count: filteredOrders.length,
     }
   })
-}
 
-const updateAttributes = (
-  newValues: TOrdersFilterAttributes,
-  orders: IOrder[],
-  attributes: IOrderAttributes
-) => {
-  const newAttributes: IOrderAttributes = {
-    status: updateAttributeValuesCount(
-      'status.key',
-      newValues.status,
-      orders,
-      attributes['status']
-    ),
-    delivery: updateAttributeValuesCount(
-      'deliveryMethod.id',
-      newValues.delivery,
-      orders,
-      attributes['delivery']
-    ),
-  }
+  const delivery = attributes['delivery'].map((attr) => {
+    const deliveryValues = [...values.delivery, attr.value]
+    const statusValues = [...values.status]
+    const filteredOrders = new Filter(orders).by('deliveryMethod.id', deliveryValues).by('status.key', statusValues).getItems()
+    return {
+      value: attr.value,
+      label: attr.label,
+      count: filteredOrders.length,
+    }
+  })
+
+  const newAttributes: IOrderAttributes = {status, delivery}
+  //console.log(newAttributes);
   return newAttributes
 }
 
@@ -295,8 +325,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
    * Actions
    */
   const sortingHandler: TUseOrderListActions['sortingHandler'] = (sorting) => {
-    console.log('sorting handler')
-
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
   const filterHandler: TUseOrderListActions['filterHandler'] = (newValue) => {
