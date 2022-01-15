@@ -2,7 +2,7 @@ import { propertyFromDottedString } from '../../shared/utilities'
 
 const tempMapper = {
   status: 'status.key',
-  delivery: 'deliveryMethod.id'
+  delivery: 'deliveryMethod.id',
 }
 
 export class Filter<T> {
@@ -15,6 +15,14 @@ export class Filter<T> {
         const itemValue = propertyFromDottedString(item, tempMapper[filterBy])
         return values.includes(itemValue)
       })
+    }
+
+    return this
+  }
+
+  public byAll(attributes: { [key: string]: string[] }): this {
+    for(const attr in attributes) {
+      this.by(attr, attributes[attr])
     }
 
     return this

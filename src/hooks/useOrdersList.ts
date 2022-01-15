@@ -187,10 +187,12 @@ const updateAttributes = (
   // return newAttributes
 
   const status = attributes['status'].map((attr) => {
-    const statusValues = [...values.status, attr.value]
-    const deliveryValues = [...values.delivery]
-    const filteredOrders = new Filter(orders).by('delivery', deliveryValues).by('status', statusValues).getItems()
-    
+    const statusValues = [...values['status'], attr.value]
+    const deliveryValues = values['delivery']
+    const filteredOrders = new Filter(orders)
+      .byAll({ ['delivery']: deliveryValues, ['status']: statusValues })
+      .getItems()
+
     return {
       value: attr.value,
       label: attr.label,
@@ -199,9 +201,11 @@ const updateAttributes = (
   })
 
   const delivery = attributes['delivery'].map((attr) => {
-    const deliveryValues = [...values.delivery, attr.value]
-    const statusValues = [...values.status]
-    const filteredOrders = new Filter(orders).by('delivery', deliveryValues).by('status', statusValues).getItems()
+    const deliveryValues = [...values['delivery'], attr.value]
+    const statusValues = values['status']
+    const filteredOrders = new Filter(orders)
+      .byAll({ ['delivery']: deliveryValues, ['status']: statusValues })
+      .getItems()
     return {
       value: attr.value,
       label: attr.label,
@@ -209,7 +213,7 @@ const updateAttributes = (
     }
   })
 
-  const newAttributes: IOrderAttributes = {status, delivery}
+  const newAttributes: IOrderAttributes = { status, delivery }
   //console.log(newAttributes);
   return newAttributes
 }
@@ -256,11 +260,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
       return { value: delivery.id, label: delivery.title }
     }
   )
-  const deliveryWithCount = addCountToAttribute(
-    orders,
-    'delivery',
-    delivery
-  )
+  const deliveryWithCount = addCountToAttribute(orders, 'delivery', delivery)
 
   const status = getAttributeFromOrders(orders, 'status', (status) => {
     return { value: status.key, label: status.value }
