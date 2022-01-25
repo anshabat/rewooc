@@ -29,7 +29,7 @@ type TQueryParams = TOrdersFilterAttributes &
   TOrdersSorting & { pages: TOrdersPages }
 
 interface TState {
-  filter: TOrdersFilterAttributes
+  values: TOrdersFilterAttributes
   sorting: TOrdersSorting
   pages: TOrdersPages
   attributes: IOrderAttributes
@@ -180,11 +180,11 @@ const getInitialStateFromUrl = function (
   return {
     ...initialState,
     attributes: updateAttributes(
-      getFilterValuesFromUrl(initialState.filter, params),
+      getFilterValuesFromUrl(initialState.values, params),
       orders,
       initialState.attributes
     ),
-    filter: getFilterValuesFromUrl(initialState.filter, params),
+    values: getFilterValuesFromUrl(initialState.values, params),
     sorting: {
       orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
       direction: params.direction === 'desc' ? params.direction : 'asc',
@@ -234,7 +234,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
    */
   const initialState: TState = {
     attributes: initialAttributes,
-    filter: initialValues,
+    values: initialValues,
     sorting: {
       orderBy: 'id',
       direction: 'asc',
@@ -251,7 +251,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
         case 'FILTER':
           return {
             ...initialState,
-            filter: { ...state.filter, ...action.payload.value },
+            values: { ...state.values, ...action.payload.value },
             attributes: action.payload.attributes,
           }
         case 'CLEAR':
@@ -269,11 +269,11 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     (initialState) => getInitialStateFromUrl(initialState, params, orders)
   )
 
-  const { pages, sorting, filter, attributes } = state
+  const { pages, sorting, values, attributes } = state
 
   useEffect(() => {
     const pagesParam = pages.map((p) => String(p))
-    updateParams({ ...filter, ...sorting, pages: pagesParam })
+    updateParams({ ...values, ...sorting, pages: pagesParam })
   }, [state])
 
   /**
@@ -284,7 +284,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   }
   const filterHandler: TUseOrderListActions['filterHandler'] = (newValue) => {
     const newAttributes = updateAttributes(
-      { ...filter, ...newValue },
+      { ...values, ...newValue },
       orders,
       attributes
     )
@@ -313,11 +313,11 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
    */
   const getCurrentPageOrders = function () {
     const sortedOrders = sortObjects(orders, sorting)
-    const filteredOrders = filterOrders(sortedOrders, filter)
+    const filteredOrders = filterOrders(sortedOrders, values)
     return getItemsPageSlice(filteredOrders, pages, PER_PAGE)
   }
   const getOrdersTotal = function () {
-    const filteredOrders = filterOrders(orders, filter)
+    const filteredOrders = filterOrders(orders, values)
     return filteredOrders.length
   }
 

@@ -18,7 +18,7 @@ const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
 
   const { state, perPage, actions, selectors } = useOrdersList(orders)
-  const { pages, sorting, filter, attributes } = state
+  const { pages, sorting, values, attributes } = state
   const {
     filterHandler,
     sortingHandler,
@@ -35,7 +35,7 @@ const OrdersList: FC<IProps> = (props) => {
         <OrdersFilter
           attributes={attributes}
           onFilter={filterHandler}
-          values={filter}
+          values={values}
           onClear={clearFilter}
         />
       </div>
