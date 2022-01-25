@@ -2,11 +2,11 @@ import React, { ReactElement } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { IFilter } from 'app-services/filter'
-import {IOrderAttributes, TOrdersFilterAttributes} from '../../../../hooks/useOrdersList'
+import {IOrderAttributes, TOrderAttributes, TOrdersFilterAttributes} from '../../../../hooks/useOrdersList'
 
 //TODO remove any
 interface IProps {
-  attributes: IOrderAttributes
+  attributes: TOrderAttributes
   values: TOrdersFilterAttributes
   onFilter: (values: any) => void
   onClear: () => void
@@ -21,7 +21,7 @@ function OrdersFilter(props: IProps): ReactElement {
       label: 'Status',
       valuesComponent: (
         <ChoiceList
-          options={attributes.status}
+          options={attributes[0].options}
           defaultOptions={values.status}
           onChange={(newValues) => {
             onFilter({ status: newValues })
@@ -35,7 +35,7 @@ function OrdersFilter(props: IProps): ReactElement {
       label: 'Delivery',
       valuesComponent: (
         <ChoiceList
-          options={attributes.delivery}
+          options={attributes[1].options}
           defaultOptions={values.delivery}
           onChange={(newValues) => {
             onFilter({ delivery: newValues })

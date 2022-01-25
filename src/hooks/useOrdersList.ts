@@ -7,6 +7,17 @@ import { IParam, useQuery } from 'app-services/query'
 /**
  * Types
  */
+interface TFilterAttribute {
+  key: string
+  type: string
+}
+
+interface TFilterChoiseAttribute extends TFilterAttribute {
+  options: FilterChoiceValue[]
+}
+
+export type TOrderAttributes = Array<TFilterChoiseAttribute>
+
 export interface IOrderAttributes {
   delivery: FilterChoiceValue[]
   status: FilterChoiceValue[]
@@ -29,10 +40,10 @@ type TQueryParams = TOrdersFilterAttributes &
   TOrdersSorting & { pages: TOrdersPages }
 
 interface TState {
+  attributes: TOrderAttributes
   values: TOrdersFilterAttributes
   sorting: TOrdersSorting
   pages: TOrdersPages
-  attributes: IOrderAttributes
 }
 
 interface TUseOrderListActions {
@@ -60,39 +71,9 @@ interface TUseOrdersList {
  */
 const PER_PAGE = 3
 
-/**
- * Helpers
- */
-const getAttributeFromOrders = function (
-  orders: any[],
-  attributeName: keyof IOrder,
-  cb: (arg: any) => FilterChoiceValue
-) {
-  return orders
-    .map((order) => {
-      return { ...order, [attributeName]: cb(order[attributeName]) }
-    })
-    .reduce<any[]>((prev, order) => {
-      const existing = prev.some((i) => i.value === order[attributeName].value)
-      return existing ? prev : prev.concat(order[attributeName])
-    }, [])
-    .map<FilterChoiceValue>((attr) => {
-      return {
-        label: attr.label,
-        value: String(attr.value),
-      }
-    })
-}
-
-const getValuesArrayFromQueryParams = (
-  param: string | string[] | undefined
-): string[] => {
-  if (!param) {
-    return []
-  }
-  return Array.isArray(param) ? param : [param]
-}
-
+/**************************************************************
+ * Paginations helpers
+ *************************************************************/
 const getInitialPages = (queryParams: IParam<TQueryParams>) => {
   const { pages } = queryParams
   if (!pages) return [1]
@@ -113,6 +94,18 @@ const getItemsPageSlice = function <T>(
   return items.slice(fromIndex, toIndex)
 }
 
+/**************************************************************
+ * URL Helpers
+ *************************************************************/
+const getValuesArrayFromQueryParams = (
+  param: string | string[] | undefined
+): string[] => {
+  if (!param) {
+    return []
+  }
+  return Array.isArray(param) ? param : [param]
+}
+
 const getFilterValuesFromUrl = function (
   initialValues: any,
   params: IParam<TQueryParams>
@@ -125,51 +118,6 @@ const getFilterValuesFromUrl = function (
     ]
     return result
   }, {})
-}
-
-function addCountToAttributeOption(
-  key: string,
-  options: FilterChoiceValue[],
-  orders: IOrder[],
-  initialValues: TOrdersFilterAttributes
-): FilterChoiceValue[] {
-  return options.map((option) => {
-    const vals = mergeValues(initialValues, { [key]: option.value })
-    const filteredOrders = filterOrders(orders, vals)
-    return { ...option, count: filteredOrders.length }
-  })
-}
-
-// TODO change Record<string, string> to smth like Record<keyof TOrdersFilterAttributes, string>
-const mergeValues = (
-  currentValues: TOrdersFilterAttributes,
-  newValue: Record<string, string>
-) => {
-  const values = { ...currentValues }
-  const key = Object.keys(newValue)[0] as keyof TOrdersFilterAttributes
-  values[key] = [...values[key], newValue[key]]
-  return values
-}
-
-const updateAttributes = (
-  values: TOrdersFilterAttributes,
-  orders: IOrder[],
-  attributes: IOrderAttributes
-) => {
-  return {
-    status: addCountToAttributeOption(
-      'status',
-      attributes['status'],
-      orders,
-      values
-    ),
-    delivery: addCountToAttributeOption(
-      'delivery',
-      attributes['delivery'],
-      orders,
-      values
-    ),
-  }
 }
 
 const getInitialStateFromUrl = function (
@@ -194,6 +142,97 @@ const getInitialStateFromUrl = function (
   }
 }
 
+/**************************************************************
+ * Filter helpers
+ *************************************************************/
+const getAttributeFromOrders = function (
+  orders: any[],
+  attributeName: keyof IOrder,
+  cb: (arg: any) => FilterChoiceValue
+): FilterChoiceValue[] {
+  return orders
+    .map((order) => {
+      return { ...order, [attributeName]: cb(order[attributeName]) }
+    })
+    .reduce<any[]>((prev, order) => {
+      const existing = prev.some((i) => i.value === order[attributeName].value)
+      return existing ? prev : prev.concat(order[attributeName])
+    }, [])
+    .map<FilterChoiceValue>((attr) => {
+      return {
+        label: attr.label,
+        value: String(attr.value),
+      }
+    })
+}
+
+const mergeValues = (
+  currentValues: TOrdersFilterAttributes,
+  newValue: Record<string, string>
+) => {
+  // TODO change Record<string, string> to smth like Record<keyof TOrdersFilterAttributes, string>
+  const values = { ...currentValues }
+  const key = Object.keys(newValue)[0] as keyof TOrdersFilterAttributes
+  values[key] = [...values[key], newValue[key]]
+  return values
+}
+
+function addCountToAttributeOption(
+  key: string,
+  options: FilterChoiceValue[],
+  orders: IOrder[],
+  initialValues: TOrdersFilterAttributes
+): FilterChoiceValue[] {
+  return options.map((option) => {
+    const vals = mergeValues(initialValues, { [key]: option.value })
+    const filteredOrders = filterOrders(orders, vals)
+    return { ...option, count: filteredOrders.length }
+  })
+}
+
+const updateAttributes = (
+  values: TOrdersFilterAttributes,
+  orders: IOrder[],
+  attributes: TOrderAttributes
+): TOrderAttributes => {
+  return [
+    {
+      key: 'status',
+      type: 'choise',
+      options: addCountToAttributeOption(
+        'status',
+        attributes[0].options,
+        orders,
+        values
+      ),
+    },
+    {
+      key: 'delivery',
+      type: 'choise',
+      options: addCountToAttributeOption(
+        'delivery',
+        attributes[1].options,
+        orders,
+        values
+      ),
+    },
+  ]
+  // return {
+  //   status: addCountToAttributeOption(
+  //     'status',
+  //     attributes['status'],
+  //     orders,
+  //     values
+  //   ),
+  //   delivery: addCountToAttributeOption(
+  //     'delivery',
+  //     attributes['delivery'],
+  //     orders,
+  //     values
+  //   ),
+  // }
+}
+
 export const filterOrders = (
   orders: IOrder[],
   values: TOrdersFilterAttributes
@@ -204,6 +243,9 @@ export const filterOrders = (
     .getItems()
 }
 
+/**************************************************************
+ * useOrdersList HOOK
+ *************************************************************/
 export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const { params, updateParams } = useQuery<TQueryParams>()
 
@@ -214,7 +256,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     status: [],
     delivery: [],
   }
-
   const delivery = getAttributeFromOrders(
     orders,
     'deliveryMethod',
@@ -222,12 +263,13 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
       return { value: delivery.id, label: delivery.title }
     }
   )
-
   const status = getAttributeFromOrders(orders, 'status', (status) => {
     return { value: status.key, label: status.value }
   })
-
-  const initialAttributes = updateAttributes(initialValues, orders, {delivery, status})
+  const initialAttributes = updateAttributes(initialValues, orders, [
+    { key: 'status', type: 'choise', options: status },
+    { key: 'delivery', type: 'choise', options: delivery },
+  ])
 
   /**
    * State
