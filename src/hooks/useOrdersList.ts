@@ -1,23 +1,12 @@
 import { useReducer, useEffect } from 'react'
 import { IOrder, ISorting } from 'app-types'
-import { FilterChoiceValue, Filter } from 'app-services/filter'
+import { FilterChoiceValue } from 'app-services/filter'
 import { sortObjects } from '../shared/utilities'
 import { IParam, useQuery } from 'app-services/query'
-
+import { TOrderAttributes, getAttributes, updateAttributes, filterOrders } from '../api/order/ordersFilterApi'
 /**
  * Types
  */
-interface TFilterAttribute {
-  key: string
-  type: string
-}
-
-interface TFilterChoiseAttribute extends TFilterAttribute {
-  options: FilterChoiceValue[]
-}
-
-export type TOrderAttributes = Array<TFilterChoiseAttribute>
-
 export interface IOrderAttributes {
   delivery: FilterChoiceValue[]
   status: FilterChoiceValue[]
@@ -66,37 +55,16 @@ interface TUseOrdersList {
   selectors: TUseOrderListSelectors
 }
 
-/**
- * Constants
- */
-const PER_PAGE = 3
-
 /**************************************************************
- * Paginations helpers
+ * URL Helpers
  *************************************************************/
-const getInitialPages = (queryParams: IParam<TQueryParams>) => {
+ const getInitialPages = (queryParams: IParam<TQueryParams>) => {
   const { pages } = queryParams
   if (!pages) return [1]
   const pagesParam = Array.isArray(pages) ? pages : [pages]
   return pagesParam.map((p) => Number(p))
 }
 
-const getItemsPageSlice = function <T>(
-  items: T[],
-  pages: TOrdersPages,
-  perPage: number
-) {
-  const fromIndex = perPage * (pages[0] - 1)
-  const toIndex = perPage * pages[pages.length - 1]
-  if (fromIndex >= items.length) {
-    return items
-  }
-  return items.slice(fromIndex, toIndex)
-}
-
-/**************************************************************
- * URL Helpers
- *************************************************************/
 const getValuesArrayFromQueryParams = (
   param: string | string[] | undefined
 ): string[] => {
@@ -141,139 +109,46 @@ const getInitialStateFromUrl = function (
     pages: getInitialPages(params),
   }
 }
-
 /**************************************************************
- * Filter helpers
+ * END URL Helpers
  *************************************************************/
-const getAttributeFromOrders = function (
-  orders: any[],
-  attributeName: keyof IOrder,
-  cb: (arg: any) => FilterChoiceValue
-): FilterChoiceValue[] {
-  return orders
-    .map((order) => {
-      return { ...order, [attributeName]: cb(order[attributeName]) }
-    })
-    .reduce<any[]>((prev, order) => {
-      const existing = prev.some((i) => i.value === order[attributeName].value)
-      return existing ? prev : prev.concat(order[attributeName])
-    }, [])
-    .map<FilterChoiceValue>((attr) => {
-      return {
-        label: attr.label,
-        value: String(attr.value),
-      }
-    })
-}
 
-const mergeValues = (
-  currentValues: TOrdersFilterAttributes,
-  newValue: Record<string, string>
-) => {
-  // TODO change Record<string, string> to smth like Record<keyof TOrdersFilterAttributes, string>
-  const values = { ...currentValues }
-  const key = Object.keys(newValue)[0] as keyof TOrdersFilterAttributes
-  values[key] = [...values[key], newValue[key]]
-  return values
-}
 
-function addCountToAttributeOption(
-  key: string,
-  options: FilterChoiceValue[],
-  orders: IOrder[],
-  initialValues: TOrdersFilterAttributes
-): FilterChoiceValue[] {
-  return options.map((option) => {
-    const vals = mergeValues(initialValues, { [key]: option.value })
-    const filteredOrders = filterOrders(orders, vals)
-    return { ...option, count: filteredOrders.length }
-  })
-}
+/**
+ * Constants
+ */
+ const PER_PAGE = 3
 
-const updateAttributes = (
-  values: TOrdersFilterAttributes,
-  orders: IOrder[],
-  attributes: TOrderAttributes
-): TOrderAttributes => {
-  return [
-    {
-      key: 'status',
-      type: 'choise',
-      options: addCountToAttributeOption(
-        'status',
-        attributes[0].options,
-        orders,
-        values
-      ),
-    },
-    {
-      key: 'delivery',
-      type: 'choise',
-      options: addCountToAttributeOption(
-        'delivery',
-        attributes[1].options,
-        orders,
-        values
-      ),
-    },
-  ]
-  // return {
-  //   status: addCountToAttributeOption(
-  //     'status',
-  //     attributes['status'],
-  //     orders,
-  //     values
-  //   ),
-  //   delivery: addCountToAttributeOption(
-  //     'delivery',
-  //     attributes['delivery'],
-  //     orders,
-  //     values
-  //   ),
-  // }
-}
 
-export const filterOrders = (
-  orders: IOrder[],
-  values: TOrdersFilterAttributes
-): IOrder[] => {
-  return new Filter(orders)
-    .by('status.key', values.status)
-    .by('deliveryMethod.id', values.delivery)
-    .getItems()
-}
+ /**
+ * Helpers
+ */
+ const getItemsPageSlice = function <T>(
+   items: T[],
+   pages: TOrdersPages,
+   perPage: number
+ ) {
+   const fromIndex = perPage * (pages[0] - 1)
+   const toIndex = perPage * pages[pages.length - 1]
+   if (fromIndex >= items.length) {
+     return items
+   }
+   return items.slice(fromIndex, toIndex)
+ }
 
-/**************************************************************
- * useOrdersList HOOK
- *************************************************************/
+
 export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const { params, updateParams } = useQuery<TQueryParams>()
+  const attrs = getAttributes(orders)
 
-  /**
-   * Initial values
+   /**
+   * State
    */
   const initialValues = {
     status: [],
     delivery: [],
   }
-  const delivery = getAttributeFromOrders(
-    orders,
-    'deliveryMethod',
-    (delivery) => {
-      return { value: delivery.id, label: delivery.title }
-    }
-  )
-  const status = getAttributeFromOrders(orders, 'status', (status) => {
-    return { value: status.key, label: status.value }
-  })
-  const initialAttributes = updateAttributes(initialValues, orders, [
-    { key: 'status', type: 'choise', options: status },
-    { key: 'delivery', type: 'choise', options: delivery },
-  ])
-
-  /**
-   * State
-   */
+  const initialAttributes = updateAttributes(initialValues, orders, attrs)
   const initialState: TState = {
     attributes: initialAttributes,
     values: initialValues,
@@ -318,6 +193,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     updateParams({ ...values, ...sorting, pages: pagesParam })
   }, [state])
 
+  
   /**
    * Actions
    */
@@ -350,6 +226,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     }
   }
 
+  
   /**
    * Selectors
    */

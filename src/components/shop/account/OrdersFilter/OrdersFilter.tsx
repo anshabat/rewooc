@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react'
 import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 import ChoiceList from '../../../UI/Form/ChoiceList/ChoiceList'
 import { IFilter } from 'app-services/filter'
-import {IOrderAttributes, TOrderAttributes, TOrdersFilterAttributes} from '../../../../hooks/useOrdersList'
+import {TOrdersFilterAttributes} from '../../../../hooks/useOrdersList'
+import { TOrderAttributes } from '../../../../api/order/ordersFilterApi'
 
 //TODO remove any
 interface IProps {
