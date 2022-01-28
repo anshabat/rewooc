@@ -2,6 +2,7 @@ import { Filter, FilterChoiceValue } from 'app-services/filter'
 import { IOrder } from 'app-types'
 
 interface TFilterAttribute {
+  label: string
   key: string
   type: string
 }
@@ -10,14 +11,11 @@ interface TFilterChoiseAttribute extends TFilterAttribute {
   options: FilterChoiceValue[]
 }
 
-type TValues = {[key: string]: string[]}
+type TValues = { [key: string]: string[] }
 
-export type TOrderAttributes = Array<TFilterChoiseAttribute>
+export type TOrderAttribute = TFilterChoiseAttribute
 
-export const filterOrders = (
-  orders: IOrder[],
-  values: any
-): IOrder[] => {
+export const filterOrders = (orders: IOrder[], values: any): IOrder[] => {
   return new Filter(orders)
     .by('status.key', values.status)
     .by('deliveryMethod.id', values.delivery)
@@ -69,7 +67,7 @@ function addCountToAttributeOption(
   })
 }
 
-export function getAttributes(orders: IOrder[]): TOrderAttributes {
+export function getAttributes(orders: IOrder[]): TOrderAttribute[] {
   const deliveryOptions = getAttributeFromOrders(
     orders,
     'deliveryMethod',
@@ -82,19 +80,25 @@ export function getAttributes(orders: IOrder[]): TOrderAttributes {
   })
 
   return [
-    { key: 'status', type: 'choice', options: statusOptions },
-    { key: 'delivery', type: 'choice', options: deliveryOptions },
+    { key: 'status', label: 'Status', type: 'choice', options: statusOptions },
+    {
+      key: 'delivery',
+      label: 'Delivery',
+      type: 'choice',
+      options: deliveryOptions,
+    },
   ]
 }
 
 export const updateAttributes = (
   values: TValues,
   orders: IOrder[],
-  attributes: TOrderAttributes
-): TOrderAttributes => {
+  attributes: TOrderAttribute[]
+): TOrderAttribute[] => {
   return [
     {
       key: 'status',
+      label: 'Status',
       type: 'choice',
       options: addCountToAttributeOption(
         'status',
@@ -105,6 +109,7 @@ export const updateAttributes = (
     },
     {
       key: 'delivery',
+      label: 'Delivery',
       type: 'choice',
       options: addCountToAttributeOption(
         'delivery',

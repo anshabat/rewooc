@@ -1,5 +1,3 @@
-import { ReactElement } from 'react'
-
 export interface FilterChoiceValue {
   label: string
   value: string
@@ -9,6 +7,6 @@ export interface FilterChoiceValue {
 export interface IFilter<T = string> {
   key: T
   label: string
-  valuesComponent: ReactElement
+  type: string
   isApplied: boolean
 }

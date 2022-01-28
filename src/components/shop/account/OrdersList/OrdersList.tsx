@@ -2,10 +2,10 @@ import './OrdersList.scss'
 import React, { FC } from 'react'
 import { IOrder } from 'app-types'
 import OrdersTable from '../OrdersTable/OrdersTable'
-import OrdersFilter from '../OrdersFilter/OrdersFilter'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { useOrdersList } from '../../.././../hooks/useOrdersList'
+import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
 
 /**
  * Component
@@ -18,7 +18,7 @@ const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
 
   const { state, perPage, actions, selectors } = useOrdersList(orders)
-  const { pages, sorting, values, attributes } = state
+  const { pages, sorting, values } = state
   const {
     filterHandler,
     sortingHandler,
@@ -27,16 +27,16 @@ const OrdersList: FC<IProps> = (props) => {
     clearFilter,
   } = actions
 
-  const {getCurrentPageOrders, getOrdersTotal} = selectors
+  const { getCurrentPageOrders, getOrdersTotal, attributesSelector } = selectors
 
   return (
     <div className="rw-orders-list">
       <div className="rw-orders-list__filter">
-        <OrdersFilter
-          attributes={attributes}
-          onFilter={filterHandler}
+        <HorizontalFilter
+          attributes={attributesSelector()}
           values={values}
           onClear={clearFilter}
+          onFilter={filterHandler}
         />
       </div>
       <div className="rw-orders-list__table">

@@ -3,7 +3,12 @@ import { IOrder, ISorting } from 'app-types'
 import { FilterChoiceValue } from 'app-services/filter'
 import { sortObjects } from '../shared/utilities'
 import { IParam, useQuery } from 'app-services/query'
-import { TOrderAttributes, getAttributes, updateAttributes, filterOrders } from '../api/order/ordersFilterApi'
+import {
+  TOrderAttribute,
+  getAttributes,
+  updateAttributes,
+  filterOrders,
+} from '../api/order/ordersFilterApi'
 /**
  * Types
  */
@@ -15,6 +20,10 @@ export interface IOrderAttributes {
 export interface TOrdersFilterAttributes {
   delivery: string[]
   status: string[]
+}
+
+export interface TOrderAttributeSelector extends TOrderAttribute {
+  isApplied: boolean
 }
 
 interface TOrdersSorting {
@@ -29,7 +38,7 @@ type TQueryParams = TOrdersFilterAttributes &
   TOrdersSorting & { pages: TOrdersPages }
 
 interface TState {
-  attributes: TOrderAttributes
+  attributes: TOrderAttribute[]
   values: TOrdersFilterAttributes
   sorting: TOrdersSorting
   pages: TOrdersPages
@@ -46,6 +55,7 @@ interface TUseOrderListActions {
 interface TUseOrderListSelectors {
   getCurrentPageOrders: () => IOrder[]
   getOrdersTotal: () => number
+  attributesSelector: () => TOrderAttributeSelector[]
 }
 
 interface TUseOrdersList {
@@ -58,7 +68,7 @@ interface TUseOrdersList {
 /**************************************************************
  * URL Helpers
  *************************************************************/
- const getInitialPages = (queryParams: IParam<TQueryParams>) => {
+const getInitialPages = (queryParams: IParam<TQueryParams>) => {
   const { pages } = queryParams
   if (!pages) return [1]
   const pagesParam = Array.isArray(pages) ? pages : [pages]
@@ -113,35 +123,32 @@ const getInitialStateFromUrl = function (
  * END URL Helpers
  *************************************************************/
 
-
 /**
  * Constants
  */
- const PER_PAGE = 3
+const PER_PAGE = 3
 
-
- /**
+/**
  * Helpers
  */
- const getItemsPageSlice = function <T>(
-   items: T[],
-   pages: TOrdersPages,
-   perPage: number
- ) {
-   const fromIndex = perPage * (pages[0] - 1)
-   const toIndex = perPage * pages[pages.length - 1]
-   if (fromIndex >= items.length) {
-     return items
-   }
-   return items.slice(fromIndex, toIndex)
- }
-
+const getItemsPageSlice = function <T>(
+  items: T[],
+  pages: TOrdersPages,
+  perPage: number
+) {
+  const fromIndex = perPage * (pages[0] - 1)
+  const toIndex = perPage * pages[pages.length - 1]
+  if (fromIndex >= items.length) {
+    return items
+  }
+  return items.slice(fromIndex, toIndex)
+}
 
 export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const { params, updateParams } = useQuery<TQueryParams>()
   const attrs = getAttributes(orders)
 
-   /**
+  /**
    * State
    */
   const initialValues = {
@@ -193,7 +200,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     updateParams({ ...values, ...sorting, pages: pagesParam })
   }, [state])
 
-  
   /**
    * Actions
    */
@@ -226,7 +232,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     }
   }
 
-  
   /**
    * Selectors
    */
@@ -238,6 +243,13 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const getOrdersTotal = function () {
     const filteredOrders = filterOrders(orders, values)
     return filteredOrders.length
+  }
+  const attributesSelector = function name(): TOrderAttributeSelector[] {
+    return attributes.map((attr) => {
+      const val = values[attr.key as keyof TOrdersFilterAttributes]
+      const isApplied =  val ? Boolean(val.length) : false
+      return { ...attr, isApplied }
+    })
   }
 
   return {
@@ -253,6 +265,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     selectors: {
       getCurrentPageOrders,
       getOrdersTotal,
+      attributesSelector
     },
   }
 }
