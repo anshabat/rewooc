@@ -11,9 +11,9 @@ interface TFilterChoiseAttribute extends TFilterAttribute {
   options: FilterChoiceValue[]
 }
 
-type TValues = { [key: string]: string[] }
-
 export type TOrderAttribute = TFilterChoiseAttribute
+
+type TValues = { [key: string]: string[] }
 
 export const filterOrders = (orders: IOrder[], values: any): IOrder[] => {
   return new Filter(orders)
@@ -54,7 +54,7 @@ const mergeValues = (
   return values
 }
 
-function addCountToAttributeOption(
+function calculateOptionsCount(
   key: string,
   options: FilterChoiceValue[],
   orders: IOrder[],
@@ -100,7 +100,7 @@ export const updateAttributes = (
       key: 'status',
       label: 'Status',
       type: 'choice',
-      options: addCountToAttributeOption(
+      options: calculateOptionsCount(
         'status',
         attributes[0].options,
         orders,
@@ -111,7 +111,7 @@ export const updateAttributes = (
       key: 'delivery',
       label: 'Delivery',
       type: 'choice',
-      options: addCountToAttributeOption(
+      options: calculateOptionsCount(
         'delivery',
         attributes[1].options,
         orders,
