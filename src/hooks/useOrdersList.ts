@@ -4,7 +4,7 @@ import { FilterChoiceValue } from 'app-services/filter'
 import { sortObjects } from '../shared/utilities'
 import { IParam, useQuery } from 'app-services/query'
 import {
-  TOrderAttribute,
+  TFilterChoiseAttribute,
   getAttributes,
   updateAttributes,
   filterOrders,
@@ -22,10 +22,6 @@ export interface TOrdersFilterAttributes {
   status: string[]
 }
 
-export interface TOrderAttributeSelector extends TOrderAttribute {
-  isApplied: boolean
-}
-
 interface TOrdersSorting {
   orderBy: string
   direction: 'asc' | 'desc'
@@ -38,7 +34,7 @@ type TQueryParams = TOrdersFilterAttributes &
   TOrdersSorting & { pages: TOrdersPages }
 
 interface TState {
-  attributes: TOrderAttribute[]
+  attributes: TFilterChoiseAttribute[]
   values: TOrdersFilterAttributes
   sorting: TOrdersSorting
   pages: TOrdersPages
@@ -55,7 +51,6 @@ interface TUseOrderListActions {
 interface TUseOrderListSelectors {
   getCurrentPageOrders: () => IOrder[]
   getOrdersTotal: () => number
-  attributesSelector: () => TOrderAttributeSelector[]
 }
 
 interface TUseOrdersList {
@@ -244,13 +239,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     const filteredOrders = filterOrders(orders, values)
     return filteredOrders.length
   }
-  const attributesSelector = function name(): TOrderAttributeSelector[] {
-    return attributes.map((attr) => {
-      const val = values[attr.key as keyof TOrdersFilterAttributes]
-      const isApplied =  val ? Boolean(val.length) : false
-      return { ...attr, isApplied }
-    })
-  }
 
   return {
     state,
@@ -265,7 +253,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     selectors: {
       getCurrentPageOrders,
       getOrdersTotal,
-      attributesSelector
     },
   }
 }

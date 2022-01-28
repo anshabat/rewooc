@@ -10,20 +10,18 @@ import React, {
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import { IFilter } from 'app-services/filter'
-import {
-  TOrderAttributeSelector,
-  TOrdersFilterAttributes,
-} from 'src/hooks/useOrdersList'
+import { TOrdersFilterAttributes } from 'src/hooks/useOrdersList'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
+import { TFilterChoiseAttribute } from 'src/api/order/ordersFilterApi'
 
-interface HorizontalFilterProps {
-  attributes: TOrderAttributeSelector[]
+interface TProps {
+  attributes: TFilterChoiseAttribute[]
   values: TOrdersFilterAttributes
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
   onFilter: (values: any) => void
 }
 
-const HorizontalFilter: FC<HorizontalFilterProps> = (props) => {
+const HorizontalFilter: FC<TProps> = (props) => {
   const { attributes, values, onFilter, onClear } = props
   const [openedAttribute, setOpenedAttribute] = useState<number | null>(null)
 
@@ -57,7 +55,7 @@ const HorizontalFilter: FC<HorizontalFilterProps> = (props) => {
   }
 
   const renderAttributeComponent = function (
-    attr: TOrderAttributeSelector,
+    attr: TFilterChoiseAttribute,
     value: any
   ): ReactElement {
     switch (attr.type) {

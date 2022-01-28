@@ -1,17 +1,17 @@
 import { Filter, FilterChoiceValue } from 'app-services/filter'
 import { IOrder } from 'app-types'
+import { ownKeys } from 'immer/dist/internal'
 
 interface TFilterAttribute {
   label: string
   key: string
   type: string
+  isApplied: boolean
 }
 
-interface TFilterChoiseAttribute extends TFilterAttribute {
+export interface TFilterChoiseAttribute extends TFilterAttribute {
   options: FilterChoiceValue[]
 }
-
-export type TOrderAttribute = TFilterChoiseAttribute
 
 type TValues = { [key: string]: string[] }
 
@@ -67,7 +67,11 @@ function calculateOptionsCount(
   })
 }
 
-export function getAttributes(orders: IOrder[]): TOrderAttribute[] {
+const isAttributeAppliedSelector = function (key: string, values: TValues) {
+  return values[key] ? Boolean(values[key].length) : false
+}
+
+export function getAttributes(orders: IOrder[]): TFilterChoiseAttribute[] {
   const deliveryOptions = getAttributeFromOrders(
     orders,
     'deliveryMethod',
@@ -80,11 +84,18 @@ export function getAttributes(orders: IOrder[]): TOrderAttribute[] {
   })
 
   return [
-    { key: 'status', label: 'Status', type: 'choice', options: statusOptions },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'choice',
+      isApplied: false,
+      options: statusOptions,
+    },
     {
       key: 'delivery',
       label: 'Delivery',
       type: 'choice',
+      isApplied: false,
       options: deliveryOptions,
     },
   ]
@@ -93,13 +104,14 @@ export function getAttributes(orders: IOrder[]): TOrderAttribute[] {
 export const updateAttributes = (
   values: TValues,
   orders: IOrder[],
-  attributes: TOrderAttribute[]
-): TOrderAttribute[] => {
+  attributes: TFilterChoiseAttribute[]
+): TFilterChoiseAttribute[] => {
   return [
     {
       key: 'status',
       label: 'Status',
       type: 'choice',
+      isApplied: isAttributeAppliedSelector('status', values),
       options: calculateOptionsCount(
         'status',
         attributes[0].options,
@@ -111,6 +123,7 @@ export const updateAttributes = (
       key: 'delivery',
       label: 'Delivery',
       type: 'choice',
+      isApplied: isAttributeAppliedSelector('delivery', values),
       options: calculateOptionsCount(
         'delivery',
         attributes[1].options,

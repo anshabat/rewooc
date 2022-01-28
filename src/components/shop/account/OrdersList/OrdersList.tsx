@@ -18,7 +18,7 @@ const OrdersList: FC<IProps> = (props) => {
   const { orders } = props
 
   const { state, perPage, actions, selectors } = useOrdersList(orders)
-  const { pages, sorting, values } = state
+  const { attributes, pages, sorting, values } = state
   const {
     filterHandler,
     sortingHandler,
@@ -27,13 +27,13 @@ const OrdersList: FC<IProps> = (props) => {
     clearFilter,
   } = actions
 
-  const { getCurrentPageOrders, getOrdersTotal, attributesSelector } = selectors
+  const { getCurrentPageOrders, getOrdersTotal } = selectors
 
   return (
     <div className="rw-orders-list">
       <div className="rw-orders-list__filter">
         <HorizontalFilter
-          attributes={attributesSelector()}
+          attributes={attributes}
           values={values}
           onClear={clearFilter}
           onFilter={filterHandler}
