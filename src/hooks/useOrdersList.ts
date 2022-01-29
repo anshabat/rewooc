@@ -8,11 +8,13 @@ import {
   filterOrders,
 } from '../api/order/ordersFilterApi'
 import { TFilterChoiseAttribute } from 'app-services/filter'
+
+
 /**
  * Types
  */
 
-export interface TOrdersFilterAttributes {
+export interface TFilterValues {
   delivery: string[]
   status: string[]
 }
@@ -25,19 +27,19 @@ interface TOrdersSorting {
 
 type TOrdersPages = number[]
 
-type TQueryParams = TOrdersFilterAttributes &
+type TQueryParams = TFilterValues &
   TOrdersSorting & { pages: TOrdersPages }
 
 interface TState {
   attributes: TFilterChoiseAttribute[]
-  values: TOrdersFilterAttributes
+  values: TFilterValues
   sorting: TOrdersSorting
   pages: TOrdersPages
 }
 
 interface TUseOrderListActions {
   sortingHandler: (sorting: ISorting) => void
-  filterHandler: (newValue: Partial<TOrdersFilterAttributes>) => void
+  filterHandler: (newValue: Partial<TFilterValues>) => void
   clearFilter: () => void
   changePage: (page: number) => void
   loadMore: () => void
@@ -81,7 +83,7 @@ const getFilterValuesFromUrl = function (
   return Object.keys(initialValues).reduce<any>((result, attribute) => {
     result[attribute] = [
       ...getValuesArrayFromQueryParams(
-        params[attribute as keyof TOrdersFilterAttributes]
+        params[attribute as keyof TFilterValues]
       ),
     ]
     return result

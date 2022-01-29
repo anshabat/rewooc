@@ -1,9 +1,8 @@
 import { Filter, FilterChoiceValue, TFilterChoiseAttribute } from 'app-services/filter'
 import { IOrder } from 'app-types'
+import { TFilterValues } from 'src/hooks/useOrdersList'
 
-type TValues = { [key: string]: string[] }
-
-export const filterOrders = (orders: IOrder[], values: any): IOrder[] => {
+export const filterOrders = (orders: IOrder[], values: TFilterValues): IOrder[] => {
   return new Filter(orders)
     .by('status.key', values.status)
     .by('deliveryMethod.id', values.delivery)
@@ -32,12 +31,12 @@ const getAttributeFromOrders = function (
 }
 
 const mergeValues = (
-  currentValues: TValues,
+  currentValues: TFilterValues,
   newValue: Record<string, string>
 ) => {
   // TODO change Record<string, string> to smth like Record<keyof TOrdersFilterAttributes, string>
   const values = { ...currentValues }
-  const key = Object.keys(newValue)[0] as keyof TValues
+  const key = Object.keys(newValue)[0] as keyof TFilterValues
   values[key] = [...values[key], newValue[key]]
   return values
 }
@@ -46,7 +45,7 @@ function calculateOptionsCount(
   key: string,
   options: FilterChoiceValue[],
   orders: IOrder[],
-  initialValues: TValues
+  initialValues: TFilterValues
 ): FilterChoiceValue[] {
   return options.map((option) => {
     const vals = mergeValues(initialValues, { [key]: option.value })
@@ -55,7 +54,7 @@ function calculateOptionsCount(
   })
 }
 
-const isAttributeAppliedSelector = function (key: string, values: TValues) {
+const isAttributeAppliedSelector = function (key: keyof TFilterValues, values: TFilterValues) {
   return values[key] ? Boolean(values[key].length) : false
 }
 
@@ -90,7 +89,7 @@ export function getAttributes(orders: IOrder[]): TFilterChoiseAttribute[] {
 }
 
 export const updateAttributes = (
-  values: TValues,
+  values: TFilterValues,
   orders: IOrder[],
   attributes: TFilterChoiseAttribute[]
 ): TFilterChoiseAttribute[] => {
