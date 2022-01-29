@@ -1,8 +1,9 @@
-import { Filter, FilterChoiceValue, TFilterChoiseAttribute } from 'app-services/filter'
+import { Filter, FilterChoiceValue, TFilterChoiseAttribute, TFilterValues } from 'app-services/filter'
 import { IOrder } from 'app-types'
-import { TFilterValues } from 'src/hooks/useOrdersList'
 
-export const filterOrders = (orders: IOrder[], values: TFilterValues): IOrder[] => {
+export type TOrderFilterValues = TFilterValues<'delivery' | 'status'>
+
+export const filterOrders = (orders: IOrder[], values: TOrderFilterValues): IOrder[] => {
   return new Filter(orders)
     .by('status.key', values.status)
     .by('deliveryMethod.id', values.delivery)
@@ -31,12 +32,12 @@ const getAttributeFromOrders = function (
 }
 
 const mergeValues = (
-  currentValues: TFilterValues,
+  currentValues: TOrderFilterValues,
   newValue: Record<string, string>
 ) => {
   // TODO change Record<string, string> to smth like Record<keyof TOrdersFilterAttributes, string>
   const values = { ...currentValues }
-  const key = Object.keys(newValue)[0] as keyof TFilterValues
+  const key = Object.keys(newValue)[0] as keyof TOrderFilterValues
   values[key] = [...values[key], newValue[key]]
   return values
 }
@@ -45,7 +46,7 @@ function calculateOptionsCount(
   key: string,
   options: FilterChoiceValue[],
   orders: IOrder[],
-  initialValues: TFilterValues
+  initialValues: TOrderFilterValues
 ): FilterChoiceValue[] {
   return options.map((option) => {
     const vals = mergeValues(initialValues, { [key]: option.value })
@@ -54,7 +55,7 @@ function calculateOptionsCount(
   })
 }
 
-const isAttributeAppliedSelector = function (key: keyof TFilterValues, values: TFilterValues) {
+const isAttributeAppliedSelector = function (key: keyof TOrderFilterValues, values: TOrderFilterValues) {
   return values[key] ? Boolean(values[key].length) : false
 }
 
@@ -89,7 +90,7 @@ export function getAttributes(orders: IOrder[]): TFilterChoiseAttribute[] {
 }
 
 export const updateAttributes = (
-  values: TFilterValues,
+  values: TOrderFilterValues,
   orders: IOrder[],
   attributes: TFilterChoiseAttribute[]
 ): TFilterChoiseAttribute[] => {

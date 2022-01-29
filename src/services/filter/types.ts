@@ -14,3 +14,5 @@ interface TFilterAttribute {
 export interface TFilterChoiseAttribute extends TFilterAttribute {
   options: FilterChoiceValue[]
 }
+
+export type TFilterValues<T extends string> = Record<T, string[]>

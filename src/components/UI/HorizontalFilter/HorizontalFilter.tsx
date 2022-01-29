@@ -9,13 +9,13 @@ import React, {
 } from 'react'
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
-import { TFilterValues } from 'src/hooks/useOrdersList'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
 import { TFilterChoiseAttribute } from 'app-services/filter'
+import { TOrderFilterValues } from 'src/api/order/ordersFilterApi'
 
 interface TProps {
   attributes: TFilterChoiseAttribute[]
-  values: TFilterValues
+  values: TOrderFilterValues
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
   onFilter: (values: any) => void
 }
@@ -77,7 +77,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
     <nav className="rw-horizontal-filter">
       <ul className="rw-horizontal-filter__list">
         {attributes.map((attribute, index) => {
-          const value = values[attribute.key as keyof TFilterValues]
+          const value = values[attribute.key as keyof TOrderFilterValues]
           const attributeClasses = classNames(
             'rw-horizontal-filter__attribute',
             {
