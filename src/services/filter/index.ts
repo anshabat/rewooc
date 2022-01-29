@@ -1,2 +1,2 @@
 export { Filter } from './filter'
-export { FilterChoiceValue, IFilter } from './types'
+export { FilterChoiceValue, TFilterChoiseAttribute } from './types'

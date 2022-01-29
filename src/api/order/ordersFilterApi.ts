@@ -1,17 +1,5 @@
-import { Filter, FilterChoiceValue } from 'app-services/filter'
+import { Filter, FilterChoiceValue, TFilterChoiseAttribute } from 'app-services/filter'
 import { IOrder } from 'app-types'
-import { ownKeys } from 'immer/dist/internal'
-
-interface TFilterAttribute {
-  label: string
-  key: string
-  type: string
-  isApplied: boolean
-}
-
-export interface TFilterChoiseAttribute extends TFilterAttribute {
-  options: FilterChoiceValue[]
-}
 
 type TValues = { [key: string]: string[] }
 

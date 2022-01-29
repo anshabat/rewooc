@@ -1,21 +1,16 @@
 import { useReducer, useEffect } from 'react'
 import { IOrder, ISorting } from 'app-types'
-import { FilterChoiceValue } from 'app-services/filter'
 import { sortObjects } from '../shared/utilities'
 import { IParam, useQuery } from 'app-services/query'
 import {
-  TFilterChoiseAttribute,
   getAttributes,
   updateAttributes,
   filterOrders,
 } from '../api/order/ordersFilterApi'
+import { TFilterChoiseAttribute } from 'app-services/filter'
 /**
  * Types
  */
-export interface IOrderAttributes {
-  delivery: FilterChoiceValue[]
-  status: FilterChoiceValue[]
-}
 
 export interface TOrdersFilterAttributes {
   delivery: string[]

@@ -9,10 +9,9 @@ import React, {
 } from 'react'
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
-import { IFilter } from 'app-services/filter'
 import { TOrdersFilterAttributes } from 'src/hooks/useOrdersList'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
-import { TFilterChoiseAttribute } from 'src/api/order/ordersFilterApi'
+import { TFilterChoiseAttribute } from 'app-services/filter'
 
 interface TProps {
   attributes: TFilterChoiseAttribute[]

@@ -4,9 +4,13 @@ export interface FilterChoiceValue {
   count?: number
 }
 
-export interface IFilter<T = string> {
-  key: T
+interface TFilterAttribute {
   label: string
+  key: string
   type: string
   isApplied: boolean
+}
+
+export interface TFilterChoiseAttribute extends TFilterAttribute {
+  options: FilterChoiceValue[]
 }
