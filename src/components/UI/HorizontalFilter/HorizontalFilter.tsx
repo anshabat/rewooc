@@ -10,11 +10,10 @@ import React, {
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
-import { TFilterChoiseAttribute } from 'app-services/filter'
-import { TOrderFilterValues } from 'src/api/order/ordersFilterApi'
+import { TOrderFilterAttribute, TOrderFilterValues } from 'src/api/order/ordersFilterApi'
 
 interface TProps {
-  attributes: TFilterChoiseAttribute[]
+  attributes: TOrderFilterAttribute[]
   values: TOrderFilterValues
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
   onFilter: (values: any) => void
@@ -54,7 +53,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
   }
 
   const renderAttributeComponent = function (
-    attr: TFilterChoiseAttribute,
+    attr: TOrderFilterAttribute,
     value: any
   ): ReactElement {
     switch (attr.type) {

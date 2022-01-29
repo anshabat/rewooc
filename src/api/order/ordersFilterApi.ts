@@ -3,7 +3,9 @@ import { IOrder } from 'app-types'
 
 export type TOrderFilterValues = TFilterValues<'delivery' | 'status'>
 
-export const filterOrders = (orders: IOrder[], values: TOrderFilterValues): IOrder[] => {
+export type TOrderFilterAttribute = TFilterChoiseAttribute<'delivery' | 'status'>
+
+const filterOrders = (orders: IOrder[], values: TOrderFilterValues): IOrder[] => {
   return new Filter(orders)
     .by('status.key', values.status)
     .by('deliveryMethod.id', values.delivery)
@@ -59,7 +61,7 @@ const isAttributeAppliedSelector = function (key: keyof TOrderFilterValues, valu
   return values[key] ? Boolean(values[key].length) : false
 }
 
-export function getAttributes(orders: IOrder[]): TFilterChoiseAttribute[] {
+function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
   const deliveryOptions = getAttributeFromOrders(
     orders,
     'deliveryMethod',
@@ -89,11 +91,11 @@ export function getAttributes(orders: IOrder[]): TFilterChoiseAttribute[] {
   ]
 }
 
-export const updateAttributes = (
+const updateAttributes = (
   values: TOrderFilterValues,
   orders: IOrder[],
-  attributes: TFilterChoiseAttribute[]
-): TFilterChoiseAttribute[] => {
+  attributes: TOrderFilterAttribute[]
+): TOrderFilterAttribute[] => {
   return [
     {
       key: 'status',
@@ -120,4 +122,10 @@ export const updateAttributes = (
       ),
     },
   ]
+}
+
+export {
+  filterOrders,
+  getAttributes,
+  updateAttributes
 }

@@ -6,10 +6,9 @@ import {
   getAttributes,
   updateAttributes,
   filterOrders,
-  TOrderFilterValues,
+  TOrderFilterAttribute,
+  TOrderFilterValues
 } from '../api/order/ordersFilterApi'
-import { TFilterChoiseAttribute } from 'app-services/filter'
-
 
 /**
  * Types
@@ -27,7 +26,7 @@ type TQueryParams = TOrderFilterValues &
   TOrdersSorting & { pages: TOrdersPages }
 
 interface TState {
-  attributes: TFilterChoiseAttribute[]
+  attributes: TOrderFilterAttribute[]
   values: TOrderFilterValues
   sorting: TOrdersSorting
   pages: TOrdersPages
@@ -139,7 +138,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   /**
    * State
    */
-  const initialValues = {
+  const initialValues: TOrderFilterValues = {
     status: [],
     delivery: [],
   }

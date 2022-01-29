@@ -4,14 +4,14 @@ export interface FilterChoiceValue {
   count?: number
 }
 
-interface TFilterAttribute {
+interface TFilterAttribute<T> {
   label: string
-  key: string
+  key: T
   type: string
   isApplied: boolean
 }
 
-export interface TFilterChoiseAttribute extends TFilterAttribute {
+export interface TFilterChoiseAttribute<T> extends TFilterAttribute<T> {
   options: FilterChoiceValue[]
 }
 
