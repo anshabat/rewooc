@@ -1,12 +1,22 @@
-import { Filter, TFilterChoiseAttribute, TFilterValues } from 'app-services/filter'
+import {
+  Filter,
+  TFilterChoiseAttribute,
+  TFilterTextAttribute,
+  TFilterValues,
+} from 'app-services/filter'
 import { TChoiceField } from 'app-services/form'
 import { IOrder } from 'app-types'
 
-export type TOrderFilterValues = TFilterValues<'delivery' | 'status'>
+export type TOrderFilterValues = TFilterValues<'delivery' | 'status' | 'id'>
 
-export type TOrderFilterAttribute = TFilterChoiseAttribute<'delivery' | 'status'>
+export type TOrderFilterAttribute =
+  | TFilterChoiseAttribute<'delivery' | 'status'>
+  | TFilterTextAttribute<'id'>
 
-const filterOrders = (orders: IOrder[], values: TOrderFilterValues): IOrder[] => {
+const filterOrders = (
+  orders: IOrder[],
+  values: TOrderFilterValues
+): IOrder[] => {
   return new Filter(orders)
     .by('status.key', values.status)
     .by('deliveryMethod.id', values.delivery)
@@ -58,7 +68,10 @@ function calculateOptionsCount(
   })
 }
 
-const isAttributeAppliedSelector = function (key: keyof TOrderFilterValues, values: TOrderFilterValues) {
+const isAttributeAppliedSelector = function (
+  key: keyof TOrderFilterValues,
+  values: TOrderFilterValues
+) {
   return values[key] ? Boolean(values[key].length) : false
 }
 
@@ -89,6 +102,13 @@ function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
       isApplied: false,
       options: deliveryOptions,
     },
+    {
+      key: 'id',
+      label: 'Number',
+      type: 'text',
+      isApplied: false,
+      value: '',
+    },
   ]
 }
 
@@ -97,36 +117,31 @@ const updateAttributes = (
   orders: IOrder[],
   attributes: TOrderFilterAttribute[]
 ): TOrderFilterAttribute[] => {
-  return [
-    {
-      key: 'status',
-      label: 'Status',
-      type: 'choice',
-      isApplied: isAttributeAppliedSelector('status', values),
-      options: calculateOptionsCount(
-        'status',
-        attributes[0].options,
-        orders,
-        values
-      ),
-    },
-    {
-      key: 'delivery',
-      label: 'Delivery',
-      type: 'choice',
-      isApplied: isAttributeAppliedSelector('delivery', values),
-      options: calculateOptionsCount(
-        'delivery',
-        attributes[1].options,
-        orders,
-        values
-      ),
-    },
-  ]
+  return attributes.map<TOrderFilterAttribute>((attr) => {
+    const { key, type } = attr
+    const newAttr = {
+      ...attr,
+      isApplied: isAttributeAppliedSelector(key, values),
+    }
+    
+    switch (type) {
+      case 'choice': {
+        return {
+          ...attr,
+          options: calculateOptionsCount(key, attr.options, orders, values),
+          a: 1
+        }
+      }
+      case 'text': {
+        return {
+          ...attr,
+          value: values.id[0],
+        }
+      }
+      default:
+        return newAttr
+    }
+  })
 }
 
-export {
-  filterOrders,
-  getAttributes,
-  updateAttributes
-}
+export { filterOrders, getAttributes, updateAttributes }

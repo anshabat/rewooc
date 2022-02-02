@@ -148,6 +148,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const initialValues: TOrderFilterValues = {
     status: [],
     delivery: [],
+    id: [],
   }
   const initialAttributes = updateAttributes(initialValues, orders, attrs)
   const initialState: TState = {

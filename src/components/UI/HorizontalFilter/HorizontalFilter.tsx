@@ -54,14 +54,14 @@ const HorizontalFilter: FC<TProps> = (props) => {
 
   const renderAttributeComponent = function (
     attr: TOrderFilterAttribute,
-    value: any
+    value: string[]
   ): ReactElement {
     switch (attr.type) {
       case 'choice':
         return (
           <ChoiceList
             options={attr.options}
-            defaultOptions={value}
+            values={value}
             onChange={(newValues) => {
               onFilter({ [attr.key]: newValues })
             }}

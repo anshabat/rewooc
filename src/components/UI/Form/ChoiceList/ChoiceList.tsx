@@ -6,13 +6,13 @@ import { TChoiceField } from 'app-services/form'
 interface ChoiceListProps {
   options: TChoiceField[]
   onChange?: (options: string[]) => void
-  defaultOptions?: string[]
+  values?: string[]
 }
 
 const ChoiceList: FC<ChoiceListProps> = (props) => {
-  const { options, onChange, defaultOptions } = props
+  const { options, onChange, values } = props
   const [checkedOptions, setCheckedOptions] = useState<Set<string>>(
-    new Set(defaultOptions)
+    new Set(values)
   )
 
   const checkField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ const ChoiceList: FC<ChoiceListProps> = (props) => {
   useEffect(() => {
     if (
       typeof onChange === 'function' &&
-      defaultOptions?.length !== checkedOptions.size
+      values?.length !== checkedOptions.size
     ) {
       onChange(Array.from(checkedOptions))
     }
@@ -43,7 +43,7 @@ const ChoiceList: FC<ChoiceListProps> = (props) => {
             label={option.label}
             name={option.value}
             onChange={checkField}
-            defaultChecked={defaultOptions?.includes(option.value)}
+            defaultChecked={values?.includes(option.value)}
             disabled={Boolean(option.count === 0)}
           />
           {option.count != null ? (
