@@ -71,7 +71,7 @@ export const useCheckoutForm = (
 
         return history.push(`/my-account/view-order/${orderData.order}`)
       }
-    } catch (error) {
+    } catch (error: any) {
       alert(error.message)
     }
 

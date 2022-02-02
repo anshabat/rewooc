@@ -35,7 +35,7 @@ function* signInSaga(action: ISignInAction) {
     )
     localStorage.setItem('token', token)
     yield put(signInSuccess())
-  } catch (error) {
+  } catch (error: any) {
     yield put(signInFail(error))
   }
 }

@@ -14,7 +14,7 @@ function* loadCatalogPageSaga(action: ILoadCatalogPageAction) {
       ReturnType<typeof catalogApi.fetchCatalogPage>
     > = yield call(catalogApi.fetchCatalogPage, action.payload.url)
     yield put(loadCatalogPageSuccess(pageData))
-  } catch (error) {
+  } catch (error: any) {
     yield put(loadCatalogPageFail(error))
   }
 }

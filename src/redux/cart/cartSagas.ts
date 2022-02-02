@@ -37,7 +37,7 @@ function* loadCartPageSaga(action: ILoadCartPageAction) {
       action.payload.url
     )
     yield put(loadCartPageSuccess(data))
-  } catch (error) {
+  } catch (error: any) {
     yield put(loadCartPageFail(error))
   }
 }
@@ -70,7 +70,7 @@ function* addToCartSaga(action: IAddToCartAction) {
       quantity
     )
     yield put(addToCartSuccess(cartData))
-  } catch (error) {
+  } catch (error: any) {
     yield put(addToCartFail(error))
   }
 }
@@ -96,7 +96,7 @@ function* setCartProductQuantitySaga(action: ISetCartProductQuantityAction) {
       ReturnType<typeof cartApi.setProductQuantity>
     > = yield call(cartApi.setProductQuantity, productKey, quantity)
     yield put(setCartProductQuantitySuccess(cartData))
-  } catch (error) {
+  } catch (error: any) {
     yield put(setCartProductQuantityFail(error))
   }
 }
@@ -113,7 +113,7 @@ function* deleteFromCartSaga(action: IDeleteFromCartAction) {
   try {
     yield call(cartApi.deleteProductFromCart, productKey)
     yield put(deleteFromCartSuccess(productKey))
-  } catch (error) {
+  } catch (error: any) {
     yield put(deleteFromCartFail(error))
   }
 }

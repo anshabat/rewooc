@@ -9,7 +9,7 @@ function* initAppSaga() {
       appApi.fetchGeneralData
     )
     yield put(initAppSuccess(data))
-  } catch (error) {
+  } catch (error: any) {
     yield put(initAppFail(error))
   }
 }
