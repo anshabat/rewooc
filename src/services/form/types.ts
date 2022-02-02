@@ -11,3 +11,10 @@ export type ValidationRulesType<T = string> = Partial<{
   phone: boolean
   equal: T
 }>
+
+
+export interface TChoiceField {
+  label: string
+  value: string
+  count?: number
+}

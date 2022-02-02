@@ -1,8 +1,4 @@
-export interface FilterChoiceValue {
-  label: string
-  value: string
-  count?: number
-}
+import { TChoiceField } from "app-services/form";
 
 interface TFilterAttribute<T> {
   label: string
@@ -12,7 +8,7 @@ interface TFilterAttribute<T> {
 }
 
 export interface TFilterChoiseAttribute<T> extends TFilterAttribute<T> {
-  options: FilterChoiceValue[]
+  options: TChoiceField[]
 }
 
 export type TFilterValues<T extends string> = Record<T, string[]>

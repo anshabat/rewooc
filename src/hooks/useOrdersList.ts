@@ -1,5 +1,5 @@
 import { useReducer, useEffect } from 'react'
-import { IOrder, ISorting } from 'app-types'
+import { IOrder, TSorting } from 'app-types'
 import { sortObjects } from '../shared/utilities'
 import { IParam, useQuery } from 'app-services/query'
 import {
@@ -14,11 +14,9 @@ import {
  * Types
  */
 
-interface TOrdersSorting {
-  orderBy: string
-  direction: 'asc' | 'desc'
-  type: 'number' | 'string'
-}
+type TOrderBy = 'id' | 'created.date' | 'total'
+
+export type TOrdersSorting = TSorting<TOrderBy>
 
 type TOrdersPages = number[]
 
@@ -33,7 +31,7 @@ interface TState {
 }
 
 interface TUseOrderListActions {
-  sortingHandler: (sorting: ISorting) => void
+  sortingHandler: (sorting: TOrdersSorting) => void
   filterHandler: (newValue: Partial<TOrderFilterValues>) => void
   clearFilter: () => void
   changePage: (page: number) => void
@@ -85,11 +83,20 @@ const getFilterValuesFromUrl = function (
   }, {})
 }
 
+const getSortingValueFromUrl = function(sortingValue: string | string[] | undefined): TOrderBy {
+  if(sortingValue === 'id' || sortingValue === 'total' || sortingValue == 'created.date') {
+    return sortingValue
+  }
+  return 'id'
+}
+
 const getInitialStateFromUrl = function (
   initialState: TState,
   params: IParam<TQueryParams>,
   orders: IOrder[]
 ): TState {
+  console.log(typeof params.orderBy);
+  
   return {
     ...initialState,
     attributes: updateAttributes(
@@ -99,7 +106,7 @@ const getInitialStateFromUrl = function (
     ),
     values: getFilterValuesFromUrl(initialState.values, params),
     sorting: {
-      orderBy: typeof params.orderBy === 'string' ? params.orderBy : 'id',
+      orderBy: getSortingValueFromUrl(params.orderBy),
       direction: params.direction === 'desc' ? params.direction : 'asc',
       type: params.type === 'number' ? params.type : 'string',
     },
@@ -111,14 +118,9 @@ const getInitialStateFromUrl = function (
  *************************************************************/
 
 /**
- * Constants
- */
-const PER_PAGE = 3
-
-/**
  * Helpers
  */
-const getItemsPageSlice = function <T>(
+ const getItemsPageSlice = function <T>(
   items: T[],
   pages: TOrdersPages,
   perPage: number
@@ -130,6 +132,11 @@ const getItemsPageSlice = function <T>(
   }
   return items.slice(fromIndex, toIndex)
 }
+
+/**
+ * Constants
+ */
+const PER_PAGE = 3
 
 export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const { params, updateParams } = useQuery<TQueryParams>()
@@ -154,6 +161,10 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     pages: [1],
   }
 
+  
+  /**
+   * Reducer
+   */
   const [state, dispatch] = useReducer(
     (state: TState, action: any): TState => {
       switch (action.type) {

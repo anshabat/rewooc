@@ -1,10 +1,10 @@
 import './ChoiceList.scss'
 import React, { FC, useEffect, useState } from 'react'
 import ChoiceField from '../ChoiceField/ChoiceField'
-import { FilterChoiceValue } from 'app-services/filter'
+import { TChoiceField } from 'app-services/form'
 
 interface ChoiceListProps {
-  options: FilterChoiceValue[]
+  options: TChoiceField[]
   onChange?: (options: string[]) => void
   defaultOptions?: string[]
 }

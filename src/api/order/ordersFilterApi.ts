@@ -1,4 +1,5 @@
-import { Filter, FilterChoiceValue, TFilterChoiseAttribute, TFilterValues } from 'app-services/filter'
+import { Filter, TFilterChoiseAttribute, TFilterValues } from 'app-services/filter'
+import { TChoiceField } from 'app-services/form'
 import { IOrder } from 'app-types'
 
 export type TOrderFilterValues = TFilterValues<'delivery' | 'status'>
@@ -15,8 +16,8 @@ const filterOrders = (orders: IOrder[], values: TOrderFilterValues): IOrder[] =>
 const getAttributeFromOrders = function (
   orders: any[],
   attributeName: keyof IOrder,
-  cb: (arg: any) => FilterChoiceValue
-): FilterChoiceValue[] {
+  cb: (arg: any) => TChoiceField
+): TChoiceField[] {
   return orders
     .map((order) => {
       return { ...order, [attributeName]: cb(order[attributeName]) }
@@ -25,7 +26,7 @@ const getAttributeFromOrders = function (
       const existing = prev.some((i) => i.value === order[attributeName].value)
       return existing ? prev : prev.concat(order[attributeName])
     }, [])
-    .map<FilterChoiceValue>((attr) => {
+    .map<TChoiceField>((attr) => {
       return {
         label: attr.label,
         value: String(attr.value),
@@ -46,10 +47,10 @@ const mergeValues = (
 
 function calculateOptionsCount(
   key: string,
-  options: FilterChoiceValue[],
+  options: TChoiceField[],
   orders: IOrder[],
   initialValues: TOrderFilterValues
-): FilterChoiceValue[] {
+): TChoiceField[] {
   return options.map((option) => {
     const vals = mergeValues(initialValues, { [key]: option.value })
     const filteredOrders = filterOrders(orders, vals)

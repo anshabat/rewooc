@@ -7,7 +7,7 @@
  */
 
 import { Config } from '../config'
-import { ISorting } from 'app-types'
+import { TSorting } from 'app-types'
 
 export const debounce = (
   callback: (e: Event) => void,
@@ -60,9 +60,9 @@ export const propertyFromDottedString = (obj: any, dottedStr: string): any => {
   return properties.reduce((res, item) => res?.[item], obj)
 }
 
-export function sortObjects<T>(orders: T[], sorting: ISorting): T[] {
+export function sortObjects<T>(items: T[], sorting: TSorting): T[] {
   const { orderBy, direction, type } = sorting
-  const newOrders = [...orders]
+  const newOrders = [...items]
   return newOrders.sort((a, b) => {
     const aValue = propertyFromDottedString(a, String(orderBy))
     const bValue = propertyFromDottedString(b, String(orderBy))

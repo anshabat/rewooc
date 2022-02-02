@@ -1,15 +1,16 @@
 import './OrdersTable.scss'
 import React, { FC } from 'react'
-import { IOrder, ISorting, TGetSortingDirection } from 'app-types'
+import { IOrder, TGetSortingDirection } from 'app-types'
 import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
 import { getFormattedDate } from 'app-services/date'
 import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
+import { TOrdersSorting } from 'src/hooks/useOrdersList'
 
 interface IProps {
   orders: IOrder[]
-  sorting: ISorting
-  onSorting: (sorting: ISorting) => void
+  sorting: TOrdersSorting
+  onSorting: (sorting: TOrdersSorting) => void
 }
 
 const OrdersTable: FC<IProps> = (props) => {
