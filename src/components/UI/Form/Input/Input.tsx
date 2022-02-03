@@ -1,9 +1,9 @@
 import React, { FC, InputHTMLAttributes } from 'react'
 import FormField2, { IFormFieldProps } from '../FormField2/FormField2'
 
-type TProps = IFormFieldProps & InputHTMLAttributes<HTMLInputElement>
+export type TInputProps = IFormFieldProps & InputHTMLAttributes<HTMLInputElement>
 
-const Input: FC<TProps> = (props) => {
+const Input: FC<TInputProps> = (props) => {
   const {
     type = 'text',
     placeholder,

@@ -14,7 +14,7 @@ import {
   TOrderFilterAttribute,
   TOrderFilterValues,
 } from 'src/api/order/ordersFilterApi'
-import Input from '../Form/Input/Input'
+import InputButton from '../Form/InputButton/InputButton'
 
 interface TProps {
   attributes: TOrderFilterAttribute[]
@@ -72,9 +72,15 @@ const HorizontalFilter: FC<TProps> = (props) => {
           />
         )
       case 'text':
-        return <Input label="Filter by id" hideLabel onChange={(e) => {
-          console.log(e.target.value)
-        }} />
+        return (
+          <InputButton
+            label="Filter by id"
+            hideLabel
+            onApply={(value) => {
+              onFilter({ [attr.key]: value })
+            }}
+          />
+        )
       default:
         return <div>no component found</div>
     }
