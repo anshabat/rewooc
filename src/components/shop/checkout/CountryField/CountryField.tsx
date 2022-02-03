@@ -33,7 +33,6 @@ const CountryField: FC<IProps> = (props) => {
       label="Country"
       name="billing_country"
       id="billing_country"
-      type="text"
       value={formData.billing_country.value}
       required={formData.billing_country.validation.required}
       error={error}

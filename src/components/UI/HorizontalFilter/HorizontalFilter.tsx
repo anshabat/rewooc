@@ -10,7 +10,11 @@ import React, {
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
-import { TOrderFilterAttribute, TOrderFilterValues } from 'src/api/order/ordersFilterApi'
+import {
+  TOrderFilterAttribute,
+  TOrderFilterValues,
+} from 'src/api/order/ordersFilterApi'
+import Input from '../Form/Input/Input'
 
 interface TProps {
   attributes: TOrderFilterAttribute[]
@@ -24,7 +28,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
   const [openedAttribute, setOpenedAttribute] = useState<number | null>(null)
 
   const listItemRefs: React.MutableRefObject<any>[] = []
-  attributes.forEach((attr, index) => {
+  attributes.forEach((_, index) => {
     listItemRefs[index] = useRef<any>()
   })
 
@@ -67,6 +71,10 @@ const HorizontalFilter: FC<TProps> = (props) => {
             }}
           />
         )
+      case 'text':
+        return <Input label="Filter by id" hideLabel onChange={(e) => {
+          console.log(e.target.value)
+        }} />
       default:
         return <div>no component found</div>
     }

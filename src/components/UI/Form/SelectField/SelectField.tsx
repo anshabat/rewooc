@@ -1,12 +1,12 @@
 import './SelectField.scss'
-import React, { FC } from 'react'
+import React, { FC, SelectHTMLAttributes } from 'react'
 import FormField2, { IFormFieldProps } from '../FormField2/FormField2'
 
-interface IProps extends IFormFieldProps {
+interface TProps extends IFormFieldProps,  SelectHTMLAttributes<HTMLSelectElement>{
   options: [string, string][]
 }
 
-const SelectField: FC<IProps> = (props) => {
+const SelectField: FC<TProps> = (props) => {
   const {
     options,
     label,
