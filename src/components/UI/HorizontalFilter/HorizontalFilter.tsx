@@ -20,7 +20,7 @@ interface TProps {
   attributes: TOrderFilterAttribute[]
   values: TOrderFilterValues
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
-  onFilter: (values: any) => void
+  onFilter: (values: Record<string, string[] | string>) => void
 }
 
 const HorizontalFilter: FC<TProps> = (props) => {
@@ -60,14 +60,15 @@ const HorizontalFilter: FC<TProps> = (props) => {
     attr: TOrderFilterAttribute,
     value: string[]
   ): ReactElement {
-    switch (attr.type) {
+    const {type, key } = attr
+    switch (type) {
       case 'choice':
         return (
           <ChoiceList
             options={attr.options}
             values={value}
             onChange={(newValues) => {
-              onFilter({ [attr.key]: newValues })
+              onFilter({ [key]: newValues })
             }}
           />
         )
@@ -77,7 +78,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
             label="Filter by id"
             hideLabel
             onApply={(value) => {
-              onFilter({ [attr.key]: value })
+              onFilter({ [key]: value })
             }}
           />
         )

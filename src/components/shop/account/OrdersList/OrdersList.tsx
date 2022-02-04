@@ -36,7 +36,9 @@ const OrdersList: FC<IProps> = (props) => {
           attributes={attributes}
           values={values}
           onClear={clearFilter}
-          onFilter={filterHandler}
+          onFilter={(val) => {
+            filterHandler(val)
+          }}
         />
       </div>
       <div className="rw-orders-list__table">

@@ -126,6 +126,8 @@ const updateAttributes = (
     
     switch (type) {
       case 'choice': {
+        console.log('choice', values);
+        
         return {
           ...attr,
           options: calculateOptionsCount(key, attr.options, orders, values),
@@ -133,6 +135,7 @@ const updateAttributes = (
         }
       }
       case 'text': {
+        console.log('text', values);
         return {
           ...attr,
           value: values.id[0],

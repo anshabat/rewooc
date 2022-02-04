@@ -205,7 +205,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const sortingHandler: TUseOrderListActions['sortingHandler'] = (sorting) => {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
-  const filterHandler: TUseOrderListActions['filterHandler'] = (newValue) => {
+  const filterHandler: TUseOrderListActions['filterHandler'] = (newValue) => { 
     const newAttributes = updateAttributes(
       { ...values, ...newValue },
       orders,
