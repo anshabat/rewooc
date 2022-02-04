@@ -1,13 +1,6 @@
-FROM php:7.4-apache
+FROM php:8.0.9-apache
 
 RUN apt-get update
-
-# Install tools required for build stage
-RUN apt-get install -fyqq \
-    bash curl wget rsync ca-certificates openssl ssh git tzdata openntpd \
-    libxrender1 fontconfig libc6 \
-    mariadb-client gnupg binutils-gold autoconf \
-    g++ gcc gnupg libgcc1 linux-headers-amd64 make python
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
