@@ -193,8 +193,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
 
   const { pages, sorting, values, attributes } = state
 
-  //console.log(values.id)
-
   useEffect(() => {
     const pagesParam = pages.map((p) => String(p))
     updateParams({ ...values, ...sorting, pages: pagesParam })

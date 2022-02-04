@@ -128,14 +128,13 @@ const updateAttributes = (
     switch (type) {
       case 'choice': {
         return {
-          ...attr,
+          ...newAttr,
           options: calculateOptionsCount(key, attr.options, orders, values),
-          a: 1
         }
       }
       case 'text': {
         return {
-          ...attr,
+          ...newAttr,
           value: values.id[0],
         }
       }
