@@ -15,12 +15,13 @@ import {
   TOrderFilterValues,
 } from 'src/api/order/ordersFilterApi'
 import InputButton from '../Form/InputButton/InputButton'
+import { TFilterValues } from 'app-services/filter'
 
 interface TProps {
   attributes: TOrderFilterAttribute[]
   values: TOrderFilterValues
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
-  onFilter: (values: Record<string, string[] | string>) => void
+  onFilter: (values: TFilterValues<string>) => void
 }
 
 const HorizontalFilter: FC<TProps> = (props) => {
@@ -58,7 +59,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
 
   const renderAttributeComponent = function (
     attr: TOrderFilterAttribute,
-    value: string[]
+    values: string[]
   ): ReactElement {
     const {type, key } = attr
     switch (type) {
@@ -66,7 +67,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
         return (
           <ChoiceList
             options={attr.options}
-            values={value}
+            values={values}
             onChange={(newValues) => {
               onFilter({ [key]: newValues })
             }}
@@ -78,8 +79,9 @@ const HorizontalFilter: FC<TProps> = (props) => {
             label="Filter by id"
             hideLabel
             onApply={(value) => {
-              onFilter({ [key]: value })
+              onFilter({ [key]: [value] })
             }}
+            value={values}
           />
         )
       default:

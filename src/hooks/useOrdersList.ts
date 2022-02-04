@@ -9,6 +9,7 @@ import {
   TOrderFilterAttribute,
   TOrderFilterValues
 } from '../api/order/ordersFilterApi'
+import { TFilterValues } from 'app-services/filter'
 
 /**
  * Types
@@ -32,7 +33,7 @@ interface TState {
 
 interface TUseOrderListActions {
   sortingHandler: (sorting: TOrdersSorting) => void
-  filterHandler: (newValue: Partial<TOrderFilterValues>) => void
+  filterHandler: (newValue: TFilterValues<string>) => void
   clearFilter: () => void
   changePage: (page: number) => void
   loadMore: () => void
@@ -95,8 +96,6 @@ const getInitialStateFromUrl = function (
   params: IParam<TQueryParams>,
   orders: IOrder[]
 ): TState {
-  console.log(typeof params.orderBy);
-  
   return {
     ...initialState,
     attributes: updateAttributes(
@@ -194,6 +193,8 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
 
   const { pages, sorting, values, attributes } = state
 
+  //console.log(values.id)
+
   useEffect(() => {
     const pagesParam = pages.map((p) => String(p))
     updateParams({ ...values, ...sorting, pages: pagesParam })
@@ -205,15 +206,19 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const sortingHandler: TUseOrderListActions['sortingHandler'] = (sorting) => {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
-  const filterHandler: TUseOrderListActions['filterHandler'] = (newValue) => { 
+  const filterHandler: TUseOrderListActions['filterHandler'] = (optionValues) => {
+    const newOptionValues = Object.entries<string[]>(optionValues).reduce((newOption, [key, vals]) => {
+      const newVals = vals.filter(val => val !== '')
+      return {...newOption, [key]: newVals}
+    }, {})
     const newAttributes = updateAttributes(
-      { ...values, ...newValue },
+      { ...values, ...newOptionValues },
       orders,
       attributes
     )
     dispatch({
       type: 'FILTER',
-      payload: { value: newValue, attributes: newAttributes },
+      payload: { value: newOptionValues, attributes: newAttributes },
     })
   }
   const clearFilter: TUseOrderListActions['clearFilter'] = () => {

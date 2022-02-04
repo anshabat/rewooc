@@ -1,5 +1,5 @@
 import './InputButton.scss'
-import React, { FC, FormEvent } from 'react'
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react'
 import Input, { TInputProps } from '../Input/Input'
 import Button from '../../Button/Button'
 
@@ -10,8 +10,18 @@ interface TProps extends TInputProps {
 const InputButton: FC<TProps> = (props) => {
   const {
     onApply,
+    onChange,
+    value: defaultValue = '',
     ...restProps
   } = props
+  const [value, setValue] = useState(defaultValue)
+
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+    if(onChange) {
+      onChange(e)
+    }
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault()
@@ -21,7 +31,7 @@ const InputButton: FC<TProps> = (props) => {
 
   return (
     <form className="rw-input-button" onSubmit={handleSubmit}>
-      <Input name="text" {...restProps} />
+      <Input name="text" value={value} onChange={handleInput} {...restProps} />
       <Button size="md" color="secondary">OK</Button>
     </form>
   )

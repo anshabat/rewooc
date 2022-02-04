@@ -20,6 +20,7 @@ const filterOrders = (
   return new Filter(orders)
     .by('status.key', values.status)
     .by('deliveryMethod.id', values.delivery)
+    .by('number', values.id)
     .getItems()
 }
 
@@ -126,8 +127,6 @@ const updateAttributes = (
     
     switch (type) {
       case 'choice': {
-        console.log('choice', values);
-        
         return {
           ...attr,
           options: calculateOptionsCount(key, attr.options, orders, values),
@@ -135,7 +134,6 @@ const updateAttributes = (
         }
       }
       case 'text': {
-        console.log('text', values);
         return {
           ...attr,
           value: values.id[0],
