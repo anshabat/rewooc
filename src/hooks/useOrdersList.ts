@@ -148,6 +148,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     status: [],
     delivery: [],
     id: [],
+    price: [],
   }
   const initialAttributes = updateAttributes(initialValues, orders, attrs)
   const initialState: TState = {
@@ -206,14 +207,16 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   }
   const filterHandler: TUseOrderListActions['filterHandler'] = (optionValues) => {
     const newOptionValues = Object.entries<string[]>(optionValues).reduce((newOption, [key, vals]) => {
-      const newVals = vals.filter(val => val !== '')
-      return {...newOption, [key]: newVals}
+      //const newVals = vals.filter(val => val !== '')
+      return {...newOption, [key]: vals}
     }, {})
     const newAttributes = updateAttributes(
       { ...values, ...newOptionValues },
       orders,
       attributes
     )
+    
+    
     dispatch({
       type: 'FILTER',
       payload: { value: newOptionValues, attributes: newAttributes },
@@ -246,6 +249,8 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     const filteredOrders = filterOrders(orders, values)
     return filteredOrders.length
   }
+
+  // console.log(state);
 
   return {
     state,

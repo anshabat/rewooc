@@ -3,15 +3,17 @@ import {
   TFilterChoiseAttribute,
   TFilterTextAttribute,
   TFilterValues,
+  TFilterRangeAttribute
 } from 'app-services/filter'
 import { TChoiceField } from 'app-services/form'
 import { IOrder } from 'app-types'
 
-export type TOrderFilterValues = TFilterValues<'delivery' | 'status' | 'id'>
+export type TOrderFilterValues = TFilterValues<'delivery' | 'status' | 'id' | 'price'>
 
 export type TOrderFilterAttribute =
   | TFilterChoiseAttribute<'delivery' | 'status'>
   | TFilterTextAttribute<'id'>
+  | TFilterRangeAttribute<'price'>
 
 const filterOrders = (
   orders: IOrder[],
@@ -21,6 +23,7 @@ const filterOrders = (
     .by('status.key', values.status)
     .by('deliveryMethod.id', values.delivery)
     .by('number', values.id)
+    .range('total', values.price[0], values.price[1])
     .getItems()
 }
 
@@ -110,6 +113,14 @@ function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
       isApplied: false,
       value: '',
     },
+    {
+      key: 'price',
+      label: 'Price',
+      type: 'range',
+      isApplied: false,
+      max: '',
+      min: ''
+    },
   ]
 }
 
@@ -136,6 +147,13 @@ const updateAttributes = (
         return {
           ...newAttr,
           value: values.id[0],
+        }
+      }
+      case 'range': {
+        return {
+          ...newAttr,
+          min: values.price[0],
+          max: values.price[1]
         }
       }
       default:

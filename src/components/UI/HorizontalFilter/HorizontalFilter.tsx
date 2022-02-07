@@ -16,6 +16,7 @@ import {
 } from 'src/api/order/ordersFilterApi'
 import InputButton from '../Form/InputButton/InputButton'
 import { TFilterValues } from 'app-services/filter'
+import RangeSlider from '../Form/RangeSlider/RangeSlider'
 
 interface TProps {
   attributes: TOrderFilterAttribute[]
@@ -61,7 +62,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
     attr: TOrderFilterAttribute,
     values: string[]
   ): ReactElement {
-    const {type, key } = attr
+    const { type, key } = attr
     switch (type) {
       case 'choice':
         return (
@@ -79,9 +80,21 @@ const HorizontalFilter: FC<TProps> = (props) => {
             label="Filter by id"
             hideLabel
             onApply={(value) => {
-              onFilter({ [key]: [value] })
+              onFilter({ [key]: value ? [value] : [] })
             }}
             value={values}
+          />
+        )
+      case 'range':
+        return (
+          <RangeSlider
+            min={values[0]}
+            max={values[1]}
+            onApply={({ min, max }) => {
+              const values =
+                min.trim() === '' && max.trim() === '' ? [] : [min, max]
+              onFilter({ [key]: values })
+            }}
           />
         )
       default:

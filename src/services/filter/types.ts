@@ -16,4 +16,10 @@ export interface TFilterTextAttribute<T> extends TFilterAttribute<T> {
   value: string
 }
 
+export interface TFilterRangeAttribute<T> extends TFilterAttribute<T> {
+  type: 'range'
+  min: string
+  max: string
+}
+
 export type TFilterValues<T extends string> = Record<T, string[]>
