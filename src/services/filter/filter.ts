@@ -7,7 +7,7 @@ export class Filter<T> {
     return !isNaN(parseFloat(n)) && isFinite(n)
   }
 
-  public by(filterBy: string, values: string[]): this {
+  public equal(filterBy: string, values: string[]): this {
     if (values.length) {
       this.items = this.items.filter((item) => {
         const itemValue = propertyFromDottedString(item, filterBy)

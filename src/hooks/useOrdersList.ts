@@ -206,20 +206,14 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
   const filterHandler: TUseOrderListActions['filterHandler'] = (optionValues) => {
-    const newOptionValues = Object.entries<string[]>(optionValues).reduce((newOption, [key, vals]) => {
-      //const newVals = vals.filter(val => val !== '')
-      return {...newOption, [key]: vals}
-    }, {})
     const newAttributes = updateAttributes(
-      { ...values, ...newOptionValues },
+      { ...values, ...optionValues },
       orders,
       attributes
     )
-    
-    
     dispatch({
       type: 'FILTER',
-      payload: { value: newOptionValues, attributes: newAttributes },
+      payload: { value: optionValues, attributes: newAttributes },
     })
   }
   const clearFilter: TUseOrderListActions['clearFilter'] = () => {

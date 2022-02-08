@@ -20,9 +20,9 @@ const filterOrders = (
   values: TOrderFilterValues
 ): IOrder[] => {
   return new Filter(orders)
-    .by('status.key', values.status)
-    .by('deliveryMethod.id', values.delivery)
-    .by('number', values.id)
+    .equal('status.key', values.status)
+    .equal('deliveryMethod.id', values.delivery)
+    .equal('number', values.id)
     .range('total', values.price[0], values.price[1])
     .getItems()
 }
