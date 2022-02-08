@@ -17,4 +17,5 @@ export interface TChoiceField {
   label: string
   value: string
   count?: number
+  checked?: boolean
 }

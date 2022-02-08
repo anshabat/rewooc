@@ -66,9 +66,10 @@ function calculateOptionsCount(
   initialValues: TOrderFilterValues
 ): TChoiceField[] {
   return options.map((option) => {
+    const checked = initialValues[key as keyof TOrderFilterValues].includes(option.value)
     const vals = mergeValues(initialValues, { [key]: option.value })
     const filteredOrders = filterOrders(orders, vals)
-    return { ...option, count: filteredOrders.length }
+    return { ...option, count: filteredOrders.length, checked }
   })
 }
 
