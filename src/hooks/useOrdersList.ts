@@ -150,7 +150,8 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     id: [],
     price: [],
   }
-  const initialAttributes = updateAttributes(initialValues, orders, attrs)
+  //const initialAttributes = updateAttributes(initialValues, orders, attrs)
+  const initialAttributes = attrs
   const initialState: TState = {
     attributes: initialAttributes,
     values: initialValues,
@@ -189,7 +190,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
       }
     },
     initialState,
-    (initialState) => getInitialStateFromUrl(initialState, params, orders)
+    //(initialState) => getInitialStateFromUrl(initialState, params, orders)
   )
 
   const { pages, sorting, values, attributes } = state

@@ -44,6 +44,7 @@ const getAttributeFromOrders = function (
       return {
         label: attr.label,
         value: String(attr.value),
+        checked: false
       }
     })
 }
@@ -85,11 +86,11 @@ function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
     orders,
     'deliveryMethod',
     (delivery) => {
-      return { value: delivery.id, label: delivery.title }
+      return { value: delivery.id, label: delivery.title, checked: false }
     }
   )
   const statusOptions = getAttributeFromOrders(orders, 'status', (status) => {
-    return { value: status.key, label: status.value }
+    return { value: status.key, label: status.value, checked: false }
   })
 
   return [
@@ -139,23 +140,17 @@ const updateAttributes = (
     
     switch (type) {
       case 'choice': {
-        return {
-          ...newAttr,
-          options: calculateOptionsCount(key, attr.options, orders, values),
-        }
+        const options = attr.options.map(option => {
+          return { ...option, checked: values[key].includes(option.value) }
+        })
+        
+        return {...newAttr, options}
       }
       case 'text': {
-        return {
-          ...newAttr,
-          value: values.id[0],
-        }
+        return { ...newAttr, value: values.id[0]}
       }
       case 'range': {
-        return {
-          ...newAttr,
-          min: values.price[0],
-          max: values.price[1]
-        }
+        return { ...newAttr, min: values.price[0], max: values.price[1] }
       }
       default:
         return newAttr

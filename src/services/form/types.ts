@@ -16,6 +16,6 @@ export type ValidationRulesType<T = string> = Partial<{
 export interface TChoiceField {
   label: string
   value: string
+  checked: boolean
   count?: number
-  checked?: boolean
 }
