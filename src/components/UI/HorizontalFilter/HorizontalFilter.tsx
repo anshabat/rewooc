@@ -80,7 +80,8 @@ const HorizontalFilter: FC<TProps> = (props) => {
             label="Filter by id"
             hideLabel
             onApply={(value) => {
-              onFilter({ [key]: value ? [value] : [] })
+              //onFilter({ [key]: value ? [value] : [] })
+              onFilter({ [key]: [value] })
             }}
             value={values}
           />
@@ -91,9 +92,9 @@ const HorizontalFilter: FC<TProps> = (props) => {
             min={values[0]}
             max={values[1]}
             onApply={({ min, max }) => {
-              const values =
-                min.trim() === '' && max.trim() === '' ? [] : [min, max]
-              onFilter({ [key]: values })
+              // const values =
+              //   min.trim() === '' && max.trim() === '' ? [] : [min, max]
+              onFilter({ [key]: [min, max] })
             }}
           />
         )

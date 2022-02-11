@@ -237,11 +237,11 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
    */
   const getCurrentPageOrders = function () {
     const sortedOrders = sortObjects(orders, sorting)
-    const filteredOrders = filterOrders(sortedOrders, values)
+    const filteredOrders = filterOrders(sortedOrders, attributes)
     return getItemsPageSlice(filteredOrders, pages, PER_PAGE)
   }
   const getOrdersTotal = function () {
-    const filteredOrders = filterOrders(orders, values)
+    const filteredOrders = filterOrders(orders, attributes)
     return filteredOrders.length
   }
 
