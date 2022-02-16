@@ -42,13 +42,13 @@ const filterOrders = (
   orders: IOrder[],
   attributes: TOrderFilterAttribute[]
 ): IOrder[] => {
-  const values = getValuesFromAttributes(attributes)
+  const {status, delivery, id, price} = getValuesFromAttributes(attributes)
 
   return new Filter(orders)
-    .equal('status.key', values.status)
-    .equal('deliveryMethod.id', values.delivery)
-    .equal('number', values.id)
-    .range('total', values.price[0], values.price[1])
+    .equal('status.key', status)
+    .equal('deliveryMethod.id', delivery)
+    .equal('number', id)
+    .range('total', price[0], price[1])
     .getItems()
 }
 
