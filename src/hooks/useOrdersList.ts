@@ -26,7 +26,6 @@ type TQueryParams = TOrderFilterValues &
 
 interface TState {
   attributes: TOrderFilterAttribute[]
-  values: TOrderFilterValues
   sorting: TOrdersSorting
   pages: TOrdersPages
 }
@@ -97,27 +96,26 @@ const getSortingValueFromUrl = function (
   return 'id'
 }
 
-const getInitialStateFromUrl = function (
-  initialState: TState,
-  params: IParam<TQueryParams>,
-  orders: IOrder[]
-): TState {
-  return {
-    ...initialState,
-    attributes: updateAttributes(
-      getFilterValuesFromUrl(initialState.values, params),
-      orders,
-      initialState.attributes
-    ),
-    values: getFilterValuesFromUrl(initialState.values, params),
-    sorting: {
-      orderBy: getSortingValueFromUrl(params.orderBy),
-      direction: params.direction === 'desc' ? params.direction : 'asc',
-      type: params.type === 'number' ? params.type : 'string',
-    },
-    pages: getInitialPages(params),
-  }
-}
+// const getInitialStateFromUrl = function (
+//   initialState: TState,
+//   params: IParam<TQueryParams>,
+//   orders: IOrder[]
+// ): TState {
+//   return {
+//     ...initialState,
+//     attributes: updateAttributes(
+//       getFilterValuesFromUrl(initialState.values, params),
+//       orders,
+//       initialState.attributes
+//     ),
+//     sorting: {
+//       orderBy: getSortingValueFromUrl(params.orderBy),
+//       direction: params.direction === 'desc' ? params.direction : 'asc',
+//       type: params.type === 'number' ? params.type : 'string',
+//     },
+//     pages: getInitialPages(params),
+//   }
+// }
 /**************************************************************
  * END URL Helpers
  *************************************************************/
@@ -147,20 +145,11 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const { params, updateParams } = useQuery<TQueryParams>()
   const attrs = getAttributes(orders)
 
-  /**
-   * State
-   */
-  const initialValues: TOrderFilterValues = {
-    status: [],
-    delivery: [],
-    id: [],
-    price: [],
-  }
+
   //const initialAttributes = updateAttributes(initialValues, orders, attrs)
   const initialAttributes = attrs
   const initialState: TState = {
     attributes: initialAttributes,
-    values: initialValues,
     sorting: {
       orderBy: 'id',
       direction: 'asc',
@@ -197,12 +186,12 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     //(initialState) => getInitialStateFromUrl(initialState, params, orders)
   )
 
-  const { pages, sorting, values, attributes } = state
+  const { pages, sorting, attributes } = state
 
-  useEffect(() => {
-    const pagesParam = pages.map((p) => String(p))
-    updateParams({ ...values, ...sorting, pages: pagesParam })
-  }, [state])
+  // useEffect(() => {
+  //   const pagesParam = pages.map((p) => String(p))
+  //   updateParams({ ...values, ...sorting, pages: pagesParam })
+  // }, [state])
 
   /**
    * Actions
