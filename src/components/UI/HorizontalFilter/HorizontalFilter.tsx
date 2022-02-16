@@ -11,22 +11,21 @@ import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
 import {
+  getAttributeValue,
   TOrderFilterAttribute,
-  TOrderFilterValues,
-} from 'src/api/order/ordersFilterApi'
+} from '../../../api/order/ordersFilterApi'
 import InputButton from '../Form/InputButton/InputButton'
 import { TFilterValues } from 'app-services/filter'
 import RangeSlider from '../Form/RangeSlider/RangeSlider'
 
 interface TProps {
   attributes: TOrderFilterAttribute[]
-  values: TOrderFilterValues
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
   onFilter: (values: TFilterValues<string>) => void
 }
 
 const HorizontalFilter: FC<TProps> = (props) => {
-  const { attributes, values, onFilter, onClear } = props
+  const { attributes, onFilter, onClear } = props
   const [openedAttribute, setOpenedAttribute] = useState<number | null>(null)
 
   const listItemRefs: React.MutableRefObject<any>[] = []
@@ -59,16 +58,16 @@ const HorizontalFilter: FC<TProps> = (props) => {
   }
 
   const renderAttributeComponent = function (
-    attr: TOrderFilterAttribute,
-    values: string[]
+    attr: TOrderFilterAttribute
   ): ReactElement {
     const { type, key } = attr
+    const value = getAttributeValue(attr)
     switch (type) {
       case 'choice':
         return (
           <ChoiceList
             options={attr.options}
-            values={values}
+            values={value}
             onChange={(newValues) => {
               onFilter({ [key]: newValues })
             }}
@@ -79,21 +78,18 @@ const HorizontalFilter: FC<TProps> = (props) => {
           <InputButton
             label="Filter by id"
             hideLabel
+            value={value}
             onApply={(value) => {
-              //onFilter({ [key]: value ? [value] : [] })
               onFilter({ [key]: [value] })
             }}
-            value={values}
           />
         )
       case 'range':
         return (
           <RangeSlider
-            min={values[0]}
-            max={values[1]}
+            min={value[0]}
+            max={value[1]}
             onApply={({ min, max }) => {
-              // const values =
-              //   min.trim() === '' && max.trim() === '' ? [] : [min, max]
               onFilter({ [key]: [min, max] })
             }}
           />
@@ -107,7 +103,6 @@ const HorizontalFilter: FC<TProps> = (props) => {
     <nav className="rw-horizontal-filter">
       <ul className="rw-horizontal-filter__list">
         {attributes.map((attribute, index) => {
-          const value = values[attribute.key as keyof TOrderFilterValues]
           const attributeClasses = classNames(
             'rw-horizontal-filter__attribute',
             {
@@ -131,7 +126,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
               </button>
               {index === openedAttribute ? (
                 <div className="rw-horizontal-filter__dropdown">
-                  {renderAttributeComponent(attribute, value)}
+                  {renderAttributeComponent(attribute)}
                 </div>
               ) : null}
             </li>

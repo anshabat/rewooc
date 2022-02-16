@@ -17,23 +17,19 @@ export type TOrderFilterAttribute =
   | TFilterTextAttribute<'id'>
   | TFilterRangeAttribute<'price'>
 
-function getValuesFromAttributes(attributes: TOrderFilterAttribute[]): TOrderFilterValues {
-  const attrs = attributes.map((attr) => {
-    const { key, type } = attr
-    let value: string[]
-    switch (type) {
-      case 'choice':
-        value = attr.options.filter((o) => o.checked).map((o) => o.value)
-        break
-      case 'range':
-        value = [attr.min, attr.max]
-        break
-      case 'text':
-        value = attr.value ? [attr.value] : []
-    }
+export function getAttributeValue(attr: TOrderFilterAttribute): string[] {
+  switch (attr.type) {
+    case 'choice':
+      return attr.options.filter((o) => o.checked).map((o) => o.value)
+    case 'range':
+      return [attr.min, attr.max]
+    case 'text':
+      return attr.value ? [attr.value] : []
+  }
+}
 
-    return [[key], value]
-  })
+export function getValuesFromAttributes(attributes: TOrderFilterAttribute[]): TOrderFilterValues {
+  const attrs = attributes.map((attr) => [[attr.key], getAttributeValue(attr)])
   
   return Object.fromEntries(attrs)
 }
