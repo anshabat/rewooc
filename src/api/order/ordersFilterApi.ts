@@ -17,7 +17,7 @@ export type TOrderFilterAttribute =
   | TFilterTextAttribute<'id'>
   | TFilterRangeAttribute<'price'>
 
-export function getAttributeValue(attr: TOrderFilterAttribute): string[] {
+function getAttributeValue(attr: TOrderFilterAttribute): string[] {
   switch (attr.type) {
     case 'choice':
       return attr.options.filter((o) => o.checked).map((o) => o.value)

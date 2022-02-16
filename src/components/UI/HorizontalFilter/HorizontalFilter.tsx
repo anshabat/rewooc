@@ -11,22 +11,23 @@ import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
 import {
-  getAttributeValue,
   TOrderFilterAttribute,
+  getValuesFromAttributes,
+  TOrderFilterValues,
 } from '../../../api/order/ordersFilterApi'
 import InputButton from '../Form/InputButton/InputButton'
-import { TFilterValues } from 'app-services/filter'
 import RangeSlider from '../Form/RangeSlider/RangeSlider'
 
 interface TProps {
   attributes: TOrderFilterAttribute[]
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
-  onFilter: (values: TFilterValues<string>) => void
+  onFilter: (values: TOrderFilterValues) => void
 }
 
 const HorizontalFilter: FC<TProps> = (props) => {
   const { attributes, onFilter, onClear } = props
   const [openedAttribute, setOpenedAttribute] = useState<number | null>(null)
+  const initialValues = getValuesFromAttributes(attributes)
 
   const listItemRefs: React.MutableRefObject<any>[] = []
   attributes.forEach((_, index) => {
@@ -61,15 +62,14 @@ const HorizontalFilter: FC<TProps> = (props) => {
     attr: TOrderFilterAttribute
   ): ReactElement {
     const { type, key } = attr
-    const value = getAttributeValue(attr)
     switch (type) {
       case 'choice':
         return (
           <ChoiceList
             options={attr.options}
-            values={value}
+            values={initialValues[key]}
             onChange={(newValues) => {
-              onFilter({ [key]: newValues })
+              onFilter({ ...initialValues, [key]: newValues })
             }}
           />
         )
@@ -78,19 +78,19 @@ const HorizontalFilter: FC<TProps> = (props) => {
           <InputButton
             label="Filter by id"
             hideLabel
-            value={value}
+            value={initialValues[key]}
             onApply={(value) => {
-              onFilter({ [key]: [value] })
+              onFilter({ ...initialValues, [key]: [value] })
             }}
           />
         )
       case 'range':
         return (
           <RangeSlider
-            min={value[0]}
-            max={value[1]}
+            min={initialValues[key][0]}
+            max={initialValues[key][1]}
             onApply={({ min, max }) => {
-              onFilter({ [key]: [min, max] })
+              onFilter({ ...initialValues, [key]: [min, max] })
             }}
           />
         )

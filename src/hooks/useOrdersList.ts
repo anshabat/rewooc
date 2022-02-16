@@ -7,7 +7,7 @@ import {
   updateAttributes,
   filterOrders,
   TOrderFilterAttribute,
-  TOrderFilterValues
+  TOrderFilterValues,
 } from '../api/order/ordersFilterApi'
 import { TFilterValues } from 'app-services/filter'
 
@@ -33,7 +33,7 @@ interface TState {
 
 interface TUseOrderListActions {
   sortingHandler: (sorting: TOrdersSorting) => void
-  filterHandler: (newValue: TFilterValues<string>) => void
+  filterHandler: (newValue: TOrderFilterValues) => void
   clearFilter: () => void
   changePage: (page: number) => void
   loadMore: () => void
@@ -84,8 +84,14 @@ const getFilterValuesFromUrl = function (
   }, {})
 }
 
-const getSortingValueFromUrl = function(sortingValue: string | string[] | undefined): TOrderBy {
-  if(sortingValue === 'id' || sortingValue === 'total' || sortingValue == 'created.date') {
+const getSortingValueFromUrl = function (
+  sortingValue: string | string[] | undefined
+): TOrderBy {
+  if (
+    sortingValue === 'id' ||
+    sortingValue === 'total' ||
+    sortingValue == 'created.date'
+  ) {
     return sortingValue
   }
   return 'id'
@@ -119,7 +125,7 @@ const getInitialStateFromUrl = function (
 /**
  * Helpers
  */
- const getItemsPageSlice = function <T>(
+const getItemsPageSlice = function <T>(
   items: T[],
   pages: TOrdersPages,
   perPage: number
@@ -163,7 +169,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     pages: [1],
   }
 
-  
   /**
    * Reducer
    */
@@ -175,7 +180,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
         case 'FILTER':
           return {
             ...initialState,
-            values: { ...state.values, ...action.payload.value },
             attributes: action.payload.attributes,
           }
         case 'CLEAR':
@@ -189,7 +193,7 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
           throw new Error(`Unsupported action type: ${action.type}`)
       }
     },
-    initialState,
+    initialState
     //(initialState) => getInitialStateFromUrl(initialState, params, orders)
   )
 
@@ -206,15 +210,11 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const sortingHandler: TUseOrderListActions['sortingHandler'] = (sorting) => {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
-  const filterHandler: TUseOrderListActions['filterHandler'] = (optionValues) => {
-    const newAttributes = updateAttributes(
-      { ...values, ...optionValues },
-      orders,
-      attributes
-    )
+  const filterHandler: TUseOrderListActions['filterHandler'] = (values) => {
+    const newAttributes = updateAttributes(values, orders, attributes)
     dispatch({
       type: 'FILTER',
-      payload: { value: optionValues, attributes: newAttributes },
+      payload: { attributes: newAttributes },
     })
   }
   const clearFilter: TUseOrderListActions['clearFilter'] = () => {
