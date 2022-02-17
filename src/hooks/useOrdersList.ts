@@ -8,6 +8,7 @@ import {
   filterOrders,
   TOrderFilterAttribute,
   TOrderFilterValues,
+  getValuesFromAttributes,
 } from '../api/order/ordersFilterApi'
 import { TFilterValues } from 'app-services/filter'
 
@@ -226,11 +227,11 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
    */
   const getCurrentPageOrders = function () {
     const sortedOrders = sortObjects(orders, sorting)
-    const filteredOrders = filterOrders(sortedOrders, attributes)
+    const filteredOrders = filterOrders(sortedOrders, getValuesFromAttributes(attributes))
     return getItemsPageSlice(filteredOrders, pages, PER_PAGE)
   }
   const getOrdersTotal = function () {
-    const filteredOrders = filterOrders(orders, attributes)
+    const filteredOrders = filterOrders(orders, getValuesFromAttributes(attributes))
     return filteredOrders.length
   }
 

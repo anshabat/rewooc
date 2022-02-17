@@ -28,17 +28,19 @@ function getAttributeValue(attr: TOrderFilterAttribute): string[] {
   }
 }
 
-export function getValuesFromAttributes(attributes: TOrderFilterAttribute[]): TOrderFilterValues {
+export function getValuesFromAttributes(
+  attributes: TOrderFilterAttribute[]
+): TOrderFilterValues {
   const attrs = attributes.map((attr) => [[attr.key], getAttributeValue(attr)])
-  
+
   return Object.fromEntries(attrs)
 }
 
 const filterOrders = (
   orders: IOrder[],
-  attributes: TOrderFilterAttribute[]
+  values: TOrderFilterValues
 ): IOrder[] => {
-  const {status, delivery, id, price} = getValuesFromAttributes(attributes)
+  const { status, delivery, id, price } = values
 
   return new Filter(orders)
     .equal('status.key', status)
@@ -69,31 +71,6 @@ const getAttributeFromOrders = function (
       }
     })
 }
-
-// const mergeValues = (
-//   currentValues: TOrderFilterValues,
-//   newValue: Record<string, string>
-// ) => {
-//   // TODO change Record<string, string> to smth like Record<keyof TOrdersFilterAttributes, string>
-//   const values = { ...currentValues }
-//   const key = Object.keys(newValue)[0] as keyof TOrderFilterValues
-//   values[key] = [...values[key], newValue[key]]
-//   return values
-// }
-
-// function calculateOptionsCount(
-//   key: string,
-//   options: TChoiceField[],
-//   orders: IOrder[],
-//   initialValues: TOrderFilterValues
-// ): TChoiceField[] {
-//   return options.map((option) => {
-//     const checked = initialValues[key as keyof TOrderFilterValues].includes(option.value)
-//     const vals = mergeValues(initialValues, { [key]: option.value })
-//     const filteredOrders = filterOrders(orders, vals)
-//     return { ...option, count: filteredOrders.length, checked }
-//   })
-// }
 
 const isAttributeAppliedSelector = function (
   key: keyof TOrderFilterValues,
@@ -162,7 +139,14 @@ const updateAttributes = (
     switch (type) {
       case 'choice': {
         const options = attr.options.map((option) => {
-          return { ...option, checked: values[key].includes(option.value) }
+          const mergedValues = {
+            ...values,
+            [key]: Array.from(new Set([...values[key], option.value])),
+          }
+          const count = filterOrders(orders, mergedValues).length
+          const checked = values[key].includes(option.value)
+
+          return { ...option, count, checked }
         })
 
         return { ...newAttr, options }
