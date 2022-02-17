@@ -50,7 +50,7 @@ const filterOrders = (
     .getItems()
 }
 
-const getAttributeFromOrders = function (
+const getAttributeOptionsFromOrders = function (
   orders: any[],
   attributeName: keyof IOrder,
   cb: (arg: any) => TChoiceField
@@ -80,18 +80,18 @@ const isAttributeAppliedSelector = function (
 }
 
 function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
-  const deliveryOptions = getAttributeFromOrders(
+  const deliveryOptions = getAttributeOptionsFromOrders(
     orders,
     'deliveryMethod',
     (delivery) => {
       return { value: delivery.id, label: delivery.title, checked: false }
     }
   )
-  const statusOptions = getAttributeFromOrders(orders, 'status', (status) => {
+  const statusOptions = getAttributeOptionsFromOrders(orders, 'status', (status) => {
     return { value: status.key, label: status.value, checked: false }
   })
 
-  return [
+  const idleAttributes: TOrderFilterAttribute[] = [
     {
       key: 'status',
       label: 'Status',
@@ -122,29 +122,31 @@ function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
       min: '',
     },
   ]
+
+  return updateAttributes(idleAttributes, getValuesFromAttributes(idleAttributes), orders)
 }
 
 const updateAttributes = (
-  values: TOrderFilterValues,
+  attributes: TOrderFilterAttribute[],
+  newValues: TOrderFilterValues,
   orders: IOrder[],
-  attributes: TOrderFilterAttribute[]
 ): TOrderFilterAttribute[] => {
   return attributes.map<TOrderFilterAttribute>((attr) => {
     const { key, type } = attr
     const newAttr = {
       ...attr,
-      isApplied: isAttributeAppliedSelector(key, values),
+      isApplied: isAttributeAppliedSelector(key, newValues),
     }
 
     switch (type) {
       case 'choice': {
         const options = attr.options.map((option) => {
           const mergedValues = {
-            ...values,
-            [key]: Array.from(new Set([...values[key], option.value])),
+            ...newValues,
+            [key]: Array.from(new Set([...newValues[key], option.value])),
           }
           const count = filterOrders(orders, mergedValues).length
-          const checked = values[key].includes(option.value)
+          const checked = newValues[key].includes(option.value)
 
           return { ...option, count, checked }
         })
@@ -152,10 +154,10 @@ const updateAttributes = (
         return { ...newAttr, options }
       }
       case 'text': {
-        return { ...newAttr, value: values.id[0] }
+        return { ...newAttr, value: newValues.id[0] }
       }
       case 'range': {
-        return { ...newAttr, min: values.price[0], max: values.price[1] }
+        return { ...newAttr, min: newValues.price[0], max: newValues.price[1] }
       }
       default:
         return newAttr

@@ -144,13 +144,9 @@ const PER_PAGE = 3
 
 export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const { params, updateParams } = useQuery<TQueryParams>()
-  const attrs = getAttributes(orders)
 
-
-  //const initialAttributes = updateAttributes(initialValues, orders, attrs)
-  const initialAttributes = attrs
   const initialState: TState = {
-    attributes: initialAttributes,
+    attributes: getAttributes(orders),
     sorting: {
       orderBy: 'id',
       direction: 'asc',
@@ -200,8 +196,8 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
   const sortingHandler: TUseOrderListActions['sortingHandler'] = (sorting) => {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
-  const filterHandler: TUseOrderListActions['filterHandler'] = (values) => {
-    const newAttributes = updateAttributes(values, orders, attributes)
+  const filterHandler: TUseOrderListActions['filterHandler'] = (newValues) => {
+    const newAttributes = updateAttributes(attributes, newValues, orders)
     dispatch({
       type: 'FILTER',
       payload: { attributes: newAttributes },
