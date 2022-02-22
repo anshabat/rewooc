@@ -10,7 +10,6 @@ import {
   TOrderFilterValues,
   getValuesFromAttributes,
 } from '../api/order/ordersFilterApi'
-import { TFilterValues } from 'app-services/filter'
 
 /**
  * Types
@@ -97,26 +96,26 @@ const getSortingValueFromUrl = function (
   return 'id'
 }
 
-// const getInitialStateFromUrl = function (
-//   initialState: TState,
-//   params: IParam<TQueryParams>,
-//   orders: IOrder[]
-// ): TState {
-//   return {
-//     ...initialState,
-//     attributes: updateAttributes(
-//       getFilterValuesFromUrl(initialState.values, params),
-//       orders,
-//       initialState.attributes
-//     ),
-//     sorting: {
-//       orderBy: getSortingValueFromUrl(params.orderBy),
-//       direction: params.direction === 'desc' ? params.direction : 'asc',
-//       type: params.type === 'number' ? params.type : 'string',
-//     },
-//     pages: getInitialPages(params),
-//   }
-// }
+const getInitialStateFromUrl = function (
+  initialState: TState,
+  params: IParam<TQueryParams>,
+  orders: IOrder[]
+): TState {
+  return {
+    ...initialState,
+    attributes: updateAttributes(
+      initialState.attributes,
+      getFilterValuesFromUrl(getValuesFromAttributes(initialState.attributes), params),
+      orders,
+    ),
+    sorting: {
+      orderBy: getSortingValueFromUrl(params.orderBy),
+      direction: params.direction === 'desc' ? params.direction : 'asc',
+      type: params.type === 'number' ? params.type : 'string',
+    },
+    pages: getInitialPages(params),
+  }
+}
 /**************************************************************
  * END URL Helpers
  *************************************************************/
@@ -179,16 +178,16 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
           throw new Error(`Unsupported action type: ${action.type}`)
       }
     },
-    initialState
-    //(initialState) => getInitialStateFromUrl(initialState, params, orders)
+    initialState,
+    (initialState) => getInitialStateFromUrl(initialState, params, orders)
   )
 
   const { pages, sorting, attributes } = state
 
-  // useEffect(() => {
-  //   const pagesParam = pages.map((p) => String(p))
-  //   updateParams({ ...values, ...sorting, pages: pagesParam })
-  // }, [state])
+  useEffect(() => {
+    const pagesParam = pages.map((p) => String(p))
+    updateParams({ ...getValuesFromAttributes(attributes), ...sorting, pages: pagesParam })
+  }, [state])
 
   /**
    * Actions
