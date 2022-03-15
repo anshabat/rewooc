@@ -10,18 +10,15 @@ import React, {
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
-import {
-  TOrderFilterAttribute,
-  getValuesFromAttributes,
-  TOrderFilterValues,
-} from '../../../api/order/ordersFilterApi'
+import { getValuesFromAttributes } from '../../../api/order/ordersFilterApi'
 import InputButton from '../Form/InputButton/InputButton'
 import RangeSlider from '../Form/RangeSlider/RangeSlider'
+import { TBasicFilterAttributes, TFilterValues } from 'app-services/filter'
 
 interface TProps {
-  attributes: TOrderFilterAttribute[]
+  attributes: TBasicFilterAttributes[]
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
-  onFilter: (values: TOrderFilterValues) => void
+  onFilter: <T extends TFilterValues<string>>(values: T) => void
 }
 
 const HorizontalFilter: FC<TProps> = (props) => {
@@ -59,7 +56,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
   }
 
   const renderAttributeComponent = function (
-    attr: TOrderFilterAttribute
+    attr: TBasicFilterAttributes
   ): ReactElement {
     const { type, key } = attr
     switch (type) {

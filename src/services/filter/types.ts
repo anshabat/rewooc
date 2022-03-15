@@ -1,4 +1,4 @@
-import { TChoiceField } from "app-services/form";
+import { TChoiceField } from 'app-services/form'
 
 interface TFilterAttribute<T> {
   key: T
@@ -21,5 +21,10 @@ export interface TFilterRangeAttribute<T> extends TFilterAttribute<T> {
   min: string
   max: string
 }
+
+export type TBasicFilterAttributes =
+  | TFilterChoiseAttribute<string>
+  | TFilterTextAttribute<string>
+  | TFilterRangeAttribute<string>
 
 export type TFilterValues<T extends string> = Record<T, string[]>

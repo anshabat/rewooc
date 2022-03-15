@@ -1,9 +1,11 @@
+import { TBasicFilterAttributes } from './../../services/filter/types';
 import {
   Filter,
   TFilterChoiseAttribute,
   TFilterTextAttribute,
   TFilterValues,
   TFilterRangeAttribute,
+  getAttributeValue,
 } from 'app-services/filter'
 import { TChoiceField } from 'app-services/form'
 import { IOrder } from 'app-types'
@@ -17,20 +19,9 @@ export type TOrderFilterAttribute =
   | TFilterTextAttribute<'id'>
   | TFilterRangeAttribute<'price'>
 
-function getAttributeValue(attr: TOrderFilterAttribute): string[] {
-  switch (attr.type) {
-    case 'choice':
-      return attr.options.filter((o) => o.checked).map((o) => o.value)
-    case 'range':
-      return [attr.min, attr.max]
-    case 'text':
-      return attr.value ? [attr.value] : []
-  }
-}
-
-export function getValuesFromAttributes(
-  attributes: TOrderFilterAttribute[]
-): TOrderFilterValues {
+export function getValuesFromAttributes<T extends string>(
+  attributes: TBasicFilterAttributes[]
+): TFilterValues<T> {
   const attrs = attributes.map((attr) => [[attr.key], getAttributeValue(attr)])
 
   return Object.fromEntries(attrs)

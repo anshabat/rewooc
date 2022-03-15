@@ -1,3 +1,4 @@
+import { TFilterValues } from 'app-services/filter'
 import { useReducer, useEffect } from 'react'
 import { IOrder, TSorting } from 'app-types'
 import { sortObjects } from '../shared/utilities'
@@ -32,7 +33,7 @@ interface TState {
 
 interface TUseOrderListActions {
   sortingHandler: (sorting: TOrdersSorting) => void
-  filterHandler: (newValue: TOrderFilterValues) => void
+  filterHandler: (newValue: TFilterValues<string>) => void
   clearFilter: () => void
   changePage: (page: number) => void
   loadMore: () => void
@@ -105,8 +106,11 @@ const getInitialStateFromUrl = function (
     ...initialState,
     attributes: updateAttributes(
       initialState.attributes,
-      getFilterValuesFromUrl(getValuesFromAttributes(initialState.attributes), params),
-      orders,
+      getFilterValuesFromUrl(
+        getValuesFromAttributes(initialState.attributes),
+        params
+      ),
+      orders
     ),
     sorting: {
       orderBy: getSortingValueFromUrl(params.orderBy),
@@ -186,7 +190,11 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
 
   useEffect(() => {
     const pagesParam = pages.map((p) => String(p))
-    updateParams({ ...getValuesFromAttributes(attributes), ...sorting, pages: pagesParam })
+    updateParams({
+      ...getValuesFromAttributes(attributes),
+      ...sorting,
+      pages: pagesParam,
+    })
   }, [state])
 
   /**
@@ -196,7 +204,12 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     dispatch({ type: 'SORTING', payload: { sorting } })
   }
   const filterHandler: TUseOrderListActions['filterHandler'] = (newValues) => {
-    const newAttributes = updateAttributes(attributes, newValues, orders)
+    const newAttributes = updateAttributes(
+      attributes,
+      //TODO remove this as
+      newValues as TOrderFilterValues,
+      orders
+    )
     dispatch({
       type: 'FILTER',
       payload: { attributes: newAttributes },
@@ -222,11 +235,17 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
    */
   const getCurrentPageOrders = function () {
     const sortedOrders = sortObjects(orders, sorting)
-    const filteredOrders = filterOrders(sortedOrders, getValuesFromAttributes(attributes))
+    const filteredOrders = filterOrders(
+      sortedOrders,
+      getValuesFromAttributes(attributes)
+    )
     return getItemsPageSlice(filteredOrders, pages, PER_PAGE)
   }
   const getOrdersTotal = function () {
-    const filteredOrders = filterOrders(orders, getValuesFromAttributes(attributes))
+    const filteredOrders = filterOrders(
+      orders,
+      getValuesFromAttributes(attributes)
+    )
     return filteredOrders.length
   }
 

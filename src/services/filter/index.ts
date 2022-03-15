@@ -1,2 +1,9 @@
 export { Filter } from './filter'
-export { TFilterChoiseAttribute, TFilterValues, TFilterTextAttribute, TFilterRangeAttribute } from './types'
+export { getAttributeValue } from './helpers'
+export {
+  TFilterChoiseAttribute,
+  TFilterValues,
+  TFilterTextAttribute,
+  TFilterRangeAttribute,
+  TBasicFilterAttributes,
+} from './types'
