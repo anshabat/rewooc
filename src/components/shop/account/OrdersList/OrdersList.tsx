@@ -27,9 +27,6 @@ const OrdersList: FC<IProps> = (props) => {
     clearFilter,
   } = actions
 
-  //console.log(state.attributes);
-  
-
   const { getCurrentPageOrders, getOrdersTotal } = selectors
 
   return (

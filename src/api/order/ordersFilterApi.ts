@@ -63,11 +63,11 @@ const getAttributeOptionsFromOrders = function (
     })
 }
 
-const isAttributeAppliedSelector = function (
+const isAttributeApplied = function (
   key: keyof TOrderFilterValues,
   values: TOrderFilterValues
 ) {
-  return values[key] ? Boolean(values[key].length) : false
+  return values[key] ? Boolean(values[key].filter(v => Boolean(v)).length) : false
 }
 
 function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
@@ -114,7 +114,9 @@ function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
     },
   ]
 
-  return updateAttributes(idleAttributes, getValuesFromAttributes(idleAttributes), orders)
+  const attributes = updateAttributes(idleAttributes, getValuesFromAttributes(idleAttributes), orders)
+
+  return attributes
 }
 
 const updateAttributes = (
@@ -126,7 +128,7 @@ const updateAttributes = (
     const { key, type } = attr
     const newAttr = {
       ...attr,
-      isApplied: isAttributeAppliedSelector(key, newValues),
+      isApplied: isAttributeApplied(key, newValues),
     }
 
     switch (type) {
