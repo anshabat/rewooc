@@ -58,7 +58,7 @@ const getAttributeOptionsFromOrders = function (
       return {
         label: attr.label,
         value: String(attr.value),
-        checked: false,
+        checked: attr.checked,
       }
     })
 }
