@@ -33,7 +33,7 @@ interface TState {
 
 interface TUseOrderListActions {
   sortingHandler: (sorting: TOrdersSorting) => void
-  filterHandler: (newValue: TFilterValues<string>) => void
+  filterHandler: (newValue: TFilterValues) => void
   clearFilter: () => void
   changePage: (page: number) => void
   loadMore: () => void

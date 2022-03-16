@@ -27,4 +27,4 @@ export type TBasicFilterAttributes =
   | TFilterTextAttribute<string>
   | TFilterRangeAttribute<string>
 
-export type TFilterValues<T extends string> = Record<T, string[]>
+export type TFilterValues<T extends string = string> = Record<T, string[]>

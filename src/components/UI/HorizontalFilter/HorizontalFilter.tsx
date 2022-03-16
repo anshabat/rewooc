@@ -18,7 +18,7 @@ import { TBasicFilterAttributes, TFilterValues } from 'app-services/filter'
 interface TProps {
   attributes: TBasicFilterAttributes[]
   onClear?: (e: MouseEvent<HTMLButtonElement>) => void
-  onFilter: <T extends TFilterValues<string>>(values: T) => void
+  onFilter: (values: TFilterValues) => void
 }
 
 const HorizontalFilter: FC<TProps> = (props) => {
