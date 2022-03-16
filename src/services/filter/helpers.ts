@@ -1,4 +1,4 @@
-import { TBasicFilterAttributes } from './types'
+import { TBasicFilterAttributes, TFilterValues } from './types'
 
 export function getAttributeValue(attr: TBasicFilterAttributes): string[] {
   switch (attr.type) {
@@ -9,6 +9,14 @@ export function getAttributeValue(attr: TBasicFilterAttributes): string[] {
     case 'text':
       return attr.value ? [attr.value] : []
   }
+}
+
+export function getValuesFromAttributes<T extends string>(
+  attributes: TBasicFilterAttributes[]
+): TFilterValues<T> {
+  const attrs = attributes.map((attr) => [[attr.key], getAttributeValue(attr)])
+
+  return Object.fromEntries(attrs)
 }
 
 export function getAppliedAttributes(attributes: TBasicFilterAttributes[]): string[] {

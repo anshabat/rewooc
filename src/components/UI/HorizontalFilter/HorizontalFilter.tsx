@@ -10,10 +10,14 @@ import React, {
 import Icon from '../Icon/Icon'
 import classNames from 'classnames'
 import ChoiceList from '../Form/ChoiceList/ChoiceList'
-import { getValuesFromAttributes } from '../../../api/order/ordersFilterApi'
 import InputButton from '../Form/InputButton/InputButton'
 import RangeSlider from '../Form/RangeSlider/RangeSlider'
-import { getAppliedAttributes, TBasicFilterAttributes, TFilterValues } from 'app-services/filter'
+import {
+  getAppliedAttributes,
+  getValuesFromAttributes,
+  TBasicFilterAttributes,
+  TFilterValues,
+} from 'app-services/filter'
 
 interface TProps {
   attributes: TBasicFilterAttributes[]
@@ -107,7 +111,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
               'rw-horizontal-filter__attribute--active': isActive,
             }
           )
-          
+
           return (
             <li
               ref={listItemRefs[index]}

@@ -1,4 +1,4 @@
-import { TFilterValues } from 'app-services/filter'
+import { TFilterValues, getValuesFromAttributes } from 'app-services/filter'
 import { useReducer, useEffect } from 'react'
 import { IOrder, TSorting } from 'app-types'
 import { sortObjects } from '../shared/utilities'
@@ -9,7 +9,6 @@ import {
   filterOrders,
   TOrderFilterAttribute,
   TOrderFilterValues,
-  getValuesFromAttributes,
 } from '../api/order/ordersFilterApi'
 
 /**
