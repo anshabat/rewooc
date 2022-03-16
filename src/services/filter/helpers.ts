@@ -10,3 +10,10 @@ export function getAttributeValue(attr: TBasicFilterAttributes): string[] {
       return attr.value ? [attr.value] : []
   }
 }
+
+export function getAppliedAttributes(attributes: TBasicFilterAttributes[]): string[] {
+  return attributes.filter(attr => {
+    const value = getAttributeValue(attr)
+    return Boolean(value.filter(v => Boolean(v)).length)
+  }).map(attr => attr.key)
+}

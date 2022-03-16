@@ -3,7 +3,6 @@ import { TChoiceField } from 'app-services/form'
 interface TFilterAttribute<T> {
   key: T
   label: string
-  isApplied: boolean
 }
 
 export interface TFilterChoiseAttribute<T> extends TFilterAttribute<T> {

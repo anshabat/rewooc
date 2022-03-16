@@ -1,5 +1,5 @@
 export { Filter } from './filter'
-export { getAttributeValue } from './helpers'
+export { getAttributeValue, getAppliedAttributes } from './helpers'
 export {
   TFilterChoiseAttribute,
   TFilterValues,

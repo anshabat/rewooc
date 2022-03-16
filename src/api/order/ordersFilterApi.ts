@@ -63,13 +63,6 @@ const getAttributeOptionsFromOrders = function (
     })
 }
 
-const isAttributeApplied = function (
-  key: keyof TOrderFilterValues,
-  values: TOrderFilterValues
-) {
-  return values[key] ? Boolean(values[key].filter(v => Boolean(v)).length) : false
-}
-
 function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
   const deliveryOptions = getAttributeOptionsFromOrders(
     orders,
@@ -87,28 +80,24 @@ function getAttributes(orders: IOrder[]): TOrderFilterAttribute[] {
       key: 'status',
       label: 'Status',
       type: 'choice',
-      isApplied: false,
       options: statusOptions,
     },
     {
       key: 'delivery',
       label: 'Delivery',
       type: 'choice',
-      isApplied: false,
       options: deliveryOptions,
     },
     {
       key: 'id',
       label: 'Number',
       type: 'text',
-      isApplied: false,
       value: '',
     },
     {
       key: 'price',
       label: 'Price',
       type: 'range',
-      isApplied: false,
       max: '',
       min: '',
     },
@@ -126,10 +115,6 @@ const updateAttributes = (
 ): TOrderFilterAttribute[] => {
   return attributes.map<TOrderFilterAttribute>((attr) => {
     const { key, type } = attr
-    const newAttr = {
-      ...attr,
-      isApplied: isAttributeApplied(key, newValues),
-    }
 
     switch (type) {
       case 'choice': {
@@ -144,16 +129,16 @@ const updateAttributes = (
           return { ...option, count, checked }
         })
 
-        return { ...newAttr, options }
+        return { ...attr, options }
       }
       case 'text': {
-        return { ...newAttr, value: newValues.id[0] }
+        return { ...attr, value: newValues.id[0] }
       }
       case 'range': {
-        return { ...newAttr, min: newValues.price[0], max: newValues.price[1] }
+        return { ...attr, min: newValues.price[0], max: newValues.price[1] }
       }
       default:
-        return newAttr
+        return attr
     }
   })
 }

@@ -13,7 +13,7 @@ import ChoiceList from '../Form/ChoiceList/ChoiceList'
 import { getValuesFromAttributes } from '../../../api/order/ordersFilterApi'
 import InputButton from '../Form/InputButton/InputButton'
 import RangeSlider from '../Form/RangeSlider/RangeSlider'
-import { TBasicFilterAttributes, TFilterValues } from 'app-services/filter'
+import { getAppliedAttributes, TBasicFilterAttributes, TFilterValues } from 'app-services/filter'
 
 interface TProps {
   attributes: TBasicFilterAttributes[]
@@ -31,7 +31,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
     listItemRefs[index] = useRef<any>()
   })
 
-  const isFilterApplied = attributes.some((attribute) => attribute.isApplied)
+  const appliedAttributes = getAppliedAttributes(attributes)
 
   const clickOutsideFilterHandler = (e: any) => {
     const clickedInside = listItemRefs.some((i) =>
@@ -100,12 +100,14 @@ const HorizontalFilter: FC<TProps> = (props) => {
     <nav className="rw-horizontal-filter">
       <ul className="rw-horizontal-filter__list">
         {attributes.map((attribute, index) => {
+          const isActive = appliedAttributes.includes(attribute.key)
           const attributeClasses = classNames(
             'rw-horizontal-filter__attribute',
             {
-              'rw-horizontal-filter__attribute--active': attribute.isApplied,
+              'rw-horizontal-filter__attribute--active': isActive,
             }
           )
+          
           return (
             <li
               ref={listItemRefs[index]}
@@ -130,7 +132,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
           )
         })}
       </ul>
-      {isFilterApplied ? (
+      {appliedAttributes.length ? (
         <button className="rw-horizontal-filter__clear" onClick={onClear}>
           Clear
         </button>
