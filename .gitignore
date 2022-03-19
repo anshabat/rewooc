@@ -4,6 +4,7 @@ dist/
 docker/database
 .env
 coverage/
+.DS_Store
 
 # Ignore Wordpress Server
 /server/wp/*.*
@@ -18,3 +19,4 @@ coverage/
 
 # Allow Wordpress Rewooc theme
 !/server/wp/wp-content/themes/rewooc/
+
