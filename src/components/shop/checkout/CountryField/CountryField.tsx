@@ -1,7 +1,8 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
-import SelectField from '../../../UI/Form/SelectField/SelectField'
 import { checkoutApi, IRegion } from 'app-api'
 import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
+import Select, { Option } from '../../../UI/Form/Select/Select'
+import FormField2 from '../../../UI/Form/FormField2/FormField2'
 
 interface IProps {
   formData: CheckoutFormType
@@ -29,16 +30,20 @@ const CountryField: FC<IProps> = (props) => {
   }
 
   return (
-    <SelectField
+    <FormField2
       label="Country"
-      name="billing_country"
-      id="billing_country"
-      value={formData.billing_country.value}
       required={formData.billing_country.validation.required}
       error={error}
-      onChange={onChange}
-      options={countries}
-    />
+    >
+      <Select name="billing_country" id="billing_country" onChange={onChange}>
+        <Option value="">Chose your country</Option>
+        {countries.map(([label, key]) => {
+          return (
+            <Option key={key} value={key}>{label}</Option>
+          )
+        })}
+      </Select>
+    </FormField2>
   )
 }
 
