@@ -1,4 +1,4 @@
-import './FormField2.scss'
+import './FormField.scss'
 import React, { FC } from 'react'
 import classNames from 'classnames'
 
@@ -11,7 +11,7 @@ export interface IFormFieldProps {
   error?: string
 }
 
-const FormField2: FC<IFormFieldProps> = (props) => {
+const FormField: FC<IFormFieldProps> = (props) => {
   const {
     horizontal = false,
     label,
@@ -47,4 +47,4 @@ const FormField2: FC<IFormFieldProps> = (props) => {
   )
 }
 
-export default FormField2
+export default FormField

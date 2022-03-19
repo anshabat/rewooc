@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import { checkoutApi, IRegion } from 'app-api'
 import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
 import Select, { Option } from '../../../UI/Form/Select/Select'
-import FormField2 from '../../../UI/Form/FormField2/FormField2'
+import FormField from '../../../UI/Form/FormField/FormField'
 
 interface IProps {
   formData: CheckoutFormType
@@ -32,7 +32,7 @@ const CountryField: FC<IProps> = (props) => {
   console.log(countries)
 
   return (
-    <FormField2
+    <FormField
       label="Country"
       required={formData.billing_country.validation.required}
       error={error}
@@ -45,7 +45,7 @@ const CountryField: FC<IProps> = (props) => {
           )
         })}
       </Select>
-    </FormField2>
+    </FormField>
   )
 }
 

@@ -1,6 +1,6 @@
 import './Textarea.scss'
 import React, { FC, InputHTMLAttributes, LegacyRef } from 'react'
-import FormField2, { IFormFieldProps } from '../FormField2/FormField2'
+import FormField, { IFormFieldProps } from '../FormField/FormField'
 
 export type TTextareaProps = IFormFieldProps &
   InputHTMLAttributes<HTMLTextAreaElement> & {
@@ -19,7 +19,7 @@ const Textarea: FC<TTextareaProps> = (props) => {
   } = props
 
   return (
-    <FormField2
+    <FormField
       label={label}
       hideLabel={hideLabel}
       horizontal={horizontal}
@@ -31,7 +31,7 @@ const Textarea: FC<TTextareaProps> = (props) => {
         placeholder={placeholder}
         {...restProps}
       />
-    </FormField2>
+    </FormField>
   )
 }
 

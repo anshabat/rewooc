@@ -1,6 +1,6 @@
 import './Input.scss'
 import React, { FC, InputHTMLAttributes, LegacyRef } from 'react'
-import FormField2, { IFormFieldProps } from '../FormField2/FormField2'
+import FormField, { IFormFieldProps } from '../FormField/FormField'
 
 export type TInputProps = IFormFieldProps &
   InputHTMLAttributes<HTMLInputElement> & {
@@ -22,7 +22,7 @@ const Input: FC<TInputProps> = (props) => {
   } = props
 
   return (
-    <FormField2
+    <FormField
       label={label}
       hideLabel={hideLabel}
       horizontal={horizontal}
@@ -37,7 +37,7 @@ const Input: FC<TInputProps> = (props) => {
         {...restProps}
       />
       {children}
-    </FormField2>
+    </FormField>
   )
 }
 
