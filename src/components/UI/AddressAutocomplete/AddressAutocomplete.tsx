@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, useEffect } from 'react'
 import { IPlace } from 'app-types'
 import { CheckoutFormType } from '../../../hooks/useCheckoutReducer'
 import { useGoogleMapLoader } from 'app-services/google/useGoogleMapLoader'
@@ -14,7 +14,6 @@ interface IProps {
 const AddressAutocomplete: FC<IProps> = (props) => {
   const { onSelect, formData, error, onChangeAddress } = props
   const value = formData.billing_address.value
-  const inputRef = useRef<HTMLInputElement>(null)
   const google = useGoogleMapLoader()
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const AddressAutocomplete: FC<IProps> = (props) => {
     const autocomplete = new google.maps.places.Autocomplete(input, options)
     autocomplete.addListener('place_changed', () => {
       const { geometry } = autocomplete.getPlace()
-      onChangeAddress(inputRef.current?.value ?? value)
+      onChangeAddress(input.value ?? value)
       if (!geometry?.location) {
         return onSelect(null)
       }
@@ -57,7 +56,6 @@ const AddressAutocomplete: FC<IProps> = (props) => {
         onChange={(e) => {
           onChangeAddress(e.target?.value ?? '')
         }}
-        elementRef={inputRef}
       />
     </div>
   )

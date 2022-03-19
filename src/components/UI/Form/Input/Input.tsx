@@ -1,11 +1,9 @@
 import './Input.scss'
-import React, { FC, InputHTMLAttributes, LegacyRef } from 'react'
+import React, { FC, InputHTMLAttributes } from 'react'
 import FormField, { IFormFieldProps } from '../FormField/FormField'
 
 export type TInputProps = IFormFieldProps &
-  InputHTMLAttributes<HTMLInputElement> & {
-    elementRef?: LegacyRef<HTMLInputElement>
-  }
+  InputHTMLAttributes<HTMLInputElement>
 
 const Input: FC<TInputProps> = (props) => {
   const {
@@ -17,7 +15,6 @@ const Input: FC<TInputProps> = (props) => {
     required,
     error,
     children,
-    elementRef = null,
     ...restProps
   } = props
 
@@ -33,7 +30,6 @@ const Input: FC<TInputProps> = (props) => {
         className="rw-input"
         type={type}
         placeholder={placeholder}
-        ref={elementRef}
         {...restProps}
       />
       {children}

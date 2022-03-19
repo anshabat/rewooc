@@ -1,11 +1,9 @@
 import './Textarea.scss'
-import React, { FC, InputHTMLAttributes, LegacyRef } from 'react'
+import React, { FC, InputHTMLAttributes } from 'react'
 import FormField, { IFormFieldProps } from '../FormField/FormField'
 
 export type TTextareaProps = IFormFieldProps &
-  InputHTMLAttributes<HTMLTextAreaElement> & {
-    elementRef?: LegacyRef<HTMLInputElement>
-  }
+  InputHTMLAttributes<HTMLTextAreaElement>
 
 const Textarea: FC<TTextareaProps> = (props) => {
   const {
