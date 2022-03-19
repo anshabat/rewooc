@@ -2,10 +2,10 @@ import './OrdersList.scss'
 import React, { FC } from 'react'
 import { IOrder } from 'types'
 import OrdersTable from '../OrdersTable/OrdersTable'
-import Paginator from '../../../UI/Paginator/Paginator'
-import LoadMore from '../../../UI/LoadMore/LoadMore'
 import { useOrdersList } from '../../.././../hooks/useOrdersList'
-import HorizontalFilter from '../../../UI/HorizontalFilter/HorizontalFilter'
+import HorizontalFilter from 'components/UI/HorizontalFilter/HorizontalFilter'
+import Paginator from 'components/UI/Paginator/Paginator'
+import LoadMore from 'components/UI/LoadMore/LoadMore'
 
 /**
  * Component
