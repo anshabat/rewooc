@@ -1,4 +1,4 @@
-import { cartApi } from 'app-api'
+import { cartApi } from 'api'
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 import {
   CART_PAGE_LOAD,

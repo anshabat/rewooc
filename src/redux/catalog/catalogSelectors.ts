@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { AppStateType } from '../store'
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 import { ICatalogState } from './catalogTypes'
 
 export const selectProducts = (state: AppStateType): IProduct[] =>

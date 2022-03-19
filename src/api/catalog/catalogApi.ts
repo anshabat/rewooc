@@ -1,7 +1,7 @@
 import { instance } from '../instance'
 import { wcAjax } from '../endpoints'
 import { ICatalogPage } from './catalogTypes'
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 
 async function searchProducts(
   term: string,

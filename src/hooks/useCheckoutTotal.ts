@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { IDeliveryMethod } from 'app-api'
+import { IDeliveryMethod } from 'api'
 import { useSelector } from 'react-redux'
 import { selectCartTotalPrice } from '../redux/cart/cartSelectors'
 

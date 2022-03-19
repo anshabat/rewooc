@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { catalogApi } from 'app-api'
+import { catalogApi } from 'api'
 import {
   CATALOG_PAGE_LOAD,
   loadCatalogPageSuccess,

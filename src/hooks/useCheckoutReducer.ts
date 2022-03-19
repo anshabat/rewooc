@@ -1,4 +1,4 @@
-import { createField, IFormField } from 'app-services/form'
+import { createField, IFormField } from 'services/form'
 import { ChangeEvent, useReducer } from 'react'
 
 type SetFieldType = (

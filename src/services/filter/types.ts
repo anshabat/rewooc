@@ -1,4 +1,4 @@
-import { TChoiceField } from 'app-services/form'
+import { TChoiceField } from 'services/form'
 
 interface TFilterAttribute<T> {
   key: T

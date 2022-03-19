@@ -1,4 +1,4 @@
-import { IUser } from 'app-types'
+import { IUser } from 'types'
 
 export interface IAccountState {
   user: IUser | null

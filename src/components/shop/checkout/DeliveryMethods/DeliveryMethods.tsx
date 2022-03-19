@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import ChoiceGroup from '../../../UI/Form/ChoiceGroup/ChoiceGroup'
-import { checkoutApi, IDeliveryMethod } from 'app-api'
+import { checkoutApi, IDeliveryMethod } from 'api'
 import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
 
 interface IProps {

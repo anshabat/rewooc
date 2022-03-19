@@ -5,7 +5,7 @@ import {
   INIT_APP_SUCCESS,
 } from './appActions'
 import produce from 'immer'
-import { IGeneralData } from 'app-api'
+import { IGeneralData } from 'api'
 import { AppActionTypes, IAppState } from './appTypes'
 import { AppContextType } from '../../context/appContext'
 

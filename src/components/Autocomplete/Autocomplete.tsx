@@ -1,7 +1,7 @@
 import './Autocomplete.scss'
 import React, { Component } from 'react'
-import { catalogApi } from 'app-api'
-import { IProduct } from 'app-types'
+import { catalogApi } from 'api'
+import { IProduct } from 'types'
 import AutocompleteResults from './AutocompleteResults/AutocompleteResults'
 import AutocompleteField from './AutocompleteField/AutocompleteField'
 

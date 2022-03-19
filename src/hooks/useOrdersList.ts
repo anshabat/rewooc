@@ -1,8 +1,8 @@
-import { TFilterValues, getValuesFromAttributes } from 'app-services/filter'
+import { TFilterValues, getValuesFromAttributes } from 'services/filter'
 import { useReducer, useEffect } from 'react'
-import { IOrder, TSorting } from 'app-types'
+import { IOrder, TSorting } from 'types'
 import { sortObjects } from '../shared/utilities'
-import { IParam, useQuery } from 'app-services/query'
+import { IParam, useQuery } from 'services/query'
 import {
   getAttributes,
   updateAttributes,

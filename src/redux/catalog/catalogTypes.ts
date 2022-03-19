@@ -1,4 +1,4 @@
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 import {
   CATALOG_PAGE_HIDE_ERROR,
   CATALOG_PAGE_LOAD,

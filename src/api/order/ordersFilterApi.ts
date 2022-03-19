@@ -5,9 +5,9 @@ import {
   TFilterValues,
   TFilterRangeAttribute,
   getValuesFromAttributes,
-} from 'app-services/filter'
-import { TChoiceField } from 'app-services/form'
-import { IOrder } from 'app-types'
+} from 'services/filter'
+import { TChoiceField } from 'services/form'
+import { IOrder } from 'types'
 
 export type TOrderFilterValues = TFilterValues<
   'delivery' | 'status' | 'id' | 'price'

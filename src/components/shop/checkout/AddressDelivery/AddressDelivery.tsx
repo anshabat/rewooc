@@ -1,10 +1,10 @@
 import './AddressDelivery.scss'
 import React, { FC, useState } from 'react'
 import AddressAutocomplete from '../../../UI/AddressAutocomplete/AddressAutocomplete'
-import { ILocation, IPlace } from 'app-types'
+import { ILocation, IPlace } from 'types'
 import GoogleMap from '../../../UI/GoogleMap/GoogleMap'
 import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
-import Button from '../../../UI/Button/Button'
+import Button from 'components/UI/Button/Button'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

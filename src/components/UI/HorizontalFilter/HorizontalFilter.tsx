@@ -17,7 +17,7 @@ import {
   getValuesFromAttributes,
   TBasicFilterAttributes,
   TFilterValues,
-} from 'app-services/filter'
+} from 'services/filter'
 
 interface TProps {
   attributes: TBasicFilterAttributes[]

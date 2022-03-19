@@ -1,7 +1,7 @@
 import './ChoiceList.scss'
 import React, { FC, useEffect, useState } from 'react'
 import ChoiceField from '../ChoiceField/ChoiceField'
-import { TChoiceField } from 'app-services/form'
+import { TChoiceField } from 'services/form'
 
 interface ChoiceListProps {
   options: TChoiceField[]

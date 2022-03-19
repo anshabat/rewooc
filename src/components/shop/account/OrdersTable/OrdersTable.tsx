@@ -1,11 +1,11 @@
 import './OrdersTable.scss'
 import React, { FC } from 'react'
-import { IOrder, TGetSortingDirection } from 'app-types'
+import { IOrder, TGetSortingDirection } from 'types'
 import A from '../../../UI/A/A'
 import Price from '../../Price/Price'
-import { getFormattedDate } from 'app-services/date'
+import { getFormattedDate } from 'services/date'
 import SortableTitle from '../../../UI/SortableTitle/SortableTitle'
-import { TOrdersSorting } from 'src/hooks/useOrdersList'
+import { TOrdersSorting } from 'hooks/useOrdersList'
 
 interface IProps {
   orders: IOrder[]

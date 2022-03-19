@@ -13,7 +13,7 @@ import {
   setCartProductQuantity,
 } from '../../../../redux/cart/cartActions'
 import Price from '../../Price/Price'
-import { ICartItem } from 'app-api'
+import { ICartItem } from 'api'
 import DeleteButton from '../../../UI/DeleteButton/DeleteButton'
 
 interface IProps {

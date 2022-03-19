@@ -1,7 +1,7 @@
 import React from 'react'
 import { usePageData } from '../../../hooks/usePageData'
 import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
-import { IOrder } from 'app-types'
+import { IOrder } from 'types'
 
 const ViewOrder = () => {
   const data = usePageData<IOrder>()

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
-import { checkoutApi, IRegion } from 'app-api'
+import { checkoutApi, IRegion } from 'api'
 import { CheckoutFormType } from '../../../../hooks/useCheckoutReducer'
 import Select, { Option } from '../../../UI/Form/Select/Select'
 import FormField from '../../../UI/Form/FormField/FormField'

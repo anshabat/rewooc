@@ -1,8 +1,8 @@
 import './GoogleMap.scss'
 import React, { FC, useEffect, useState } from 'react'
-import { ILocation, IViewport } from 'app-types'
+import { ILocation, IViewport } from 'types'
 import Button from '../Button/Button'
-import { useGoogleMapLoader } from 'app-services/google/useGoogleMapLoader'
+import { useGoogleMapLoader } from 'services/google/useGoogleMapLoader'
 
 interface IProps {
   id: string

@@ -1,5 +1,5 @@
 import { IDate } from './dateAndTime'
-import { IDeliveryMethod } from 'app-api'
+import { IDeliveryMethod } from 'api'
 
 export type OrderStatus = {
   key: string

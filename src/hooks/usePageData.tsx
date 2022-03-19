@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { appApi } from 'app-api'
+import { appApi } from 'api'
 
 export function usePageData<P>(): P | null {
   const [data, setData] = useState<null | P>(null)

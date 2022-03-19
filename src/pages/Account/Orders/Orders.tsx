@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { usePageData } from '../../../hooks/usePageData'
-import { IOrder } from 'app-types'
+import { IOrder } from 'types'
 import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
 import { useAccountContext } from '../../../context/accountContext'
 import OrdersList from '../../../components/shop/account/OrdersList/OrdersList'

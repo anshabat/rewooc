@@ -1,5 +1,5 @@
 import { ICartItem, ICartHash } from '../cart/cartTypes'
-import { INavItem, IPriceFormat } from 'app-types'
+import { INavItem, IPriceFormat } from 'types'
 
 export interface IGeneralResponseData {
   ajaxUrl: string

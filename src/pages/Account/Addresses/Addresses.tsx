@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { IUserAddress } from 'app-types'
+import { IUserAddress } from 'types'
 import { usePageData } from '../../../hooks/usePageData'
 import ContentLoader from '../../../components/UI/loaders/ContentLoader/ContentLoader'
 import { useAccountContext } from '../../../context/accountContext'

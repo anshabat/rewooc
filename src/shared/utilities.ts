@@ -7,7 +7,7 @@
  */
 
 import { Config } from '../config'
-import { TSorting } from 'app-types'
+import { TSorting } from 'types'
 
 export const debounce = (
   callback: (e: Event) => void,

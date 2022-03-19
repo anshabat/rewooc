@@ -1,4 +1,4 @@
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 
 export interface ICartPage {
   title: string

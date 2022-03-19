@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react'
-import { IPlace } from 'app-types'
+import { IPlace } from 'types'
 import { CheckoutFormType } from '../../../hooks/useCheckoutReducer'
-import { useGoogleMapLoader } from 'app-services/google/useGoogleMapLoader'
+import { useGoogleMapLoader } from 'services/google/useGoogleMapLoader'
 import Input from '../Form/Input/Input'
 
 interface IProps {

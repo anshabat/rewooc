@@ -1,6 +1,6 @@
 import './Home.scss'
 import React from 'react'
-import { IBlogPost, IProduct } from 'app-types'
+import { IBlogPost, IProduct } from 'types'
 import SectionPrimary from '../../components/UI/sections/SectionPrimary/SectionPrimary'
 import ProductCard from '../../components/shop/product/ProductCard/ProductCard'
 import CardPost from '../../components/posts/CardPost/CardPost'

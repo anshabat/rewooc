@@ -1,7 +1,7 @@
 import './CheckoutTotals.scss'
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
-import { IDeliveryMethod } from 'app-api'
+import { IDeliveryMethod } from 'api'
 import {
   selectCartItems,
   selectCartTotalPrice,

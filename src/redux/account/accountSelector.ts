@@ -1,5 +1,5 @@
 import { AppStateType } from '../store'
-import { IUser } from 'app-types'
+import { IUser } from 'types'
 
 export const selectAccountUser = (state: AppStateType): IUser | null => {
   return state.account.user

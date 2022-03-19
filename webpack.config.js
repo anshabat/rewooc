@@ -80,11 +80,7 @@ module.exports = {
     }),
   ],
   resolve: {
+    modules: [ path.resolve(__dirname, "src"), "node_modules"],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    alias: {
-      // Todo remove aliases from webpack or add app-types from tsconfig.json
-      'app-api': path.resolve(__dirname, 'src/api'),
-      'app-services': path.resolve(__dirname, 'src/services'),
-    },
   },
 }

@@ -1,6 +1,6 @@
 import './OrdersList.scss'
 import React, { FC } from 'react'
-import { IOrder } from 'app-types'
+import { IOrder } from 'types'
 import OrdersTable from '../OrdersTable/OrdersTable'
 import Paginator from '../../../UI/Paginator/Paginator'
 import LoadMore from '../../../UI/LoadMore/LoadMore'

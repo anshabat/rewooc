@@ -1,4 +1,4 @@
-import { appApi } from 'app-api'
+import { appApi } from 'api'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { INIT_APP, initAppFail, initAppSuccess } from './appActions'
 import { Await } from '../../shared/utilityTypes'

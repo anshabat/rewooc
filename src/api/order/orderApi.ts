@@ -2,7 +2,7 @@ import { instance } from '../instance'
 import { wcAjax } from '../endpoints'
 import { ICartItem } from '../cart/cartTypes'
 import { IResponseData } from '../types'
-import { IOrderRequest } from 'app-api'
+import { IOrderRequest } from 'api'
 import { CheckoutFormType } from '../../hooks/useCheckoutReducer'
 
 /**

@@ -1,4 +1,4 @@
-import { IPriceFormat } from 'app-types'
+import { IPriceFormat } from 'types'
 import { useAppContext } from '../../../context/appContext'
 
 const formatPrice = (options: IPriceFormat, value: number) => {

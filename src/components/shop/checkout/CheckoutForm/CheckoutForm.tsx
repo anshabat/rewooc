@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, FocusEvent } from 'react'
 import Button from '../../../UI/Button/Button'
-import { IDeliveryMethod } from 'app-api'
+import { IDeliveryMethod } from 'api'
 import { useSelector } from 'react-redux'
 import Form from '../../../UI/Form/Form'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'

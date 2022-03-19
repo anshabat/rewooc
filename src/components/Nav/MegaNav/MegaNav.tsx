@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import Nav from '../Nav'
 import { Link } from 'react-router-dom'
 import { siteUrl } from '../../../shared/utilities'
-import { INavItem } from 'app-types'
+import { INavItem } from 'types'
 
 interface IProps {
   items: INavItem[]

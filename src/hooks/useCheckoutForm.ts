@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react'
-import { validate, ValidationErrorType } from 'app-services/form'
-import { authApi, orderApi } from 'app-api'
+import { validate, ValidationErrorType } from 'services/form'
+import { authApi, orderApi } from 'api'
 import { ErrorMessage } from '../shared/errorMessages'
 import { signIn } from '../redux/auth/authActions'
 import { clearCart } from '../redux/cart/cartActions'

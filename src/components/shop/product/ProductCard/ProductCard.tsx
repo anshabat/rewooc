@@ -6,7 +6,7 @@ import Image from '../../../UI/Image/Image'
 import Price from '../../Price/Price'
 import { addToCart } from '../../../../redux/cart/cartActions'
 import { siteUrl } from '../../../../shared/utilities'
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 import { useCartInfo } from '../../../../hooks/useProductsInCartSelector'
 import Input from '../../../UI/Form/Input/Input'
 

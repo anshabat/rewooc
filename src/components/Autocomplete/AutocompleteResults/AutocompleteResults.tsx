@@ -1,6 +1,6 @@
 import './AutocompleteResults.scss'
 import React, { FC, useEffect } from 'react'
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 import { siteUrl } from '../../../shared/utilities'
 
 interface IProps {

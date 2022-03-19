@@ -1,6 +1,6 @@
-import { ICartItem } from 'app-api'
+import { ICartItem } from 'api'
 import { ICartData, ICartState, INormalizedCartItem } from './cartTypes'
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 
 export const normalizeCartItem = (item: ICartItem): INormalizedCartItem => {
   return {

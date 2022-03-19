@@ -2,7 +2,7 @@ import './CartProduct.scss'
 import React, { FC } from 'react'
 import Image from '../../../UI/Image/Image'
 import Price from '../../Price/Price'
-import { IProduct } from 'app-types'
+import { IProduct } from 'types'
 
 interface IProps {
   product: IProduct

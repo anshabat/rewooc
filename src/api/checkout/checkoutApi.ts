@@ -1,4 +1,4 @@
-import { IDeliveryMethod, IPaymentMethod, IRegion } from 'app-api'
+import { IDeliveryMethod, IPaymentMethod, IRegion } from 'api'
 import { instance } from '../instance'
 import { IResponseData } from '../types'
 import {

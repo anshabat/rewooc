@@ -1,5 +1,5 @@
-import { ICartItem, ICartPage } from 'app-api'
-import { IProduct } from 'app-types'
+import { ICartItem, ICartPage } from 'api'
+import { IProduct } from 'types'
 import {
   CART_ADD_PRODUCT,
   CART_ADD_PRODUCT_FAIL,
