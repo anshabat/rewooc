@@ -7,8 +7,8 @@ import Price from '../../Price/Price'
 import { addToCart } from '../../../../redux/cart/cartActions'
 import { siteUrl } from '../../../../shared/utilities'
 import { IProduct } from 'app-types'
-import FormField from '../../../UI/Form/FormField/FormField'
 import { useCartInfo } from '../../../../hooks/useProductsInCartSelector'
+import Input from '../../../UI/Form/Input/Input'
 
 const ProductCard: FC<IProduct> = (props) => {
   const {
@@ -39,7 +39,7 @@ const ProductCard: FC<IProduct> = (props) => {
       </div>
       <div className="rw-product-card__row">
         <div className="rw-product-card__quantity">
-          <FormField
+          <Input
             label="Quantity"
             hideLabel
             type="number"

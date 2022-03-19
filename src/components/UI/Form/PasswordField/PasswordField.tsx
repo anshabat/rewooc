@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react'
 import Icon from '../../Icon/Icon'
-import FormField, { IFormFieldProps } from '../FormField/FormField'
+import Input, { TInputProps } from '../Input/Input'
 
-const PasswordField: FC<IFormFieldProps> = (props) => {
+const PasswordField: FC<TInputProps> = (props) => {
   const { type, ...rest } = props
   const [mode, setMode] = useState(type)
   const iconClass = mode === 'password' ? 'fa-eye' : 'fa-eye-slash'
@@ -15,9 +15,9 @@ const PasswordField: FC<IFormFieldProps> = (props) => {
   }
 
   return (
-    <FormField type={mode} {...rest}>
+    <Input type={mode} {...rest}>
       <Icon name={iconClass} onClick={togglePasswordVisibility} />
-    </FormField>
+    </Input>
   )
 }
 

@@ -2,7 +2,6 @@ import React, { ChangeEvent, FC, FocusEvent } from 'react'
 import Button from '../../../UI/Button/Button'
 import { IDeliveryMethod } from 'app-api'
 import { useSelector } from 'react-redux'
-import FormField from '../../../UI/Form/FormField/FormField'
 import Form from '../../../UI/Form/Form'
 import ChoiceField from '../../../UI/Form/ChoiceField/ChoiceField'
 import { selectAccountUserId } from '../../../../redux/account/accountSelector'
@@ -17,6 +16,8 @@ import CountryField from '../CountryField/CountryField'
 import { useCheckoutForm } from '../../../../hooks/useCheckoutForm'
 import AddressDelivery from '../AddressDelivery/AddressDelivery'
 import Dialog from '../../../UI/Dialog/Dialog'
+import Input from '../../../UI/Form/Input/Input'
+import Textarea from '../../../UI/Form/Textarea/Textarea'
 
 interface IProps {
   onUpdateDelivery?: (deliveryMethod: IDeliveryMethod) => void
@@ -45,7 +46,7 @@ const CheckoutForm: FC<IProps> = (props) => {
     clearForm()
   })
 
-  const setValue = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const setValue = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const name = e.target.name as keyof CheckoutFormType
     const value = e.target.value
     setField(name, value)
@@ -60,18 +61,18 @@ const CheckoutForm: FC<IProps> = (props) => {
         <Form.Fieldset>
           <Form.Legend>Contact info</Form.Legend>
           <Form.Fields>
-            <FormField
+            <Input
               label="First name"
               name="billing_first_name"
               id="billing_first_name"
               type="text"
-              value={formData.billing_first_name.value}
               required={formData.billing_first_name.validation.required}
+              value={formData.billing_first_name.value}
               error={errors.billing_first_name}
               onChange={setValue}
             />
 
-            <FormField
+            <Input
               label="Last name"
               name="billing_last_name"
               id="billing_last_name"
@@ -82,7 +83,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               onChange={setValue}
             />
 
-            <FormField
+            <Input
               label="Phone"
               name="billing_phone"
               id="billing_phone"
@@ -93,7 +94,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               onChange={setValue}
             />
 
-            <FormField
+            <Input
               label="Email"
               name="billing_email"
               id="billing_email"
@@ -119,7 +120,7 @@ const CheckoutForm: FC<IProps> = (props) => {
 
             {formData.ship_to_different_address.value ? (
               <>
-                <FormField
+                <Input
                   label="First Name"
                   name="shipping_first_name"
                   id="shipping_first_name"
@@ -129,7 +130,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                   error={errors.shipping_first_name}
                   onChange={setValue}
                 />
-                <FormField
+                <Input
                   label="Last Name"
                   name="shipping_last_name"
                   id="shipping_last_name"
@@ -241,13 +242,12 @@ const CheckoutForm: FC<IProps> = (props) => {
         <Form.Fieldset>
           <Form.Legend>Order notes</Form.Legend>
           <Form.Fields>
-            <FormField
+            <Textarea
               label="Order notes"
               hideLabel
               name="order_note"
               id="order_note"
               type="text"
-              elementType="textarea"
               value={formData.order_note.value}
               required={formData.order_note.validation.required}
               onChange={setValue}

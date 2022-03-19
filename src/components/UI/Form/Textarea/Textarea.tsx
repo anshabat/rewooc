@@ -1,23 +1,20 @@
-import './Input.scss'
+import './Textarea.scss'
 import React, { FC, InputHTMLAttributes, LegacyRef } from 'react'
 import FormField2, { IFormFieldProps } from '../FormField2/FormField2'
 
-export type TInputProps = IFormFieldProps &
-  InputHTMLAttributes<HTMLInputElement> & {
+export type TTextareaProps = IFormFieldProps &
+  InputHTMLAttributes<HTMLTextAreaElement> & {
     elementRef?: LegacyRef<HTMLInputElement>
   }
 
-const Input: FC<TInputProps> = (props) => {
+const Textarea: FC<TTextareaProps> = (props) => {
   const {
-    type = 'text',
     placeholder,
     label,
     hideLabel,
     horizontal,
     required,
     error,
-    children,
-    elementRef = null,
     ...restProps
   } = props
 
@@ -29,16 +26,13 @@ const Input: FC<TInputProps> = (props) => {
       required={required}
       error={error}
     >
-      <input
-        className="rw-input"
-        type={type}
+      <textarea
+        className="rw-textarea"
         placeholder={placeholder}
-        ref={elementRef}
         {...restProps}
       />
-      {children}
     </FormField2>
   )
 }
 
-export default Input
+export default Textarea

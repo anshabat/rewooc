@@ -7,8 +7,8 @@ import Button from '../../components/UI/Button/Button'
 import Message from '../../components/UI/Message/Message'
 import { selectAccountUser } from '../../redux/account/accountSelector'
 import { selectAuthProcess } from '../../redux/auth/authSelectors'
-import FormField from '../../components/UI/Form/FormField/FormField'
 import Form, { FormEventType } from '../../components/UI/Form/Form'
+import Input from '../../components/UI/Form/Input/Input'
 
 interface IFormElements extends HTMLFormControlsCollection {
   username: HTMLInputElement
@@ -38,13 +38,13 @@ const SignIn: FC = () => {
       <Form loading={loading} onSubmit={submitHandler}>
         <Form.Fields>
           {error && <Message type="error">{error.toString()}</Message>}
-          <FormField
+          <Input
             label="Username or email"
             name="username"
             id="sign-in-username"
             type="text"
           />
-          <FormField
+          <Input
             label="Password"
             name="password"
             id="sign-in-password"

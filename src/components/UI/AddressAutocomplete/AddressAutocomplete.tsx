@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useRef } from 'react'
 import { IPlace } from 'app-types'
-import FormField from '../Form/FormField/FormField'
 import { CheckoutFormType } from '../../../hooks/useCheckoutReducer'
 import { useGoogleMapLoader } from 'app-services/google/useGoogleMapLoader'
+import Input from '../Form/Input/Input'
 
 interface IProps {
   formData: CheckoutFormType
@@ -46,7 +46,7 @@ const AddressAutocomplete: FC<IProps> = (props) => {
 
   return (
     <div>
-      <FormField
+      <Input
         label="Address"
         name="billing_address"
         id="billing_address"
