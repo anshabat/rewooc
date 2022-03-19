@@ -29,6 +29,8 @@ const CountryField: FC<IProps> = (props) => {
     return null
   }
 
+  console.log(countries)
+
   return (
     <FormField2
       label="Country"
