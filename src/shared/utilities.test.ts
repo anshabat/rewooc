@@ -1,4 +1,10 @@
-import { ajaxEndpoint, apiUrl, removeTrailingSlash, siteUrl } from './utilities'
+import {
+  ajaxEndpoint,
+  apiUrl,
+  removeTrailingSlash,
+  siteUrl,
+  trimObject,
+} from './utilities'
 
 let apiUrlMock: string
 
@@ -7,7 +13,7 @@ jest.mock('../config', () => {
   return {
     Config: {
       apiUrl: apiUrlMock,
-    }
+    },
   }
 })
 
@@ -47,5 +53,12 @@ describe('siteUrl', () => {
 describe('ajaxEndpoint', () => {
   it('should create proper wp ajax endpoint with given string', () => {
     expect(ajaxEndpoint(`test`)).toBe(`${apiUrlMock}/?wc-ajax=test`)
+  })
+})
+
+describe('trimObject', () => {
+  it('should remove props from object', () => {
+    const obj = { a: 1, b: 2, c: 3, d: 4 }
+    expect(trimObject(obj, ['a', 'c'])).toEqual({ b: 2, d: 4 })
   })
 })
