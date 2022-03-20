@@ -1,9 +1,11 @@
+import { TSorting } from 'types'
 import {
   ajaxEndpoint,
   apiUrl,
   propertyFromDottedString,
   removeTrailingSlash,
   siteUrl,
+  sortObjects,
   trimObject,
 } from './utilities'
 
@@ -60,16 +62,66 @@ describe('ajaxEndpoint', () => {
 describe('trimObject', () => {
   it('should remove props from object', () => {
     const obj = { a: 1, b: 2, c: 3, d: 4 }
+
     expect(trimObject(obj, ['a', 'c'])).toEqual({ b: 2, d: 4 })
   })
 })
 
 describe('propertyFromDottedString', () => {
   it('should find object property by given string with dot separator', () => {
-    const obj = { a: {a1: {a11: 'test'}, a2: 10}, b: 2}
+    const obj = { a: { a1: { a11: 'test' }, a2: 10 }, b: 2 }
+
     expect(propertyFromDottedString(obj, 'a.a1.a11')).toBe('test')
-    expect(propertyFromDottedString(obj, 'a.a1')).toEqual({a11: 'test'})
+    expect(propertyFromDottedString(obj, 'a.a1')).toEqual({ a11: 'test' })
     expect(propertyFromDottedString(obj, 'a.a2')).toBe(10)
     expect(propertyFromDottedString(obj, 'b')).toBe(2)
+  })
+})
+
+describe('sortObjects', () => {
+  const items = [
+    { title: 'samsung', price: 150 },
+    { title: 'apple', price: 50 },
+    { title: 'lg', price: 100 },
+  ]
+
+  it('should sort objects array by string ASC', () => {
+    const sorting: TSorting = { orderBy: 'title', direction: 'asc' }
+
+    expect(sortObjects(items, sorting)).toEqual([
+      { title: 'apple', price: 50 },
+      { title: 'lg', price: 100 },
+      { title: 'samsung', price: 150 },
+    ])
+  })
+
+  it('should sort objects array by string DESC', () => {
+    const sorting: TSorting = { orderBy: 'title', direction: 'desc' }
+
+    expect(sortObjects(items, sorting)).toEqual([
+      { title: 'samsung', price: 150 },
+      { title: 'lg', price: 100 },
+      { title: 'apple', price: 50 },
+    ])
+  })
+
+  it('should sort objects array by number ASC', () => {
+    const sorting: TSorting = { orderBy: 'price', direction: 'asc' }
+
+    expect(sortObjects(items, sorting)).toEqual([
+      { title: 'apple', price: 50 },
+      { title: 'lg', price: 100 },
+      { title: 'samsung', price: 150 },
+    ])
+  })
+
+  it('should sort objects array by number DESC', () => {
+    const sorting: TSorting = { orderBy: 'price', direction: 'desc' }
+
+    expect(sortObjects(items, sorting)).toEqual([
+      { title: 'samsung', price: 150 },
+      { title: 'lg', price: 100 },
+      { title: 'apple', price: 50 },
+    ])
   })
 })
