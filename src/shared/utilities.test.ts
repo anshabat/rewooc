@@ -1,4 +1,4 @@
-import { apiUrl, removeTrailingSlash, siteUrl } from './utilities'
+import { ajaxEndpoint, apiUrl, removeTrailingSlash, siteUrl } from './utilities'
 
 let apiUrlMock: string
 
@@ -41,5 +41,11 @@ describe('siteUrl', () => {
   })
   it('should do nothing is str starts slash', () => {
     expect(siteUrl(`/test`)).toBe('/test')
+  })
+})
+
+describe('ajaxEndpoint', () => {
+  it('should create proper wp ajax endpoint with given string', () => {
+    expect(ajaxEndpoint(`test`)).toBe(`${apiUrlMock}/?wc-ajax=test`)
   })
 })
