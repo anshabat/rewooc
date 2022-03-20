@@ -1,6 +1,7 @@
 import {
   ajaxEndpoint,
   apiUrl,
+  propertyFromDottedString,
   removeTrailingSlash,
   siteUrl,
   trimObject,
@@ -60,5 +61,15 @@ describe('trimObject', () => {
   it('should remove props from object', () => {
     const obj = { a: 1, b: 2, c: 3, d: 4 }
     expect(trimObject(obj, ['a', 'c'])).toEqual({ b: 2, d: 4 })
+  })
+})
+
+describe('propertyFromDottedString', () => {
+  it('should find object property by given string with dot separator', () => {
+    const obj = { a: {a1: {a11: 'test'}, a2: 10}, b: 2}
+    expect(propertyFromDottedString(obj, 'a.a1.a11')).toBe('test')
+    expect(propertyFromDottedString(obj, 'a.a1')).toEqual({a11: 'test'})
+    expect(propertyFromDottedString(obj, 'a.a2')).toBe(10)
+    expect(propertyFromDottedString(obj, 'b')).toBe(2)
   })
 })
