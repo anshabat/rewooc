@@ -61,11 +61,12 @@ export const propertyFromDottedString = (obj: any, dottedStr: string): any => {
 }
 
 export function sortObjects<T>(items: T[], sorting: TSorting): T[] {
-  const { orderBy, direction, type } = sorting
+  const { orderBy, direction } = sorting
   const newOrders = [...items]
   return newOrders.sort((a, b) => {
     const aValue = propertyFromDottedString(a, String(orderBy))
     const bValue = propertyFromDottedString(b, String(orderBy))
+    const type = typeof aValue === 'number' ? 'number' : 'string'
     switch (type) {
       case 'string':
         if (direction === 'desc') {
