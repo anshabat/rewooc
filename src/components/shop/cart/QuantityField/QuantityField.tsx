@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react'
 import Input from '../../../UI/Form/Input/Input'
-import { trimObject } from '../../../../shared/utilities'
+import { trimObject } from 'shared/utilities'
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   initialValue: number
