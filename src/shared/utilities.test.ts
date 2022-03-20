@@ -2,6 +2,7 @@ import { TSorting } from 'types'
 import {
   ajaxEndpoint,
   apiUrl,
+  debounce,
   propertyFromDottedString,
   removeTrailingSlash,
   siteUrl,
@@ -123,5 +124,30 @@ describe('sortObjects', () => {
       { title: 'lg', price: 100 },
       { title: 'apple', price: 50 },
     ])
+  })
+})
+
+describe('debounce', () => {
+  jest.useFakeTimers()
+  
+  it('should been called only after delay', () => {
+    const callbackMock = jest.fn()
+    const fn = debounce(callbackMock, 400)
+    const event = {} as Event
+
+    fn(event)
+    jest.advanceTimersByTime(390)
+    fn(event)
+    jest.advanceTimersByTime(400)
+    fn(event)
+    fn(event)
+    jest.advanceTimersByTime(390)
+    fn(event)
+    jest.advanceTimersByTime(400)
+    fn(event)
+    jest.advanceTimersByTime(400)
+
+    expect(callbackMock).toHaveBeenCalledTimes(3)
+    expect(callbackMock).toHaveBeenCalledWith(event)
   })
 })
