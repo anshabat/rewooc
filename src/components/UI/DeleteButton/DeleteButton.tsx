@@ -12,9 +12,9 @@ const DeleteButton: FC<IProps> = (props) => {
   return (
     <button className="rw-delete-button" type="button" onClick={onDelete}>
       {isLoading ? (
-        <Icon classes={['fa-circle-o-notch', 'fa-spin']} />
+        <Icon classes={['fa-circle-o-notch', 'fa-spin']} ariaLabel="Deleting in progress" />
       ) : (
-        <Icon classes={['fa-times']} />
+        <Icon classes={['fa-times']} ariaLabel="Delete" />
       )}
     </button>
   )
