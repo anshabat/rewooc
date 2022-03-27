@@ -246,8 +246,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     return filteredOrders.length
   }
 
-  // console.log(state);
-
   return {
     state,
     perPage: PER_PAGE,

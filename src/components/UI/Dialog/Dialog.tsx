@@ -14,7 +14,6 @@ const Dialog: FC<IProps> = (props) => {
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      console.log(e)
       if (e.key === 'Escape' && onClose) onClose()
     }
 
