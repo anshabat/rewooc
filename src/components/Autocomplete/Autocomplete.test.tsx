@@ -64,6 +64,22 @@ fdescribe('<Autocomplete />', () => {
     expect(searchProducts).toHaveBeenCalledTimes(0)
   })
 
+  it('should output list items', async () => {
+    const searchProducts = jest.spyOn(catalogApi, 'searchProducts')
+    searchProducts.mockResolvedValue(products)
+    render(<Autocomplete delay={1000} minChars={3} limit={6} />)
+    const input = screen.getByRole('textbox')
+
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
+
+    fireEvent.input(input, { target: { value: 'app' } })
+    jest.runAllTimers()
+    await Promise.resolve()
+
+    const list = await screen.findAllByRole('listitem')
+    expect(list).toHaveLength(2)
+  })
+
   // it('should go into link after pressing Enter key', () => {})
 
   // it('should close autocomplete after pressing Esc key', () => {})
