@@ -11,7 +11,8 @@ const config: Config.InitialOptions = {
       'identity-obj-proxy',
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
-  clearMocks: true
+  clearMocks: true,
+  modulePaths: ['src']
 }
 
 export default config

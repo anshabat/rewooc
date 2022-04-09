@@ -48,7 +48,7 @@ const OrdersList: FC<IProps> = (props) => {
         />
       </div>
       {orders.length > perPage ? (
-        <div className="rw-orders-list__pagination">
+        <nav className="rw-orders-list__pagination" aria-label="Pagination">
           <Paginator
             pages={pages}
             total={getOrdersTotal()}
@@ -61,7 +61,7 @@ const OrdersList: FC<IProps> = (props) => {
             perPage={perPage}
             onLoadMore={loadMore}
           />
-        </div>
+        </nav>
       ) : null}
     </div>
   )

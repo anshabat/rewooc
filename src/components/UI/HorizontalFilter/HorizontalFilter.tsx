@@ -72,6 +72,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
             onChange={(newValues) => {
               onFilter({ ...initialValues, [key]: newValues })
             }}
+            ariaLabel={`Filter by ${attr.label}`}
           />
         )
       case 'text':
@@ -101,7 +102,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
   }
 
   return (
-    <nav className="rw-horizontal-filter">
+    <nav className="rw-horizontal-filter" aria-label="Orders filter">
       <ul className="rw-horizontal-filter__list">
         {attributes.map((attribute, index) => {
           const isActive = appliedAttributes.includes(attribute.key)

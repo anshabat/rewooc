@@ -22,7 +22,7 @@ const Icon: FC<IProps> = (props) => {
     <i
       className={classes.join(' ').trim()}
       aria-label={ariaLabel}
-      aria-hidden="true"
+      role="img"
     />
   )
 

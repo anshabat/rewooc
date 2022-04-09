@@ -14,10 +14,11 @@ const SortableTitle: FC<IProps> = (props) => {
     onChange(direction === 'desc' ? 'asc' : 'desc')
   }
   const arrowName = direction === 'desc' ? 'fa-angle-up' : 'fa-angle-down'
+  const arrowLabel = direction === 'desc' ? 'Sort descending' : 'Sort ascending'
   return (
     <button className="rw-sortable-title" onClick={changeDirection}>
       <span className="rw-sortable-title__label">{children}</span>
-      {direction ? <Icon name={arrowName} /> : null}
+      {direction ? <Icon name={arrowName} ariaLabel={arrowLabel} /> : null}
     </button>
   )
 }

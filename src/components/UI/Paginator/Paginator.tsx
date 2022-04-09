@@ -45,6 +45,7 @@ const Paginator: FC<PaginatorProps> = (props) => {
               onClick={() => {
                 clickPageHandler(value)
               }}
+              disabled={isItemInList(pages, value)}
             >
               {value}
             </button>

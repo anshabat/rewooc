@@ -19,6 +19,8 @@ const Orders: FC = () => {
 
   const { orders } = data
 
+  //console.log(orders)
+
   return (
     <ErrorBoundary>
       <OrdersList orders={orders} />
