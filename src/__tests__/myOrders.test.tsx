@@ -5,12 +5,23 @@ import * as api from 'hooks/usePageData'
 import { orders } from 'test/ordersMock'
 import { AppProvider } from 'context/appContext'
 import { appData } from 'test/appDataMocks'
+import { MemoryRouter } from 'react-router-dom'
 
 Object.defineProperty(window, 'location', {
   get() {
     return new URL('http://localhost/?price=,&orderBy=id&direction=asc&pages=1')
   },
 })
+
+function renderOrders() {
+  return render(
+    <AppProvider value={appData}>
+      <MemoryRouter>
+        <Orders />
+      </MemoryRouter>
+    </AppProvider>
+  ) 
+}
 
 function renderItems(component: any) {
   const rows = component.getAllByRole('row')
@@ -22,18 +33,14 @@ function renderItems(component: any) {
 
 fdescribe('user orders', () => {
   it('should show preloader initially', async () => {
-    render(<Orders />)
+    renderOrders()
     expect(screen.getByRole('progressbar')).toBeInTheDocument()
   })
 
   it('should show orders list', async () => {
     const fn = jest.spyOn(api, 'usePageData')
     fn.mockReturnValue({ orders, title: 'Orders' })
-    render(
-      <AppProvider value={appData}>
-        <Orders />
-      </AppProvider>
-    )
+    renderOrders()
     const rows = screen.getAllByRole('row')
     const [_, ...orderRows] = rows
 
@@ -43,11 +50,7 @@ fdescribe('user orders', () => {
   it('pagination', () => {
     const fn = jest.spyOn(api, 'usePageData')
     fn.mockReturnValue({ orders, title: 'Orders' })
-    render(
-      <AppProvider value={appData}>
-        <Orders />
-      </AppProvider>
-    )
+    renderOrders()
 
     const pagination = screen.getByLabelText('Pagination')
     const listItems = within(pagination).getAllByRole('listitem')
@@ -72,11 +75,7 @@ fdescribe('user orders', () => {
   it('load more', () => {
     const fn = jest.spyOn(api, 'usePageData')
     fn.mockReturnValue({ orders, title: 'Orders' })
-    render(
-      <AppProvider value={appData}>
-        <Orders />
-      </AppProvider>
-    )
+    renderOrders()
 
     const loadMoreBtn = screen.getByRole('button', { name: /Load more/i })
     expect(loadMoreBtn).toBeEnabled()
@@ -99,11 +98,7 @@ fdescribe('user orders', () => {
   it('sorting', () => {
     const fn = jest.spyOn(api, 'usePageData')
     fn.mockReturnValue({ orders, title: 'Orders' })
-    const component = render(
-      <AppProvider value={appData}>
-        <Orders />
-      </AppProvider>
-    )
+    const component = renderOrders()
     const table = component.getByRole('table')
     const numberBtn = within(table).getByRole('button', { name: /Number/i })
     const totalBtn = within(table).getByRole('button', { name: /Total/i })
@@ -151,11 +146,7 @@ fdescribe('user orders', () => {
   it('filter', () => {
     const fn = jest.spyOn(api, 'usePageData')
     fn.mockReturnValue({ orders, title: 'Orders' })
-    const component = render(
-      <AppProvider value={appData}>
-        <Orders />
-      </AppProvider>
-    )
+    const component = renderOrders()
     const filter = component.getByLabelText(/Orders filter/i)
 
     expect(

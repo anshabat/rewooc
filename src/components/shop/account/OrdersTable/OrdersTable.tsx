@@ -64,8 +64,7 @@ const OrdersTable: FC<IProps> = (props) => {
           return (
             <tr key={order.id}>
               <td>
-                {/* <A to={`/my-account/view-order/${order.id}`}>{order.id}</A> */}
-                {order.id}
+                <A to={`/my-account/view-order/${order.id}`}>{order.id}</A>
               </td>
               <td>{order.status.value}</td>
               <td>{order.deliveryMethod.title}</td>
