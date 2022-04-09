@@ -26,6 +26,10 @@ const products = [
   },
 ]
 
+function isItemActive(element: HTMLElement): boolean {
+  return element.classList.contains('rw-autocomplete-results__item--active')
+}
+
 fdescribe('<Autocomplete />', () => {
 
   beforeEach(() => {
@@ -78,6 +82,37 @@ fdescribe('<Autocomplete />', () => {
 
     const list = await screen.findAllByRole('listitem')
     expect(list).toHaveLength(2)
+  })
+
+  it('should move between items on mouse down an up', async () => {
+    const searchProducts = jest.spyOn(catalogApi, 'searchProducts')
+    searchProducts.mockResolvedValue(products)
+    render(<Autocomplete delay={1000} minChars={3} limit={6} />)
+    const input = screen.getByRole('textbox')
+
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
+
+    fireEvent.input(input, { target: { value: 'app' } })
+    jest.runAllTimers()
+    await Promise.resolve()
+
+    const list = await screen.findAllByRole('listitem')
+    
+    fireEvent.keyDown(input, { key: 'ArrowDown', keyCode: 40 })
+    expect(isItemActive(list[0])).toBeTruthy()
+    expect(isItemActive(list[1])).toBeFalsy()
+
+    fireEvent.keyDown(input, { key: 'ArrowDown', keyCode: 40 })
+    expect(isItemActive(list[0])).toBeFalsy()
+    expect(isItemActive(list[1])).toBeTruthy()
+
+    fireEvent.keyDown(input, { key: 'ArrowUp', keyCode: 38 })
+    expect(isItemActive(list[0])).toBeTruthy()
+    expect(isItemActive(list[1])).toBeFalsy()
+
+    fireEvent.keyDown(input, { key: 'ArrowUp', keyCode: 38 })
+    expect(isItemActive(list[0])).toBeFalsy()
+    expect(isItemActive(list[1])).toBeTruthy()
   })
 
   // it('should go into link after pressing Enter key', () => {})
