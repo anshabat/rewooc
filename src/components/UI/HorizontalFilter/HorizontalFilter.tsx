@@ -63,6 +63,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
     attr: TBasicFilterAttributes
   ): ReactElement {
     const { type, key } = attr
+
     switch (type) {
       case 'choice':
         return (
@@ -78,7 +79,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
       case 'text':
         return (
           <InputButton
-            label="Filter by id"
+            label={`Filter by ${attr.label}`}
             hideLabel
             value={initialValues[key]}
             onApply={(value) => {

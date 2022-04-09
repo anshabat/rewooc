@@ -18,9 +18,7 @@ const Orders: FC = () => {
   if (!data) return <ContentLoader />
 
   const { orders } = data
-
-  //console.log(orders)
-
+  
   return (
     <ErrorBoundary>
       <OrdersList orders={orders} />
