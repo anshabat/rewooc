@@ -7,7 +7,7 @@ export interface IDeliveryMethodResponse {
   fee: any //null
   has_settings: boolean
   id: 'free_shipping' | 'flat_rate' | 'local_pickup'
-  instance_id: number
+  instance_id: number | string
   instance_settings: {
     cost: string
     tax_status: string
@@ -23,7 +23,7 @@ export interface IDeliveryMethodResponse {
 }
 
 export interface IDeliveryMethod {
-  id: number
+  id: string
   title: string
   cost: number
   order?: number

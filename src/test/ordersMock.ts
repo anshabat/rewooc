@@ -19,7 +19,6 @@ export const orders: IOrder[] = [
     url: 1,
     deliveryMethod: {
       cost: 30,
-      //@ts-ignore
       id: "3",
       title: 'Method 3',
     },
@@ -42,7 +41,6 @@ export const orders: IOrder[] = [
     url: 2,
     deliveryMethod: {
       cost: 20,
-      //@ts-ignore
       id: "2",
       title: 'Method 2',
     },
@@ -65,7 +63,6 @@ export const orders: IOrder[] = [
     url: 3,
     deliveryMethod: {
       cost: 10,
-      //@ts-ignore
       id: "1",
       title: 'Method 1',
     },
@@ -88,7 +85,6 @@ export const orders: IOrder[] = [
     url: 3,
     deliveryMethod: {
       cost: 20,
-      //@ts-ignore
       id: "2",
       title: 'Method 2',
     },
