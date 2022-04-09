@@ -31,7 +31,7 @@ function renderItems(component: any) {
   return { first, last }
 }
 
-fdescribe('user orders', () => {
+describe('user orders', () => {
   it('should show preloader initially', async () => {
     renderOrders()
     expect(screen.getByRole('progressbar')).toBeInTheDocument()
