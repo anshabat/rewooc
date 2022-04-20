@@ -12,7 +12,7 @@ import { cartSagas } from './cart/cartSagas'
 import { catalogSagas } from './catalog/catalogSagas'
 import { authSagas } from './auth/authSagas'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   app,
   cart,
   catalog,
