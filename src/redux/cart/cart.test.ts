@@ -1,17 +1,13 @@
 import { ICartItem } from 'api'
-import { createStore, Store } from 'redux'
-import { AppActionTypes } from 'redux/app/appTypes'
-import { AppStateType, rootReducer } from 'redux/store'
+import store from 'redux/store'
 import { products as productsMock } from 'test/productsMock'
-import { addToCart, addToCartSuccess, setCartProductQuantitySuccess } from './cartActions'
-import { CartActionTypes } from './cartTypes'
+import {
+  addToCart,
+  addToCartSuccess,
+  setCartProductQuantitySuccess,
+} from './cartActions'
 
 describe('redux store integration test', () => {
-  let store: Store<AppStateType, CartActionTypes | AppActionTypes>
-  beforeEach(() => {
-    store = createStore(rootReducer)
-  })
-
   it('should set addingProductId in the process of adding product to cart', () => {
     store.dispatch(addToCart(1, 1))
     const { addingProductId } = store.getState().cart
