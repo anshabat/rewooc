@@ -4,7 +4,7 @@ import Orders from 'pages/Account/Orders/Orders'
 import * as api from 'hooks/usePageData'
 import { orders } from 'test/ordersMock'
 import { AppProvider } from 'context/appContext'
-import { appData } from 'test/appDataMocks'
+import { getAppData } from 'test/appDataMocks'
 import { MemoryRouter } from 'react-router-dom'
 
 Object.defineProperty(window, 'location', {
@@ -12,6 +12,8 @@ Object.defineProperty(window, 'location', {
     return new URL('http://localhost/?price=,&orderBy=id&direction=asc&pages=1')
   },
 })
+
+const appData = getAppData()
 
 function renderOrders() {
   return render(

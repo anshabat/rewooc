@@ -1,11 +1,11 @@
 import { IGeneralData } from 'api'
 
-export const appData: IGeneralData = {
+const initialAppData: IGeneralData = {
   ajaxUrl: '',
   baseUrl: '',
   favicon: '',
   headerNavigation: [],
-  logo: null,
+  logo: {full: ''},
   phone: '+38 (098) 8165441 ',
   price: {
     currencySymbol: '$',
@@ -20,5 +20,9 @@ export const appData: IGeneralData = {
     charset: 'UTF-8',
   },
   cart: [],
-  user: null
+  user: null,
+}
+
+export function getAppData(props: Partial<IGeneralData> = {}): IGeneralData {
+  return { ...initialAppData, ...props }
 }
