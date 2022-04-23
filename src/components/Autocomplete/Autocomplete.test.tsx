@@ -8,7 +8,7 @@ function isItemActive(element: HTMLElement): boolean {
   return element.classList.contains('rw-autocomplete-results__item--active')
 }
 
-fdescribe('<Autocomplete />', () => {
+describe('<Autocomplete />', () => {
   let searchProducts: jest.SpyInstance
   let input: HTMLElement
 
