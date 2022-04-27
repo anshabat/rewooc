@@ -9,6 +9,7 @@ export type FormEventType = FormEvent<HTMLFormElement> & {
 interface IFormProps {
   onSubmit?: (e: FormEventType) => void
   loading?: boolean
+  ariaLabel?: string
 }
 interface ISubComponents {
   Fieldset: typeof Fieldset
@@ -16,14 +17,20 @@ interface ISubComponents {
   Fields: typeof Fields
 }
 const Form: FC<IFormProps> & ISubComponents = (props) => {
-  const { children, onSubmit, loading = false } = props
+  const { children, onSubmit, ariaLabel, loading = false } = props
   const formClass = classNames({
     'rw-form': true,
     'rw-form--is-loading': loading,
   })
 
   return (
-    <form className={formClass} action="" onSubmit={onSubmit} noValidate>
+    <form
+      className={formClass}
+      action=""
+      onSubmit={onSubmit}
+      noValidate
+      aria-label={ariaLabel}
+    >
       {children}
     </form>
   )

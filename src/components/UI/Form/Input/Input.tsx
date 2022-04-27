@@ -15,6 +15,7 @@ const Input: FC<TInputProps> = (props) => {
     required,
     error,
     children,
+    id,
     ...restProps
   } = props
 
@@ -25,11 +26,13 @@ const Input: FC<TInputProps> = (props) => {
       horizontal={horizontal}
       required={required}
       error={error}
+      id={id}
     >
       <input
         className="rw-input"
         type={type}
         placeholder={placeholder}
+        id={id}
         {...restProps}
       />
       {children}

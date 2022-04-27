@@ -35,7 +35,7 @@ const SignIn: FC = () => {
 
   return (
     <Content title="Sign In" size="sm">
-      <Form loading={loading} onSubmit={submitHandler}>
+      <Form loading={loading} onSubmit={submitHandler} ariaLabel="Sign in">
         <Form.Fields>
           {error && <Message type="error">{error.toString()}</Message>}
           <Input
