@@ -18,7 +18,7 @@ const Root: FC = () => {
       <Suspense fallback={<PageLoader />}>
         <Switch>
           <Route path="/" exact>
-            <Home />
+            lala
           </Route>
           <Route path={['/shop', '/product-category/:slug']}>
             <Catalog />

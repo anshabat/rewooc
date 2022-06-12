@@ -13,7 +13,7 @@ import {
 } from './authActions'
 import { initApp } from '../app/appActions'
 import { ISignInAction } from './authTypes'
-import { Await } from "../../shared/utilityTypes";
+import { Await } from '../../shared/utilityTypes'
 
 function* checkAuthSaga() {
   const token = localStorage.getItem('token')
