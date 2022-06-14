@@ -1,6 +1,6 @@
-import { IProduct } from "types";
+import { IProduct } from 'types'
 
-export const products: IProduct[] = [
+const products: IProduct[] = [
   {
     addToCartUrl: 'http://localhost:8888/server/wp/product/64gb-xiaomi-mi-a1/',
     getStockQuantity: -3,
@@ -22,3 +22,7 @@ export const products: IProduct[] = [
     title: 'Apple iPhone 8 64GB',
   },
 ]
+
+export function getProductsMock(): IProduct[] {
+  return [...products]
+}

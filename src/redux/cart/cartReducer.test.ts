@@ -1,5 +1,5 @@
-import { cartItems } from 'test/cartMocks'
-import { products } from 'test/productsMock'
+import { getCartItemsMocks } from 'test/cartMocks'
+import { getProductsMock } from 'test/productsMock'
 import {
   CART_ADD_PRODUCT_SUCCESS,
   CART_DELETE_PRODUCT_SUCCESS,
@@ -9,6 +9,8 @@ import cartReducer from './cartReducer'
 import { CartActionTypes, ICartState } from './cartTypes'
 
 describe('Cart reducer', () => {
+  const products = getProductsMock()
+
   it('should add product into cart', () => {
     const state: ICartState = {
       title: '',
@@ -22,7 +24,7 @@ describe('Cart reducer', () => {
     }
     const action: CartActionTypes = {
       type: CART_ADD_PRODUCT_SUCCESS,
-      payload: { cartItem: cartItems[0] },
+      payload: { cartItem: getCartItemsMocks()[0] },
     }
     const newState = cartReducer(state, action)
     expect(newState).toEqual<ICartState>({

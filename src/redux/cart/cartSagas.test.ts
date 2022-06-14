@@ -1,6 +1,6 @@
 import { cartApi, ICartItem } from 'api'
 import { call, put, select } from 'redux-saga/effects'
-import { products } from 'test/productsMock'
+import { getProductsMock } from 'test/productsMock'
 import {
   addToCartFail,
   addToCartSuccess,
@@ -14,6 +14,8 @@ import { addToCartSaga, deleteFromCartSaga } from './cartSagas'
 import { selectCartItems } from './cartSelectors'
 
 describe('cartSagas', () => {
+  const products = getProductsMock()
+
   describe('addToCartSaga', () => {
     it('should add new product it is not in the cart', () => {
       const productId = 1
@@ -39,7 +41,7 @@ describe('cartSagas', () => {
       const step3 = generator.next(newCartItem as any)
       expect(step3.value).toEqual(put(addToCartSuccess(newCartItem)))
     })
-    
+
     it('should increment quantity if product is already in the cart', () => {
       const productId = 1
       const quantity = 1

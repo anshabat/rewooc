@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import Orders from 'pages/Account/Orders/Orders'
 import * as api from 'hooks/usePageData'
-import { orders } from 'test/ordersMock'
+import { getOrdersMock } from 'test/ordersMock'
 import { AppProvider } from 'context/appContext'
 import { getAppData } from 'test/appDataMocks'
 import { MemoryRouter } from 'react-router-dom'
@@ -22,7 +22,7 @@ function renderOrders() {
         <Orders />
       </MemoryRouter>
     </AppProvider>
-  ) 
+  )
 }
 
 function renderItems(component: any) {
@@ -34,6 +34,8 @@ function renderItems(component: any) {
 }
 
 describe('user orders', () => {
+  const orders = getOrdersMock()
+
   it('should show preloader initially', async () => {
     renderOrders()
     expect(screen.getByRole('progressbar')).toBeInTheDocument()

@@ -1,6 +1,6 @@
 import { ICartItem } from 'api'
 import store from 'redux/store'
-import { products as productsMock } from 'test/productsMock'
+import { getProductsMock } from 'test/productsMock'
 import {
   addToCart,
   addToCartSuccess,
@@ -8,6 +8,8 @@ import {
 } from './cartActions'
 
 describe('redux store integration test', () => {
+  const productsMock = getProductsMock()
+
   it('should set addingProductId in the process of adding product to cart', () => {
     store.dispatch(addToCart(1, 1))
     const { addingProductId } = store.getState().cart

@@ -1,4 +1,4 @@
-import { products } from 'test/productsMock'
+import { getProductsMock } from 'test/productsMock'
 import {
   addToCart,
   addToCartFail,
@@ -31,6 +31,8 @@ import {
 } from './cartActions'
 
 describe('cartActions', () => {
+  const products = getProductsMock()
+
   it('should create loadCartPage action', () => {
     const url = 'test'
     const action = { type: CART_PAGE_LOAD, payload: { url } }

@@ -1,5 +1,7 @@
 import { ICartItem } from 'api'
-import { products } from './productsMock'
+import { getProductsMock } from './productsMock'
+
+const products = getProductsMock()
 
 export const cartItems: ICartItem[] = [
   {
@@ -15,3 +17,7 @@ export const cartItems: ICartItem[] = [
     product: products[1],
   },
 ]
+
+export function getCartItemsMocks(): ICartItem[] {
+  return [...cartItems]
+}

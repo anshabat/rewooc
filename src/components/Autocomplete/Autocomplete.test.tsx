@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Autocomplete from './Autocomplete'
 import { catalogApi } from 'api'
-import { products } from 'test/productsMock'
+import { getProductsMock } from 'test/productsMock'
 
 function isItemActive(element: HTMLElement): boolean {
   return element.classList.contains('rw-autocomplete-results__item--active')
@@ -11,6 +11,7 @@ function isItemActive(element: HTMLElement): boolean {
 describe('<Autocomplete />', () => {
   let searchProducts: jest.SpyInstance
   let input: HTMLElement
+  const products = getProductsMock()
 
   beforeEach(() => {
     jest.useFakeTimers()
@@ -44,13 +45,13 @@ describe('<Autocomplete />', () => {
   })
 
   it('should output list items', async () => {
-    expect(screen.queryByRole('list')).not.toBeInTheDocument()  
-    
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
+
     fireEvent.input(input, { target: { value: 'app' } })
     jest.runAllTimers()
     await Promise.resolve()
     const list = await screen.findAllByRole('listitem')
-    
+
     expect(list).toHaveLength(2)
   })
 
@@ -62,7 +63,7 @@ describe('<Autocomplete />', () => {
     await Promise.resolve()
 
     const list = await screen.findAllByRole('listitem')
-    
+
     fireEvent.keyDown(input, { key: 'ArrowDown', keyCode: 40 })
     expect(isItemActive(list[0])).toBeTruthy()
     expect(isItemActive(list[1])).toBeFalsy()
