@@ -33,6 +33,7 @@ const Input: FC<TInputProps> = (props) => {
         type={type}
         placeholder={placeholder}
         id={id}
+        required={required}
         {...restProps}
       />
       {children}

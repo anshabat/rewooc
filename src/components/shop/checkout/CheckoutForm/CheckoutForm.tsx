@@ -145,7 +145,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               </>
             ) : null}
 
-            {userId ? null : (
+            {!userId ? (
               <ChoiceField
                 label="Sign Up user"
                 name="sign_up"
@@ -157,7 +157,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 }}
                 checked={Boolean(formData.sign_up.value)}
               />
-            )}
+            ) : null}
 
             {formData.sign_up.value ? (
               <>
