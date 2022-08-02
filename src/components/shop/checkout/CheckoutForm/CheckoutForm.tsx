@@ -46,7 +46,9 @@ const CheckoutForm: FC<IProps> = (props) => {
     clearForm()
   })
 
-  const setValue = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const setValue = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const name = e.target.name as keyof CheckoutFormType
     const value = e.target.value
     setField(name, value)

@@ -32,6 +32,7 @@ const CountryField: FC<IProps> = (props) => {
   return (
     <FormField
       label="Country"
+      id="billing_country"
       required={formData.billing_country.validation.required}
       error={error}
     >
@@ -39,7 +40,9 @@ const CountryField: FC<IProps> = (props) => {
         <Option value="">Chose your country</Option>
         {countries.map(([label, key]) => {
           return (
-            <Option key={key} value={key}>{label}</Option>
+            <Option key={key} value={key}>
+              {label}
+            </Option>
           )
         })}
       </Select>

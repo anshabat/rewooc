@@ -13,11 +13,13 @@ const Textarea: FC<TTextareaProps> = (props) => {
     horizontal,
     required,
     error,
+    id,
     ...restProps
   } = props
 
   return (
     <FormField
+      id={id}
       label={label}
       hideLabel={hideLabel}
       horizontal={horizontal}
@@ -27,6 +29,7 @@ const Textarea: FC<TTextareaProps> = (props) => {
       <textarea
         className="rw-textarea"
         placeholder={placeholder}
+        id={id}
         {...restProps}
       />
     </FormField>
