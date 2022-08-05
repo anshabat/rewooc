@@ -50,7 +50,7 @@ describe('Checkout form', () => {
     const store = createStore(rootReducer)
     const { findByRole, getByLabelText } = render(
       <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn} />
+        <CheckoutForm onUpdateDelivery={jest.fn()} />
       </Provider>
     )
 
@@ -92,7 +92,7 @@ describe('Checkout form', () => {
     store.dispatch(initAppSuccess(generalData))
     const { queryByLabelText } = render(
       <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn} />
+        <CheckoutForm onUpdateDelivery={jest.fn()} />
       </Provider>
     )
     await act(() => Promise.resolve())
@@ -104,7 +104,7 @@ describe('Checkout form', () => {
     const store = createStore(rootReducer)
     const { getAllByLabelText, getByLabelText } = render(
       <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn} />
+        <CheckoutForm onUpdateDelivery={jest.fn()} />
       </Provider>
     )
     await act(() => Promise.resolve())
@@ -118,7 +118,7 @@ describe('Checkout form', () => {
     const store = createStore(rootReducer)
     const { queryByLabelText, getByLabelText } = render(
       <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn} />
+        <CheckoutForm onUpdateDelivery={jest.fn()} />
       </Provider>
     )
     await act(() => Promise.resolve())
@@ -144,14 +144,17 @@ describe('Checkout form', () => {
     const store = createStore(rootReducer)
     const { findByText, findByRole } = render(
       <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn} />
+        <CheckoutForm onUpdateDelivery={jest.fn()} />
       </Provider>
     )
 
     const countryField = await findByRole('combobox', { name: 'Country' })
     fireEvent.change(countryField, { target: { value: 'UA' } })
 
+    await act(() => Promise.resolve())
+
     expect(fetchDeliveryMethods).toHaveBeenCalledTimes(1)
+    expect(fetchDeliveryMethods).toHaveBeenCalledWith('UA')
     expect(await findByText('Delivery_1 0'))
   })
 
@@ -159,7 +162,7 @@ describe('Checkout form', () => {
     const store = createStore(rootReducer)
     const { getByLabelText, findByText, findByRole, queryByLabelText } = render(
       <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn} />
+        <CheckoutForm onUpdateDelivery={jest.fn()} />
       </Provider>
     )
 
@@ -172,7 +175,23 @@ describe('Checkout form', () => {
     expect(getByLabelText(/address/i)).toBeInTheDocument()
   })
 
-  // it('should call onUpdateDelivery', () => {})
+  it('should call onUpdateDelivery', async () => {
+    const store = createStore(rootReducer)
+    const onUpdateDelivery = jest.fn()
+    const { findByText, findByRole } = render(
+      <Provider store={store}>
+        <CheckoutForm onUpdateDelivery={onUpdateDelivery} />
+      </Provider>
+    )
+
+    const countryField = await findByRole('combobox', { name: 'Country' })
+    fireEvent.change(countryField, { target: { value: 'UA' } })
+
+    fireEvent.click(await findByText('Delivery_1 0'))
+
+    expect(onUpdateDelivery).toBeCalledTimes(1)
+  })
+
   // it('should submit form', () => {})
 })
 
