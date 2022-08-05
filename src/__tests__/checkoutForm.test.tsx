@@ -1,11 +1,12 @@
 import React from 'react'
 import { act, fireEvent, render, within } from '@testing-library/react'
 import CheckoutForm from 'components/shop/checkout/CheckoutForm/CheckoutForm'
-import store from 'redux/store'
+import { rootReducer } from 'redux/store'
 import { Provider } from 'react-redux'
 import { checkoutApi } from 'api'
 import { getAppData } from 'test/appDataMocks'
 import { initAppSuccess } from 'redux/app/appActions'
+import { createStore } from 'redux'
 
 describe.only('Checkout form', () => {
   const fetchCountries = jest.spyOn(checkoutApi, 'fetchCountries')
@@ -32,6 +33,7 @@ describe.only('Checkout form', () => {
   ])
 
   it('should render form fields for guests', async () => {
+    const store = createStore(rootReducer)
     const { findByRole, getByLabelText } = render(
       <Provider store={store}>
         <CheckoutForm onUpdateDelivery={jest.fn} />
@@ -63,6 +65,7 @@ describe.only('Checkout form', () => {
   })
 
   it('should render form fields for user', async () => {
+    const store = createStore(rootReducer)
     const generalData = getAppData({
       user: {
         id: 1,
@@ -84,6 +87,7 @@ describe.only('Checkout form', () => {
   })
 
   it('should show shipping first and last names', async () => {
+    const store = createStore(rootReducer)
     const { getAllByLabelText, getByLabelText } = render(
       <Provider store={store}>
         <CheckoutForm onUpdateDelivery={jest.fn} />
@@ -96,4 +100,22 @@ describe.only('Checkout form', () => {
     expect(getAllByLabelText(/last name/i)).toHaveLength(2)
   })
 
+  it('should show password field', async () => {
+    const store = createStore(rootReducer)
+    const { queryByLabelText, getByLabelText } = render(
+      <Provider store={store}>
+        <CheckoutForm onUpdateDelivery={jest.fn} />
+      </Provider>
+    )
+    await act(() => Promise.resolve())
+
+    expect(queryByLabelText(/password name/i)).not.toBeInTheDocument()
+    expect(queryByLabelText(/repeat password/i)).not.toBeInTheDocument()
+
+    fireEvent.click(getByLabelText(/sign up user/i))
+    expect(getByLabelText(/password name/i)).toBeRequired()
+    expect(getByLabelText(/repeat password/i)).toBeRequired()
+  })
+
 })
+
