@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, within } from '@testing-library/react'
+import { act, fireEvent, render, within } from '@testing-library/react'
 import CheckoutForm from 'components/shop/checkout/CheckoutForm/CheckoutForm'
 import store from 'redux/store'
 import { Provider } from 'react-redux'
@@ -7,7 +7,7 @@ import { checkoutApi } from 'api'
 import { getAppData } from 'test/appDataMocks'
 import { initAppSuccess } from 'redux/app/appActions'
 
-fdescribe('Checkout form', () => {
+describe.only('Checkout form', () => {
   const fetchCountries = jest.spyOn(checkoutApi, 'fetchCountries')
   const fetchPaymentMethods = jest.spyOn(checkoutApi, 'fetchPaymentMethods')
   fetchCountries.mockResolvedValue([
@@ -82,4 +82,18 @@ fdescribe('Checkout form', () => {
 
     expect(queryByLabelText(/sign up user/i)).not.toBeInTheDocument()
   })
+
+  it('should show shipping first and last names', async () => {
+    const { getAllByLabelText, getByLabelText } = render(
+      <Provider store={store}>
+        <CheckoutForm onUpdateDelivery={jest.fn} />
+      </Provider>
+    )
+    await act(() => Promise.resolve())
+
+    fireEvent.click(getByLabelText(/ship to another person/i))
+    expect(getAllByLabelText(/first name/i)).toHaveLength(2)
+    expect(getAllByLabelText(/last name/i)).toHaveLength(2)
+  })
+
 })
