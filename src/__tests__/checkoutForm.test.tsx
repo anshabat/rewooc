@@ -39,7 +39,9 @@ describe('Checkout form', () => {
   fetchPaymentMethods.mockResolvedValue(paymentMethodsMock)
 
   const fetchDeliveryMethods = jest.spyOn(checkoutApi, 'fetchDeliveryMethods')
-  fetchDeliveryMethods.mockResolvedValue(getDeliveryMethodMock())
+  fetchDeliveryMethods.mockResolvedValue(
+    getDeliveryMethodMock([{ id: '15', title: 'Method', cost: 20 }])
+  )
 
   const checkEmail = jest.spyOn(authApi, 'checkEmail')
   checkEmail.mockResolvedValue(true)
@@ -151,6 +153,23 @@ describe('Checkout form', () => {
 
     expect(fetchDeliveryMethods).toHaveBeenCalledTimes(1)
     expect(await findByText('Delivery_1 0'))
+  })
+
+  it('should show address filed', async () => {
+    const store = createStore(rootReducer)
+    const { getByLabelText, findByText, findByRole, queryByLabelText } = render(
+      <Provider store={store}>
+        <CheckoutForm onUpdateDelivery={jest.fn} />
+      </Provider>
+    )
+
+    const countryField = await findByRole('combobox', { name: 'Country' })
+    fireEvent.change(countryField, { target: { value: 'UA' } })
+
+    expect(queryByLabelText(/address/i)).not.toBeInTheDocument()
+
+    fireEvent.click(await findByText('Method 20'))
+    expect(getByLabelText(/address/i)).toBeInTheDocument()
   })
 
   // it('should call onUpdateDelivery', () => {})

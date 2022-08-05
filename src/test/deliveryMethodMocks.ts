@@ -24,6 +24,8 @@ export const orders: IDeliveryMethod[] = [
   },
 ]
 
-export function getDeliveryMethodMock(): IDeliveryMethod[] {
-  return [...orders]
+export function getDeliveryMethodMock(
+  newMethods: IDeliveryMethod[] = []
+): IDeliveryMethod[] {
+  return [...orders].concat(newMethods)
 }
