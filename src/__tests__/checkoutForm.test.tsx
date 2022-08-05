@@ -3,36 +3,46 @@ import { act, fireEvent, render, within } from '@testing-library/react'
 import CheckoutForm from 'components/shop/checkout/CheckoutForm/CheckoutForm'
 import { rootReducer } from 'redux/store'
 import { Provider } from 'react-redux'
-import { checkoutApi } from 'api'
+import { authApi, checkoutApi, IPaymentMethod, IRegion } from 'api'
 import { getAppData } from 'test/appDataMocks'
 import { initAppSuccess } from 'redux/app/appActions'
 import { createStore } from 'redux'
 import { getDeliveryMethodMock } from 'test/deliveryMethodMocks'
 
-describe.only('Checkout form', () => {
+const paymentMethodsMock: IPaymentMethod[] = [
+  {
+    description: 'Desc',
+    enabled: true,
+    id: 'bacs',
+    order: 0,
+    title: 'Direct bank transfer',
+  },
+  {
+    description: 'Desc2',
+    enabled: true,
+    id: 'cheque',
+    order: 1,
+    title: 'Check payments',
+  },
+]
+
+const regionsMock: IRegion[] = [
+  ['Belarus', 'BY'],
+  ['Ukraine', 'UA'],
+]
+
+describe('Checkout form', () => {
   const fetchCountries = jest.spyOn(checkoutApi, 'fetchCountries')
+  fetchCountries.mockResolvedValue(regionsMock)
+
   const fetchPaymentMethods = jest.spyOn(checkoutApi, 'fetchPaymentMethods')
-  //const deliveryMethods = getDeliveryMethodMock()
-  fetchCountries.mockResolvedValue([
-    ['Belarus', 'BY'],
-    ['Ukraine', 'UA'],
-  ])
-  fetchPaymentMethods.mockResolvedValue([
-    {
-      description: 'Desc',
-      enabled: true,
-      id: 'bacs',
-      order: 0,
-      title: 'Direct bank transfer',
-    },
-    {
-      description: 'Desc2',
-      enabled: true,
-      id: 'cheque',
-      order: 1,
-      title: 'Check payments',
-    },
-  ])
+  fetchPaymentMethods.mockResolvedValue(paymentMethodsMock)
+
+  const fetchDeliveryMethods = jest.spyOn(checkoutApi, 'fetchDeliveryMethods')
+  fetchDeliveryMethods.mockResolvedValue(getDeliveryMethodMock())
+
+  const checkEmail = jest.spyOn(authApi, 'checkEmail')
+  checkEmail.mockResolvedValue(true)
 
   it('should render form fields for guests', async () => {
     const store = createStore(rootReducer)
@@ -45,8 +55,8 @@ describe.only('Checkout form', () => {
     //avoid error with getBy... selectors when state updates in useEffect
     await act(() => Promise.resolve())
 
-    // expect(fetchCountries).toHaveBeenCalledTimes(1)
-    // expect(fetchPaymentMethods).toHaveBeenCalledTimes(1)
+    expect(fetchCountries).toHaveBeenCalledTimes(1)
+    expect(fetchPaymentMethods).toHaveBeenCalledTimes(1)
 
     expect(getByLabelText(/first name/i)).toBeRequired()
     expect(getByLabelText(/last name/i)).toBeRequired()
@@ -88,7 +98,7 @@ describe.only('Checkout form', () => {
     expect(queryByLabelText(/sign up user/i)).not.toBeInTheDocument()
   })
 
-  it('should show shipping first and last names', async () => {
+  it('should activate shipping to another person mode', async () => {
     const store = createStore(rootReducer)
     const { getAllByLabelText, getByLabelText } = render(
       <Provider store={store}>
@@ -102,7 +112,7 @@ describe.only('Checkout form', () => {
     expect(getAllByLabelText(/last name/i)).toHaveLength(2)
   })
 
-  it('should show password field', async () => {
+  it('should activate sign up user mode', async () => {
     const store = createStore(rootReducer)
     const { queryByLabelText, getByLabelText } = render(
       <Provider store={store}>
@@ -115,38 +125,22 @@ describe.only('Checkout form', () => {
     expect(queryByLabelText(/repeat password/i)).not.toBeInTheDocument()
 
     fireEvent.click(getByLabelText(/sign up user/i))
+    await act(() => Promise.resolve())
+
     expect(getByLabelText(/password name/i)).toBeRequired()
     expect(getByLabelText(/repeat password/i)).toBeRequired()
+    expect(getByLabelText(/email/i)).toBeRequired()
+    expect(checkEmail).toBeCalled()
+
+    fireEvent.blur(getByLabelText(/email/i))
+    await act(() => Promise.resolve())
+
+    expect(checkEmail).toBeCalled()
   })
 
-  it.only('should show delivery methods', async () => {
-    const fetchCountries = jest.spyOn(checkoutApi, 'fetchCountries')
-    const fetchPaymentMethods = jest.spyOn(checkoutApi, 'fetchPaymentMethods')
-    fetchCountries.mockResolvedValue([
-      ['Belarus', 'BY'],
-      ['Ukraine', 'UA'],
-    ])
-    fetchPaymentMethods.mockResolvedValue([
-      {
-        description: 'Desc',
-        enabled: true,
-        id: 'bacs',
-        order: 0,
-        title: 'Direct bank transfer',
-      },
-      {
-        description: 'Desc2',
-        enabled: true,
-        id: 'cheque',
-        order: 1,
-        title: 'Check payments',
-      },
-    ])
-
-    const fetchDeliveryMethods = jest.spyOn(checkoutApi, 'fetchDeliveryMethods')
-    fetchDeliveryMethods.mockResolvedValue(getDeliveryMethodMock())
+  it('should show delivery methods', async () => {
     const store = createStore(rootReducer)
-    const { findByText, findByRole, debug } = render(
+    const { findByText, findByRole } = render(
       <Provider store={store}>
         <CheckoutForm onUpdateDelivery={jest.fn} />
       </Provider>
@@ -155,13 +149,8 @@ describe.only('Checkout form', () => {
     const countryField = await findByRole('combobox', { name: 'Country' })
     fireEvent.change(countryField, { target: { value: 'UA' } })
 
-    //await act(() => Promise.resolve())
-
-    // expect(fetchDeliveryMethods).toHaveBeenCalledTimes(1)
-
+    expect(fetchDeliveryMethods).toHaveBeenCalledTimes(1)
     expect(await findByText('Delivery_1 0'))
-
-    //debug()
   })
 
   // it('should call onUpdateDelivery', () => {})
