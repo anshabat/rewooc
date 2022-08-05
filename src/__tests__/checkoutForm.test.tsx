@@ -7,10 +7,12 @@ import { checkoutApi } from 'api'
 import { getAppData } from 'test/appDataMocks'
 import { initAppSuccess } from 'redux/app/appActions'
 import { createStore } from 'redux'
+import { getDeliveryMethodMock } from 'test/deliveryMethodMocks'
 
 describe.only('Checkout form', () => {
   const fetchCountries = jest.spyOn(checkoutApi, 'fetchCountries')
   const fetchPaymentMethods = jest.spyOn(checkoutApi, 'fetchPaymentMethods')
+  //const deliveryMethods = getDeliveryMethodMock()
   fetchCountries.mockResolvedValue([
     ['Belarus', 'BY'],
     ['Ukraine', 'UA'],
@@ -43,8 +45,8 @@ describe.only('Checkout form', () => {
     //avoid error with getBy... selectors when state updates in useEffect
     await act(() => Promise.resolve())
 
-    expect(fetchCountries).toHaveBeenCalledTimes(1)
-    expect(fetchPaymentMethods).toHaveBeenCalledTimes(1)
+    // expect(fetchCountries).toHaveBeenCalledTimes(1)
+    // expect(fetchPaymentMethods).toHaveBeenCalledTimes(1)
 
     expect(getByLabelText(/first name/i)).toBeRequired()
     expect(getByLabelText(/last name/i)).toBeRequired()
@@ -117,5 +119,57 @@ describe.only('Checkout form', () => {
     expect(getByLabelText(/repeat password/i)).toBeRequired()
   })
 
+  it.only('should show delivery methods', async () => {
+    const fetchCountries = jest.spyOn(checkoutApi, 'fetchCountries')
+    const fetchPaymentMethods = jest.spyOn(checkoutApi, 'fetchPaymentMethods')
+    fetchCountries.mockResolvedValue([
+      ['Belarus', 'BY'],
+      ['Ukraine', 'UA'],
+    ])
+    fetchPaymentMethods.mockResolvedValue([
+      {
+        description: 'Desc',
+        enabled: true,
+        id: 'bacs',
+        order: 0,
+        title: 'Direct bank transfer',
+      },
+      {
+        description: 'Desc2',
+        enabled: true,
+        id: 'cheque',
+        order: 1,
+        title: 'Check payments',
+      },
+    ])
+
+    const fetchDeliveryMethods = jest.spyOn(checkoutApi, 'fetchDeliveryMethods')
+    fetchDeliveryMethods.mockResolvedValue(getDeliveryMethodMock())
+    const store = createStore(rootReducer)
+    const { findByText, findByRole, debug } = render(
+      <Provider store={store}>
+        <CheckoutForm onUpdateDelivery={jest.fn} />
+      </Provider>
+    )
+
+    const countryField = await findByRole('combobox', { name: 'Country' })
+    fireEvent.change(countryField, { target: { value: 'UA' } })
+
+    //await act(() => Promise.resolve())
+
+    // expect(fetchDeliveryMethods).toHaveBeenCalledTimes(1)
+
+    expect(await findByText('Delivery_1 0'))
+
+    //debug()
+  })
+
+  // it('should call onUpdateDelivery', () => {})
+  // it('should submit form', () => {})
 })
 
+// expect(
+//   await findByRole('option', { name: 'Chose your country' })
+// ).toHaveValue('')
+// expect(await findByRole('option', { name: 'Belarus' })).toHaveValue('BY')
+// expect(await findByRole('option', { name: 'Ukraine' })).toHaveValue('UA')
