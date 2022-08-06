@@ -69,7 +69,7 @@ export const useCheckoutForm = (
           )
         }
 
-        return history.push(`/my-account/view-order/${orderData.order}`)
+        history.push(`/my-account/view-order/${orderData.order}`)
       }
     } catch (error: any) {
       alert(error.message)

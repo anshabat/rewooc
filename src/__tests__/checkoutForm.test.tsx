@@ -3,13 +3,21 @@ import { act, fireEvent, render, within } from '@testing-library/react'
 import CheckoutForm from 'components/shop/checkout/CheckoutForm/CheckoutForm'
 import { rootReducer } from 'redux/store'
 import { Provider } from 'react-redux'
-import { authApi, checkoutApi, IPaymentMethod, IRegion } from 'api'
+import { authApi, checkoutApi, IPaymentMethod, IRegion, orderApi } from 'api'
 import { getAppData } from 'test/appDataMocks'
 import { initAppSuccess } from 'redux/app/appActions'
 import { createStore } from 'redux'
 import { getDeliveryMethodMock } from 'test/deliveryMethodMocks'
 import { addToCartSuccess } from 'redux/cart/cartActions'
 import { getCartItemsMocks } from 'test/cartMocks'
+import { getCheckoutFormDataMock } from 'test/checkoutFormMock'
+
+const mockHistoryPush = jest.fn()
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}))
 
 const paymentMethodsMock: IPaymentMethod[] = [
   {
@@ -47,6 +55,13 @@ describe('Checkout form', () => {
 
   const checkEmail = jest.spyOn(authApi, 'checkEmail')
   checkEmail.mockResolvedValue(true)
+
+  const fakeOrder = {
+    order: 1,
+    user: 0,
+  }
+  const createOrder = jest.spyOn(orderApi, 'createOrder')
+  createOrder.mockResolvedValue(fakeOrder)
 
   it('should render form fields for guests', async () => {
     const store = createStore(rootReducer)
@@ -197,7 +212,6 @@ describe('Checkout form', () => {
   it('should submit form', async () => {
     const store = createStore(rootReducer)
     const {
-      debug,
       getByLabelText,
       queryAllByText,
       getByRole,
@@ -207,6 +221,7 @@ describe('Checkout form', () => {
       getAllByText,
       getByText,
       getByTestId,
+      debug,
     } = render(
       <Provider store={store}>
         <CheckoutForm onUpdateDelivery={jest.fn()} />
@@ -223,25 +238,26 @@ describe('Checkout form', () => {
     expect(getAllByText('Field is required').length).toBeGreaterThan(1)
 
     //Fill form
+    const formData = getCheckoutFormDataMock()
     fireEvent.change(getByLabelText(/first name/i), {
-      target: { value: 'John' },
+      target: { value: formData.billing_first_name.value },
     })
     fireEvent.change(getByLabelText(/last name/i), {
-      target: { value: 'Doe' },
+      target: { value: formData.billing_last_name.value },
     })
     fireEvent.change(getByLabelText(/phone/i), {
-      target: { value: '11111' },
+      target: { value: formData.billing_phone.value },
     })
     fireEvent.change(getByLabelText(/email/i), {
-      target: { value: 'j@d.com' },
+      target: { value: formData.billing_email.value },
     })
     fireEvent.change(await findByRole('combobox', { name: 'Country' }), {
-      target: { value: 'UA' },
+      target: { value: formData.billing_country.value },
     })
     fireEvent.click(await findByText('Delivery_1 0'))
     fireEvent.click(getByText('Payment_1'))
     fireEvent.change(getByLabelText(/order notes/i), {
-      target: { value: 'notes text' },
+      target: { value: formData.order_note.value },
     })
 
     // Submit filled form with Empty cart
@@ -258,5 +274,21 @@ describe('Checkout form', () => {
     fireEvent.click(submitButton)
     expect(queryByText(/Cart Is Empty/i)).not.toBeInTheDocument()
     expect(submitButton).toBeDisabled()
+
+    await act(() => Promise.resolve())
+
+    expect(mockHistoryPush).toHaveBeenCalledWith(
+      `/my-account/view-order/${fakeOrder.order}`
+    )
+
+    expect(mockHistoryPush).toHaveBeenCalledTimes(1)
+    expect(createOrder).toHaveBeenCalledWith(
+      formData,
+      [getCartItemsMocks()[0]],
+      fakeOrder.user
+    )
+    expect(createOrder).toHaveBeenCalledTimes(1)
+    expect(getByLabelText(/first name/i)).toHaveValue('')
+    expect(submitButton).not.toBeDisabled()
   })
 })
