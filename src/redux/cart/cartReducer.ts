@@ -101,6 +101,7 @@ export default function reducer(
         break
       case CART_CLEAR:
         Object.keys(draft).forEach(key => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           draft[key] = initialState[key]
         })

@@ -7,10 +7,11 @@ interface ChoiceListProps {
   options: TChoiceField[]
   onChange?: (options: string[]) => void
   values?: string[]
+  ariaLabel?: string
 }
 
 const ChoiceList: FC<ChoiceListProps> = (props) => {
-  const { options, onChange, values } = props
+  const { options, onChange, values, ariaLabel } = props
   const [checkedOptions, setCheckedOptions] = useState<Set<string>>(
     new Set(values)
   )
@@ -35,7 +36,7 @@ const ChoiceList: FC<ChoiceListProps> = (props) => {
   }, [checkedOptions])
 
   return (
-    <ul className="rw-choice-list">
+    <ul className="rw-choice-list" aria-label={ariaLabel}>
       {options.map((option) => (
         <li className="rw-choice-list__item" key={option.value}>
           <ChoiceField
@@ -47,7 +48,7 @@ const ChoiceList: FC<ChoiceListProps> = (props) => {
             disabled={Boolean(option.count === 0)}
           />
           {option.count != null ? (
-            <div className="rw-choice-list__count">({option.count})</div>
+            <div className="rw-choice-list__count" aria-label="count">({option.count})</div>
           ) : null}
         </li>
       ))}

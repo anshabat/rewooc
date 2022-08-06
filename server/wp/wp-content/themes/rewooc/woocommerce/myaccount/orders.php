@@ -23,7 +23,7 @@ foreach ($customer_orders->orders as $customer_order) {
         ],
         'created' => $order->get_date_created(),
         'item_count' => $order->get_item_count(),
-        'total' => $order->get_total(),
+        'total' => (float) $order->get_total(),
         'currency' => $order->get_currency(),
         'deliveryMethod' => [
             'id' => $item_data['instance_id'],

@@ -77,6 +77,7 @@ module.exports = {
     new Dotenv(),
     new BundleAnalyzerPlugin({
       analyzerPort: 8887,
+      openAnalyzer: false
     }),
   ],
   resolve: {

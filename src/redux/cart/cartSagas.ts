@@ -46,7 +46,7 @@ function* loadCartPageSaga(action: ILoadCartPageAction) {
  * Add To Cart Saga
  * @param action
  */
-function* addToCartSaga(action: IAddToCartAction) {
+export function* addToCartSaga(action: IAddToCartAction) {
   const {
     payload: { productId, quantity },
   } = action
@@ -105,7 +105,7 @@ function* setCartProductQuantitySaga(action: ISetCartProductQuantityAction) {
  * Delete From Cart Saga
  * @param action
  */
-function* deleteFromCartSaga(action: IDeleteFromCartAction) {
+export function* deleteFromCartSaga(action: IDeleteFromCartAction) {
   const {
     payload: { productKey },
   } = action

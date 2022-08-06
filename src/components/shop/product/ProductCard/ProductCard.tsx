@@ -30,7 +30,7 @@ const ProductCard: FC<IProduct> = (props) => {
         <Image image={images.medium} />
       </div>
       <h3 className="rw-product-card__row">
-        <a className="ps-link ps-link--primary" href={link}>
+        <a className="ps-link ps-link--primary" href={siteUrl(link)}>
           {title}
         </a>
       </h3>

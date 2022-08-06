@@ -114,7 +114,6 @@ const getInitialStateFromUrl = function (
     sorting: {
       orderBy: getSortingValueFromUrl(params.orderBy),
       direction: params.direction === 'desc' ? params.direction : 'asc',
-      type: params.type === 'number' ? params.type : 'string',
     },
     pages: getInitialPages(params),
   }
@@ -152,7 +151,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     sorting: {
       orderBy: 'id',
       direction: 'asc',
-      type: 'string',
     },
     pages: [1],
   }
@@ -247,8 +245,6 @@ export function useOrdersList(orders: IOrder[]): TUseOrdersList {
     )
     return filteredOrders.length
   }
-
-  // console.log(state);
 
   return {
     state,

@@ -46,7 +46,9 @@ const CheckoutForm: FC<IProps> = (props) => {
     clearForm()
   })
 
-  const setValue = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const setValue = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const name = e.target.name as keyof CheckoutFormType
     const value = e.target.value
     setField(name, value)
@@ -143,7 +145,7 @@ const CheckoutForm: FC<IProps> = (props) => {
               </>
             ) : null}
 
-            {userId ? null : (
+            {!userId ? (
               <ChoiceField
                 label="Sign Up user"
                 name="sign_up"
@@ -155,7 +157,7 @@ const CheckoutForm: FC<IProps> = (props) => {
                 }}
                 checked={Boolean(formData.sign_up.value)}
               />
-            )}
+            ) : null}
 
             {formData.sign_up.value ? (
               <>

@@ -15,6 +15,7 @@ const Backdrop: FC<IProps> = (props) => {
           onClick()
         }
       }}
+      data-testid="backdrop"
     />
   )
 }

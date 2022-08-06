@@ -42,7 +42,7 @@ const DeliveryMethods: FC<IProps> = (props) => {
               onChange(method, e)
             }}
             required={formData.deliveryMethodId.validation.required}
-            checked={Number(formData.deliveryMethodId.value) === method.id}
+            checked={formData.deliveryMethodId.value === method.id}
           />
         )
       }}

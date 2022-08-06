@@ -12,7 +12,7 @@ import { cartSagas } from './cart/cartSagas'
 import { catalogSagas } from './catalog/catalogSagas'
 import { authSagas } from './auth/authSagas'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   app,
   cart,
   catalog,
@@ -30,9 +30,7 @@ function* rootSaga() {
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(sagaMiddleware)
-  )
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 sagaMiddleware.run(rootSaga)
 

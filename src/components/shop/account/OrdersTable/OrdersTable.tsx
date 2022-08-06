@@ -29,11 +29,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getDirection('id')}
               onChange={(direction) => {
-                onSorting({
-                  orderBy: 'id',
-                  type: 'number',
-                  direction,
-                })
+                onSorting({ orderBy: 'id', direction })
               }}
             >
               Number
@@ -45,11 +41,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getDirection('created.date')}
               onChange={(direction) => {
-                onSorting({
-                  orderBy: 'created.date',
-                  type: 'string',
-                  direction,
-                })
+                onSorting({ orderBy: 'created.date', direction })
               }}
             >
               Created
@@ -59,11 +51,7 @@ const OrdersTable: FC<IProps> = (props) => {
             <SortableTitle
               direction={getDirection('total')}
               onChange={(direction) => {
-                onSorting({
-                  orderBy: 'total',
-                  type: 'number',
-                  direction,
-                })
+                onSorting({ orderBy: 'total', direction })
               }}
             >
               Total

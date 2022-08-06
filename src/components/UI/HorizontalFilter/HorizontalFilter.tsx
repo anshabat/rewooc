@@ -63,6 +63,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
     attr: TBasicFilterAttributes
   ): ReactElement {
     const { type, key } = attr
+
     switch (type) {
       case 'choice':
         return (
@@ -72,12 +73,13 @@ const HorizontalFilter: FC<TProps> = (props) => {
             onChange={(newValues) => {
               onFilter({ ...initialValues, [key]: newValues })
             }}
+            ariaLabel={`Filter by ${attr.label}`}
           />
         )
       case 'text':
         return (
           <InputButton
-            label="Filter by id"
+            label={`Filter by ${attr.label}`}
             hideLabel
             value={initialValues[key]}
             onApply={(value) => {
@@ -101,7 +103,7 @@ const HorizontalFilter: FC<TProps> = (props) => {
   }
 
   return (
-    <nav className="rw-horizontal-filter">
+    <nav className="rw-horizontal-filter" aria-label="Orders filter">
       <ul className="rw-horizontal-filter__list">
         {attributes.map((attribute, index) => {
           const isActive = appliedAttributes.includes(attribute.key)

@@ -29,7 +29,7 @@ async function fetchDeliveryMethods(
 
   const methods = Object.values(data).map<IDeliveryMethod>((method) => {
     return {
-      id: method.instance_id,
+      id: String(method.instance_id),
       title: method.title,
       cost: Number(method.cost ?? 0),
       enabled: method.enabled,

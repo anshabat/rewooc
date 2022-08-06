@@ -22,7 +22,7 @@ export const useCheckoutForm = (
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const hideEmptyCartError  = () => {
+  const hideEmptyCartError = () => {
     setCartEmptyError(false)
   }
 
@@ -69,7 +69,7 @@ export const useCheckoutForm = (
           )
         }
 
-        return history.push(`/my-account/view-order/${orderData.order}`)
+        history.push(`/my-account/view-order/${orderData.order}`)
       }
     } catch (error: any) {
       alert(error.message)
@@ -96,6 +96,6 @@ export const useCheckoutForm = (
     submitForm,
     validateEmail,
     cartEmptyError,
-    hideEmptyCartError
+    hideEmptyCartError,
   }
 }

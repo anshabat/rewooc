@@ -10,14 +10,15 @@ async function fetchPageData<P>(url: string): Promise<P> {
 }
 
 async function fetchGeneralData(): Promise<IGeneralData> {
-  const response = await instance.get<IGeneralResponseData>(
-    wcAjax('rewooc_get_common_data')
-  )
-  const { data } = response
-  if (!data) {
+  try {
+    const response = await instance.get<IGeneralResponseData>(
+      wcAjax('rewooc_get_common_data')
+    )
+    const { data } = response
+    return { ...data, cart: cartHashToItems(data.cart) }
+  } catch (e) {
     throw new Error(ErrorMessage.APP_FAIL_TO_FETCH_GENERAL_DATA)
   }
-  return { ...data, cart: cartHashToItems(data.cart) }
 }
 
 export default {

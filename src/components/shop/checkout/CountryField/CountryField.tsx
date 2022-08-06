@@ -13,6 +13,7 @@ interface IProps {
 const CountryField: FC<IProps> = (props) => {
   const { formData, onChange, error } = props
   const [countries, setCountries] = useState<IRegion[]>([])
+  const { required } = formData.billing_country.validation
 
   useEffect(() => {
     checkoutApi
@@ -29,19 +30,25 @@ const CountryField: FC<IProps> = (props) => {
     return null
   }
 
-  console.log(countries)
-
   return (
     <FormField
       label="Country"
-      required={formData.billing_country.validation.required}
+      id="billing_country"
+      required={required}
       error={error}
     >
-      <Select name="billing_country" id="billing_country" onChange={onChange}>
+      <Select
+        name="billing_country"
+        id="billing_country"
+        onChange={onChange}
+        required={required}
+      >
         <Option value="">Chose your country</Option>
         {countries.map(([label, key]) => {
           return (
-            <Option key={key} value={key}>{label}</Option>
+            <Option key={key} value={key}>
+              {label}
+            </Option>
           )
         })}
       </Select>

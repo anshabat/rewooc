@@ -11,14 +11,19 @@ interface IProps {
   classes?: string[]
   name?: string
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void
+  ariaLabel?: string
 }
 
 const Icon: FC<IProps> = (props) => {
-  const { classes = [], name = '', onClick } = props
+  const { classes = [], name = '', ariaLabel, onClick } = props
   classes.push('fa', name)
 
   const IconComponent = (
-    <i className={classes.join(' ').trim()} aria-hidden="true" />
+    <i
+      className={classes.join(' ').trim()}
+      aria-label={ariaLabel}
+      role="img"
+    />
   )
 
   return onClick ? (
