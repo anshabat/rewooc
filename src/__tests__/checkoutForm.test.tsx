@@ -8,21 +8,23 @@ import { getAppData } from 'test/appDataMocks'
 import { initAppSuccess } from 'redux/app/appActions'
 import { createStore } from 'redux'
 import { getDeliveryMethodMock } from 'test/deliveryMethodMocks'
+import { addToCartSuccess } from 'redux/cart/cartActions'
+import { getCartItemsMocks } from 'test/cartMocks'
 
 const paymentMethodsMock: IPaymentMethod[] = [
   {
-    description: 'Desc',
+    description: 'Desc_1',
     enabled: true,
-    id: 'bacs',
+    id: 'id_1',
     order: 0,
-    title: 'Direct bank transfer',
+    title: 'Payment_1',
   },
   {
     description: 'Desc2',
     enabled: true,
-    id: 'cheque',
+    id: 'id_2',
     order: 1,
-    title: 'Check payments',
+    title: 'Payment_2',
   },
 ]
 
@@ -57,9 +59,6 @@ describe('Checkout form', () => {
     //avoid error with getBy... selectors when state updates in useEffect
     await act(() => Promise.resolve())
 
-    expect(fetchCountries).toHaveBeenCalledTimes(1)
-    expect(fetchPaymentMethods).toHaveBeenCalledTimes(1)
-
     expect(getByLabelText(/first name/i)).toBeRequired()
     expect(getByLabelText(/last name/i)).toBeRequired()
     expect(getByLabelText(/phone/i)).toBeRequired()
@@ -76,6 +75,9 @@ describe('Checkout form', () => {
     expect(within(paymentGroup).getAllByRole('radio')[0]).toBeRequired()
 
     expect(getByLabelText(/order notes/i)).toBeInTheDocument()
+
+    expect(fetchCountries).toHaveBeenCalledTimes(1)
+    expect(fetchPaymentMethods).toHaveBeenCalledTimes(1)
   })
 
   it('should render form fields for user', async () => {
@@ -192,11 +194,69 @@ describe('Checkout form', () => {
     expect(onUpdateDelivery).toBeCalledTimes(1)
   })
 
-  // it('should submit form', () => {})
-})
+  it('should submit form', async () => {
+    const store = createStore(rootReducer)
+    const {
+      debug,
+      getByLabelText,
+      queryAllByText,
+      getByRole,
+      findByRole,
+      findByText,
+      queryByText,
+      getAllByText,
+      getByText,
+      getByTestId,
+    } = render(
+      <Provider store={store}>
+        <CheckoutForm onUpdateDelivery={jest.fn()} />
+      </Provider>
+    )
 
-// expect(
-//   await findByRole('option', { name: 'Chose your country' })
-// ).toHaveValue('')
-// expect(await findByRole('option', { name: 'Belarus' })).toHaveValue('BY')
-// expect(await findByRole('option', { name: 'Ukraine' })).toHaveValue('UA')
+    await act(() => Promise.resolve())
+
+    const submitButton = getByRole('button', { name: 'Submit' })
+
+    // Submit with empty form
+    fireEvent.click(submitButton)
+    expect(queryByText(/Cart Is Empty/i)).not.toBeInTheDocument()
+    expect(getAllByText('Field is required').length).toBeGreaterThan(1)
+
+    //Fill form
+    fireEvent.change(getByLabelText(/first name/i), {
+      target: { value: 'John' },
+    })
+    fireEvent.change(getByLabelText(/last name/i), {
+      target: { value: 'Doe' },
+    })
+    fireEvent.change(getByLabelText(/phone/i), {
+      target: { value: '11111' },
+    })
+    fireEvent.change(getByLabelText(/email/i), {
+      target: { value: 'j@d.com' },
+    })
+    fireEvent.change(await findByRole('combobox', { name: 'Country' }), {
+      target: { value: 'UA' },
+    })
+    fireEvent.click(await findByText('Delivery_1 0'))
+    fireEvent.click(getByText('Payment_1'))
+    fireEvent.change(getByLabelText(/order notes/i), {
+      target: { value: 'notes text' },
+    })
+
+    // Submit filled form with Empty cart
+    fireEvent.click(submitButton)
+    expect(getByText(/Cart Is Empty/i)).toBeInTheDocument()
+    expect(queryAllByText('Field is required')).toHaveLength(0)
+
+    // Close empty cart error message
+    fireEvent.click(getByTestId('backdrop'))
+    expect(queryByText(/Cart Is Empty/i)).not.toBeInTheDocument()
+
+    // Add item to cart
+    store.dispatch(addToCartSuccess(getCartItemsMocks()[0]))
+    fireEvent.click(submitButton)
+    expect(queryByText(/Cart Is Empty/i)).not.toBeInTheDocument()
+    expect(submitButton).toBeDisabled()
+  })
+})
