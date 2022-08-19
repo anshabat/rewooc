@@ -1,28 +1,26 @@
 import React from 'react'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import App from 'App'
 import { getAppData } from 'test/appDataMocks'
-import { Provider } from 'react-redux'
-import store from 'redux/store'
 import { instance } from 'api/instance'
 import { wcAjax } from 'api/endpoints'
+import { renderWithStore, tick } from 'test/testHelpers'
+import store from 'redux/store'
+import { appApi } from 'api'
+
+jest.mock('pages/Home/Home', () => {
+  return function MockName() {
+    return <div>Fake component</div>
+  }
+})
 
 describe('SignIn page test', () => {
   it('should correctly send data and display error', async () => {
-    const get = jest.spyOn(instance, 'get')
     const post = jest.spyOn(instance, 'post')
-    get.mockImplementation((url) => {
-      if (url === wcAjax('rewooc_get_common_data')) {
-        return Promise.resolve({ data: getAppData() })
-      }
-      return Promise.resolve({ data: null })
-    })
+    const fetchGeneralData = jest.spyOn(appApi, 'fetchGeneralData')
+    fetchGeneralData.mockResolvedValue(getAppData())
 
-    const component = render(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    )
+    const component = renderWithStore(<App />, { store: store })
 
     //Initially Loader & Go to "Sign in" page
     const loader = component.getByRole('progressbar', { name: 'Page loader' })
@@ -54,7 +52,7 @@ describe('SignIn page test', () => {
     post.mockResolvedValueOnce({ data: { success: true, data: 'token' } })
     expect(component.queryByLabelText('Error')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
-    await act(() => Promise.resolve())
+    await tick()
     expect(component.queryByLabelText('Error')).not.toBeInTheDocument()
   })
 })
