@@ -1,8 +1,7 @@
 import React from 'react'
-import { act, fireEvent, render, within } from '@testing-library/react'
+import { fireEvent, within } from '@testing-library/react'
 import CheckoutForm from 'components/shop/checkout/CheckoutForm/CheckoutForm'
 import { rootReducer } from 'redux/store'
-import { Provider } from 'react-redux'
 import { authApi, checkoutApi, IPaymentMethod, IRegion, orderApi } from 'api'
 import { getAppData } from 'test/appDataMocks'
 import { initAppSuccess } from 'redux/app/appActions'
@@ -11,6 +10,7 @@ import { getDeliveryMethodMock } from 'test/deliveryMethodMocks'
 import { addToCartSuccess } from 'redux/cart/cartActions'
 import { getCartItemsMocks } from 'test/cartMocks'
 import { getCheckoutFormDataMock } from 'test/checkoutFormMock'
+import { renderWithStore, tick } from 'test/testHelpers'
 
 const mockHistoryPush = jest.fn()
 jest.mock('react-router-dom', () => ({
@@ -64,15 +64,12 @@ describe('Checkout form', () => {
   createOrder.mockResolvedValue(fakeOrder)
 
   it('should render form fields for guests', async () => {
-    const store = createStore(rootReducer)
-    const { findByRole, getByLabelText } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn()} />
-      </Provider>
+    const { findByRole, getByLabelText } = renderWithStore(
+      <CheckoutForm onUpdateDelivery={jest.fn()} />
     )
 
     //avoid error with getBy... selectors when state updates in useEffect
-    await act(() => Promise.resolve())
+    await tick()
 
     expect(getByLabelText(/first name/i)).toBeRequired()
     expect(getByLabelText(/last name/i)).toBeRequired()
@@ -107,24 +104,20 @@ describe('Checkout form', () => {
       },
     })
     store.dispatch(initAppSuccess(generalData))
-    const { queryByLabelText } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn()} />
-      </Provider>
+    const { queryByLabelText } = renderWithStore(
+      <CheckoutForm onUpdateDelivery={jest.fn()} />,
+      { store }
     )
-    await act(() => Promise.resolve())
+    await tick()
 
     expect(queryByLabelText(/sign up user/i)).not.toBeInTheDocument()
   })
 
   it('should activate shipping to another person mode', async () => {
-    const store = createStore(rootReducer)
-    const { getAllByLabelText, getByLabelText } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn()} />
-      </Provider>
+    const { getAllByLabelText, getByLabelText } = renderWithStore(
+      <CheckoutForm onUpdateDelivery={jest.fn()} />
     )
-    await act(() => Promise.resolve())
+    await tick()
 
     fireEvent.click(getByLabelText(/ship to another person/i))
     expect(getAllByLabelText(/first name/i)).toHaveLength(2)
@@ -132,19 +125,16 @@ describe('Checkout form', () => {
   })
 
   it('should activate sign up user mode', async () => {
-    const store = createStore(rootReducer)
-    const { queryByLabelText, getByLabelText } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn()} />
-      </Provider>
+    const { queryByLabelText, getByLabelText } = renderWithStore(
+      <CheckoutForm onUpdateDelivery={jest.fn()} />
     )
-    await act(() => Promise.resolve())
+    await tick()
 
     expect(queryByLabelText(/password name/i)).not.toBeInTheDocument()
     expect(queryByLabelText(/repeat password/i)).not.toBeInTheDocument()
 
     fireEvent.click(getByLabelText(/sign up user/i))
-    await act(() => Promise.resolve())
+    await tick()
 
     expect(getByLabelText(/password name/i)).toBeRequired()
     expect(getByLabelText(/repeat password/i)).toBeRequired()
@@ -152,23 +142,20 @@ describe('Checkout form', () => {
     expect(checkEmail).toBeCalled()
 
     fireEvent.blur(getByLabelText(/email/i))
-    await act(() => Promise.resolve())
+    await tick()
 
     expect(checkEmail).toBeCalled()
   })
 
   it('should show delivery methods', async () => {
-    const store = createStore(rootReducer)
-    const { findByText, findByRole } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn()} />
-      </Provider>
+    const { findByText, findByRole } = renderWithStore(
+      <CheckoutForm onUpdateDelivery={jest.fn()} />
     )
 
     const countryField = await findByRole('combobox', { name: 'Country' })
     fireEvent.change(countryField, { target: { value: 'UA' } })
 
-    await act(() => Promise.resolve())
+    await tick()
 
     expect(fetchDeliveryMethods).toHaveBeenCalledTimes(1)
     expect(fetchDeliveryMethods).toHaveBeenCalledWith('UA')
@@ -176,12 +163,12 @@ describe('Checkout form', () => {
   })
 
   it('should show address filed', async () => {
-    const store = createStore(rootReducer)
-    const { getByLabelText, findByText, findByRole, queryByLabelText } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn()} />
-      </Provider>
-    )
+    const {
+      getByLabelText,
+      findByText,
+      findByRole,
+      queryByLabelText,
+    } = renderWithStore(<CheckoutForm onUpdateDelivery={jest.fn()} />)
 
     const countryField = await findByRole('combobox', { name: 'Country' })
     fireEvent.change(countryField, { target: { value: 'UA' } })
@@ -193,12 +180,9 @@ describe('Checkout form', () => {
   })
 
   it('should call onUpdateDelivery', async () => {
-    const store = createStore(rootReducer)
     const onUpdateDelivery = jest.fn()
-    const { findByText, findByRole } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={onUpdateDelivery} />
-      </Provider>
+    const { findByText, findByRole } = renderWithStore(
+      <CheckoutForm onUpdateDelivery={onUpdateDelivery} />
     )
 
     const countryField = await findByRole('combobox', { name: 'Country' })
@@ -210,7 +194,6 @@ describe('Checkout form', () => {
   })
 
   it('should submit form', async () => {
-    const store = createStore(rootReducer)
     const {
       getByLabelText,
       queryAllByText,
@@ -221,14 +204,10 @@ describe('Checkout form', () => {
       getAllByText,
       getByText,
       getByTestId,
-      debug,
-    } = render(
-      <Provider store={store}>
-        <CheckoutForm onUpdateDelivery={jest.fn()} />
-      </Provider>
-    )
+      store,
+    } = renderWithStore(<CheckoutForm onUpdateDelivery={jest.fn()} />)
 
-    await act(() => Promise.resolve())
+    await tick()
 
     const submitButton = getByRole('button', { name: 'Submit' })
 
@@ -275,7 +254,7 @@ describe('Checkout form', () => {
     expect(queryByText(/Cart Is Empty/i)).not.toBeInTheDocument()
     expect(submitButton).toBeDisabled()
 
-    await act(() => Promise.resolve())
+    await tick()
 
     expect(mockHistoryPush).toHaveBeenCalledWith(
       `/my-account/view-order/${fakeOrder.order}`
