@@ -16,7 +16,8 @@
   "rules": {
     "react/prop-types": "off",
     "import/prefer-default-export": "off",
-    "no-param-reassign": "error"
+    "no-param-reassign": "error",
+    "no-unused-vars": "error"
   },
   "settings": {
     "import/resolver": {

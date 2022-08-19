@@ -1,28 +1,37 @@
 import React from 'react'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import App from 'App'
 import { getAppData } from 'test/appDataMocks'
-import { Provider } from 'react-redux'
+import { renderWithStore, tick } from 'test/testHelpers'
 import store from 'redux/store'
-import { instance } from 'api/instance'
-import { wcAjax } from 'api/endpoints'
+import { appApi, authApi } from 'api'
+
+jest.mock('pages/Home/Home', () => {
+  return function MockName() {
+    return <div>Fake component</div>
+  }
+})
+
+const replace = jest.fn()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    replace: replace,
+  }),
+}))
 
 describe('SignIn page test', () => {
-  it('should correctly send data and display error', async () => {
-    const get = jest.spyOn(instance, 'get')
-    const post = jest.spyOn(instance, 'post')
-    get.mockImplementation((url) => {
-      if (url === wcAjax('rewooc_get_common_data')) {
-        return Promise.resolve({ data: getAppData() })
-      }
-      return Promise.resolve({ data: null })
-    })
+  const fetchCurrentUser = jest.spyOn(authApi, 'fetchCurrentUser')
+  const fetchGeneralData = jest.spyOn(appApi, 'fetchGeneralData')
 
-    const component = render(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    )
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('should correctly send data and display error', async () => {
+    fetchGeneralData.mockResolvedValue(getAppData())
+
+    const component = renderWithStore(<App />, { store: store })
 
     //Initially Loader & Go to "Sign in" page
     const loader = component.getByRole('progressbar', { name: 'Page loader' })
@@ -30,8 +39,8 @@ describe('SignIn page test', () => {
     const signInLink = await component.findByRole('link', { name: 'Sign in' })
     fireEvent.click(signInLink)
 
-    //Submit with correct data
-    post.mockResolvedValueOnce({ data: { success: true, data: 'token' } })
+    //Submit form with correct data
+    fetchCurrentUser.mockResolvedValueOnce('token')
     fireEvent.change(
       screen.getByRole('textbox', { name: 'Username or email' }),
       { target: { value: 'admin' } }
@@ -40,21 +49,40 @@ describe('SignIn page test', () => {
       target: { value: 'pass' },
     })
     fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
-    expect(post).toHaveBeenCalledWith(
-      wcAjax('rewooc_get_current_user'),
-      new URLSearchParams({ username: 'admin', password: 'pass' })
-    )
+    expect(fetchCurrentUser).toHaveBeenCalledWith('admin', 'pass')
 
     //Show Error message if response success false
-    post.mockResolvedValueOnce({ data: { success: false, data: 'token' } })
+    fetchCurrentUser.mockRejectedValueOnce('error')
     fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
     expect(await component.findByLabelText('Error')).toBeInTheDocument()
 
     //Hide Error message if response success true
-    post.mockResolvedValueOnce({ data: { success: true, data: 'token' } })
+    fetchCurrentUser.mockResolvedValueOnce('token')
     expect(component.queryByLabelText('Error')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
-    await act(() => Promise.resolve())
+    await tick()
     expect(component.queryByLabelText('Error')).not.toBeInTheDocument()
+    expect(fetchGeneralData).toHaveBeenCalledTimes(3)
+    expect(replace).not.toBeCalled()
+  })
+
+  it('should redirect to homepage if user is logged in', async () => {
+    const generalData = getAppData({
+      user: {
+        id: 1,
+        firstName: 'Admin',
+        displayName: 'admin',
+        lastName: '',
+        email: 'test@test.com',
+      },
+    })
+    fetchGeneralData.mockResolvedValue(generalData)
+
+    const component = renderWithStore(<App />, { store: store })
+    await tick()
+
+    const signInLink = component.queryByRole('link', { name: 'Sign in' })
+    expect(signInLink).not.toBeInTheDocument()
+    expect(replace).toBeCalledWith('/')
   })
 })
