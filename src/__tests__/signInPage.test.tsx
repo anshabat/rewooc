@@ -12,9 +12,21 @@ jest.mock('pages/Home/Home', () => {
   }
 })
 
+const replace = jest.fn()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    replace: replace,
+  }),
+}))
+
 describe('SignIn page test', () => {
   const fetchCurrentUser = jest.spyOn(authApi, 'fetchCurrentUser')
   const fetchGeneralData = jest.spyOn(appApi, 'fetchGeneralData')
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
 
   it('should correctly send data and display error', async () => {
     fetchGeneralData.mockResolvedValue(getAppData())
@@ -51,6 +63,7 @@ describe('SignIn page test', () => {
     await tick()
     expect(component.queryByLabelText('Error')).not.toBeInTheDocument()
     expect(fetchGeneralData).toHaveBeenCalledTimes(3)
+    expect(replace).not.toBeCalled()
   })
 
   it('should redirect to homepage if user is logged in', async () => {
@@ -70,5 +83,6 @@ describe('SignIn page test', () => {
 
     const signInLink = component.queryByRole('link', { name: 'Sign in' })
     expect(signInLink).not.toBeInTheDocument()
+    expect(replace).toBeCalledWith('/')
   })
 })
