@@ -13,9 +13,10 @@ jest.mock('pages/Home/Home', () => {
 })
 
 describe('SignIn page test', () => {
+  const fetchCurrentUser = jest.spyOn(authApi, 'fetchCurrentUser')
+  const fetchGeneralData = jest.spyOn(appApi, 'fetchGeneralData')
+
   it('should correctly send data and display error', async () => {
-    const fetchCurrentUser = jest.spyOn(authApi, 'fetchCurrentUser')
-    const fetchGeneralData = jest.spyOn(appApi, 'fetchGeneralData')
     fetchGeneralData.mockResolvedValue(getAppData())
 
     const component = renderWithStore(<App />, { store: store })
@@ -26,7 +27,7 @@ describe('SignIn page test', () => {
     const signInLink = await component.findByRole('link', { name: 'Sign in' })
     fireEvent.click(signInLink)
 
-    //Submit with correct data
+    //Submit form with correct data
     fetchCurrentUser.mockResolvedValueOnce('token')
     fireEvent.change(
       screen.getByRole('textbox', { name: 'Username or email' }),
@@ -49,5 +50,25 @@ describe('SignIn page test', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
     await tick()
     expect(component.queryByLabelText('Error')).not.toBeInTheDocument()
+    expect(fetchGeneralData).toHaveBeenCalledTimes(3)
+  })
+
+  it('should redirect to homepage if user is logged in', async () => {
+    const generalData = getAppData({
+      user: {
+        id: 1,
+        firstName: 'Admin',
+        displayName: 'admin',
+        lastName: '',
+        email: 'test@test.com',
+      },
+    })
+    fetchGeneralData.mockResolvedValue(generalData)
+
+    const component = renderWithStore(<App />, { store: store })
+    await tick()
+
+    const signInLink = component.queryByRole('link', { name: 'Sign in' })
+    expect(signInLink).not.toBeInTheDocument()
   })
 })
