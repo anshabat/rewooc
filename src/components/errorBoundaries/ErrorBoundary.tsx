@@ -24,7 +24,7 @@ class ErrorBoundary extends Component<IProps, IState> {
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return <h1>Sorry.. there was an error</h1>
+      return <div role="alert">Sorry.. there was an error</div>
     }
 
     return this.props.children
